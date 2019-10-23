@@ -1,0 +1,23 @@
+#### TO DO ####
+
+Graphic interface (ebiten?)
+	- show board
+	- click places stone
+Game moves
+Rules
+	- End conditions
+		- Capture 10
+		- Align 5
+		- both pass
+			- score
+		- resignation
+	- Capture conditions
+		- no liberties
+		- pair
+	- No double-threes
+	- pass
+	- ko rule (no repeat moves)
+AI
+	- Min/Max
+
+#### BONUS ####
