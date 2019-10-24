@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
 
-	"github.com/hajimehoshi/ebiten"
-	"github.com/hajimehoshi/ebiten/ebitenutil"
+	//	lib "n-puzzle/golib"
+	gui "Gomoku/gui"
 )
 
 type coordinate struct {
@@ -21,12 +20,13 @@ type position struct { // alternatively uint8 (0 = unocupied), but memory waste
 
 type game struct {
 	goban  [19][19]position
-	player bool // who's move is it? (player 0 - black first)
+	player bool // whose move is it? (player 0 - black first)
 	//	capture0	uint8				// capture 10 and win
 	//	capture1	uint8				// capture 10 and win
 	//	move		uint32				// how many moves have been played in total (is this desirable/necessary?)
 	//	pass		bool				// was the last move a pass (if next move pass -> game over)
-	//	last		coordinate/*position?			// last move to check ko rule ()
+	//	last0		coordinate			// last move to check ko rule () for player 0
+	//	last1		coordinate			// last move to check ko rule () for player 1
 
 }
 
@@ -84,24 +84,6 @@ func RemoveStone(coordinate coordinate, goban *[19][19]position) {
 //	return err
 // }
 
-func update(screen *ebiten.Image) error {
-	// if err := GameLoop(); err != nil {
-	// 	return err
-	// }
-	if ebiten.IsDrawingSkipped() {
-		return nil
-	}
-	ebitenutil.DebugPrint(screen, "Our first game in Ebiten!")
-	// Draw(screen)
-	return nil
-}
-
-func RunEbiten() {
-	if err := ebiten.Run(update, 1500, 1315, 1, "Gomoku"); err != nil {
-		log.Fatal(err)
-	}
-}
-
 func main() {
 	fmt.Println("Hello world!") ////////
 	g := InitializeGame()
@@ -117,7 +99,7 @@ func main() {
 	zero := coordinate{0, 0}    /////////
 	RemoveStone(zero, &g.goban) /////////
 
-	RunEbiten()
+	gui.RunEbiten()
 
 	fmt.Println(g.goban)                // whole goban //////////
 	fmt.Println(g.goban[0][0])          // one position ///////////
