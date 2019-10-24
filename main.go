@@ -2,27 +2,28 @@ package main
 
 import (
 	"fmt"
-	// "math/rand"
+	"math/rand"
 )
 
-type coordinate struct{
-    x		uint8
-    y		uint8
+type coordinate struct {
+	x uint8
+	y uint8
 }
 
-type position struct{// alternatively uint8 (0 = unocupied), but memory waste
-    occupied	bool
-    player		bool
+type position struct { // alternatively uint8 (0 = unocupied), but memory waste
+	occupied bool
+	player   bool
 }
 
 type game struct {
-    goban		[19][19]position
-    player		bool				// who's move is it? (player 0 - black first)
-//	capture0	uint8				// capture 10 and win
-//	capture1	uint8				// capture 10 and win
-//	move		uint32				// how many moves have been played in total (is this desirable/necessary?)
-//	pass		bool				// was the last move a pass (if next move pass -> game over)
-//	last		coordinate/*position?			// last move to check ko rule ()
+	goban  [19][19]position
+	player bool // who's move is it? (player 0 - black first)
+	//	capture0	uint8				// capture 10 and win
+	//	capture1	uint8				// capture 10 and win
+	//	move		uint32				// how many moves have been played in total (is this desirable/necessary?)
+	//	pass		bool				// was the last move a pass (if next move pass -> game over)
+	//	last		coordinate/*position?			// last move to check ko rule ()
+
 }
 
 // type ai struct { 	/// merge with game struct?
@@ -31,60 +32,73 @@ type game struct {
 //	prescience	uint8	// how many moves in advance do we examine
 // }
 
-func InitializeGame() *game{
+func InitializeGame() *game {
 	g := game{}
 	return &g
 }
 
-func RandomCoordinate() coordinate{
+func RandomCoordinate() coordinate {
 	x := uint8(rand.Intn(19))
 	y := uint8(rand.Intn(19))
 	random := coordinate{x, y}
 	return random
 }
 
-//func PlaceStone(coordinate, player, *goban) {
-//	g.goban[coordinate.x][coordinate.y].occupied = True // untested
-//	g.goban[coordinate.x][coordinate.y].player = player // untested
-//}
+func PlaceStone(coordinate coordinate, player bool, goban *[19][19]position) {
+	goban[coordinate.x][coordinate.y].occupied = true
+	goban[coordinate.x][coordinate.y].player = player
+}
+
+func RemoveStone(coordinate coordinate, goban *[19][19]position) {
+	goban[coordinate.x][coordinate.y].occupied = false
+}
 
 // func GameLoop(g) {
-	// if AI:
-	//		suggest move
-	// if human or hotseat:
-	//		listen for mouse click 						//###### do first
-	//			find position/pass/new/exit clicked 		//###### do first
-	//			if pass, double pass end?
-	//			if reset, reset game with new config
-	// 		check if position is valid (if human, assume ai has aleady checked)
-	//			occupied?
-	//			rules
-	//				ko
-	//				double-three
-	// place stone(coordinate, player, *goban) 			//###### do first
-	// check if capture
-	//		remove captured
-	//		update game.captured struct
-	// check win
-	//		5 in a row
-	// 		all win conditions?
-	// update game. struct
-	//		player change
-	//		moves ++
-	// re-render ebiten with updated goban and stats
+// if AI:
+//		suggest move
+// if human or hotseat:
+//		listen for mouse click 						//###### do first
+//			find position/pass/new/exit clicked 		//###### do first
+//			if pass, double pass end?
+//			if reset, reset game with new config
+// 		check if position is valid (if human, assume ai has aleady checked)
+//			occupied?
+//			rules
+//				ko
+//				double-three
+// PlaceStone(RandomCoordinate(), true, &g.goban) 			//###### do first
+// check if capture
+//		remove captured
+//		update game.captured struct
+// check win
+//		5 in a row
+// 		all win conditions?
+// update game. struct
+//		player change
+//		moves ++
+// re-render ebiten with updated goban and stats
 // }
 
 func main() {
-	fmt.Println("Hello world!")////////
+	fmt.Println("Hello world!") ////////
 	g := InitializeGame()
 	// launch ebiten. render goban and game stats 		// # do first
 	// GameLoop(g)
 
-	fmt.Println(g.goban)// whole goban //////////
-	fmt.Println(g.goban[0][0])// one position ///////////
-	fmt.Println(g.goban[0][0].occupied)// one position occupied /////////
-	fmt.Println(g.goban[0][0].player)// one position player  ///////////
-	fmt.Println("Goodbye world!")////////
+	PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
+	PlaceStone(RandomCoordinate(), true, &g.goban)  //////
+	PlaceStone(RandomCoordinate(), true, &g.goban)  ///////
+	PlaceStone(RandomCoordinate(), false, &g.goban) ////////
+	PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
+
+	zero := coordinate{0, 0}    /////////
+	RemoveStone(zero, &g.goban) /////////
+
+	fmt.Println(g.goban)                // whole goban //////////
+	fmt.Println(g.goban[0][0])          // one position ///////////
+	fmt.Println(g.goban[0][0].occupied) // one position occupied /////////
+	fmt.Println(g.goban[0][0].player)   // one position player  ///////////
+	fmt.Println("Goodbye world!")       ////////
 }
 
 // Rules:
