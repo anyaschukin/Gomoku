@@ -2,7 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
+
+	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/ebitenutil"
 )
 
 type coordinate struct {
@@ -66,7 +70,7 @@ func RemoveStone(coordinate coordinate, goban *[19][19]position) {
 //			rules
 //				ko
 //				double-three
-// PlaceStone(RandomCoordinate(), true, &g.goban) 			//###### do first
+// PlaceStone(coordinate, true, &g.goban)
 // check if capture
 //		remove captured
 //		update game.captured struct
@@ -77,7 +81,26 @@ func RemoveStone(coordinate coordinate, goban *[19][19]position) {
 //		player change
 //		moves ++
 // re-render ebiten with updated goban and stats
+//	return err
 // }
+
+func update(screen *ebiten.Image) error {
+	// if err := GameLoop(); err != nil {
+	// 	return err
+	// }
+	if ebiten.IsDrawingSkipped() {
+		return nil
+	}
+	ebitenutil.DebugPrint(screen, "Our first game in Ebiten!")
+	// Draw(screen)
+	return nil
+}
+
+func RunEbiten() {
+	if err := ebiten.Run(update, 1500, 1315, 1, "Gomoku"); err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
 	fmt.Println("Hello world!") ////////
@@ -93,6 +116,8 @@ func main() {
 
 	zero := coordinate{0, 0}    /////////
 	RemoveStone(zero, &g.goban) /////////
+
+	RunEbiten()
 
 	fmt.Println(g.goban)                // whole goban //////////
 	fmt.Println(g.goban[0][0])          // one position ///////////
