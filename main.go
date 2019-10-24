@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	// "math/rand"
 )
 
-// type coordinate struct{
-//     x		uint8
-//     y		uint8
-// }
+type coordinate struct{
+    x		uint8
+    y		uint8
+}
 
 type position struct{// alternatively uint8 (0 = unocupied), but memory waste
     occupied	bool
@@ -20,19 +21,26 @@ type game struct {
 //	capture0	uint8				// capture 10 and win
 //	capture1	uint8				// capture 10 and win
 //	move		uint32				// how many moves have been played in total (is this desirable/necessary?)
-//	pass		bool				// was the last move a pass (if next move pass game over)
+//	pass		bool				// was the last move a pass (if next move pass -> game over)
 //	last		coordinate/*position?			// last move to check ko rule ()
 }
 
-type config struct { 	/// merge with game struct?
+// type ai struct { 	/// merge with game struct?
 //	aiplayer	bool	// is player 1 human or AI
 //	hotseat		bool	// AI player only suggests moves, human must choose move
 //	prescience	uint8	// how many moves in advance do we examine
-}
+// }
 
 func InitializeGame() *game{
 	g := game{}
 	return &g
+}
+
+func RandomCoordinate() coordinate{
+	x := uint8(rand.Intn(19))
+	y := uint8(rand.Intn(19))
+	random := coordinate{x, y}
+	return random
 }
 
 //func PlaceStone(coordinate, player, *goban) {
@@ -45,7 +53,7 @@ func InitializeGame() *game{
 	//		suggest move
 	// if human or hotseat:
 	//		listen for mouse click 						//###### do first
-	//			find position/pass request clicked 		//###### do first
+	//			find position/pass/new/exit clicked 		//###### do first
 	//			if pass, double pass end?
 	//			if reset, reset game with new config
 	// 		check if position is valid (if human, assume ai has aleady checked)
@@ -53,7 +61,7 @@ func InitializeGame() *game{
 	//			rules
 	//				ko
 	//				double-three
-	// place stone(coordinate, player, *goban) 									//###### do first
+	// place stone(coordinate, player, *goban) 			//###### do first
 	// check if capture
 	//		remove captured
 	//		update game.captured struct
@@ -78,3 +86,7 @@ func main() {
 	fmt.Println(g.goban[0][0].player)// one position player  ///////////
 	fmt.Println("Goodbye world!")////////
 }
+
+// Rules:
+// a stone, or solidly connected group of stones of one color, is captured if all liberties are occupied
+// only allowed to place a stone in a position with no liberties if it immediately captures
