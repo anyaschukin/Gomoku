@@ -1,6 +1,7 @@
 package main
 
 import (
+	gui "Gomoku/GUI"
 	"fmt"
 	"math/rand"
 	"time"
@@ -253,7 +254,8 @@ func main() {
 	coordinate, elapsed := ai(g)
 	PlaceIfValid(coordinate, g) //////
 	fmt.Println(elapsed)        // tme taken by ai //////////
-	// gui.RunEbiten()
+
+	gui.RunEbiten()
 
 	fmt.Println(g.goban) // whole goban //////////
 	// fmt.Println(g.goban[0][0])          // one position ///////////
