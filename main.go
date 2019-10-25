@@ -85,6 +85,13 @@ func RemoveStone(coordinate coordinate, goban *[19][19]position) {
 //	return err
 // }
 
+func CoordinateOnGoban(coordinate coordinate) (onGoban bool) {
+	if coordinate.x < 0 || coordinate.x > 18 || coordinate.y < 0 || coordinate.y > 18 {
+		return false
+	}
+	return true
+}
+
 func PositionOccupied(coordinate coordinate, goban *[19][19]position) (occupied bool) {
 	if goban[coordinate.x][coordinate.y].occupied == true {
 		return true
@@ -99,65 +106,50 @@ func SamePlayer(coordinate coordinate, goban *[19][19]position, player bool) (sa
 	return false
 }
 
-func IsCoordinateOnGoban(coordinate coordinate) (onGoban bool) {
-	if coordinate.x < 0 || coordinate.x > 18 || coordinate.y < 0 || coordinate.y > 18 {
-		return false
-	}
-	return true
-}
-
-func CheckVertexForThree(coordinate coordinate, goban *[19][19]position, x int8, y int8, player bool) (FreeThree bool) {
-	one := coordinate
-	one.x += x
-	one.y += y
-	two := coordinate
-	two.x += x * 2
-	two.y += y * 2
-	if IsCoordinateOnGoban(one) == true {
-		if PositionOccupied(one, goban) == true && SamePlayer(one, goban, player) == true {
-			if IsCoordinateOnGoban(two) == true {
-				if PositionOccupied(two, goban) == true && SamePlayer(two, goban, player) == true {
-					return true
-				}
-			}
-			three := coordinate
-			three.x += x * 3
-			three.y += y * 3
-			if IsCoordinateOnGoban(three) == true {
-				if PositionOccupied(three, goban) == true && SamePlayer(three, goban, player) == true {
-					return true
-				}
-			}
-			if y < 0 || (y == 0 && x == -1) {
-				minusOne := coordinate
-				minusOne.x -= x
-				minusOne.y -= y
-				if IsCoordinateOnGoban(minusOne) == true {
-					if PositionOccupied(minusOne, goban) == true && SamePlayer(minusOne, goban, player) == true {
-						return true
-					}
-				}
+func PositionOccupiedByPlayer(coordinate coordinate, goban *[19][19]position, player bool) bool {
+	if CoordinateOnGoban(coordinate) == true {
+		if PositionOccupied(coordinate, goban) == true {
+			if SamePlayer(coordinate, goban, player) == true {
+				return true
 			}
 		}
 	}
-	if IsCoordinateOnGoban(two) == true {
-		if PositionOccupied(two, goban) == true && SamePlayer(two, goban, player) == true {
-			three := coordinate
-			three.x += x * 3
-			three.y += y * 3
-			if IsCoordinateOnGoban(three) == true {
-				if PositionOccupied(three, goban) == true && SamePlayer(three, goban, player) == true {
-					return true
-				}
+	return false
+}
+
+func FindNeighbour(coordinate coordinate, x int8, y int8, multiple int8) coordinate {
+	neighbour := coordinate
+	neighbour.x += x * multiple
+	neighbour.y += y * multiple
+	return neighbour
+}
+
+func CheckVertexForThree(coordinate coordinate, goban *[19][19]position, x int8, y int8, player bool) (FreeThree bool) {
+	one := FindNeighbour(coordinate, x, y, 1)
+	two := FindNeighbour(coordinate, x, y, 2)
+	if PositionOccupiedByPlayer(one, goban, player) == true {
+		if PositionOccupiedByPlayer(two, goban, player) == true {
+			return true
+		}
+		three := FindNeighbour(coordinate, x, y, 3)
+		if PositionOccupiedByPlayer(three, goban, player) == true {
+			return true
+		}
+		if y < 0 || (y == 0 && x == -1) {
+			minusOne := FindNeighbour(coordinate, x, y, -1)
+			if PositionOccupiedByPlayer(minusOne, goban, player) == true {
+				return true
 			}
-			minusOne := coordinate
-			minusOne.x -= x
-			minusOne.y -= y
-			if IsCoordinateOnGoban(minusOne) == true {
-				if PositionOccupied(minusOne, goban) == true && SamePlayer(minusOne, goban, player) == true {
-					return true
-				}
-			}
+		}
+	}
+	if PositionOccupiedByPlayer(two, goban, player) == true {
+		three := FindNeighbour(coordinate, x, y, 3)
+		if PositionOccupiedByPlayer(three, goban, player) == true {
+			return true
+		}
+		minusOne := FindNeighbour(coordinate, x, y, -1)
+		if PositionOccupiedByPlayer(minusOne, goban, player) == true {
+			return true
 		}
 	}
 	return false
