@@ -19,15 +19,11 @@ type position struct { // alternatively uint8 (0 = unocupied), but memory waste
 }
 
 type game struct {
-	goban  [19][19]position
-	player bool // whose move is it? (player 0 - black first)
-	//	capture0	uint8				// capture 10 and win
-	//	capture1	uint8				// capture 10 and win
+	goban    [19][19]position
+	player   bool  // whose move is it? (player 0 - black first)
+	capture0 uint8 // capture 10 and win
+	capture1 uint8 // capture 10 and win
 	// move		uint32				// how many moves have been played in total (is this desirable/necessary?)
-	//	pass		bool				// was the last move a pass (if next move pass -> game over)
-	//	last0		coordinate			// last move to check ko rule () for player 0 // if player 1 captures multiple stones in next move set to {-1, -1} ko rule need not apply
-	//	last1		coordinate			// last move to check ko rule () for player 1
-
 }
 
 // type ai struct { 	/// merge with game struct?
@@ -136,8 +132,6 @@ func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y int8
 	var multiple int8
 	var a int8
 	var b int8
-	a = 0
-	b = 0 // necessary?
 	for multiple = 1; multiple < 5; multiple++ {
 		neighbour := FindNeighbour(coordinate, y, x, multiple)
 		if PositionOccupiedByPlayer(neighbour, goban, player) == true {
@@ -154,7 +148,7 @@ func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y int8
 			break
 		}
 	}
-	if a+b >= 5 {
+	if a+b >= 4 {
 		return true
 	}
 	return false
@@ -189,6 +183,38 @@ func CheckWin(coordinate coordinate, g *game) { //bool {
 	// return false
 }
 
+func CaptureVertex(coordinate coordinate, g *game, y int8, x int8) {
+	one := FindNeighbour(coordinate, y, x, 1)
+	two := FindNeighbour(coordinate, y, x, 2)
+	three := FindNeighbour(coordinate, y, x, 3)
+	if PositionOccupiedByOpponent(one, &g.goban, g.player) == true &&
+		PositionOccupiedByOpponent(two, &g.goban, g.player) == true &&
+		PositionOccupiedByPlayer(three, &g.goban, g.player) == true {
+		RemoveStone(one, &g.goban)
+		RemoveStone(two, &g.goban)
+		fmt.Printf("Capture! player: %v. captured y:%d x:%d & y:%d x:%d\n\n", g.player, one.y, one.x, two.y, two.x) ///
+		if g.player == false {
+			g.capture0 += 2
+		} else {
+			g.capture1 += 2
+		}
+		fmt.Printf("capture0: %d, capture1: %d\n", g.capture0, g.capture1)
+		// os.Exit(0) ///////////
+	}
+}
+
+func Capture(coordinate coordinate, g *game) {
+	var x int8
+	var y int8
+	for y = -1; y <= 1; y++ {
+		for x = -1; x <= 1; x++ {
+			if !(x == 0 && y == 0) {
+				CaptureVertex(coordinate, g, y, x)
+			}
+		}
+	}
+}
+
 func GameLoop(g *game) {
 	validated := false
 	coordinate := RandomCoordinate() /////
@@ -196,7 +222,7 @@ func GameLoop(g *game) {
 		validated, coordinate = PlaceRandomIfValid(g)
 		fmt.Printf("%v\n", validated)
 		if validated == true {
-			// Capture
+			Capture(coordinate, g)
 			DumpGoban(&g.goban)
 			CheckWin(coordinate, g)
 			fmt.Printf("player: %v\n", g.player)
