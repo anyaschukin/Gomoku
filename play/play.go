@@ -3,6 +3,7 @@ package play
 import (
 	"fmt"
 	"math/rand"
+	"os"
 	//	lib "Gomoku/golib"
 	//	gui "Gomoku/GUI"
 )
@@ -72,16 +73,16 @@ func PlaceIfValid(coordinate coordinate, g *game) { /// for human player
 	}
 }
 
-func PlaceRandomIfValid(g *game) (validated bool) { //////// for testing
-	coordinate := RandomCoordinate()
+func PlaceRandomIfValid(g *game) (validated bool, coordinate coordinate) { //////// for testing
+	coordinate = RandomCoordinate()
 	valid, whyInvalid := IsMoveValid(coordinate, g)
 	if valid == true {
 		PlaceStone(coordinate, g.player, &g.goban)
-		return true
+		return true, coordinate
 	} else {
 		// return whyInvalid to gui
 		fmt.Println(whyInvalid) /////
-		return false
+		return false, coordinate
 	}
 }
 
@@ -131,31 +132,77 @@ func SwapPlayers(player bool) bool {
 	}
 }
 
-func GameLoop(g *game) {
-	validated := false
-	for i := 0; i < 1000; i++ {
-		validated = PlaceRandomIfValid(g)
-		fmt.Printf("%v\n", validated)
-		if validated == true {
-			fmt.Printf("player: %v\n", g.player)
-			g.player = SwapPlayers(g.player)
-			DumpGoban(&g.goban)
+func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) bool {
+	var multiple int8
+	var a int8
+	var b int8
+	a = 0
+	b = 0 // necessary?
+	for multiple = 1; multiple < 5; multiple++ {
+		neighbour := FindNeighbour(coordinate, y, x, multiple)
+		if PositionOccupiedByPlayer(neighbour, goban, player) == true {
+			a++
+		} else {
+			break
 		}
 	}
+	for multiple = -1; multiple > -5; multiple-- {
+		neighbour := FindNeighbour(coordinate, y, x, multiple)
+		if PositionOccupiedByPlayer(neighbour, goban, player) == true {
+			b++
+		} else {
+			break
+		}
+	}
+	if a+b >= 5 {
+		return true
+	}
+	return false
+}
 
-	// if AI:
-	//		suggest move
-	// if human or hotseat:
-	//		listen for mouse click 						//###### do first
-	//			find position/pass/new/exit clicked 		//###### do first
-	//			if pass, double pass end?
-	//			if reset, reset game with new config
-	// 		check if position is valid (if human, assume ai has aleady checked)
-	//			occupied?
-	//			rules
-	//				ko
-	//				double-three
-	// PlaceStone(coordinate, true, &g.goban)
+func AlignFive(coordinate coordinate, g *game) bool {
+	var x int8
+	var y int8
+	for y = -1; y <= 0; y++ {
+		for x = -1; x <= 1; x++ {
+			if x == 0 && y == 0 {
+				return false
+			}
+			if checkVertexAlignFive(coordinate, &g.goban, y, x, g.player) == true {
+				return true
+			}
+		}
+	}
+	return false
+} //break this alignment by capturing a pair
+//or if he has already lost four pairs and the opponent can capture one more, therefore winning by capture.
+
+func CheckWin(coordinate coordinate, g *game) { //bool {
+	if AlignFive(coordinate, g) == true {
+		fmt.Printf("Win! player: %v. final move on position y:%d x:%d\n\n", g.player, coordinate.y, coordinate.x)
+		os.Exit(-1) ////// rm for gui, just for test
+		// return true
+	}
+	// if CaptureTen(g) == true {
+	// 	return true
+	// }
+	// return false
+}
+
+func GameLoop(g *game) {
+	validated := false
+	coordinate := RandomCoordinate() /////
+	for i := 0; i < 1000; i++ {      //moves
+		validated, coordinate = PlaceRandomIfValid(g)
+		fmt.Printf("%v\n", validated)
+		if validated == true {
+			// Capture
+			DumpGoban(&g.goban)
+			CheckWin(coordinate, g)
+			fmt.Printf("player: %v\n", g.player)
+			g.player = SwapPlayers(g.player)
+		}
+	}
 	// check if capture
 	//		remove captured
 	//		update game.captured struct
@@ -165,7 +212,6 @@ func GameLoop(g *game) {
 	// update game. struct
 	//		player change
 	//		moves ++
-	// re-render ebiten with updated goban and stats
 	//	return err
 }
 
