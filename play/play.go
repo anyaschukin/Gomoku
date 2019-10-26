@@ -22,7 +22,7 @@ type game struct {
 	player bool // whose move is it? (player 0 - black first)
 	//	capture0	uint8				// capture 10 and win
 	//	capture1	uint8				// capture 10 and win
-	//	move		uint32				// how many moves have been played in total (is this desirable/necessary?)
+	// move		uint32				// how many moves have been played in total (is this desirable/necessary?)
 	//	pass		bool				// was the last move a pass (if next move pass -> game over)
 	//	last0		coordinate			// last move to check ko rule () for player 0 // if player 1 captures multiple stones in next move set to {-1, -1} ko rule need not apply
 	//	last1		coordinate			// last move to check ko rule () for player 1
@@ -72,6 +72,19 @@ func PlaceIfValid(coordinate coordinate, g *game) { /// for human player
 	}
 }
 
+func PlaceRandomIfValid(g *game) (validated bool) { //////// for testing
+	coordinate := RandomCoordinate()
+	valid, whyInvalid := IsMoveValid(coordinate, g)
+	if valid == true {
+		PlaceStone(coordinate, g.player, &g.goban)
+		return true
+	} else {
+		// return whyInvalid to gui
+		fmt.Println(whyInvalid) /////
+		return false
+	}
+}
+
 func InitializeGame() *game {
 	g := game{}
 	// g.player = true ///// rm, just to test
@@ -110,43 +123,91 @@ func DumpGoban(goban *[19][19]position) {
 	// fmt.Println(g.goban[0][0].player)   // one position player  ///////////
 }
 
+func SwapPlayers(player bool) bool {
+	if player == false {
+		return true
+	} else {
+		return false
+	}
+}
+
+func GameLoop(g *game) {
+	validated := false
+	for i := 0; i < 1000; i++ {
+		validated = PlaceRandomIfValid(g)
+		fmt.Printf("%v\n", validated)
+		if validated == true {
+			fmt.Printf("player: %v\n", g.player)
+			g.player = SwapPlayers(g.player)
+			DumpGoban(&g.goban)
+		}
+	}
+
+	// if AI:
+	//		suggest move
+	// if human or hotseat:
+	//		listen for mouse click 						//###### do first
+	//			find position/pass/new/exit clicked 		//###### do first
+	//			if pass, double pass end?
+	//			if reset, reset game with new config
+	// 		check if position is valid (if human, assume ai has aleady checked)
+	//			occupied?
+	//			rules
+	//				ko
+	//				double-three
+	// PlaceStone(coordinate, true, &g.goban)
+	// check if capture
+	//		remove captured
+	//		update game.captured struct
+	// check win
+	//		5 in a row
+	// 		all win conditions?
+	// update game. struct
+	//		player change
+	//		moves ++
+	// re-render ebiten with updated goban and stats
+	//	return err
+}
+
 func Play() {
 	g := InitializeGame()
+	GameLoop(g)
 
-	zero := coordinate{0, 0}  /////////
-	PlaceIfValid(zero, g)     /////////
-	three := coordinate{1, 1} /////////
-	PlaceIfValid(three, g)    /////////
-	three = coordinate{3, 5}  /////////
-	PlaceIfValid(three, g)    /////////
-	three = coordinate{3, 4}  /////////
-	PlaceIfValid(three, g)    /////////
-	// g.player = true           //////
-	// three = coordinate{3, 2}  ///////// one of the three-aligned obstructed, therefore next move legal.
+	// /// Test DoubleFree
+	// zero := coordinate{0, 0}  /////////
+	// PlaceIfValid(zero, g)     /////////
+	// three := coordinate{1, 1} /////////
 	// PlaceIfValid(three, g)    /////////
-	// g.player = false          /////
-	g.player = true          //////
-	three = coordinate{3, 1} /////////
-	PlaceIfValid(three, g)   /////////
-	g.player = false         /////
-	three = coordinate{3, 3} ///////// Double Three, should be rejected
-	PlaceIfValid(three, g)   ///////// Double Three, should be rejected
+	// three = coordinate{3, 5}  /////////
+	// PlaceIfValid(three, g)    /////////
+	// three = coordinate{3, 4}  /////////
+	// PlaceIfValid(three, g)    /////////
+	// // g.player = true           //////
+	// // three = coordinate{3, 2}  ///////// one of the three-aligned obstructed, therefore next move legal.
+	// // PlaceIfValid(three, g)    /////////
+	// // g.player = false          /////
+	// g.player = true          //////
+	// three = coordinate{3, 1} /////////
+	// PlaceIfValid(three, g)   /////////
+	// g.player = false         /////
+	// three = coordinate{3, 3} ///////// Double Three, should be rejected
+	// PlaceIfValid(three, g)   ///////// Double Three, should be rejected
 
-	// launch ebiten. render goban and game stats 		// # do first
-	// GameLoop(g)
+	// // launch ebiten. render goban and game stats 		// # do first
+	// // GameLoop(g)
 
-	/// Test Place stone
-	PlaceIfValid(RandomCoordinate(), g)
-	PlaceIfValid(RandomCoordinate(), g)
-	PlaceIfValid(RandomCoordinate(), g)
-	PlaceIfValid(RandomCoordinate(), g)
-	PlaceIfValid(RandomCoordinate(), g)
-	PlaceIfValid(RandomCoordinate(), g)
-	// PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
-	// PlaceStone(RandomCoordinate(), true, &g.goban)  //////
-	// PlaceStone(RandomCoordinate(), true, &g.goban)  ///////
-	// PlaceStone(RandomCoordinate(), false, &g.goban) ////////
-	// PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
+	// /// Test Place stone
+	// PlaceIfValid(RandomCoordinate(), g)
+	// PlaceIfValid(RandomCoordinate(), g)
+	// PlaceIfValid(RandomCoordinate(), g)
+	// PlaceIfValid(RandomCoordinate(), g)
+	// PlaceIfValid(RandomCoordinate(), g)
+	// PlaceIfValid(RandomCoordinate(), g)
+	// // PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
+	// // PlaceStone(RandomCoordinate(), true, &g.goban)  //////
+	// // PlaceStone(RandomCoordinate(), true, &g.goban)  ///////
+	// // PlaceStone(RandomCoordinate(), false, &g.goban) ////////
+	// // PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
 
 	// RemoveStone(zero, &g.goban) /////////
 
@@ -155,5 +216,5 @@ func Play() {
 	// fmt.Println(elapsed)        // tme taken by ai //////////
 
 	// gui.RunEbiten()
-	DumpGoban(&g.goban)
+	// DumpGoban(&g.goban)/////
 }
