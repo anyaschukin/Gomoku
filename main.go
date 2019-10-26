@@ -1,7 +1,6 @@
 package main
 
 import (
-	gui "Gomoku/GUI"
 	"fmt"
 	"math/rand"
 	"time"
@@ -10,8 +9,8 @@ import (
 )
 
 type coordinate struct {
-	x int8
 	y int8
+	x int8
 }
 
 type position struct { // alternatively uint8 (0 = unocupied), but memory waste
@@ -39,24 +38,24 @@ type game struct {
 
 func InitializeGame() *game {
 	g := game{}
-	g.player = true ///// rm, just to test
+	// g.player = true ///// rm, just to test
 	return &g
 }
 
 func RandomCoordinate() coordinate {
 	x := int8(rand.Intn(19))
 	y := int8(rand.Intn(19))
-	random := coordinate{x, y}
+	random := coordinate{y, x}
 	return random
 }
 
 func PlaceStone(coordinate coordinate, player bool, goban *[19][19]position) {
-	goban[coordinate.x][coordinate.y].occupied = true
-	goban[coordinate.x][coordinate.y].player = player
+	goban[coordinate.y][coordinate.x].occupied = true
+	goban[coordinate.y][coordinate.x].player = player
 }
 
 func RemoveStone(coordinate coordinate, goban *[19][19]position) {
-	goban[coordinate.x][coordinate.y].occupied = false
+	goban[coordinate.y][coordinate.x].occupied = false
 }
 
 // func GameLoop(g) {
@@ -87,21 +86,21 @@ func RemoveStone(coordinate coordinate, goban *[19][19]position) {
 // }
 
 func CoordinateOnGoban(coordinate coordinate) (onGoban bool) {
-	if coordinate.x < 0 || coordinate.x > 18 || coordinate.y < 0 || coordinate.y > 18 {
+	if coordinate.y < 0 || coordinate.y > 18 || coordinate.x < 0 || coordinate.x > 18 {
 		return false
 	}
 	return true
 }
 
 func PositionOccupied(coordinate coordinate, goban *[19][19]position) (occupied bool) {
-	if goban[coordinate.x][coordinate.y].occupied == true {
+	if goban[coordinate.y][coordinate.x].occupied == true {
 		return true
 	}
 	return false
 }
 
 func SamePlayer(coordinate coordinate, goban *[19][19]position, player bool) (samePlayer bool) {
-	if goban[coordinate.x][coordinate.y].player == player {
+	if goban[coordinate.y][coordinate.x].player == player {
 		return true
 	}
 	return false
@@ -118,37 +117,37 @@ func PositionOccupiedByPlayer(coordinate coordinate, goban *[19][19]position, pl
 	return false
 }
 
-func FindNeighbour(coordinate coordinate, x int8, y int8, multiple int8) coordinate {
+func FindNeighbour(coordinate coordinate, y int8, x int8, multiple int8) coordinate {
 	neighbour := coordinate
-	neighbour.x += x * multiple
 	neighbour.y += y * multiple
+	neighbour.x += x * multiple
 	return neighbour
 }
 
-func CheckVertexForThree(coordinate coordinate, goban *[19][19]position, x int8, y int8, player bool) (FreeThree bool) {
-	one := FindNeighbour(coordinate, x, y, 1)
-	two := FindNeighbour(coordinate, x, y, 2)
+func CheckVertexForThree(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) (FreeThree bool) {
+	one := FindNeighbour(coordinate, y, x, 1)
+	two := FindNeighbour(coordinate, y, x, 2)
 	if PositionOccupiedByPlayer(one, goban, player) == true {
 		if PositionOccupiedByPlayer(two, goban, player) == true {
 			return true
 		}
-		three := FindNeighbour(coordinate, x, y, 3)
+		three := FindNeighbour(coordinate, y, x, 3)
 		if PositionOccupiedByPlayer(three, goban, player) == true {
 			return true
 		}
 		if y < 0 || (y == 0 && x == -1) {
-			minusOne := FindNeighbour(coordinate, x, y, -1)
+			minusOne := FindNeighbour(coordinate, y, x, -1)
 			if PositionOccupiedByPlayer(minusOne, goban, player) == true {
 				return true
 			}
 		}
 	}
 	if PositionOccupiedByPlayer(two, goban, player) == true {
-		three := FindNeighbour(coordinate, x, y, 3)
+		three := FindNeighbour(coordinate, y, x, 3)
 		if PositionOccupiedByPlayer(three, goban, player) == true {
 			return true
 		}
-		minusOne := FindNeighbour(coordinate, x, y, -1)
+		minusOne := FindNeighbour(coordinate, y, x, -1)
 		if PositionOccupiedByPlayer(minusOne, goban, player) == true {
 			return true
 		}
@@ -163,7 +162,7 @@ func DoubleThree(coordinate coordinate, g *game) (valid bool) { // returns false
 	for y = -1; y <= 1; y++ {
 		for x = -1; x <= 1; x++ {
 			if !(x == 0 && y == 0) {
-				foundThree := CheckVertexForThree(coordinate, &g.goban, x, y, g.player)
+				foundThree := CheckVertexForThree(coordinate, &g.goban, y, x, g.player)
 				if foundThree == true {
 					if freeThree == true {
 						return true
@@ -178,7 +177,7 @@ func DoubleThree(coordinate coordinate, g *game) (valid bool) { // returns false
 }
 
 func IsMoveValid(coordinate coordinate, g *game) (valid bool, whyInvalid string) {
-	if g.goban[coordinate.x][coordinate.y].occupied == true {
+	if g.goban[coordinate.y][coordinate.x].occupied == true {
 		return false, "Position already Occupied"
 	}
 	if DoubleThree(coordinate, g) == true {
@@ -218,6 +217,38 @@ func ai(g *game) (coordinate coordinate, elapsed time.Duration) {
 	return coordinate, elapsed
 }
 
+func DumpGoban(goban *[19][19]position) {
+	for y := 0; y < 19; y++ {
+		for x := 0; x < 19; x++ {
+			if goban[y][x].occupied == true {
+				fmt.Printf("\x1B[31m")
+			}
+			fmt.Printf("{%v\x1B[0m ", goban[y][x].occupied)
+			if goban[y][x].occupied == true {
+				fmt.Printf(" ")
+			}
+			color := ""
+			if goban[y][x].occupied == true {
+				if goban[y][x].player == true {
+					color = "\x1B[32m"
+				} else {
+					color = "\x1B[33m"
+				}
+			}
+			fmt.Printf("%s%v\x1B[0m", color, goban[y][x].player)
+			if goban[y][x].player == true {
+				fmt.Printf(" ")
+			}
+			fmt.Printf("} ")
+		}
+		fmt.Printf("\n")
+	}
+	// fmt.Println(g.goban) // whole goban //////////
+	// fmt.Println(g.goban[0][0])          // one position ///////////
+	// fmt.Println(g.goban[0][0].occupied) // one position occupied /////////
+	// fmt.Println(g.goban[0][0].player)   // one position player  ///////////
+}
+
 func main() {
 	fmt.Println("Hello world!") ////////
 	g := InitializeGame()
@@ -255,12 +286,9 @@ func main() {
 	PlaceIfValid(coordinate, g) //////
 	fmt.Println(elapsed)        // tme taken by ai //////////
 
-	gui.RunEbiten()
+	// gui.RunEbiten()
 
-	fmt.Println(g.goban) // whole goban //////////
-	// fmt.Println(g.goban[0][0])          // one position ///////////
-	// fmt.Println(g.goban[0][0].occupied) // one position occupied /////////
-	// fmt.Println(g.goban[0][0].player)   // one position player  ///////////
+	DumpGoban(&g.goban)
 	fmt.Println("Goodbye world!") ////////
 }
 
