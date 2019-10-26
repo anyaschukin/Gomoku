@@ -171,15 +171,27 @@ func AlignFive(coordinate coordinate, g *game) bool {
 } //break this alignment by capturing a pair
 //or if he has already lost four pairs and the opponent can capture one more, therefore winning by capture.
 
+func CaptureTen(g *game) (win bool, player bool) {
+	if g.capture0 >= 10 {
+		return true, false
+	}
+	if g.capture1 >= 10 {
+		return true, true
+	}
+	return false, false
+}
+
 func CheckWin(coordinate coordinate, g *game) { //bool {
 	if AlignFive(coordinate, g) == true {
-		fmt.Printf("Win! player: %v. final move on position y:%d x:%d\n\n", g.player, coordinate.y, coordinate.x)
+		fmt.Printf("Player %v wins by aligning 5! final move on position y:%d x:%d\n\n", g.player, coordinate.y, coordinate.x)
 		os.Exit(-1) ////// rm for gui, just for test
 		// return true
 	}
-	// if CaptureTen(g) == true {
-	// 	return true
-	// }
+	captureTen, player := CaptureTen(g)
+	if captureTen == true {
+		fmt.Printf("Player %v wins by capturing 10! final move on position y:%d x:%d\n\n", player, coordinate.y, coordinate.x)
+		os.Exit(-1) ////// rm for gui, just for test
+	}
 	// return false
 }
 
@@ -198,7 +210,7 @@ func CaptureVertex(coordinate coordinate, g *game, y int8, x int8) {
 		} else {
 			g.capture1 += 2
 		}
-		fmt.Printf("capture0: %d, capture1: %d\n", g.capture0, g.capture1)
+		fmt.Printf("capture0: %d, capture1: %d\n", g.capture0, g.capture1) /////////
 		// os.Exit(0) ///////////
 	}
 }
