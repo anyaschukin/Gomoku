@@ -117,6 +117,24 @@ func PositionOccupiedByPlayer(coordinate coordinate, goban *[19][19]position, pl
 	return false
 }
 
+func PositionOccupiedByOpponent(coordinate coordinate, goban *[19][19]position, player bool) bool {
+	if CoordinateOnGoban(coordinate) == true {
+		if PositionOccupied(coordinate, goban) == true {
+			if SamePlayer(coordinate, goban, player) == false {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func ThreeBlocked(end1 coordinate, end2 coordinate, goban *[19][19]position, player bool) bool {
+	if PositionOccupiedByOpponent(end1, goban, player) == false && PositionOccupiedByOpponent(end2, goban, player) == false {
+		return false
+	}
+	return true
+}
+
 func FindNeighbour(coordinate coordinate, y int8, x int8, multiple int8) coordinate {
 	neighbour := coordinate
 	neighbour.y += y * multiple
@@ -125,31 +143,47 @@ func FindNeighbour(coordinate coordinate, y int8, x int8, multiple int8) coordin
 }
 
 func CheckVertexForThree(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) (FreeThree bool) {
+	minusTwo := FindNeighbour(coordinate, y, x, -2)
+	minusOne := FindNeighbour(coordinate, y, x, -1)
 	one := FindNeighbour(coordinate, y, x, 1)
 	two := FindNeighbour(coordinate, y, x, 2)
+	three := FindNeighbour(coordinate, y, x, 3)
+	four := FindNeighbour(coordinate, y, x, 4)
 	if PositionOccupiedByPlayer(one, goban, player) == true {
 		if PositionOccupiedByPlayer(two, goban, player) == true {
-			return true
+			if ThreeBlocked(minusOne, three, goban, player) == false {
+				return true
+			}
 		}
-		three := FindNeighbour(coordinate, y, x, 3)
 		if PositionOccupiedByPlayer(three, goban, player) == true {
-			return true
+			if ThreeBlocked(minusOne, four, goban, player) == false {
+				if PositionOccupiedByOpponent(two, goban, player) == false {
+					return true
+				}
+			}
 		}
 		if y < 0 || (y == 0 && x == -1) {
-			minusOne := FindNeighbour(coordinate, y, x, -1)
 			if PositionOccupiedByPlayer(minusOne, goban, player) == true {
-				return true
+				if ThreeBlocked(minusTwo, two, goban, player) == false {
+					return true
+				}
 			}
 		}
 	}
 	if PositionOccupiedByPlayer(two, goban, player) == true {
-		three := FindNeighbour(coordinate, y, x, 3)
 		if PositionOccupiedByPlayer(three, goban, player) == true {
-			return true
+			if ThreeBlocked(minusOne, four, goban, player) == false {
+				if PositionOccupiedByOpponent(one, goban, player) == false {
+					return true
+				}
+			}
 		}
-		minusOne := FindNeighbour(coordinate, y, x, -1)
 		if PositionOccupiedByPlayer(minusOne, goban, player) == true {
-			return true
+			if ThreeBlocked(minusTwo, three, goban, player) == false {
+				if PositionOccupiedByOpponent(one, goban, player) == false {
+					return true
+				}
+			}
 		}
 	}
 	return false
@@ -264,6 +298,10 @@ func main() {
 	PlaceIfValid(three, g)    /////////
 	three = coordinate{3, 4}  /////////
 	PlaceIfValid(three, g)    /////////
+	g.player = true           //////
+	three = coordinate{3, 2}  ///////// one of the three-aligned obstructed, therefore next move legal.
+	PlaceIfValid(three, g)    /////////
+	g.player = false          /////
 	three = coordinate{3, 3}  ///////// Double Three, should be rejected
 	PlaceIfValid(three, g)    ///////// Double Three, should be rejected
 
