@@ -51,131 +51,6 @@ func RemoveStone(coordinate coordinate, goban *[19][19]position) {
 	goban[coordinate.y][coordinate.x].occupied = false
 }
 
-func CoordinateOnGoban(coordinate coordinate) (onGoban bool) {
-	if coordinate.y < 0 || coordinate.y > 18 || coordinate.x < 0 || coordinate.x > 18 {
-		return false
-	}
-	return true
-}
-
-func PositionOccupied(coordinate coordinate, goban *[19][19]position) (occupied bool) {
-	if goban[coordinate.y][coordinate.x].occupied == true {
-		return true
-	}
-	return false
-}
-
-func SamePlayer(coordinate coordinate, goban *[19][19]position, player bool) (samePlayer bool) {
-	if goban[coordinate.y][coordinate.x].player == player {
-		return true
-	}
-	return false
-}
-
-func PositionOccupiedByPlayer(coordinate coordinate, goban *[19][19]position, player bool) bool {
-	if CoordinateOnGoban(coordinate) == true {
-		if PositionOccupied(coordinate, goban) == true {
-			if SamePlayer(coordinate, goban, player) == true {
-				return true
-			}
-		}
-	}
-	return false
-}
-
-func PositionOccupiedByOpponent(coordinate coordinate, goban *[19][19]position, player bool) bool {
-	if CoordinateOnGoban(coordinate) == true {
-		if PositionOccupied(coordinate, goban) == true {
-			if SamePlayer(coordinate, goban, player) == false {
-				return true
-			}
-		}
-	}
-	return false
-}
-
-func ThreeBlocked(end1 coordinate, end2 coordinate, goban *[19][19]position, player bool) bool {
-	if PositionOccupiedByOpponent(end1, goban, player) == false && PositionOccupiedByOpponent(end2, goban, player) == false {
-		return false
-	}
-	return true
-}
-
-func FindNeighbour(coordinate coordinate, y int8, x int8, multiple int8) coordinate {
-	neighbour := coordinate
-	neighbour.y += y * multiple
-	neighbour.x += x * multiple
-	return neighbour
-}
-
-func CheckVertexForThree(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) (FreeThree bool) {
-	minusTwo := FindNeighbour(coordinate, y, x, -2)
-	minusOne := FindNeighbour(coordinate, y, x, -1)
-	one := FindNeighbour(coordinate, y, x, 1)
-	two := FindNeighbour(coordinate, y, x, 2)
-	three := FindNeighbour(coordinate, y, x, 3)
-	four := FindNeighbour(coordinate, y, x, 4)
-	if PositionOccupiedByPlayer(one, goban, player) == true {
-		if PositionOccupiedByPlayer(two, goban, player) == true {
-			if ThreeBlocked(minusOne, three, goban, player) == false {
-				return true
-			}
-		}
-		if PositionOccupiedByPlayer(three, goban, player) == true {
-			if ThreeBlocked(minusOne, four, goban, player) == false {
-				if PositionOccupiedByOpponent(two, goban, player) == false {
-					return true
-				}
-			}
-		}
-		if y < 0 || (y == 0 && x == -1) {
-			if PositionOccupiedByPlayer(minusOne, goban, player) == true {
-				if ThreeBlocked(minusTwo, two, goban, player) == false {
-					return true
-				}
-			}
-		}
-	}
-	if PositionOccupiedByPlayer(two, goban, player) == true {
-		if PositionOccupiedByPlayer(three, goban, player) == true {
-			if ThreeBlocked(minusOne, four, goban, player) == false {
-				if PositionOccupiedByOpponent(one, goban, player) == false {
-					return true
-				}
-			}
-		}
-		if PositionOccupiedByPlayer(minusOne, goban, player) == true {
-			if ThreeBlocked(minusTwo, three, goban, player) == false {
-				if PositionOccupiedByOpponent(one, goban, player) == false {
-					return true
-				}
-			}
-		}
-	}
-	return false
-}
-
-func DoubleThree(coordinate coordinate, g *game) (valid bool) { // returns false if move breaks rule
-	var freeThree bool
-	var x int8
-	var y int8
-	for y = -1; y <= 1; y++ {
-		for x = -1; x <= 1; x++ {
-			if !(x == 0 && y == 0) {
-				foundThree := CheckVertexForThree(coordinate, &g.goban, y, x, g.player)
-				if foundThree == true {
-					if freeThree == true {
-						return true
-					} else {
-						freeThree = true
-					}
-				}
-			}
-		}
-	}
-	return false
-}
-
 func IsMoveValid(coordinate coordinate, g *game) (valid bool, whyInvalid string) {
 	if g.goban[coordinate.y][coordinate.x].occupied == true {
 		return false, "Position already Occupied"
@@ -246,29 +121,27 @@ func Play() {
 	PlaceIfValid(three, g)    /////////
 	three = coordinate{3, 4}  /////////
 	PlaceIfValid(three, g)    /////////
-	g.player = true           //////
-	three = coordinate{3, 2}  ///////// one of the three-aligned obstructed, therefore next move legal.
-	PlaceIfValid(three, g)    /////////
-	g.player = false          /////
-	g.player = true           //////
-	three = coordinate{3, 1}  /////////
-	PlaceIfValid(three, g)    /////////
-	g.player = false          /////
-	three = coordinate{3, 3}  ///////// Double Three, should be rejected
-	PlaceIfValid(three, g)    ///////// Double Three, should be rejected
-
-	DumpGoban(&g.goban)
+	// g.player = true           //////
+	// three = coordinate{3, 2}  ///////// one of the three-aligned obstructed, therefore next move legal.
+	// PlaceIfValid(three, g)    /////////
+	// g.player = false          /////
+	g.player = true          //////
+	three = coordinate{3, 1} /////////
+	PlaceIfValid(three, g)   /////////
+	g.player = false         /////
+	three = coordinate{3, 3} ///////// Double Three, should be rejected
+	PlaceIfValid(three, g)   ///////// Double Three, should be rejected
 
 	// launch ebiten. render goban and game stats 		// # do first
 	// GameLoop(g)
 
 	/// Test Place stone
-	// PlaceIfValid(RandomCoordinate(), g)
-	// PlaceIfValid(RandomCoordinate(), g)
-	// PlaceIfValid(RandomCoordinate(), g)
-	// PlaceIfValid(RandomCoordinate(), g)
-	// PlaceIfValid(RandomCoordinate(), g)
-	// PlaceIfValid(RandomCoordinate(), g)
+	PlaceIfValid(RandomCoordinate(), g)
+	PlaceIfValid(RandomCoordinate(), g)
+	PlaceIfValid(RandomCoordinate(), g)
+	PlaceIfValid(RandomCoordinate(), g)
+	PlaceIfValid(RandomCoordinate(), g)
+	PlaceIfValid(RandomCoordinate(), g)
 	// PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
 	// PlaceStone(RandomCoordinate(), true, &g.goban)  //////
 	// PlaceStone(RandomCoordinate(), true, &g.goban)  ///////
@@ -282,4 +155,5 @@ func Play() {
 	// fmt.Println(elapsed)        // tme taken by ai //////////
 
 	// gui.RunEbiten()
+	DumpGoban(&g.goban)
 }
