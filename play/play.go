@@ -36,13 +36,13 @@ type game struct {
 //	prescience	uint8	// how many moves in advance do we examine
 // }
 
-func InitializeGame() *game {
+func initializeGame() *game {
 	g := game{}
 	// g.player = true ///// rm, just to test
 	return &g
 }
 
-func SwapPlayers(player bool) bool {
+func swapPlayers(player bool) bool {
 	if player == false {
 		return true
 	} else {
@@ -50,7 +50,7 @@ func SwapPlayers(player bool) bool {
 	}
 }
 
-func GameLoop(g *game) {
+func gameLoop(g *game) {
 	validated := false
 	coordinate := RandomCoordinate() /////
 	for i := 0; i < 10000; i++ {     //moves
@@ -59,7 +59,7 @@ func GameLoop(g *game) {
 			Capture(coordinate, g)
 			DumpGoban(&g.goban) //////
 			CheckWin(coordinate, g)
-			g.player = SwapPlayers(g.player)
+			g.player = swapPlayers(g.player)
 		}
 	}
 	// update game.moves ++
@@ -67,8 +67,8 @@ func GameLoop(g *game) {
 }
 
 func Play() {
-	g := InitializeGame()
-	GameLoop(g)
+	g := initializeGame()
+	gameLoop(g)
 
 	// /// Test DoubleFree
 	// zero := coordinate{0, 0}  /////////
