@@ -7,12 +7,15 @@ import (
 
 func CanCaptureVertex(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) bool {
 	minusOne := FindNeighbour(coordinate, y, x, -1)
+	one := FindNeighbour(coordinate, y, x, 1)
 	two := FindNeighbour(coordinate, y, x, 2)
-	if PositionOccupiedByOpponent(minusOne, goban, player) && PositionUnoccupied(two, goban) {
-		return true
-	}
-	if PositionOccupiedByOpponent(two, goban, player) && PositionUnoccupied(minusOne, goban) {
-		return true
+	if PositionOccupiedByPlayer(one, goban, player) {
+		if PositionOccupiedByOpponent(minusOne, goban, player) && PositionUnoccupied(two, goban) {
+			return true
+		}
+		if PositionOccupiedByOpponent(two, goban, player) && PositionUnoccupied(minusOne, goban) {
+			return true
+		}
 	}
 	return false
 }
