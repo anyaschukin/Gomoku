@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+//func checkCaptureEight!!!! iterate entire goban, check if capture possible (to make 10)
+
 func canCaptureVertex(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) bool {
 	minusOne := FindNeighbour(coordinate, y, x, -1)
 	one := FindNeighbour(coordinate, y, x, 1)
@@ -46,7 +48,7 @@ func breakFive(coordinate coordinate, goban *[19][19]position, y int8, x int8, p
 		neighbour := FindNeighbour(coordinate, y, x, multiple)
 		if PositionOccupiedByPlayer(neighbour, goban, player) == true {
 			if canCaptureVertices(neighbour, goban, player) == true {
-				return true
+				return true////////store true & break !!!
 			}
 		} else {
 			break
@@ -56,7 +58,7 @@ func breakFive(coordinate coordinate, goban *[19][19]position, y int8, x int8, p
 		neighbour := FindNeighbour(coordinate, y, x, multiple)
 		if PositionOccupiedByPlayer(neighbour, goban, player) == true {
 			if canCaptureVertices(neighbour, goban, player) == true {
-				return true
+				return true////////store true  & break !!! count a+b, if over 4 return false
 			}
 		} else {
 			break
@@ -104,7 +106,7 @@ func AlignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 					align5.aligned5 = true
 					align5.winner = player
 					align5.winmove = coordinate
-					return true
+					return true///////////////////////////////// rm!!!!!
 				}
 				return true
 			}
@@ -113,8 +115,8 @@ func AlignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 	return false
 }
 
-func captureTen(g *game) (win bool) {
-	if g.capture0 >= 10 {
+func captureTen(g *game) (win bool) {/////////////only pass g.capture0, g.capture1!!!!!!!!!
+	if g.capture0 >= 10 { // or g.capture1 >= 10 !!!
 		return true
 	}
 	if g.capture1 >= 10 {
@@ -129,11 +131,11 @@ func CheckWin(coordinate coordinate, g *game) { //bool {
 			fmt.Printf("Player %v can win by aligning 5, however the other player can break this alignment by capturing a pair\n", g.player)
 		} else {
 			fmt.Printf("Player %v wins by aligning 5! final move on position y:%d x:%d\n\n", g.player, coordinate.y, coordinate.x)
-			os.Exit(-1) ////// rm for gui, just for test
+			os.Exit(-1) ////// rm, just for test. Return win message to GUI
 		}
 	}
 	if captureTen(g) == true {
 		fmt.Printf("Player %v wins by capturing 10! final move on position y:%d x:%d\n\n", g.player, coordinate.y, coordinate.x)
-		os.Exit(-1) ////// rm for gui, just for test
+		os.Exit(-1) ////// rm, just for test. Return win message to GUI
 	}
 }

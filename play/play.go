@@ -10,7 +10,7 @@ type coordinate struct {
 	x int8
 }
 
-type position struct { // alternatively uint8 (0 = unocupied), but memory waste
+type position struct {
 	occupied bool
 	player   bool
 }
@@ -26,7 +26,7 @@ type game struct {
 	player   bool   // whose move is it? (player 0 - black first)
 	capture0 uint8  // capture 10 and win
 	capture1 uint8  // capture 10 and win
-	align5   align5 // one player has aligned 5, however it can be broken. The other player must break it or lose.
+	align5   align5 // one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
 	// move		uint32				// how many moves have been played in total (is this desirable/necessary?)
 }
 
