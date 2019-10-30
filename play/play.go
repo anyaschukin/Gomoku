@@ -17,6 +17,7 @@ type position struct {
 
 type align5 struct { //winning move for checking if opponent breaks it in the next move
 	aligned5 bool
+	capture8 bool // is it possible for the opponent to win by capturing 10? (have they already captured 8, and is there an available capture move)
 	winner   bool /// rm?
 	winmove  coordinate
 }
@@ -36,13 +37,13 @@ type game struct {
 //	prescience	uint8	// how many moves in advance do we examine
 // }
 
-func initializeGame() *game {
-	g := game{}
+func InitializeGame() *game {
+	G := game{}
 	// g.player = true ///// rm, just to test
-	return &g
+	return &G
 }
 
-func swapPlayers(player bool) bool {
+func SwapPlayers(player bool) bool {
 	if player == false {
 		return true
 	} else {
@@ -50,16 +51,16 @@ func swapPlayers(player bool) bool {
 	}
 }
 
-func gameLoop(g *game) {
+func GameLoop(G *game) {
 	validated := false
 	coordinate := RandomCoordinate() /////
 	for i := 0; i < 10000; i++ {     //moves
-		validated, coordinate = PlaceRandomIfValid(g)
+		validated, coordinate = PlaceRandomIfValid(G)
 		if validated == true {
-			Capture(coordinate, g)
-			DumpGoban(&g.goban) //////
-			CheckWin(coordinate, g)
-			g.player = swapPlayers(g.player)
+			Capture(coordinate, G)
+			DumpGoban(&G.goban) //////
+			CheckWin(coordinate, G)
+			G.player = SwapPlayers(G.player)
 		}
 	}
 	// update game.moves ++
@@ -67,8 +68,8 @@ func gameLoop(g *game) {
 }
 
 func Play() {
-	g := initializeGame()
-	gameLoop(g)
+	// G := initializeGame()
+	// gameLoop(G)
 
 	// /// Test DoubleFree
 	// zero := coordinate{0, 0}  /////////

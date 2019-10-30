@@ -2,6 +2,7 @@ package play
 
 import (
 	"fmt"
+	"os"
 )
 
 func removeStone(coordinate coordinate, goban *[19][19]position) {
@@ -37,11 +38,12 @@ func Capture(coordinate coordinate, g *game) {
 			}
 		}
 	}
-	if g.align5.aligned5 == true {/// check captureTen first: win by align 5 if opponent can not break this alignment by capturing, or if he has already lost four pairs and the opponent can capture one more, therefore winning by capture.
-		alignedfive := AlignFive(g.align5.winmove, &g.goban, &g.align5, g.align5.winner)//////////////////////////merge with next line!!!!!!!
-		if alignedfive == true {// add condition and PositionOccupiedByPlayer(g.align5.winmove) == true
-			fmt.Printf("Player %v win by aligning 5. The other player could have broken this alignment by capturing a pair, but they didn't, silly!\n", g.player)
-			// END GAME!!
+	if g.align5.aligned5 == true { /// check captureTen first: win by align 5 if opponent can not break this alignment by capturing, or if he has already lost four pairs and the opponent can capture one more, therefore winning by capture.
+		if PositionOccupiedByPlayer(g.align5.winmove, &g.goban, g.align5.winner) == true &&
+			AlignFive(g.align5.winmove, &g.goban, &g.align5, g.align5.winner, g.capture0, g.capture1) == true {
+			fmt.Printf("Player %v win by aligning 5.\nThe other player could have broken this alignment by capturing a pair, but they didn't, silly!\nWinning move y:%d x:%d.\n", g.align5.winner, g.align5.winmove.y, g.align5.winmove.x)
+			DumpGoban(&g.goban) //////
+			os.Exit(-1)         ////// rm, just for test. Return win message to GUI
 		}
 	}
 }

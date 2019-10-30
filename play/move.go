@@ -10,13 +10,6 @@ func PlaceStone(coordinate coordinate, player bool, goban *[19][19]position) {
 	goban[coordinate.y][coordinate.x].player = player
 }
 
-func RandomCoordinate() coordinate {////////move this function somewhere else!!!!!
-	x := int8(rand.Intn(19))
-	y := int8(rand.Intn(19))
-	random := coordinate{y, x}
-	return random
-}
-
 func IsMoveValid(coordinate coordinate, g *game) (whyInvalid string) {
 	if PositionOccupied(coordinate, &g.goban) == true {
 		return "Position already Occupied"
@@ -36,6 +29,13 @@ func PlaceIfValid(coordinate coordinate, g *game) { /// for human player
 		// return whyInvalid to gui
 		fmt.Println(whyInvalid) /////
 	}
+}
+
+func RandomCoordinate() coordinate { ////////move this function somewhere else??
+	x := int8(rand.Intn(19))
+	y := int8(rand.Intn(19))
+	random := coordinate{y, x}
+	return random
 }
 
 func PlaceRandomIfValid(g *game) (validated bool, coordinate coordinate) { //////// for testing

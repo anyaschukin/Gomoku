@@ -37,6 +37,8 @@ import (
 
 func main() {
 	fmt.Println("Hello world!") ////////
-	play.Play()
+	G := play.InitializeGame()
+	play.GameLoop(G)
+
 	fmt.Println("Goodbye world!") ////////
 }
