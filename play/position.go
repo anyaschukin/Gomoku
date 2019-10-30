@@ -23,10 +23,9 @@ func SamePlayer(coordinate coordinate, goban *[19][19]position, player bool) (sa
 
 func PositionOccupiedByPlayer(coordinate coordinate, goban *[19][19]position, player bool) bool {
 	if CoordinateOnGoban(coordinate) == true {
-		if PositionOccupied(coordinate, goban) == true {
-			if SamePlayer(coordinate, goban, player) == true {
-				return true
-			}
+		if PositionOccupied(coordinate, goban) == true &&
+			SamePlayer(coordinate, goban, player) == true {
+			return true
 		}
 	}
 	return false
@@ -34,17 +33,17 @@ func PositionOccupiedByPlayer(coordinate coordinate, goban *[19][19]position, pl
 
 func PositionOccupiedByOpponent(coordinate coordinate, goban *[19][19]position, player bool) bool {
 	if CoordinateOnGoban(coordinate) == true {
-		if PositionOccupied(coordinate, goban) == true {
-			if SamePlayer(coordinate, goban, player) == false {
-				return true
-			}
+		if PositionOccupied(coordinate, goban) == true &&
+			SamePlayer(coordinate, goban, player) == false {
+			return true
 		}
 	}
 	return false
 }
 
 func PositionUnoccupied(coordinate coordinate, goban *[19][19]position) (unoccupied bool) {
-	if CoordinateOnGoban(coordinate) == true && PositionOccupied(coordinate, goban) == false {
+	if CoordinateOnGoban(coordinate) == true &&
+		PositionOccupied(coordinate, goban) == false {
 		return true
 	}
 	return false
