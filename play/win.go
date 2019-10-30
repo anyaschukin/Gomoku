@@ -5,13 +5,15 @@ import (
 	"os"
 )
 
-func captureTen(g *game) (win bool) {
+// capturedTen returns true if either player has captured ten stones
+func capturedTen(g *game) (win bool) {
 	if g.capture0 >= 10 || g.capture1 >= 10 {
 		return true
 	}
 	return false
 }
 
+// canBeCapturedVertex returns true if given coordinate can be captured on given vertex in the next move
 func canBeCapturedVertex(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) bool {
 	minusOne := FindNeighbour(coordinate, y, x, -1)
 	one := FindNeighbour(coordinate, y, x, 1)
@@ -27,6 +29,7 @@ func canBeCapturedVertex(coordinate coordinate, goban *[19][19]position, y int8,
 	return false
 }
 
+// canBeCapturedVertices returns true if given coordinate can be captured in the next move
 func canBeCapturedVertices(coordinate coordinate, goban *[19][19]position, player bool) bool {
 	var y int8
 	var x int8
@@ -89,6 +92,7 @@ func capturedEight(player bool, capture0 uint8, capture1 uint8) bool {
 	return false
 }
 
+// canCaptureVertex returns true if given coordinate can capture on given vertex in the next move
 func canCaptureVertex(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) bool {
 	one := FindNeighbour(coordinate, y, x, 1)
 	two := FindNeighbour(coordinate, y, x, 2)
@@ -96,12 +100,13 @@ func canCaptureVertex(coordinate coordinate, goban *[19][19]position, y int8, x 
 	if PositionOccupiedByOpponent(one, goban, player) == true &&
 		PositionOccupiedByOpponent(two, goban, player) == true &&
 		PositionUnoccupied(three, goban) == true {
-		// fmt.Printf("Capture possible! player: %v. can capture y:%d x:%d & y:%d x:%d\n\n", g.player, one.y, one.x, two.y, two.x) ///
+		fmt.Printf("Capture possible! player: %v can capture y:%d x:%d & y:%d x:%d\n\n", player, one.y, one.x, two.y, two.x) ///
 		return true
 	}
 	return false
 }
 
+// canCapture returns true if given coordinate can capture in the next move
 func canCapture(coordinate coordinate, goban *[19][19]position, player bool) bool {
 	var y int8
 	var x int8
@@ -143,6 +148,7 @@ func canWinByCapture(goban *[19][19]position, player bool, capture0 uint8, captu
 	return false
 }
 
+// checkVertexAlignFive returns true if 5 stones are aligned running through given coodinate on given axes
 func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) bool {
 	var multiple int8
 	var a int8
@@ -169,6 +175,7 @@ func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y int8
 	return false
 }
 
+// AlignFive returns true if 5 stones are aligned running through given coodinate
 func AlignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, player bool, capture0 uint8, capture1 uint8) (alignedFive bool) {
 	var x int8
 	var y int8
@@ -193,30 +200,29 @@ func AlignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 	return false
 }
 
-func CheckWin(coordinate coordinate, g *game) { //bool {
-	if captureTen(g) == true {
+// CheckWin checks all win conditions
+func CheckWin(coordinate coordinate, g *game) { // return win message (string) to gui
+	if capturedTen(g) == true {
 		fmt.Printf("Player %v wins by capturing 10! final move on position y:%d x:%d\n\n", g.player, coordinate.y, coordinate.x)
 		os.Exit(-1) ////// rm, just for test. Return win message to GUI
 	}
-	if g.align5.break5 == true { /// check captureTen first: win by align 5 if opponent can not break this alignment by capturing, or if he has already lost four pairs and the opponent can capture one more, therefore winning by capture.
+	if g.align5.break5 == true {
 		if PositionOccupiedByPlayer(g.align5.winmove, &g.goban, g.align5.winner) == true &&
 			AlignFive(g.align5.winmove, &g.goban, &g.align5, g.align5.winner, g.capture0, g.capture1) == true {
 			fmt.Printf("Player %v win by aligning 5.\nThe other player could have broken this alignment by capturing a pair, but they didn't, silly!\nWinning move y:%d x:%d.\n", g.align5.winner, g.align5.winmove.y, g.align5.winmove.x)
 			os.Exit(-1) ////// rm, just for test. Return win message to GUI
 		}
+		g.align5.break5 = false
 	}
 	if g.align5.capture8 == true {
-		if PositionOccupiedByPlayer(g.align5.winmove, &g.goban, g.align5.winner) == true &&
-			AlignFive(g.align5.winmove, &g.goban, &g.align5, g.align5.winner, g.capture0, g.capture1) == true {
-			fmt.Printf("Player %v win by aligning 5.\nThe other player could have won by capturing ten, but they didn't, silly!\nWinning move y:%d x:%d.\n", g.align5.winner, g.align5.winmove.y, g.align5.winmove.x)
-			os.Exit(-1) ////// rm, just for test. Return win message to GUI
-		}
+		fmt.Printf("Player %v win by aligning 5.\nThe other player could have won by capturing ten, but they didn't, silly!\nWinning move y:%d x:%d.\n", g.align5.winner, g.align5.winmove.y, g.align5.winmove.x)
+		os.Exit(-1) ////// rm, just for test. Return win message to GUI
 	}
 	if AlignFive(coordinate, &g.goban, &g.align5, g.player, g.capture0, g.capture1) == true {
 		if g.align5.break5 == true {
-			fmt.Printf("Player %v can win by aligning 5, however the other player can break this alignment by capturing a pair\n", g.player)
+			fmt.Printf("Player %v has aligned 5, however the other player can break this alignment by capture\n", g.player)
 		} else if g.align5.capture8 == true {
-			fmt.Printf("Player %v can win by aligning 5, however the other player can win by capturing a pair\n", g.player)
+			fmt.Printf("Player %v has aligned 5, however the other player can win by capturing a pair\n", g.player)
 		} else {
 			fmt.Printf("Player %v wins by aligning 5! final move on position y:%d x:%d\n\n", g.player, coordinate.y, coordinate.x)
 			os.Exit(-1) ////// rm, just for test. Return win message to GUI
