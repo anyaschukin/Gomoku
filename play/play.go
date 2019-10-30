@@ -16,7 +16,7 @@ type position struct {
 }
 
 type align5 struct { //winning move for checking if opponent breaks it in the next move
-	aligned5 bool
+	break5   bool
 	capture8 bool // is it possible for the opponent to win by capturing 10? (have they already captured 8, and is there an available capture move)
 	winner   bool /// rm?
 	winmove  coordinate
@@ -67,52 +67,52 @@ func GameLoop(G *game) {
 	//	return err
 }
 
-func Play() {
-	// G := initializeGame()
-	// gameLoop(G)
+// func Play() {
+// G := initializeGame()
+// gameLoop(G)
 
-	// /// Test DoubleFree
-	// zero := coordinate{0, 0}  /////////
-	// PlaceIfValid(zero, g)     /////////
-	// three := coordinate{1, 1} /////////
-	// PlaceIfValid(three, g)    /////////
-	// three = coordinate{3, 5}  /////////
-	// PlaceIfValid(three, g)    /////////
-	// three = coordinate{3, 4}  /////////
-	// PlaceIfValid(three, g)    /////////
-	// // g.player = true           //////
-	// // three = coordinate{3, 2}  ///////// one of the three-aligned obstructed, therefore next move legal.
-	// // PlaceIfValid(three, g)    /////////
-	// // g.player = false          /////
-	// g.player = true          //////
-	// three = coordinate{3, 1} /////////
-	// PlaceIfValid(three, g)   /////////
-	// g.player = false         /////
-	// three = coordinate{3, 3} ///////// Double Three, should be rejected
-	// PlaceIfValid(three, g)   ///////// Double Three, should be rejected
+// /// Test DoubleFree
+// zero := coordinate{0, 0}  /////////
+// PlaceIfValid(zero, g)     /////////
+// three := coordinate{1, 1} /////////
+// PlaceIfValid(three, g)    /////////
+// three = coordinate{3, 5}  /////////
+// PlaceIfValid(three, g)    /////////
+// three = coordinate{3, 4}  /////////
+// PlaceIfValid(three, g)    /////////
+// // g.player = true           //////
+// // three = coordinate{3, 2}  ///////// one of the three-aligned obstructed, therefore next move legal.
+// // PlaceIfValid(three, g)    /////////
+// // g.player = false          /////
+// g.player = true          //////
+// three = coordinate{3, 1} /////////
+// PlaceIfValid(three, g)   /////////
+// g.player = false         /////
+// three = coordinate{3, 3} ///////// Double Three, should be rejected
+// PlaceIfValid(three, g)   ///////// Double Three, should be rejected
 
-	// // launch ebiten. render goban and game stats 		// # do first
-	// // GameLoop(g)
+// // launch ebiten. render goban and game stats 		// # do first
+// // GameLoop(g)
 
-	// /// Test Place stone
-	// PlaceIfValid(RandomCoordinate(), g)
-	// PlaceIfValid(RandomCoordinate(), g)
-	// PlaceIfValid(RandomCoordinate(), g)
-	// PlaceIfValid(RandomCoordinate(), g)
-	// PlaceIfValid(RandomCoordinate(), g)
-	// PlaceIfValid(RandomCoordinate(), g)
-	// // PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
-	// // PlaceStone(RandomCoordinate(), true, &g.goban)  //////
-	// // PlaceStone(RandomCoordinate(), true, &g.goban)  ///////
-	// // PlaceStone(RandomCoordinate(), false, &g.goban) ////////
-	// // PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
+// /// Test Place stone
+// PlaceIfValid(RandomCoordinate(), g)
+// PlaceIfValid(RandomCoordinate(), g)
+// PlaceIfValid(RandomCoordinate(), g)
+// PlaceIfValid(RandomCoordinate(), g)
+// PlaceIfValid(RandomCoordinate(), g)
+// PlaceIfValid(RandomCoordinate(), g)
+// // PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
+// // PlaceStone(RandomCoordinate(), true, &g.goban)  //////
+// // PlaceStone(RandomCoordinate(), true, &g.goban)  ///////
+// // PlaceStone(RandomCoordinate(), false, &g.goban) ////////
+// // PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
 
-	// RemoveStone(zero, &g.goban) /////////
+// RemoveStone(zero, &g.goban) /////////
 
-	// coordinate, elapsed := ai(g)
-	// PlaceIfValid(coordinate, g) //////
-	// fmt.Println(elapsed)        // tme taken by ai //////////
+// coordinate, elapsed := ai(g)
+// PlaceIfValid(coordinate, g) //////
+// fmt.Println(elapsed)        // tme taken by ai //////////
 
-	// gui.RunEbiten()
-	// DumpGoban(&g.goban)/////
-}
+// gui.RunEbiten()
+// DumpGoban(&g.goban)/////
+// }

@@ -5,7 +5,13 @@ import (
 )
 
 func DumpGoban(goban *[19][19]position) {
+	fmt.Printf("     ")
+	for x := 0; x < 19; x++ {
+		fmt.Printf("{%2d         } ", x)
+	}
+	fmt.Printf("\n")
 	for y := 0; y < 19; y++ {
+		fmt.Printf("{%2d} ", y)
 		for x := 0; x < 19; x++ {
 			if goban[y][x].occupied == true {
 				fmt.Printf("\x1B[31m")
