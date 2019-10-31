@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	//	lib "Gomoku/golib"
-	//	gui "Gomoku/GUI"
+	gui "Gomoku/GUI"
 	play "Gomoku/play"
 )
 
@@ -38,7 +38,7 @@ import (
 func main() {
 	fmt.Println("Hello world!") ////////
 	G := play.InitializeGame()
+	gui.RunEbiten()
 	play.GameLoop(G)
-
 	fmt.Println("Goodbye world!") ////////
 }
