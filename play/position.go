@@ -42,9 +42,10 @@ func PositionOccupiedByOpponent(coordinate coordinate, goban *[19][19]position, 
 }
 
 func PositionUnoccupied(coordinate coordinate, goban *[19][19]position) (unoccupied bool) {
-	if CoordinateOnGoban(coordinate) == true &&
-		PositionOccupied(coordinate, goban) == false {
-		return true
+	if CoordinateOnGoban(coordinate) == true {
+		if PositionOccupied(coordinate, goban) == false {
+			return true
+		}
 	}
 	return false
 }
