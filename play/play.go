@@ -59,6 +59,7 @@ func GameLoop(G *game) {
 		if validated == true {
 			Capture(coordinate, G)
 			DumpGoban(&G.goban) //////
+			// CountStones(&G.goban) /////////
 			CheckWin(coordinate, G)
 			G.player = SwapPlayers(G.player)
 		}
