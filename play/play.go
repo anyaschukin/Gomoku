@@ -51,14 +51,15 @@ func SwapPlayers(player bool) bool {
 	}
 }
 
-func GameLoop(G *game) {
+func GameLoop(Ga *game) (G *game) {
+	G = Ga
 	validated := false
 	coordinate := RandomCoordinate() /////
-	for i := 0; i < 10000; i++ {     //moves
+	for i := 0; i < 10; i++ {        //moves ////!!!!!!
 		validated, coordinate = PlaceRandomIfValid(G)
 		if validated == true {
 			Capture(coordinate, G)
-			DumpGoban(&G.goban) //////
+			// DumpGoban(&G.goban) //////
 			// CountStones(&G.goban) /////////
 			CheckWin(coordinate, G)
 			G.player = SwapPlayers(G.player)
@@ -66,6 +67,7 @@ func GameLoop(G *game) {
 	}
 	// update game.moves ++
 	//	return err
+	return G
 }
 
 // func Play() {

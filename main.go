@@ -39,6 +39,7 @@ func main() {
 	fmt.Println("Hello world!") ////////
 	G := play.InitializeGame()
 	// gui.RunEbiten()
-	play.GameLoop(G)
+	// play.GameLoop(G)
+	play.RunEbiten(G)
 	fmt.Println("Goodbye world!") ////////
 }
