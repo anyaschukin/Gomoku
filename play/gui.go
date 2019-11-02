@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"image/color"
 	_ "image/png"
@@ -47,6 +48,13 @@ func init() {
 // 	return screen
 // }
 
+// func translateStone(coordinate coordinate, goban *[19][19]position) (opStone *ebiten.DrawImageOptions{}) {
+// 	opStone = &ebiten.DrawImageOptions{}
+// 	opStone.GeoM.Translate((838 + (float64(coordinate.y) * 104.6)), (34 + (float64(coordinate.x) * 104.6)))
+// 	opStone.GeoM.Scale(0.7, 0.7)
+// 	return opStone
+// }
+
 func update_game(screen *ebiten.Image) error {
 	// if err := GameLoop(); err != nil {//////////update game state
 	// 	return err
@@ -66,22 +74,23 @@ func update_game(screen *ebiten.Image) error {
 		fmt.Printf("Mouse pressed x:%d y:%d\n", x, y)
 	}
 	op_goban := &ebiten.DrawImageOptions{}
-	op_goban.GeoM.Translate(825, 20)
+	// op_goban.GeoM.Translate(825, 20)
+	op_goban.GeoM.Translate(885, 80)
 	op_goban.GeoM.Scale(0.7, 0.7)
 
-	op_stone := &ebiten.DrawImageOptions{}
-	op_stone.GeoM.Translate(838, 34)
-	op_stone.GeoM.Scale(0.7, 0.7)
-
 	op_stone2 := &ebiten.DrawImageOptions{}
-	op_stone2.GeoM.Translate((838 + 1045), 34)
+	op_stone2.GeoM.Translate(838, 34)
 	op_stone2.GeoM.Scale(0.7, 0.7)
+
+	// op_stone2 := &ebiten.DrawImageOptions{}
+	// op_stone2.GeoM.Translate((838 + 1045), 34)
+	// op_stone2.GeoM.Scale(0.7, 0.7)
 
 	op_stone3 := &ebiten.DrawImageOptions{}
 	op_stone3.GeoM.Translate(838, (34 + 1045))
 	op_stone3.GeoM.Scale(0.7, 0.7)
 
-	screen.Fill(color.RGBA{0xff, 0xff, 0xff, 0xff})
+	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
 	screen.DrawImage(img_goban, op_goban)
 
 	var y int8
@@ -89,25 +98,26 @@ func update_game(screen *ebiten.Image) error {
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
 			coordinate := coordinate{y, x}
+			fmt.Println(coordinate)
 			if PositionOccupied(coordinate, &G.goban) == true {
-				fmt.Println(coordinate)
-				op_stone := &ebiten.DrawImageOptions{}
-				op_stone.GeoM.Translate((838 + float64(coordinate.y*104)), (34 + float64(coordinate.x*104)))
-				op_stone.GeoM.Scale(0.7, 0.7)
+				// fmt.Println(coordinate)
+				opStone := &ebiten.DrawImageOptions{}
+				opStone.GeoM.Translate((838 + (float64(coordinate.y) * 104.6)), (34 + (float64(coordinate.x) * 104.6)))
+				opStone.GeoM.Scale(0.7, 0.7)
 				if PositionOccupiedByPlayer(coordinate, &G.goban, G.player) == true {
-					screen.DrawImage(img_black, op_stone)
+					screen.DrawImage(img_black, opStone)
 				} else {
-					screen.DrawImage(img_white, op_stone)
+					screen.DrawImage(img_white, opStone)
 				}
 			}
 		}
 	}
 
 	// screen = drawStones()
-	screen.DrawImage(img_black, op_stone)
+	// screen.DrawImage(img_black, op_stone)
 	screen.DrawImage(img_black, op_stone2)
 	screen.DrawImage(img_black, op_stone3)
-
+	time.Sleep(1000 * time.Millisecond)
 	// ebitenutil.DebugPrint(screen, "Our first game in Ebiten!") //////
 	// Draw(screen) ////////// draw new image based on new game state
 	return nil

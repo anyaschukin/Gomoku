@@ -55,7 +55,7 @@ func GameLoop(Ga *game) (G *game) {
 	G = Ga
 	validated := false
 	coordinate := RandomCoordinate() /////
-	for i := 0; i < 10; i++ {        //moves ////!!!!!!
+	for i := 0; i < 100; i++ {       //moves ////!!!!!!
 		validated, coordinate = PlaceRandomIfValid(G)
 		if validated == true {
 			Capture(coordinate, G)
