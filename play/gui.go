@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"image/color"
@@ -98,9 +99,11 @@ func draw(screen *ebiten.Image, G *game) {
 	/// Draw text
 	text.Draw(screen, playerOne, mplusNormalFont, 80, 120, color.Black)
 	text.Draw(screen, captured, mplusNormalFont, 80, 200, color.Black)
+	text.Draw(screen, strconv.Itoa(int(G.capture0)), mplusNormalFont, 340, 200, color.Black)
 
 	text.Draw(screen, playerTwo, mplusNormalFont, 2080, 120, color.White)
 	text.Draw(screen, captured, mplusNormalFont, 2080, 200, color.White)
+	text.Draw(screen, strconv.Itoa(int(G.capture1)), mplusNormalFont, 2340, 200, color.White)
 
 	text.Draw(screen, exit, mplusNormalFont, 2080, 1300, color.Black)    //red
 	text.Draw(screen, newGame, mplusNormalFont, 2080, 1200, color.Black) //red
