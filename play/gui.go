@@ -9,59 +9,109 @@ import (
 	"image/color"
 	_ "image/png"
 
+	"github.com/golang/freetype/truetype"
+	"golang.org/x/image/font"
+
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
+	"github.com/hajimehoshi/ebiten/examples/resources/fonts"
 	"github.com/hajimehoshi/ebiten/inpututil"
+	"github.com/hajimehoshi/ebiten/text"
 )
 
-var img_goban *ebiten.Image
-var img_black *ebiten.Image
-var img_white *ebiten.Image
+var imgGoban *ebiten.Image
+var imgBlack *ebiten.Image
+var imgWhite *ebiten.Image
+
+var (
+	playerOne       = `Player 1`
+	mplusNormalFont font.Face
+	// mpluBigFont     font.Face
+)
+var playerTwo = `Player 2`
+var captured = `Captured: `
+var exit = `Exit`
+var newGame = `New Game`
 
 func init() {
+	/// Init images
 	var err error
-	img_goban, _, err = ebitenutil.NewImageFromFile("GUI/img/goban.png", ebiten.FilterDefault)
+	imgGoban, _, err = ebitenutil.NewImageFromFile("GUI/img/goban.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	img_black, _, err = ebitenutil.NewImageFromFile("GUI/img/black.png", ebiten.FilterDefault)
+	imgBlack, _, err = ebitenutil.NewImageFromFile("GUI/img/black.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	img_white, _, err = ebitenutil.NewImageFromFile("GUI/img/white.png", ebiten.FilterDefault)
+	imgWhite, _, err = ebitenutil.NewImageFromFile("GUI/img/white.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
+	/// Init text
+	tt, err := truetype.Parse(fonts.MPlus1pRegular_ttf)
+	if err != nil {
+		log.Fatal(err)
+	}
+	const dpi = 72
+	mplusNormalFont = truetype.NewFace(tt, &truetype.Options{
+		Size:    52,
+		DPI:     dpi,
+		Hinting: font.HintingFull,
+	})
+	// mplusBigFont = truetype.NewFace(tt, &truetype.Options{
+	// 	Size:    72,
+	// 	DPI:     dpi,
+	// 	Hinting: font.HintingFull,
+	// })
 }
 
-// func (G *game) Update() {
+func draw(screen *ebiten.Image, G *game) {
+	/// Draw background
+	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
 
-// }
+	/// Draw goban
+	opGoban := &ebiten.DrawImageOptions{}
+	opGoban.GeoM.Translate(885, 80)
+	opGoban.GeoM.Scale(0.7, 0.7)
+	screen.DrawImage(imgGoban, opGoban)
 
-// func (G *game) Draw(G *game) {
+	/// Draw stones
+	var y int8
+	var x int8
+	for y = 0; y < 19; y++ {
+		for x = 0; x < 19; x++ {
+			coordinate := coordinate{y, x}
+			if PositionOccupied(coordinate, &G.goban) == true {
+				opStone := &ebiten.DrawImageOptions{}
+				opStone.GeoM.Translate((838 + (float64(coordinate.y) * 104.6)), (34 + (float64(coordinate.x) * 104.6)))
+				opStone.GeoM.Scale(0.7, 0.7)
+				if PositionOccupiedByPlayer(coordinate, &G.goban, G.player) == true {
+					screen.DrawImage(imgBlack, opStone)
+				} else {
+					screen.DrawImage(imgWhite, opStone)
+				}
+			}
+		}
+	}
 
-// }
+	/// Draw text
+	text.Draw(screen, playerOne, mplusNormalFont, 80, 120, color.Black)
+	text.Draw(screen, captured, mplusNormalFont, 80, 200, color.Black)
 
-// func drawStones(goban *[19][19]position, screen *ebiten.Image) (screenWithStones *ebiten.Image) {
-// 	DumpGoban(goban) //////
-// 	screenWithStones = screen
-// 	return screen
-// }
+	text.Draw(screen, playerTwo, mplusNormalFont, 2080, 120, color.White)
+	text.Draw(screen, captured, mplusNormalFont, 2080, 200, color.White)
 
-// func translateStone(coordinate coordinate, goban *[19][19]position) (opStone *ebiten.DrawImageOptions{}) {
-// 	opStone = &ebiten.DrawImageOptions{}
-// 	opStone.GeoM.Translate((838 + (float64(coordinate.y) * 104.6)), (34 + (float64(coordinate.x) * 104.6)))
-// 	opStone.GeoM.Scale(0.7, 0.7)
-// 	return opStone
-// }
+	text.Draw(screen, exit, mplusNormalFont, 2080, 1300, color.Black)    //red
+	text.Draw(screen, newGame, mplusNormalFont, 2080, 1200, color.Black) //red
+}
 
-func update_game(screen *ebiten.Image) error {
+func update(screen *ebiten.Image) error {
 	// if err := GameLoop(); err != nil {//////////update game state
 	// 	return err
 	// }
 
-	G := GameLoop(InitializeGame())
-	// DumpGoban(&G.goban) //////
+	G := GameLoop(InitializeGame()) ////////
 
 	if ebiten.IsDrawingSkipped() { /// do we want this (see cheat sheet)?
 		return nil
@@ -73,68 +123,17 @@ func update_game(screen *ebiten.Image) error {
 		x, y := ebiten.CursorPosition()
 		fmt.Printf("Mouse pressed x:%d y:%d\n", x, y)
 	}
-	op_goban := &ebiten.DrawImageOptions{}
-	// op_goban.GeoM.Translate(825, 20)
-	op_goban.GeoM.Translate(885, 80)
-	op_goban.GeoM.Scale(0.7, 0.7)
-
-	op_stone2 := &ebiten.DrawImageOptions{}
-	op_stone2.GeoM.Translate(838, 34)
-	op_stone2.GeoM.Scale(0.7, 0.7)
-
-	// op_stone2 := &ebiten.DrawImageOptions{}
-	// op_stone2.GeoM.Translate((838 + 1045), 34)
-	// op_stone2.GeoM.Scale(0.7, 0.7)
-
-	op_stone3 := &ebiten.DrawImageOptions{}
-	op_stone3.GeoM.Translate(838, (34 + 1045))
-	op_stone3.GeoM.Scale(0.7, 0.7)
-
-	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
-	screen.DrawImage(img_goban, op_goban)
-
-	var y int8
-	var x int8
-	for y = 0; y < 19; y++ {
-		for x = 0; x < 19; x++ {
-			coordinate := coordinate{y, x}
-			fmt.Println(coordinate)
-			if PositionOccupied(coordinate, &G.goban) == true {
-				// fmt.Println(coordinate)
-				opStone := &ebiten.DrawImageOptions{}
-				opStone.GeoM.Translate((838 + (float64(coordinate.y) * 104.6)), (34 + (float64(coordinate.x) * 104.6)))
-				opStone.GeoM.Scale(0.7, 0.7)
-				if PositionOccupiedByPlayer(coordinate, &G.goban, G.player) == true {
-					screen.DrawImage(img_black, opStone)
-				} else {
-					screen.DrawImage(img_white, opStone)
-				}
-			}
-		}
-	}
-
-	// screen = drawStones()
-	// screen.DrawImage(img_black, op_stone)
-	screen.DrawImage(img_black, op_stone2)
-	screen.DrawImage(img_black, op_stone3)
-	time.Sleep(1000 * time.Millisecond)
-	// ebitenutil.DebugPrint(screen, "Our first game in Ebiten!") //////
-	// Draw(screen) ////////// draw new image based on new game state
+	draw(screen, G)
+	time.Sleep(1000 * time.Millisecond) //////////
 	return nil
 }
 
 func RunEbiten(G *game) {
-	// if err := ebiten.Run(update, 1500, 1315, 1, "Gomoku"); err != nil {
-	// 	log.Fatal(err)
-	// }
 	// DumpGoban(&G.goban) //////
 	w, h := ebiten.ScreenSizeInFullscreen()
 	ebiten.SetFullscreen(true)
 	// ebiten.SetCursorVisible(true)//// helpful?
-	if err := ebiten.Run(update_game, w, h, 1, "Gomoku"); err != nil {
+	if err := ebiten.Run(update, w, h, 1, "Gomoku"); err != nil {
 		log.Fatal(err)
 	}
-	// if err := ebiten.Run(update, screenHeight, screenWidth, 1, "Gomoku"); err != nil {
-	// 	log.Fatal(err)
-	// }
 }
