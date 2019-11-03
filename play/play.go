@@ -5,6 +5,8 @@ package play
 //	gui "Gomoku/GUI"
 //)
 
+
+
 type coordinate struct {
 	y int8
 	x int8
@@ -22,7 +24,7 @@ type align5 struct { //winning move for checking if opponent breaks it in the ne
 	winmove  coordinate
 }
 
-type game struct {
+type Game struct {
 	goban    [19][19]position
 	player   bool   // whose move is it? (player 0 - black first)
 	capture0 uint8  // capture 10 and win
@@ -31,16 +33,21 @@ type game struct {
 	// move		uint32				// how many moves have been played in total (is this desirable/necessary?)
 }
 
-// type ai struct { 	/// merge with game struct?
+// type ai struct { 	/// merge with Game struct?
 //	aiplayer	bool	// is player 1 human or AI
 //	hotseat		bool	// AI player only suggests moves, human must choose move
 //	prescience	uint8	// how many moves in advance do we examine
 // }
 
-func InitializeGame() *game {
-	G := game{}
-	// g.player = true ///// rm, just to test
-	return &G
+// func InitializeGame() *Game {
+// 	G := Game{}
+// 	// g.player = true ///// rm, just to test
+// 	return &G
+// }
+
+func NewGame() *Game {
+	g := &Game{}
+	return g
 }
 
 func SwapPlayers(player bool) bool {
@@ -51,28 +58,34 @@ func SwapPlayers(player bool) bool {
 	}
 }
 
-func GameLoop(Ga *game) (G *game) {
-	G = Ga
+func GameLoop(G *Game) {//(G *Game) {
+	// G = Ga
 	validated := false
 	coordinate := RandomCoordinate() /////
 	for i := 0; i < 100; i++ {       //moves ////!!!!!!
 		validated, coordinate = PlaceRandomIfValid(G)
 		if validated == true {
 			Capture(coordinate, G)
-			// DumpGoban(&G.goban) //////
+			DumpGoban(&G.goban) //////
 			// CountStones(&G.goban) /////////
 			CheckWin(coordinate, G)
 			G.player = SwapPlayers(G.player)
 		}
 	}
-	// update game.moves ++
+	// update Game.moves ++
 	//	return err
-	return G
+	// return G
+}
+
+func Play() {
+	G := NewGame()
+	GameLoop(G)
+	RunEbiten(G)
 }
 
 // func Play() {
 // G := initializeGame()
-// gameLoop(G)
+// GameLoop(G)
 
 // /// Test DoubleFree
 // zero := coordinate{0, 0}  /////////
@@ -94,7 +107,7 @@ func GameLoop(Ga *game) (G *game) {
 // three = coordinate{3, 3} ///////// Double Three, should be rejected
 // PlaceIfValid(three, g)   ///////// Double Three, should be rejected
 
-// // launch ebiten. render goban and game stats 		// # do first
+// // launch ebiten. render goban and Game stats 		// # do first
 // // GameLoop(g)
 
 // /// Test Place stone

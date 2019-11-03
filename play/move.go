@@ -10,7 +10,7 @@ func PlaceStone(coordinate coordinate, player bool, goban *[19][19]position) {
 	goban[coordinate.y][coordinate.x].player = player
 }
 
-func IsMoveValid(coordinate coordinate, g *game) (whyInvalid string) {
+func IsMoveValid(coordinate coordinate, g *Game) (whyInvalid string) {
 	if PositionOccupied(coordinate, &g.goban) == true {
 		return "Position already Occupied"
 	}
@@ -21,7 +21,7 @@ func IsMoveValid(coordinate coordinate, g *game) (whyInvalid string) {
 	return "Valid"
 }
 
-func PlaceIfValid(coordinate coordinate, g *game) { /// for human player
+func PlaceIfValid(coordinate coordinate, g *Game) { /// for human player
 	whyInvalid := IsMoveValid(coordinate, g)
 	if whyInvalid == "Valid" {
 		PlaceStone(coordinate, g.player, &g.goban)
@@ -38,7 +38,7 @@ func RandomCoordinate() coordinate { ////////move this function somewhere else??
 	return random
 }
 
-func PlaceRandomIfValid(g *game) (validated bool, coordinate coordinate) { //////// for testing
+func PlaceRandomIfValid(g *Game) (validated bool, coordinate coordinate) { //////// for testing
 	coordinate = RandomCoordinate()
 	whyInvalid := IsMoveValid(coordinate, g)
 	if whyInvalid == "Valid" {

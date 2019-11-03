@@ -30,7 +30,7 @@ import (
 // 	winmove  coordinate
 // }
 
-// type game struct {
+// type Game struct {
 // 	goban    [19][19]position
 // 	player   bool   // whose move is it? (player 0 - black first)
 // 	capture0 uint8  // capture 10 and win
@@ -114,7 +114,7 @@ func init() {
 // }
 
 func update(screen *ebiten.Image) error {
-	// if err := GameLoop(); err != nil {//////////update game state
+	// if err := GameLoop(); err != nil {//////////update Game state
 	// 	return err
 	// }
 	if ebiten.IsDrawingSkipped() { /// do we want this (see cheat sheet)?
@@ -148,12 +148,12 @@ func update(screen *ebiten.Image) error {
 	screen.DrawImage(img_black, op_stone)
 	screen.DrawImage(img_black, op_stone2)
 	screen.DrawImage(img_black, op_stone3)
-	// ebitenutil.DebugPrint(screen, "Our first game in Ebiten!") //////
-	// Draw(screen) ////////// draw new image based on new game state
+	// ebitenutil.DebugPrint(screen, "Our first Game in Ebiten!") //////
+	// Draw(screen) ////////// draw new image based on new Game state
 	return nil
 }
 
-func RunEbiten(G *game) {
+func RunEbiten(G *Game) {
 	// if err := ebiten.Run(update, 1500, 1315, 1, "Gomoku"); err != nil {
 	// 	log.Fatal(err)
 	// }

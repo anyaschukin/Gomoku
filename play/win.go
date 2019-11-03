@@ -6,7 +6,7 @@ import (
 )
 
 // capturedTen returns true if either player has captured ten stones
-func capturedTen(g *game) (win bool) {
+func capturedTen(g *Game) (win bool) {
 	if g.capture0 >= 10 || g.capture1 >= 10 {
 		return true
 	}
@@ -66,7 +66,7 @@ func AlignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 }
 
 // CheckWin checks all win conditions
-func CheckWin(coordinate coordinate, g *game) { // return win message (string) to gui
+func CheckWin(coordinate coordinate, g *Game) { // return win message (string) to gui
 	if capturedTen(g) == true {
 		fmt.Printf("Player %v wins by capturing 10! final move on position y:%d x:%d\n\n", g.player, coordinate.y, coordinate.x)
 		os.Exit(-1) ////// rm, just for test. Return win message to GUI

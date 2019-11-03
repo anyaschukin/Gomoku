@@ -4,7 +4,7 @@ func removeStone(coordinate coordinate, goban *[19][19]position) {
 	goban[coordinate.y][coordinate.x].occupied = false
 }
 
-func captureVertex(coordinate coordinate, g *game, y int8, x int8) {
+func captureVertex(coordinate coordinate, g *Game, y int8, x int8) {
 	one := FindNeighbour(coordinate, y, x, 1)
 	two := FindNeighbour(coordinate, y, x, 2)
 	three := FindNeighbour(coordinate, y, x, 3)
@@ -22,7 +22,7 @@ func captureVertex(coordinate coordinate, g *game, y int8, x int8) {
 	}
 }
 
-func Capture(coordinate coordinate, g *game) {
+func Capture(coordinate coordinate, g *Game) {
 	var x int8
 	var y int8
 	for y = -1; y <= 1; y++ {
