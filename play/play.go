@@ -1,9 +1,10 @@
 package play
 
-//import (
-//	lib "Gomoku/golib"
-//	gui "Gomoku/GUI"
-//)
+// import (
+// 	"fmt"
+// 	// lib "Gomoku/golib"
+// 	// gui "Gomoku/GUI"
+// )
 
 
 
@@ -31,7 +32,32 @@ type Game struct {
 	capture1 uint8  // capture 10 and win
 	align5   align5 // one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
 	// move		uint32				// how many moves have been played in total (is this desirable/necessary?)
+	// input      *Input
+	// boardImage *ebiten.Image ///
 }
+
+// type mouseState int
+
+// const (
+// 	mouseStateNone mouseState = iota
+// 	mouseStatePressing
+// 	mouseStateSettled
+// )
+
+// type Input struct {
+// 	mouseState    mouseState
+// 	mousePosX int
+// 	mousePosY int
+// }
+
+
+var (
+	G *Game
+)
+
+// func init() {
+// 	G := &Game{}
+// }
 
 // type ai struct { 	/// merge with Game struct?
 //	aiplayer	bool	// is player 1 human or AI
@@ -46,8 +72,8 @@ type Game struct {
 // }
 
 func NewGame() *Game {
-	g := &Game{}
-	return g
+	G = &Game{}
+	return G
 }
 
 func SwapPlayers(player bool) bool {
@@ -62,7 +88,7 @@ func GameLoop(G *Game) {//(G *Game) {
 	// G = Ga
 	validated := false
 	coordinate := RandomCoordinate() /////
-	for i := 0; i < 100; i++ {       //moves ////!!!!!!
+	for i := 0; i < 10; i++ {       //moves ////!!!!!!
 		validated, coordinate = PlaceRandomIfValid(G)
 		if validated == true {
 			Capture(coordinate, G)
@@ -79,8 +105,8 @@ func GameLoop(G *Game) {//(G *Game) {
 
 func Play() {
 	G := NewGame()
-	GameLoop(G)
-	RunEbiten(G)
+	G.player = false
+	RunEbiten()
 }
 
 // func Play() {
