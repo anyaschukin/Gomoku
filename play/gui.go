@@ -25,14 +25,19 @@ var imgBlack *ebiten.Image
 var imgWhite *ebiten.Image
 
 var (
-	playerOne       = `Player 1`
+	playerOne       = `Player 1`//?
 	mplusNormalFont font.Face
 	// mpluBigFont     font.Face
 )
-var playerTwo = `Player 2`
+var playerTwo = `Player 2`//?
 var captured = `Captured: `
 var exit = `Exit`
 var newGame = `New Game`
+var blackMove = `Black to Move`
+var whiteMove = `White to Move`
+var human = `Human player`
+var artificial = `AI player`
+
 
 func init() {
 	/// Init images
@@ -67,17 +72,59 @@ func init() {
 	// })
 }
 
-func draw(screen *ebiten.Image, G *Game) {
-	/// Draw background
-	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
+func drawText(screen *ebiten.Image, G *Game) {
+	/// Draw player AI or Human
+	if G.ai0.aiplayer == true {
+		text.Draw(screen, artificial, mplusNormalFont, 80, 200, color.Black)
+	} else {
+		text.Draw(screen, human, mplusNormalFont, 80, 200, color.Black)
+	}
+	if G.ai1.aiplayer == true {
+		text.Draw(screen, artificial, mplusNormalFont, 2050, 200, color.White)
+	} else {
+		text.Draw(screen, human, mplusNormalFont, 2050, 200, color.White)
+	}
+	// text.Draw(screen, playerOne, mplusNormalFont, 80, 120, color.Black)
+	// text.Draw(screen, playerTwo, mplusNormalFont, 2050, 120, color.White)
 
-	/// Draw goban
+
+	/// Draw Captured
+	text.Draw(screen, captured, mplusNormalFont, 80, 300, color.Black)
+	text.Draw(screen, strconv.Itoa(int(G.capture0)), mplusNormalFont, 340, 300, color.Black)
+
+	text.Draw(screen, captured, mplusNormalFont, 2050, 300, color.White)
+	text.Draw(screen, strconv.Itoa(int(G.capture1)), mplusNormalFont, 2310, 300, color.White)
+
+	/// Draw Options
+	text.Draw(screen, exit, mplusNormalFont, 2050, 1300, color.Black)    //red
+	text.Draw(screen, newGame, mplusNormalFont, 2050, 1200, color.Black) //red
+
+	/// Draw Messages
+	if G.won == false {
+		if G.player == false {
+			text.Draw(screen, blackMove, mplusNormalFont, 80, 100, color.Black)
+			text.Draw(screen, G.message, mplusNormalFont, 80, 400, color.Black)
+		} else {
+			text.Draw(screen, G.message, mplusNormalFont, 2050, 400, color.White)
+			text.Draw(screen, whiteMove, mplusNormalFont, 2050, 100, color.White)
+		}
+	} else {
+		if G.player == true {
+			text.Draw(screen, G.message, mplusNormalFont, 80, 400, color.Black)
+		} else {
+			text.Draw(screen, G.message, mplusNormalFont, 2050, 400, color.White)
+		}		
+	}
+}
+
+func drawGoban(screen *ebiten.Image, G *Game) {
 	opGoban := &ebiten.DrawImageOptions{}
 	opGoban.GeoM.Translate(885, 80)
 	opGoban.GeoM.Scale(0.7, 0.7)
 	screen.DrawImage(imgGoban, opGoban)
+}
 
-	/// Draw stones
+func drawStones(screen *ebiten.Image, G *Game) {
 	var y int8
 	var x int8
 	for y = 0; y < 19; y++ {
@@ -87,7 +134,7 @@ func draw(screen *ebiten.Image, G *Game) {
 				opStone := &ebiten.DrawImageOptions{}
 				opStone.GeoM.Translate((838 + (float64(coordinate.y) * 104.6)), (34 + (float64(coordinate.x) * 104.6)))
 				opStone.GeoM.Scale(0.7, 0.7)
-				if PositionOccupiedByPlayer(coordinate, &G.goban, G.player) == true {
+				if PositionOccupiedByPlayer(coordinate, &G.goban, false) == true {
 					screen.DrawImage(imgBlack, opStone)
 				} else {
 					screen.DrawImage(imgWhite, opStone)
@@ -95,49 +142,16 @@ func draw(screen *ebiten.Image, G *Game) {
 			}
 		}
 	}
-
-	/// Draw text
-	text.Draw(screen, playerOne, mplusNormalFont, 80, 120, color.Black)
-	text.Draw(screen, captured, mplusNormalFont, 80, 200, color.Black)
-	text.Draw(screen, strconv.Itoa(int(G.capture0)), mplusNormalFont, 340, 200, color.Black)
-
-	text.Draw(screen, playerTwo, mplusNormalFont, 2080, 120, color.White)
-	text.Draw(screen, captured, mplusNormalFont, 2080, 200, color.White)
-	text.Draw(screen, strconv.Itoa(int(G.capture1)), mplusNormalFont, 2340, 200, color.White)
-
-	text.Draw(screen, exit, mplusNormalFont, 2080, 1300, color.Black)    //red
-	text.Draw(screen, newGame, mplusNormalFont, 2080, 1200, color.Black) //red
 }
 
-func (G *Game) updateGoban() {
-	// fmt.Println("Well og boboin...")///////
-	// // coordinate := coordinate{0, 0}//////
-	// fmt.Println("Well og boboins...")///////
-	// PlaceIfValid(coordinate, G)//////
-	PlaceRandomIfValid(G)/////////
-	// fmt.Println("Well hi there...")///////
-	// // DumpGoban(&G.goban) //////
-	// fmt.Println("Well hello there...")//////
+func draw(screen *ebiten.Image, G *Game) {
+	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff}) 	/// Draw background
+	drawGoban(screen, G)
+	drawStones(screen, G)
+	drawText(screen, G)
 }
 
-func (G *Game) UpdateGame(fortytwo int) {////listen for input, update struct
-	// g.input.Update()
-	// if err := g.board.Update(g.input); err != nil {
-	// 	return err
-	// }
-	// fmt.Printf("Og ogah...s\n")///////
-	G.updateGoban()
-	// fmt.Printf("Well hello you... %d\n", fortytwo)////////
-}
-
-func update(screen *ebiten.Image) error {
-	// fmt.Println("Hoo ho ho...")///////
-	G.UpdateGame(42)
-	// fmt.Println("Hi hi hi...")///////
-
-	if ebiten.IsDrawingSkipped() { /// do we want this (see cheat sheet)?
-		return nil
-	}
+func input(G *Game) {
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) == true { // quit if press escape
 		os.Exit(0) ////// rm, just for test. Return win message to GUI
 	}
@@ -145,14 +159,34 @@ func update(screen *ebiten.Image) error {
 		x, y := ebiten.CursorPosition()
 		fmt.Printf("Mouse pressed x:%d y:%d\n", x, y)
 	}
+}
+
+func (G *Game) UpdateGame() {////listen for input, update struct
+	input(G)
+	if G.won == false {
+		validated := false
+		coordinate := RandomCoordinate() ///// input from user/ai
+		validated = PlaceIfValid(coordinate, G)
+		if validated == true {
+			Capture(coordinate, G)
+			CheckWin(coordinate, G)
+			SwapPlayers(G)
+		}
+	}
+}
+
+func update(screen *ebiten.Image) error {
+	G.UpdateGame()
+	if ebiten.IsDrawingSkipped() { /// do we want this (see cheat sheet)?
+		return nil
+	}
 	draw(screen, G)
-	// time.Sleep(1000 * time.Millisecond) //////////
+	// time.Sleep(1 * time.Millisecond) //////////
 	return nil
 }
 
 
 func RunEbiten() {
-	// DumpGoban(&G.goban) //////
 	w, h := ebiten.ScreenSizeInFullscreen()
 	ebiten.SetFullscreen(true)
 	// ebiten.SetCursorVisible(true)//// helpful?

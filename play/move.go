@@ -1,7 +1,6 @@
 package play
 
 import (
-	"fmt"
 	"math/rand"
 )
 
@@ -10,25 +9,24 @@ func PlaceStone(coordinate coordinate, player bool, goban *[19][19]position) {
 	goban[coordinate.y][coordinate.x].player = player
 }
 
-func IsMoveValid(coordinate coordinate, g *Game) (whyInvalid string) {
-	if PositionOccupied(coordinate, &g.goban) == true {
-		return "Position already Occupied"
+func IsMoveValid(coordinate coordinate, G *Game) bool {
+	if PositionOccupied(coordinate, &G.goban) == true {
+		G.message = "Position Occupied"
+		return false
 	}
-	if DoubleThree(coordinate, g) == true {
-		return "Move introduces a forbidden double-three"
+	if DoubleThree(coordinate, G) == true {
+		G.message = "Double-Three"
+		return false
 	}
-	//	other rules?? ko?
-	return "Valid"
+	return true
 }
 
-func PlaceIfValid(coordinate coordinate, G *Game) { /// for human player
-	whyInvalid := IsMoveValid(coordinate, G)
-	if whyInvalid == "Valid" {
+func PlaceIfValid(coordinate coordinate, G *Game) bool { /// for human player
+	if IsMoveValid(coordinate, G) == true {
 		PlaceStone(coordinate, G.player, &G.goban)
-	} else {
-		// return whyInvalid to gui
-		fmt.Println(whyInvalid) /////
+		return true
 	}
+	return false
 }
 
 func RandomCoordinate() coordinate { ////////move this function somewhere else??
@@ -40,13 +38,9 @@ func RandomCoordinate() coordinate { ////////move this function somewhere else??
 
 func PlaceRandomIfValid(g *Game) (validated bool, coordinate coordinate) { //////// for testing
 	coordinate = RandomCoordinate()
-	whyInvalid := IsMoveValid(coordinate, g)
-	if whyInvalid == "Valid" {
+	if IsMoveValid(coordinate, G) == true {
 		PlaceStone(coordinate, g.player, &g.goban)
 		return true, coordinate
-	} else {
-		// return whyInvalid to gui
-		fmt.Println(whyInvalid) /////
-		return false, coordinate
 	}
+	return false, coordinate
 }

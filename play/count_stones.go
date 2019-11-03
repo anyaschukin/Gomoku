@@ -1,10 +1,8 @@
 package play
 
-import "fmt"
+// import "fmt"/////
 
 func CountStones(goban *[19][19]position) (black uint16, white uint16) {
-	// var count0 uint16
-	// var count1 uint16
 	var y int8
 	var x int8
 	player := false // black
@@ -19,6 +17,6 @@ func CountStones(goban *[19][19]position) (black uint16, white uint16) {
 			}
 		}
 	}
-	fmt.Printf("Count stones, black: %d, white: %d\n", black, white) ////////
-	return black, white
+	// fmt.Printf("Count stones, black: %d, white: %d\n", black, white) ////////
+	return
 }

@@ -6,8 +6,6 @@ package play
 // 	// gui "Gomoku/GUI"
 // )
 
-
-
 type coordinate struct {
 	y int8
 	x int8
@@ -25,15 +23,25 @@ type align5 struct { //winning move for checking if opponent breaks it in the ne
 	winmove  coordinate
 }
 
+type ai struct { 	/// merge with Game struct?
+	aiplayer	bool	// is player 1 human or AI
+	hotseat		bool	// AI player only suggests moves, human must choose move
+	prescience	uint8	// how many moves in advance do we examine
+}
+
 type Game struct {
 	goban    [19][19]position
 	player   bool   // whose move is it? (player 0 - black first)
+	ai0		ai // is black human or ai?
+	ai1		ai // is white human or ai?
 	capture0 uint8  // capture 10 and win
 	capture1 uint8  // capture 10 and win
 	align5   align5 // one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
 	// move		uint32				// how many moves have been played in total (is this desirable/necessary?)
 	// input      *Input
 	// boardImage *ebiten.Image ///
+	won		bool	// game finished
+	message	string	// game feeback (invalid move, win)
 }
 
 // type mouseState int
@@ -55,24 +63,12 @@ var (
 	G *Game
 )
 
-// type ai struct { 	/// merge with Game struct?
-//	aiplayer	bool	// is player 1 human or AI
-//	hotseat		bool	// AI player only suggests moves, human must choose move
-//	prescience	uint8	// how many moves in advance do we examine
-// }
-
-// func InitializeGame() *Game {
-// 	G := Game{}
-// 	// g.player = true ///// rm, just to test
-// 	return &G
-// }
-
 func NewGame() *Game {
 	G = &Game{}
 	return G
 }
 
-func SwapPlayers(player bool) bool {
+func Opponent(player bool) bool {
 	if player == false {
 		return true
 	} else {
@@ -80,30 +76,42 @@ func SwapPlayers(player bool) bool {
 	}
 }
 
-func GameLoop(G *Game) {//(G *Game) {
-	// G = Ga
-	validated := false
-	coordinate := RandomCoordinate() /////
-	for i := 0; i < 10; i++ {       //moves ////!!!!!!
-		validated, coordinate = PlaceRandomIfValid(G)
-		if validated == true {
-			Capture(coordinate, G)
-			DumpGoban(&G.goban) //////
-			// CountStones(&G.goban) /////////
-			CheckWin(coordinate, G)
-			G.player = SwapPlayers(G.player)
-		}
+func SwapPlayers(G *Game) {
+	if G.player == false {
+		G.player = true
+	} else {
+		G.player = false
 	}
-	// update Game.moves ++
-	//	return err
-	// return G
+	if G.won == false {
+		G.message = ""
+	}
 }
 
 func Play() {
 	G := NewGame()
-	G.player = false
+	G.ai1.aiplayer = true
 	RunEbiten()
 }
+
+// func GameLoop(G *Game) {//(G *Game) {
+// 	// G = Ga
+// 	validated := false
+// 	coordinate := RandomCoordinate() /////
+// 	for i := 0; i < 10; i++ {       //moves ////!!!!!!
+// 		validated, coordinate = PlaceRandomIfValid(G)
+// 		if validated == true {
+// 			Capture(coordinate, G)
+// 			DumpGoban(&G.goban) //////
+// 			// CountStones(&G.goban) /////////
+// 			CheckWin(coordinate, G)
+// 			G.player = SwapPlayers(G.player)
+// 		}
+// 	}
+// 	// update Game.moves ++
+// 	//	return err
+// 	// return G
+// }
+
 
 // func Play() {
 // G := initializeGame()
