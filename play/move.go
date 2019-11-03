@@ -11,11 +11,9 @@ func PlaceStone(coordinate coordinate, player bool, goban *[19][19]position) {
 }
 
 func IsMoveValid(coordinate coordinate, g *Game) (whyInvalid string) {
-	fmt.Println("Does DOnny...")//////
 	if PositionOccupied(coordinate, &g.goban) == true {
 		return "Position already Occupied"
 	}
-	fmt.Println("Donny does...")//////
 	if DoubleThree(coordinate, g) == true {
 		return "Move introduces a forbidden double-three"
 	}
@@ -24,9 +22,7 @@ func IsMoveValid(coordinate coordinate, g *Game) (whyInvalid string) {
 }
 
 func PlaceIfValid(coordinate coordinate, G *Game) { /// for human player
-	fmt.Println("Well... you know...")//////
 	whyInvalid := IsMoveValid(coordinate, G)
-	fmt.Println("Well... you don't know...")//////
 	if whyInvalid == "Valid" {
 		PlaceStone(coordinate, G.player, &G.goban)
 	} else {

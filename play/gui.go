@@ -110,13 +110,14 @@ func draw(screen *ebiten.Image, G *Game) {
 }
 
 func (G *Game) updateGoban() {
-	fmt.Println("Well og boboin...")///////
-	coordinate := coordinate{0, 0}//////
-	fmt.Println("Well og boboins...")///////
-	PlaceIfValid(coordinate, G)//////
-	fmt.Println("Well hi there...")///////
-	DumpGoban(&G.goban) //////
-	fmt.Println("Well hello there...")//////
+	// fmt.Println("Well og boboin...")///////
+	// // coordinate := coordinate{0, 0}//////
+	// fmt.Println("Well og boboins...")///////
+	// PlaceIfValid(coordinate, G)//////
+	PlaceRandomIfValid(G)/////////
+	// fmt.Println("Well hi there...")///////
+	// // DumpGoban(&G.goban) //////
+	// fmt.Println("Well hello there...")//////
 }
 
 func (G *Game) UpdateGame(fortytwo int) {////listen for input, update struct
@@ -124,17 +125,15 @@ func (G *Game) UpdateGame(fortytwo int) {////listen for input, update struct
 	// if err := g.board.Update(g.input); err != nil {
 	// 	return err
 	// }
-	fmt.Printf("Og ogah...s\n")
+	// fmt.Printf("Og ogah...s\n")///////
 	G.updateGoban()
-	fmt.Printf("Well hello you... %d\n", fortytwo)
+	// fmt.Printf("Well hello you... %d\n", fortytwo)////////
 }
 
 func update(screen *ebiten.Image) error {
-	// G := NewGame(G)
-	// GameLoop(g)
-	fmt.Println("Hoo ho ho...")///////
+	// fmt.Println("Hoo ho ho...")///////
 	G.UpdateGame(42)
-	fmt.Println("Hi hi hi...")///////
+	// fmt.Println("Hi hi hi...")///////
 
 	if ebiten.IsDrawingSkipped() { /// do we want this (see cheat sheet)?
 		return nil

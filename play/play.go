@@ -55,10 +55,6 @@ var (
 	G *Game
 )
 
-// func init() {
-// 	G := &Game{}
-// }
-
 // type ai struct { 	/// merge with Game struct?
 //	aiplayer	bool	// is player 1 human or AI
 //	hotseat		bool	// AI player only suggests moves, human must choose move
