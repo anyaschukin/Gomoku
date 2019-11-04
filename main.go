@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 
 	//	lib "Gomoku/golib"
 
@@ -36,11 +36,7 @@ import (
 // }
 
 func main() {
-	fmt.Println("Hello world!") ////////
-	// G := play.InitializeGame()
-	// gui.RunEbiten()
-	// play.GameLoop(G)
-	// play.RunEbiten(G)
+	// fmt.Println("Hello world!") ////////
 	play.Play()
-	fmt.Println("Goodbye world!") ////////
+	// fmt.Println("Goodbye world!") ////////
 }

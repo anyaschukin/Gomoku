@@ -25,8 +25,9 @@ type align5 struct { //winning move for checking if opponent breaks it in the ne
 
 type ai struct { 	/// merge with Game struct?
 	aiplayer	bool	// is player 1 human or AI
-	hotseat		bool	// AI player only suggests moves, human must choose move
-	prescience	uint8	// how many moves in advance do we examine
+	// hotseat		bool	// AI player only suggests moves, human must choose move
+	// prescience	uint8	// how many moves in advance do we examine
+	// suggest		coordinate // ai suggested move
 }
 
 type Game struct {
@@ -77,11 +78,7 @@ func Opponent(player bool) bool {
 }
 
 func SwapPlayers(G *Game) {
-	if G.player == false {
-		G.player = true
-	} else {
-		G.player = false
-	}
+	G.player = Opponent(G.player)
 	if G.won == false {
 		G.message = ""
 	}
@@ -89,7 +86,7 @@ func SwapPlayers(G *Game) {
 
 func Play() {
 	G := NewGame()
-	G.ai1.aiplayer = true
+	G.ai0.aiplayer = true
 	RunEbiten()
 }
 

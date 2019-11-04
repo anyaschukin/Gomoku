@@ -1,7 +1,7 @@
 package play //gui
 
 import (
-	"fmt"
+	// "fmt"
 	"log"
 	"os"
 	"strconv"
@@ -38,6 +38,10 @@ var whiteMove = `White to Move`
 var human = `Human player`
 var artificial = `AI player`
 
+/// Goban positions
+var positionWidth float64 = 104.6
+var zeroX float64 = 838	// Left
+var zeroY float64 = 34  // Top
 
 func init() {
 	/// Init images
@@ -73,46 +77,49 @@ func init() {
 }
 
 func drawText(screen *ebiten.Image, G *Game) {
+	columnBlack := 80 	// screen indent
+	columnWhite := 2050 // screen indent
+	row := 100			// screen indent
 	/// Draw player AI or Human
 	if G.ai0.aiplayer == true {
-		text.Draw(screen, artificial, mplusNormalFont, 80, 200, color.Black)
+		text.Draw(screen, artificial, mplusNormalFont, columnBlack, row * 2, color.Black)
 	} else {
-		text.Draw(screen, human, mplusNormalFont, 80, 200, color.Black)
+		text.Draw(screen, human, mplusNormalFont, columnBlack, row * 2, color.Black)
 	}
 	if G.ai1.aiplayer == true {
-		text.Draw(screen, artificial, mplusNormalFont, 2050, 200, color.White)
+		text.Draw(screen, artificial, mplusNormalFont, columnWhite, row * 2, color.White)
 	} else {
-		text.Draw(screen, human, mplusNormalFont, 2050, 200, color.White)
+		text.Draw(screen, human, mplusNormalFont, columnWhite, row * 2, color.White)
 	}
-	// text.Draw(screen, playerOne, mplusNormalFont, 80, 120, color.Black)
-	// text.Draw(screen, playerTwo, mplusNormalFont, 2050, 120, color.White)
+	// text.Draw(screen, playerOne, mplusNormalFont, columnBlack, 120, color.Black)
+	// text.Draw(screen, playerTwo, mplusNormalFont, columnWhite, 120, color.White)
 
 
 	/// Draw Captured
-	text.Draw(screen, captured, mplusNormalFont, 80, 300, color.Black)
-	text.Draw(screen, strconv.Itoa(int(G.capture0)), mplusNormalFont, 340, 300, color.Black)
+	text.Draw(screen, captured, mplusNormalFont, columnBlack, row * 3, color.Black)
+	text.Draw(screen, strconv.Itoa(int(G.capture0)), mplusNormalFont, 340, row * 3, color.Black)
 
-	text.Draw(screen, captured, mplusNormalFont, 2050, 300, color.White)
-	text.Draw(screen, strconv.Itoa(int(G.capture1)), mplusNormalFont, 2310, 300, color.White)
+	text.Draw(screen, captured, mplusNormalFont, columnWhite, row * 3, color.White)
+	text.Draw(screen, strconv.Itoa(int(G.capture1)), mplusNormalFont, 2310, row * 3, color.White)
 
 	/// Draw Options
-	text.Draw(screen, exit, mplusNormalFont, 2050, 1300, color.Black)    //red
-	text.Draw(screen, newGame, mplusNormalFont, 2050, 1200, color.Black) //red
+	text.Draw(screen, exit, mplusNormalFont, columnWhite, row * 13, color.Black)    //red
+	text.Draw(screen, newGame, mplusNormalFont, columnWhite, row * 12, color.Black) //red
 
 	/// Draw Messages
 	if G.won == false {
 		if G.player == false {
-			text.Draw(screen, blackMove, mplusNormalFont, 80, 100, color.Black)
-			text.Draw(screen, G.message, mplusNormalFont, 80, 400, color.Black)
+			text.Draw(screen, blackMove, mplusNormalFont, columnBlack, row, color.Black)
+			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row * 4, color.Black)
 		} else {
-			text.Draw(screen, G.message, mplusNormalFont, 2050, 400, color.White)
-			text.Draw(screen, whiteMove, mplusNormalFont, 2050, 100, color.White)
+			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row * 4, color.White)
+			text.Draw(screen, whiteMove, mplusNormalFont, columnWhite, row, color.White)
 		}
 	} else {
 		if G.player == true {
-			text.Draw(screen, G.message, mplusNormalFont, 80, 400, color.Black)
+			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row * 4, color.Black)
 		} else {
-			text.Draw(screen, G.message, mplusNormalFont, 2050, 400, color.White)
+			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row * 4, color.White)
 		}		
 	}
 }
@@ -132,7 +139,7 @@ func drawStones(screen *ebiten.Image, G *Game) {
 			coordinate := coordinate{y, x}
 			if PositionOccupied(coordinate, &G.goban) == true {
 				opStone := &ebiten.DrawImageOptions{}
-				opStone.GeoM.Translate((838 + (float64(coordinate.y) * 104.6)), (34 + (float64(coordinate.x) * 104.6)))
+				opStone.GeoM.Translate((zeroX + (float64(coordinate.x) * positionWidth)), (zeroY + (float64(coordinate.y) * positionWidth)))
 				opStone.GeoM.Scale(0.7, 0.7)
 				if PositionOccupiedByPlayer(coordinate, &G.goban, false) == true {
 					screen.DrawImage(imgBlack, opStone)
@@ -155,23 +162,44 @@ func input(G *Game) {
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) == true { // quit if press escape
 		os.Exit(0) ////// rm, just for test. Return win message to GUI
 	}
-	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
-		x, y := ebiten.CursorPosition()
-		fmt.Printf("Mouse pressed x:%d y:%d\n", x, y)
+	// click exit or new game
+}
+
+func clickInGoban(x, y int) bool {
+	if x > int(zeroX * 0.7) && x < int((zeroX * 0.7) + (positionWidth * float64(19) * 0.7)) &&
+		y > int(zeroY * 0.7) && y < int((zeroY * 0.7) + (positionWidth * float64(19) * 0.7)) {
+		return true
+	}
+	return false
+}
+
+func gameLoop(coordinate coordinate, G *Game) {
+	validated := PlaceIfValid(coordinate, G)
+	if validated == true {
+		Capture(coordinate, G)
+		CheckWin(coordinate, G)
+		SwapPlayers(G)
 	}
 }
 
 func (G *Game) UpdateGame() {////listen for input, update struct
 	input(G)
+	coordinate := coordinate{-1, -1}/////////
 	if G.won == false {
-		validated := false
-		coordinate := RandomCoordinate() ///// input from user/ai
-		validated = PlaceIfValid(coordinate, G)
-		if validated == true {
-			Capture(coordinate, G)
-			CheckWin(coordinate, G)
-			SwapPlayers(G)
-		}
+		if (G.player == false && G.ai0.aiplayer == false) || 						////// human player
+			(G.player == true && G.ai1.aiplayer == false) {
+			if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
+				x, y := ebiten.CursorPosition()
+				if clickInGoban(x, y) == true {
+					coordinate.x = int8((float64(x) - (zeroX * 0.7)) / (positionWidth * 0.7))
+					coordinate.y = int8((float64(y) - (zeroY * 0.7)) / (positionWidth * 0.7))
+					gameLoop(coordinate, G)
+				}
+			}
+		} else { 															/////////// ai player
+			coordinate = RandomCoordinate()// ai suggest move
+			gameLoop(coordinate, G)
+		}//////// need to integrate hotseat!!!!!!!
 	}
 }
 
