@@ -110,16 +110,16 @@ func drawText(screen *ebiten.Image, G *Game) {
 	if G.won == false {
 		if G.player == false {
 			text.Draw(screen, blackMove, mplusNormalFont, columnBlack, row, color.Black)
-			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row * 4, color.Black)
+			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row * 5, color.Black)
 		} else {
-			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row * 4, color.White)
+			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row * 5, color.White)
 			text.Draw(screen, whiteMove, mplusNormalFont, columnWhite, row, color.White)
 		}
 	} else {
 		if G.player == true {
-			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row * 4, color.Black)
+			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row * 5, color.Black)
 		} else {
-			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row * 4, color.White)
+			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row * 5, color.White)
 		}		
 	}
 }

@@ -1,8 +1,12 @@
 package play
 
 func threeBlocked(end1 coordinate, end2 coordinate, goban *[19][19]position, player bool) bool {
-	if PositionOccupiedByOpponent(end1, goban, player) == false &&
-		PositionOccupiedByOpponent(end2, goban, player) == false {
+	// if PositionOccupiedByOpponent(end1, goban, player) == false &&
+	// 	PositionOccupiedByOpponent(end2, goban, player) == false {
+	// 	return false
+	// }
+	if PositionUnoccupied(end1, goban) == true && ////////correct??
+		PositionUnoccupied(end2, goban) == true {
 		return false
 	}
 	return true
