@@ -88,9 +88,6 @@ func SwapPlayers(G *Game) {
 func Play() {
 	G := NewGame()
 	G.ai0.aiplayer = true // false
-	G.ai0.hotseat = true  // false
-	G.ai1.hotseat = true  // false
-	G.ai0.depth = 11      // false
 	RunEbiten()
 }
 

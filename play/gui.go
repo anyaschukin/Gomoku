@@ -33,9 +33,7 @@ func isPlayerHuman(G *Game) bool {
 func (G *Game) UpdateGame() { ////listen for input, update struct
 	input(G)
 	coordinate := coordinate{-1, -1} /////////
-	if G.newGame == true {
-
-	} else if G.won == false {
+	if G.newGame == false && G.won == false {
 		if isPlayerHuman(G) == true || isPlayerHotseat(G) == true {
 			if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 				x, y := ebiten.CursorPosition()
@@ -48,7 +46,7 @@ func (G *Game) UpdateGame() { ////listen for input, update struct
 		} else { /////////// ai player
 			coordinate = RandomCoordinate() // ai suggest move
 			gameLoop(coordinate, G)
-		} //////// need to integrate hotseat!!!!!!!
+		}
 	}
 }
 
