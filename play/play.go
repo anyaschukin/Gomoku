@@ -23,26 +23,28 @@ type align5 struct { //winning move for checking if opponent breaks it in the ne
 	winmove  coordinate
 }
 
-type ai struct { 	/// merge with Game struct?
-	aiplayer	bool	// is player 1 human or AI
-	// hotseat		bool	// AI player only suggests moves, human must choose move
-	// prescience	uint8	// how many moves in advance do we examine
+type ai struct { /// merge with Game struct?
+	aiplayer bool  // is player 1 human or AI
+	hotseat  bool  // AI player only suggests moves, human must choose move
+	depth    uint8 // how many moves in advance do we examine
 	// suggest		coordinate // ai suggested move
+	// timer	float64
 }
 
 type Game struct {
 	goban    [19][19]position
 	player   bool   // whose move is it? (player 0 - black first)
-	ai0		ai // is black human or ai?
-	ai1		ai // is white human or ai?
+	ai0      ai     // is black human or ai?
+	ai1      ai     // is white human or ai?
 	capture0 uint8  // capture 10 and win
 	capture1 uint8  // capture 10 and win
 	align5   align5 // one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
 	// move		uint32				// how many moves have been played in total (is this desirable/necessary?)
 	// input      *Input
 	// boardImage *ebiten.Image ///
-	won		bool	// game finished
-	message	string	// game feeback (invalid move, win)
+	newGame bool   // New Game button has been pressed, show new game options
+	won     bool   // game finished
+	message string // game feeback (invalid move, win)
 }
 
 // type mouseState int
@@ -58,7 +60,6 @@ type Game struct {
 // 	mousePosX int
 // 	mousePosY int
 // }
-
 
 var (
 	G *Game
@@ -86,7 +87,10 @@ func SwapPlayers(G *Game) {
 
 func Play() {
 	G := NewGame()
-	G.ai0.aiplayer = true
+	G.ai0.aiplayer = true // false
+	G.ai0.hotseat = true  // false
+	G.ai1.hotseat = true  // false
+	G.ai0.depth = 11      // false
 	RunEbiten()
 }
 
@@ -108,7 +112,6 @@ func Play() {
 // 	//	return err
 // 	// return G
 // }
-
 
 // func Play() {
 // G := initializeGame()
