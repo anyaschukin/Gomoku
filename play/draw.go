@@ -13,6 +13,7 @@ import (
 	"golang.org/x/image/font"
 )
 
+/// Images
 var imgGoban *ebiten.Image
 var imgBlack *ebiten.Image
 var imgRed *ebiten.Image
@@ -21,6 +22,7 @@ var imgExit *ebiten.Image
 var imgNewGame *ebiten.Image
 var imgSelect *ebiten.Image
 
+/// Text
 var (
 	captured        = `Captured: `
 	mplusNormalFont font.Face
@@ -40,16 +42,21 @@ var zeroX float64 = 838 // Left
 var zeroY float64 = 34  // Top
 var scale float64 = 0.7
 
-/// Exit position
-var exitX float64 = 3210
-var exitY float64 = 1814
-
 /// New Game position
 var newGameX float64 = 3405
 var newGameY float64 = 1914
 var newGameBlack2 float64 = 5000
 
-var row = 100 // screen indent
+/// Exit position
+var exitX float64 = 3210
+var exitY float64 = 1814
+
+/// Text rows
+var row = 100
+
+/// New Game Columns
+var columnBlack = 80   // screen indent
+var columnWhite = 2050 // screen indent
 
 func init() {
 	/// Init images
@@ -100,24 +107,7 @@ func init() {
 	// })
 }
 
-func drawExit(screen *ebiten.Image, G *Game) {
-	opExit := &ebiten.DrawImageOptions{}
-	opExit.GeoM.Translate(exitX, exitY)
-	opExit.GeoM.Scale(scale, scale)
-	screen.DrawImage(imgExit, opExit)
-}
-
-func drawNewGame(screen *ebiten.Image, G *Game) {
-	opNewGame := &ebiten.DrawImageOptions{}
-	opNewGame.GeoM.Translate(newGameX, newGameY)
-	opNewGame.GeoM.Scale(0.6, 0.6)
-	screen.DrawImage(imgNewGame, opNewGame)
-}
-
-func drawText(screen *ebiten.Image, G *Game) {
-	columnBlack := 80   // screen indent
-	columnWhite := 2050 // screen indent
-	/// Draw player AI or Human
+func drawPlayerInfo(screen *ebiten.Image, G *Game) {
 	if G.ai0.aiplayer == true {
 		text.Draw(screen, artificial, mplusNormalFont, columnBlack, row*2, color.Black)
 		text.Draw(screen, strconv.Itoa(int(G.ai0.depth)), mplusNormalFont, columnBlack+230, row*2, color.Black)
@@ -130,15 +120,16 @@ func drawText(screen *ebiten.Image, G *Game) {
 	} else {
 		text.Draw(screen, human, mplusNormalFont, columnWhite, row*2, color.White)
 	}
+}
 
-	/// Draw Captured
+func drawCaptured(screen *ebiten.Image, G *Game) {
 	text.Draw(screen, captured, mplusNormalFont, columnBlack, row*3, color.Black)
 	text.Draw(screen, strconv.Itoa(int(G.capture0)), mplusNormalFont, 340, row*3, color.Black)
-
 	text.Draw(screen, captured, mplusNormalFont, columnWhite, row*3, color.White)
 	text.Draw(screen, strconv.Itoa(int(G.capture1)), mplusNormalFont, 2310, row*3, color.White)
+}
 
-	/// Draw Messages
+func drawMessage(screen *ebiten.Image, G *Game) {
 	if G.won == false {
 		if G.player == false {
 			text.Draw(screen, blackMove, mplusNormalFont, columnBlack, row, color.Black)
@@ -154,6 +145,13 @@ func drawText(screen *ebiten.Image, G *Game) {
 			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row*5, color.White)
 		}
 	}
+}
+
+func drawText(screen *ebiten.Image, G *Game) {
+	drawPlayerInfo(screen, G)
+	drawCaptured(screen, G)
+	/// Draw Timer
+	drawMessage(screen, G)
 }
 
 func drawGoban(screen *ebiten.Image, G *Game) {
@@ -200,6 +198,20 @@ func drawSuggestion(screen *ebiten.Image, G *Game) {
 	opSuggestion.GeoM.Translate((zeroX + (float64(coordinate.x) * positionWidth)), (zeroY + (float64(coordinate.y) * positionWidth)))
 	opSuggestion.GeoM.Scale(scale, scale)
 	screen.DrawImage(imgRed, opSuggestion)
+}
+
+func drawNewGame(screen *ebiten.Image, G *Game) {
+	opNewGame := &ebiten.DrawImageOptions{}
+	opNewGame.GeoM.Translate(newGameX, newGameY)
+	opNewGame.GeoM.Scale(0.6, 0.6)
+	screen.DrawImage(imgNewGame, opNewGame)
+}
+
+func drawExit(screen *ebiten.Image, G *Game) {
+	opExit := &ebiten.DrawImageOptions{}
+	opExit.GeoM.Translate(exitX, exitY)
+	opExit.GeoM.Scale(scale, scale)
+	screen.DrawImage(imgExit, opExit)
 }
 
 func draw(screen *ebiten.Image, G *Game) {

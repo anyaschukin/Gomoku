@@ -47,20 +47,6 @@ type Game struct {
 	message string // game feeback (invalid move, win)
 }
 
-// type mouseState int
-
-// const (
-// 	mouseStateNone mouseState = iota
-// 	mouseStatePressing
-// 	mouseStateSettled
-// )
-
-// type Input struct {
-// 	mouseState    mouseState
-// 	mousePosX int
-// 	mousePosY int
-// }
-
 var (
 	G *Game
 )
