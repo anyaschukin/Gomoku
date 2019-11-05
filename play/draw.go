@@ -183,6 +183,25 @@ func drawStones(screen *ebiten.Image, G *Game) {
 	}
 }
 
+func isPlayerHotseat(G *Game) bool {
+	if (G.player == false && G.ai0.hotseat == true) ||
+		(G.player == true && G.ai1.hotseat == true) {
+		return true
+	}
+	return false
+}
+
+func drawSuggestion(screen *ebiten.Image, G *Game) {
+	coordinate := G.ai0.suggest
+	if G.player == true {
+		coordinate = G.ai1.suggest
+	}
+	opSuggestion := &ebiten.DrawImageOptions{}
+	opSuggestion.GeoM.Translate((zeroX + (float64(coordinate.x) * positionWidth)), (zeroY + (float64(coordinate.y) * positionWidth)))
+	opSuggestion.GeoM.Scale(scale, scale)
+	screen.DrawImage(imgRed, opSuggestion)
+}
+
 func draw(screen *ebiten.Image, G *Game) {
 	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff}) /// Draw background
 	if G.newGame == true {
@@ -191,6 +210,9 @@ func draw(screen *ebiten.Image, G *Game) {
 		drawGoban(screen, G)
 		drawStones(screen, G)
 		drawText(screen, G)
+		if isPlayerHotseat(G) == true {
+			drawSuggestion(screen, G)
+		}
 	}
 	drawNewGame(screen, G)
 	drawExit(screen, G)

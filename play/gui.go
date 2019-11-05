@@ -36,10 +36,7 @@ func (G *Game) UpdateGame() { ////listen for input, update struct
 	if G.newGame == true {
 
 	} else if G.won == false {
-		if isPlayerHuman(G) == true {
-			// if hotseat {
-			// draw suggestion
-			// }
+		if isPlayerHuman(G) == true || isPlayerHotseat(G) == true {
 			if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 				x, y := ebiten.CursorPosition()
 				if clickGoban(x, y) == true {

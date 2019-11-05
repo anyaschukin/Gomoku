@@ -24,10 +24,10 @@ type align5 struct { //winning move for checking if opponent breaks it in the ne
 }
 
 type ai struct { /// merge with Game struct?
-	aiplayer bool  // is player 1 human or AI
-	hotseat  bool  // AI player only suggests moves, human must choose move
-	depth    uint8 // how many moves in advance do we examine
-	// suggest		coordinate // ai suggested move
+	aiplayer bool       // is player 1 human or AI
+	hotseat  bool       // AI player only suggests moves, human must choose move
+	depth    uint8      // how many moves in advance do we examine
+	suggest  coordinate // ai suggested move
 	// timer	float64
 }
 
