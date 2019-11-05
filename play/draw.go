@@ -28,13 +28,12 @@ var (
 	mplusNormalFont font.Face
 	// mpluBigFont     font.Face
 )
-var exit = `Exit`
-var newGame = `New Game`
 var blackMove = `Black to Move`
 var whiteMove = `White to Move`
 var human = `Human`
 var artificial = `AI depth`
 var hotseat = `Hotseat`
+var timer = `Timer:`
 
 /// Goban positions
 var positionWidth float64 = 104.6
@@ -125,8 +124,20 @@ func drawPlayerInfo(screen *ebiten.Image, G *Game) {
 func drawCaptured(screen *ebiten.Image, G *Game) {
 	text.Draw(screen, captured, mplusNormalFont, columnBlack, row*3, color.Black)
 	text.Draw(screen, strconv.Itoa(int(G.capture0)), mplusNormalFont, 340, row*3, color.Black)
+
 	text.Draw(screen, captured, mplusNormalFont, columnWhite, row*3, color.White)
 	text.Draw(screen, strconv.Itoa(int(G.capture1)), mplusNormalFont, 2310, row*3, color.White)
+}
+
+func drawTimer(screen *ebiten.Image, G *Game) {
+	if G.ai0.aiplayer == true || G.ai0.hotseat == true {
+		text.Draw(screen, timer, mplusNormalFont, columnBlack, row*4, color.Black)
+		text.Draw(screen, strconv.Itoa(int(G.ai0.timer)), mplusNormalFont, columnBlack+180, row*4, color.Black)
+	}
+	if G.ai1.aiplayer == true || G.ai1.hotseat == true {
+		text.Draw(screen, timer, mplusNormalFont, columnWhite, row*4, color.White)
+		text.Draw(screen, strconv.Itoa(int(G.ai0.timer)), mplusNormalFont, columnWhite+180, row*4, color.White)
+	}
 }
 
 func drawMessage(screen *ebiten.Image, G *Game) {
@@ -150,7 +161,7 @@ func drawMessage(screen *ebiten.Image, G *Game) {
 func drawText(screen *ebiten.Image, G *Game) {
 	drawPlayerInfo(screen, G)
 	drawCaptured(screen, G)
-	/// Draw Timer
+	drawTimer(screen, G)
 	drawMessage(screen, G)
 }
 

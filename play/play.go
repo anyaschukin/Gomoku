@@ -28,7 +28,7 @@ type ai struct { /// merge with Game struct?
 	hotseat  bool       // AI player only suggests moves, human must choose move
 	depth    uint8      // how many moves in advance do we examine
 	suggest  coordinate // ai suggested move
-	// timer	float64
+	timer    float64
 }
 
 type Game struct {
