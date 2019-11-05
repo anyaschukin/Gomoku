@@ -2,9 +2,7 @@ package play //gui
 
 import (
 	// "fmt"
-
 	"log"
-
 	// "time"
 
 	_ "image/png"

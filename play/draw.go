@@ -106,6 +106,33 @@ func init() {
 	// })
 }
 
+func drawGoban(screen *ebiten.Image, G *Game) {
+	opGoban := &ebiten.DrawImageOptions{}
+	opGoban.GeoM.Translate(885, 80)
+	opGoban.GeoM.Scale(scale, scale)
+	screen.DrawImage(imgGoban, opGoban)
+}
+
+func drawStones(screen *ebiten.Image, G *Game) {
+	var y int8
+	var x int8
+	for y = 0; y < 19; y++ {
+		for x = 0; x < 19; x++ {
+			coordinate := coordinate{y, x}
+			if PositionOccupied(coordinate, &G.goban) == true {
+				opStone := &ebiten.DrawImageOptions{}
+				opStone.GeoM.Translate((zeroX + (float64(coordinate.x) * positionWidth)), (zeroY + (float64(coordinate.y) * positionWidth)))
+				opStone.GeoM.Scale(scale, scale)
+				if PositionOccupiedByPlayer(coordinate, &G.goban, false) == true {
+					screen.DrawImage(imgBlack, opStone)
+				} else {
+					screen.DrawImage(imgWhite, opStone)
+				}
+			}
+		}
+	}
+}
+
 func drawPlayerInfo(screen *ebiten.Image, G *Game) {
 	if G.ai0.aiplayer == true {
 		text.Draw(screen, artificial, mplusNormalFont, columnBlack, row*2, color.Black)
@@ -165,31 +192,18 @@ func drawText(screen *ebiten.Image, G *Game) {
 	drawMessage(screen, G)
 }
 
-func drawGoban(screen *ebiten.Image, G *Game) {
-	opGoban := &ebiten.DrawImageOptions{}
-	opGoban.GeoM.Translate(885, 80)
-	opGoban.GeoM.Scale(scale, scale)
-	screen.DrawImage(imgGoban, opGoban)
+func drawNewGame(screen *ebiten.Image, G *Game) {
+	opNewGame := &ebiten.DrawImageOptions{}
+	opNewGame.GeoM.Translate(newGameX, newGameY)
+	opNewGame.GeoM.Scale(0.6, 0.6)
+	screen.DrawImage(imgNewGame, opNewGame)
 }
 
-func drawStones(screen *ebiten.Image, G *Game) {
-	var y int8
-	var x int8
-	for y = 0; y < 19; y++ {
-		for x = 0; x < 19; x++ {
-			coordinate := coordinate{y, x}
-			if PositionOccupied(coordinate, &G.goban) == true {
-				opStone := &ebiten.DrawImageOptions{}
-				opStone.GeoM.Translate((zeroX + (float64(coordinate.x) * positionWidth)), (zeroY + (float64(coordinate.y) * positionWidth)))
-				opStone.GeoM.Scale(scale, scale)
-				if PositionOccupiedByPlayer(coordinate, &G.goban, false) == true {
-					screen.DrawImage(imgBlack, opStone)
-				} else {
-					screen.DrawImage(imgWhite, opStone)
-				}
-			}
-		}
-	}
+func drawExit(screen *ebiten.Image, G *Game) {
+	opExit := &ebiten.DrawImageOptions{}
+	opExit.GeoM.Translate(exitX, exitY)
+	opExit.GeoM.Scale(scale, scale)
+	screen.DrawImage(imgExit, opExit)
 }
 
 func isPlayerHotseat(G *Game) bool {
@@ -209,20 +223,6 @@ func drawSuggestion(screen *ebiten.Image, G *Game) {
 	opSuggestion.GeoM.Translate((zeroX + (float64(coordinate.x) * positionWidth)), (zeroY + (float64(coordinate.y) * positionWidth)))
 	opSuggestion.GeoM.Scale(scale, scale)
 	screen.DrawImage(imgRed, opSuggestion)
-}
-
-func drawNewGame(screen *ebiten.Image, G *Game) {
-	opNewGame := &ebiten.DrawImageOptions{}
-	opNewGame.GeoM.Translate(newGameX, newGameY)
-	opNewGame.GeoM.Scale(0.6, 0.6)
-	screen.DrawImage(imgNewGame, opNewGame)
-}
-
-func drawExit(screen *ebiten.Image, G *Game) {
-	opExit := &ebiten.DrawImageOptions{}
-	opExit.GeoM.Translate(exitX, exitY)
-	opExit.GeoM.Scale(scale, scale)
-	screen.DrawImage(imgExit, opExit)
 }
 
 func draw(screen *ebiten.Image, G *Game) {
