@@ -293,13 +293,11 @@ func input(G *Game) {
 		}
 		if clickNewGame(x, y) == true {
 			if G.newGame == false {
+				G := NewGame()
+				G.ai0.aiplayer = true
 				G.newGame = true
 			} else {
-				blackTmp := G.ai0
-				whiteTmp := G.ai1
-				G := NewGame() /////// save new game ai settings!!!!!!
-				G.ai0 = blackTmp
-				G.ai1 = whiteTmp
+				G.newGame = false
 			}
 		}
 		if G.newGame == true {
