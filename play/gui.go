@@ -24,6 +24,7 @@ import (
 
 var imgGoban *ebiten.Image
 var imgBlack *ebiten.Image
+var imgRed *ebiten.Image
 var imgWhite *ebiten.Image
 var imgExit *ebiten.Image
 var imgNewGame *ebiten.Image
@@ -71,6 +72,10 @@ func init() {
 		log.Fatal(err)
 	}
 	imgWhite, _, err = ebitenutil.NewImageFromFile("GUI/img/white.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatal(err)
+	}
+	imgRed, _, err = ebitenutil.NewImageFromFile("GUI/img/red.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -124,11 +129,13 @@ func drawText(screen *ebiten.Image, G *Game) {
 	/// Draw player AI or Human
 	if G.ai0.aiplayer == true {
 		text.Draw(screen, artificial, mplusNormalFont, columnBlack, row*2, color.Black)
+		text.Draw(screen, strconv.Itoa(int(G.ai0.depth)), mplusNormalFont, columnBlack+230, row*2, color.Black)
 	} else {
 		text.Draw(screen, human, mplusNormalFont, columnBlack, row*2, color.Black)
 	}
 	if G.ai1.aiplayer == true {
 		text.Draw(screen, artificial, mplusNormalFont, columnWhite, row*2, color.White)
+		text.Draw(screen, strconv.Itoa(int(G.ai1.depth)), mplusNormalFont, columnWhite+230, row*2, color.White)
 	} else {
 		text.Draw(screen, human, mplusNormalFont, columnWhite, row*2, color.White)
 	}
@@ -336,8 +343,24 @@ func clickHuman0(x, y int) bool {
 	return false
 }
 
+func clickHuman1(x, y int) bool {
+	if x > int(newGameBlack2*0.12)+1092 && x < 940+1092 &&
+		y > int(1550*0.12) && y < 277 {
+		return true
+	}
+	return false
+}
+
 func clickHotseat0(x, y int) bool {
 	if x > int(newGameBlack2*0.12) && x < 940 &&
+		y > 286 && y < 378 {
+		return true
+	}
+	return false
+}
+
+func clickHotseat1(x, y int) bool {
+	if x > int(newGameBlack2*0.12)+1092 && x < 940+1092 &&
 		y > 286 && y < 378 {
 		return true
 	}
@@ -347,22 +370,6 @@ func clickHotseat0(x, y int) bool {
 func clickAI0(x, y int) bool {
 	if x > int(950*0.12) && x < 454 &&
 		y > 186 && y < 1378 {
-		return true
-	}
-	return false
-}
-
-func clickHuman1(x, y int) bool {
-	if x > int(newGameBlack2*0.12)+1092 && x < 940+1092 &&
-		y > int(1550*0.12) && y < 277 {
-		return true
-	}
-	return false
-}
-
-func clickHotseat1(x, y int) bool {
-	if x > int(newGameBlack2*0.12)+1092 && x < 940+1092 &&
-		y > 286 && y < 378 {
 		return true
 	}
 	return false
@@ -424,6 +431,9 @@ func (G *Game) UpdateGame() { ////listen for input, update struct
 
 	} else if G.won == false {
 		if isPlayerHuman(G) == true {
+			// if hotseat {
+			// draw suggestion
+			// }
 			if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 				x, y := ebiten.CursorPosition()
 				if clickGoban(x, y) == true {
