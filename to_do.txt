@@ -2,7 +2,6 @@
 
 Graphic interface (ebiten?)
 	- show last move
-	- Game moves?
 
 AI
 	- Min/Max
