@@ -21,7 +21,6 @@ type align5 struct { //winning move for checking if opponent breaks it in the ne
 	break5   bool
 	capture8 bool // is it possible for the opponent to win by capturing 10? (have they already captured 8, and is there an available capture move)
 	winner   bool /// rm?
-	winmove  coordinate
 }
 
 type ai struct { /// merge with Game struct?
@@ -45,6 +44,7 @@ type Game struct {
 	// boardImage *ebiten.Image ///
 	newGame bool   // New Game button has been pressed, show new game options
 	won     bool   // game finished
+	winmove  coordinate
 	message string // game feeback (invalid move, win)
 }
 

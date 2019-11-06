@@ -52,7 +52,7 @@ func AlignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 					align5.capture8 = true
 				}
 				align5.winner = player
-				align5.winmove = coordinate
+				G.winmove = coordinate
 				return true
 			}
 		}
@@ -73,10 +73,11 @@ func recordWin(G *Game, winner bool) {
 func CheckWin(coordinate coordinate, G *Game) {
 	if capturedTen(G) == true {
 		recordWin(G, G.player)
+		G.winmove = coordinate
 		// fmt.Printf("Player %v wins by capturing 10.\n", G.player)//////
 	} else if G.align5.break5 == true {
-		if PositionOccupiedByPlayer(G.align5.winmove, &G.goban, G.align5.winner) == true &&
-			AlignFive(G.align5.winmove, &G.goban, &G.align5, G.align5.winner, G.capture0, G.capture1) == true {
+		if PositionOccupiedByPlayer(G.winmove, &G.goban, G.align5.winner) == true &&
+			AlignFive(G.winmove, &G.goban, &G.align5, G.align5.winner, G.capture0, G.capture1) == true {
 			recordWin(G, Opponent(G.player))
 			// fmt.Printf("Player %v win by aligning 5.\nThe other player could have broken this alignment by capturing a pair, but they didn't, silly!\nWinning move y:%d x:%d.\n", G.align5.winner, G.align5.winmove.y, G.align5.winmove.x)
 		}

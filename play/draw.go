@@ -248,13 +248,11 @@ func drawHotseatSuggestion(screen *ebiten.Image, G *Game) {
 
 func drawWinMove(screen *ebiten.Image, G *Game) {
 	if G.won == true {
-		if capturedTen(G) == false {
-			opWinMove := &ebiten.DrawImageOptions{}
-			opWinMove.GeoM.Translate((zeroX + (float64(G.align5.winmove.x) * positionWidth)), (zeroY + (float64(G.align5.winmove.y) * positionWidth)))
-			opWinMove.GeoM.Scale(scale, scale)
-			screen.DrawImage(imgRed, opWinMove)
-			screen.DrawImage(imgBlue, opWinMove)
-		}
+		opWinMove := &ebiten.DrawImageOptions{}
+		opWinMove.GeoM.Translate((zeroX + (float64(G.winmove.x) * positionWidth)), (zeroY + (float64(G.winmove.y) * positionWidth)))
+		opWinMove.GeoM.Scale(scale, scale)
+		screen.DrawImage(imgRed, opWinMove)
+		screen.DrawImage(imgBlue, opWinMove)
 	}
 }
 
