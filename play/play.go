@@ -1,5 +1,6 @@
 package play
 
+import "time"
 // import (
 // 	"fmt"
 // 	// lib "Gomoku/golib"
@@ -27,7 +28,7 @@ type ai struct { /// merge with Game struct?
 	aiplayer bool       // is player 1 human or AI
 	hotseat  bool       // AI player only suggests moves, human must choose move
 	depth    uint8      // how many moves in advance do we examine
-	timer    float64
+	timer    time.Duration // How long did the ai think for
 	suggest  coordinate // ai suggested move
 }
 
@@ -73,6 +74,7 @@ func SwapPlayers(G *Game) {
 func Play() {
 	G := NewGame()
 	G.ai0.aiplayer = true
+	G.ai0.depth = 3
 	if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
 		artificialIdiot(G)/////create move suggestion
 	}

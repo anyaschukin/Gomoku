@@ -4,6 +4,8 @@ import (
 	"image/color"
 	"log"
 	"strconv"
+	"time"
+	// "fmt"
 
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
@@ -165,11 +167,31 @@ func drawCaptured(screen *ebiten.Image, G *Game) {
 func drawTimer(screen *ebiten.Image, G *Game) {
 	if G.ai0.aiplayer == true || G.ai0.hotseat == true {
 		text.Draw(screen, timer, mplusNormalFont, columnBlack, row*4, color.Black)
-		text.Draw(screen, strconv.Itoa(int(G.ai0.timer)), mplusNormalFont, columnBlack+180, row*4, color.Black)
+		timer, err := time.ParseDuration(G.ai0.timer.String())
+		if err != nil {
+			panic(err)
+		}
+		truncated := timer.Truncate(time.Nanosecond).String()
+		if timer >= 1000000 {
+			truncated = timer.Truncate(time.Millisecond).String()
+		} else if timer >= 1000 {
+			truncated = timer.Truncate(time.Microsecond).String()
+		}
+		text.Draw(screen, truncated, mplusNormalFont, columnBlack+180, row*4, color.Black)
 	}
 	if G.ai1.aiplayer == true || G.ai1.hotseat == true {
 		text.Draw(screen, timer, mplusNormalFont, columnWhite, row*4, color.White)
-		text.Draw(screen, strconv.Itoa(int(G.ai0.timer)), mplusNormalFont, columnWhite+180, row*4, color.White)
+		timer, err := time.ParseDuration(G.ai1.timer.String())
+		if err != nil {
+			panic(err)
+		}
+		truncated := timer.Truncate(time.Nanosecond).String()
+		if timer >= 1000000 {
+			truncated = timer.Truncate(time.Millisecond).String()
+		} else if timer >= 1000 {
+			truncated = timer.Truncate(time.Microsecond).String()
+		}
+		text.Draw(screen, truncated, mplusNormalFont, columnWhite+180, row*4, color.White)
 	}
 }
 

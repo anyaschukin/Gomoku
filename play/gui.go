@@ -14,7 +14,8 @@ import (
 func artificialIdiot(G *Game) {/////// move/remove?
 	start := time.Now()
 	suggestion := RandomCoordinate()
-	elapsed := float64(time.Since(start))
+	// time.Sleep(498 * time.Millisecond) //////////
+	elapsed := (time.Since(start))
 	if G.player == false {
 		G.ai0.suggest = suggestion
 		G.ai0.timer = elapsed
