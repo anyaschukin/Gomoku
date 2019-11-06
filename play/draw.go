@@ -17,6 +17,8 @@ import (
 var imgGoban *ebiten.Image
 var imgBlack *ebiten.Image
 var imgRed *ebiten.Image
+
+// var imgBlue *ebiten.Image
 var imgWhite *ebiten.Image
 var imgExit *ebiten.Image
 var imgNewGame *ebiten.Image
@@ -76,6 +78,10 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	// imgBlue, _, err = ebitenutil.NewImageFromFile("GUI/img/blue.png", ebiten.FilterDefault)////////// use it or lose it////////
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 	imgExit, _, err = ebitenutil.NewImageFromFile("GUI/img/exit.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
@@ -204,14 +210,6 @@ func drawExit(screen *ebiten.Image, G *Game) {
 	opExit.GeoM.Translate(exitX, exitY)
 	opExit.GeoM.Scale(scale, scale)
 	screen.DrawImage(imgExit, opExit)
-}
-
-func isPlayerHotseat(G *Game) bool {
-	if (G.player == false && G.ai0.hotseat == true) ||
-		(G.player == true && G.ai1.hotseat == true) {
-		return true
-	}
-	return false
 }
 
 func drawSuggestion(screen *ebiten.Image, G *Game) {

@@ -2,11 +2,7 @@ package ai
 
 import "time"
 
-// import (
-// 	"time"
-// )
-
-func ai(g *game) (coordinate coordinate, elapsed time.Duration) {
+func ai(G *game) {//(coordinate coordinate, elapsed time.Duration) {
 	start := time.Now()
 	//	"Improved" Minimax implementation (Alpha-beta pruning, negascout, mtdf, ...) -> 5 points!
 	//	Move search depth - 10 or more levels -> 5 points!
@@ -21,7 +17,13 @@ func ai(g *game) (coordinate coordinate, elapsed time.Duration) {
 	//		check for advanteageous combinations ?
 	//		take both players into account ?
 	//		take past player actions into account to identify patterns and weigh board states accordingly ?
-	coordinate = RandomCoordinate()
+	suggestion = RandomCoordinate()
 	elapsed = time.Since(start)
-	return coordinate, elapsed
+	if G.player == false {
+		G.ai0.suggest = suggestion
+		G.ai0.timer = elapsed
+	} else {
+		G.ai1.suggest = suggestion
+		G.ai1.timer = elapsed
+	}
 }

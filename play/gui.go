@@ -3,13 +3,43 @@ package play //gui
 import (
 	// "fmt"
 	"log"
-	// "time"
+	"time"
 
 	_ "image/png"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
+
+func artificialIdiot(G *Game) {/////// move/remove?
+	start := time.Now()
+	suggestion := RandomCoordinate()
+	elapsed := float64(time.Since(start))
+	if G.player == false {
+		G.ai0.suggest = suggestion
+		G.ai0.timer = elapsed
+	} else {
+		G.ai1.suggest = suggestion
+		G.ai1.timer = elapsed
+	}
+}
+
+
+func isPlayerHuman(G *Game) bool {
+	if (G.player == false && G.ai0.aiplayer == false) ||
+		(G.player == true && G.ai1.aiplayer == false) {
+		return true
+	}
+	return false
+}
+
+func isPlayerHotseat(G *Game) bool {
+	if (G.player == false && G.ai0.hotseat == true) ||
+		(G.player == true && G.ai1.hotseat == true) {
+		return true
+	}
+	return false
+}
 
 func gameLoop(coordinate coordinate, G *Game) {
 	validated := PlaceIfValid(coordinate, G)
@@ -18,14 +48,9 @@ func gameLoop(coordinate coordinate, G *Game) {
 		CheckWin(coordinate, G)
 		SwapPlayers(G)
 	}
-}
-
-func isPlayerHuman(G *Game) bool {
-	if (G.player == false && G.ai0.aiplayer == false) ||
-		(G.player == true && G.ai1.aiplayer == false) {
-		return true
+	if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
+		artificialIdiot(G)/////create move suggestion
 	}
-	return false
 }
 
 func (G *Game) UpdateGame() { ////listen for input, update struct
@@ -42,7 +67,12 @@ func (G *Game) UpdateGame() { ////listen for input, update struct
 				}
 			}
 		} else { /////////// ai player
-			coordinate = RandomCoordinate() // ai suggest move
+			if G.player == false {
+				coordinate = G.ai0.suggest
+			} else {
+				coordinate = G.ai1.suggest
+			}
+			// coordinate = RandomCoordinate() // ai suggest move
 			gameLoop(coordinate, G)
 		}
 	}

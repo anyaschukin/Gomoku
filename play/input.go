@@ -94,8 +94,12 @@ func input(G *Game) {
 			if G.newGame == false {
 				G := NewGame()
 				G.ai0.aiplayer = true
+				G.ai0.depth = 3 //?
 				G.newGame = true
 			} else {
+				if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
+					artificialIdiot(G)/////create move suggestion
+				}
 				G.newGame = false
 			}
 		}

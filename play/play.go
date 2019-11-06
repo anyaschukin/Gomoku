@@ -27,8 +27,8 @@ type ai struct { /// merge with Game struct?
 	aiplayer bool       // is player 1 human or AI
 	hotseat  bool       // AI player only suggests moves, human must choose move
 	depth    uint8      // how many moves in advance do we examine
-	suggest  coordinate // ai suggested move
 	timer    float64
+	suggest  coordinate // ai suggested move
 }
 
 type Game struct {
@@ -59,9 +59,8 @@ func NewGame() *Game {
 func Opponent(player bool) bool {
 	if player == false {
 		return true
-	} else {
-		return false
 	}
+	return false
 }
 
 func SwapPlayers(G *Game) {
@@ -73,7 +72,10 @@ func SwapPlayers(G *Game) {
 
 func Play() {
 	G := NewGame()
-	G.ai0.aiplayer = true // false
+	G.ai0.aiplayer = true
+	if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
+		artificialIdiot(G)/////create move suggestion
+	}
 	RunEbiten()
 }
 
