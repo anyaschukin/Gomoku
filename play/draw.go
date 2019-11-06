@@ -19,8 +19,7 @@ import (
 var imgGoban *ebiten.Image
 var imgBlack *ebiten.Image
 var imgRed *ebiten.Image
-
-// var imgBlue *ebiten.Image
+var imgBlue *ebiten.Image
 var imgWhite *ebiten.Image
 var imgExit *ebiten.Image
 var imgNewGame *ebiten.Image
@@ -80,10 +79,10 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// imgBlue, _, err = ebitenutil.NewImageFromFile("GUI/img/blue.png", ebiten.FilterDefault)////////// use it or lose it////////
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	imgBlue, _, err = ebitenutil.NewImageFromFile("GUI/img/blue.png", ebiten.FilterDefault)////////// use it or lose it////////
+	if err != nil {
+		log.Fatal(err)
+	}
 	imgExit, _, err = ebitenutil.NewImageFromFile("GUI/img/exit.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
@@ -234,15 +233,29 @@ func drawExit(screen *ebiten.Image, G *Game) {
 	screen.DrawImage(imgExit, opExit)
 }
 
-func drawSuggestion(screen *ebiten.Image, G *Game) {
-	coordinate := G.ai0.suggest
-	if G.player == true {
-		coordinate = G.ai1.suggest
+func drawHotseatSuggestion(screen *ebiten.Image, G *Game) {
+	if isPlayerHotseat(G) == true {
+		coordinate := G.ai0.suggest
+		if G.player == true {
+			coordinate = G.ai1.suggest
+		}
+		opSuggestion := &ebiten.DrawImageOptions{}
+		opSuggestion.GeoM.Translate((zeroX + (float64(coordinate.x) * positionWidth)), (zeroY + (float64(coordinate.y) * positionWidth)))
+		opSuggestion.GeoM.Scale(scale, scale)
+		screen.DrawImage(imgRed, opSuggestion)
 	}
-	opSuggestion := &ebiten.DrawImageOptions{}
-	opSuggestion.GeoM.Translate((zeroX + (float64(coordinate.x) * positionWidth)), (zeroY + (float64(coordinate.y) * positionWidth)))
-	opSuggestion.GeoM.Scale(scale, scale)
-	screen.DrawImage(imgRed, opSuggestion)
+}
+
+func drawWinMove(screen *ebiten.Image, G *Game) {
+	if G.won == true {
+		if capturedTen(G) == false {
+			opWinMove := &ebiten.DrawImageOptions{}
+			opWinMove.GeoM.Translate((zeroX + (float64(G.align5.winmove.x) * positionWidth)), (zeroY + (float64(G.align5.winmove.y) * positionWidth)))
+			opWinMove.GeoM.Scale(scale, scale)
+			screen.DrawImage(imgRed, opWinMove)
+			screen.DrawImage(imgBlue, opWinMove)
+		}
+	}
 }
 
 func draw(screen *ebiten.Image, G *Game) {
@@ -253,9 +266,8 @@ func draw(screen *ebiten.Image, G *Game) {
 		drawGoban(screen, G)
 		drawStones(screen, G)
 		drawText(screen, G)
-		if isPlayerHotseat(G) == true {
-			drawSuggestion(screen, G)
-		}
+		drawHotseatSuggestion(screen, G)
+		drawWinMove(screen, G)
 	}
 	drawNewGame(screen, G)
 	drawExit(screen, G)

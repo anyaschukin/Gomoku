@@ -3,7 +3,6 @@
 Graphic interface (ebiten?)
 	- show last move
 	- show winning move
-	- timer and suggestion from ai in struct
 	- Game moves?
 
 AI
