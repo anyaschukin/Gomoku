@@ -48,6 +48,7 @@ func gameLoop(coordinate coordinate, G *Game) {
 		Capture(coordinate, G)
 		CheckWin(coordinate, G)
 		SwapPlayers(G)
+		G.move++
 	}
 	if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
 		artificialIdiot(G)/////create move suggestion

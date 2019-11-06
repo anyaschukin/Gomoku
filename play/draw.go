@@ -27,7 +27,7 @@ var imgSelect *ebiten.Image
 
 /// Text
 var (
-	captured        = `Captured: `
+	captured        = `Captured:`
 	mplusNormalFont font.Face
 	// mpluBigFont     font.Face
 )
@@ -37,6 +37,7 @@ var human = `Human`
 var artificial = `AI depth`
 var hotseat = `Hotseat`
 var timer = `Timer:`
+var move = `Move:`
 
 /// Goban positions
 var positionWidth float64 = 104.6
@@ -212,11 +213,17 @@ func drawMessage(screen *ebiten.Image, G *Game) {
 	}
 }
 
+func drawMove(screen *ebiten.Image, G *Game) {
+	text.Draw(screen, move, mplusNormalFont, columnBlack, row*13, color.Black)
+	text.Draw(screen, strconv.Itoa(int(G.move)), mplusNormalFont, columnBlack + 160, row*13, color.Black)
+}
+
 func drawText(screen *ebiten.Image, G *Game) {
 	drawPlayerInfo(screen, G)
 	drawCaptured(screen, G)
 	drawTimer(screen, G)
 	drawMessage(screen, G)
+	drawMove(screen, G)
 }
 
 func drawNewGame(screen *ebiten.Image, G *Game) {

@@ -2,7 +2,6 @@
 
 Graphic interface (ebiten?)
 	- show last move
-	- show winning move
 	- Game moves?
 
 AI

@@ -23,29 +23,27 @@ type align5 struct { //winning move for checking if opponent breaks it in the ne
 	winner   bool /// rm?
 }
 
-type ai struct { /// merge with Game struct?
-	aiplayer bool       // is player 1 human or AI
-	hotseat  bool       // AI player only suggests moves, human must choose move
-	depth    uint8      // how many moves in advance do we examine
-	timer    time.Duration // How long did the ai think for
-	suggest  coordinate // ai suggested move
+type ai struct {
+	aiplayer bool			// is player 1 human or AI
+	hotseat  bool			// AI player only suggests moves, human must choose move
+	depth    uint8			// how many moves in advance do we examine
+	timer    time.Duration	// How long did the ai think for
+	suggest  coordinate		// ai suggested move
 }
 
 type Game struct {
-	goban    [19][19]position
-	player   bool   // whose move is it? (player 0 - black first)
-	ai0      ai     // is black human or ai?
-	ai1      ai     // is white human or ai?
-	capture0 uint8  // capture 10 and win
-	capture1 uint8  // capture 10 and win
-	align5   align5 // one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
-	// move		uint32				// how many moves have been played in total (is this desirable/necessary?)
-	// input      *Input
-	// boardImage *ebiten.Image ///
-	newGame bool   // New Game button has been pressed, show new game options
-	won     bool   // game finished
-	winmove  coordinate
-	message string // game feeback (invalid move, win)
+	goban		[19][19]position
+	player		bool  		// whose move is it? (player 0 - black first)
+	ai0			ai     		// is black human or ai?
+	ai1			ai     		// is white human or ai?
+	capture0	uint8  		// capture 10 and win
+	capture1	uint8  		// capture 10 and win
+	align5		align5 		// one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
+	move		uint32		// how many moves have been played in total (is this desirable/necessary?)
+	newGame		bool		// New Game button has been pressed, show new game options
+	won			bool		// game finished
+	winmove		coordinate	// how many moves have been played in total
+	message		string		// game feeback (invalid move, win)
 }
 
 var (
