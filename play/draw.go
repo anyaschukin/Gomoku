@@ -5,7 +5,6 @@ import (
 	"log"
 	"strconv"
 	"time"
-	// "fmt"
 
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
@@ -142,31 +141,37 @@ func drawStones(screen *ebiten.Image, G *Game) {
 }
 
 func drawPlayerInfo(screen *ebiten.Image, G *Game) {
+	if G.ai0.hotseat == true {
+		text.Draw(screen, hotseat, mplusNormalFont, columnBlack, row*2, color.Black)
+	}
 	if G.ai0.aiplayer == true {
-		text.Draw(screen, artificial, mplusNormalFont, columnBlack, row*2, color.Black)
-		text.Draw(screen, strconv.Itoa(int(G.ai0.depth)), mplusNormalFont, columnBlack+230, row*2, color.Black)
+		text.Draw(screen, artificial, mplusNormalFont, columnBlack, row*3, color.Black)
+		text.Draw(screen, strconv.Itoa(int(G.ai0.depth)), mplusNormalFont, columnBlack+230, row*3, color.Black)
 	} else {
-		text.Draw(screen, human, mplusNormalFont, columnBlack, row*2, color.Black)
+		text.Draw(screen, human, mplusNormalFont, columnBlack, row*3, color.Black)
+	}
+	if G.ai1.hotseat == true {
+		text.Draw(screen, hotseat, mplusNormalFont, columnWhite, row*2, color.White)
 	}
 	if G.ai1.aiplayer == true {
-		text.Draw(screen, artificial, mplusNormalFont, columnWhite, row*2, color.White)
-		text.Draw(screen, strconv.Itoa(int(G.ai1.depth)), mplusNormalFont, columnWhite+230, row*2, color.White)
+		text.Draw(screen, artificial, mplusNormalFont, columnWhite, row*3, color.White)
+		text.Draw(screen, strconv.Itoa(int(G.ai1.depth)), mplusNormalFont, columnWhite+230, row*3, color.White)
 	} else {
-		text.Draw(screen, human, mplusNormalFont, columnWhite, row*2, color.White)
+		text.Draw(screen, human, mplusNormalFont, columnWhite, row*3, color.White)
 	}
 }
 
 func drawCaptured(screen *ebiten.Image, G *Game) {
-	text.Draw(screen, captured, mplusNormalFont, columnBlack, row*3, color.Black)
-	text.Draw(screen, strconv.Itoa(int(G.capture0)), mplusNormalFont, 340, row*3, color.Black)
+	text.Draw(screen, captured, mplusNormalFont, columnBlack, row*4, color.Black)
+	text.Draw(screen, strconv.Itoa(int(G.capture0)), mplusNormalFont, 340, row*4, color.Black)
 
-	text.Draw(screen, captured, mplusNormalFont, columnWhite, row*3, color.White)
-	text.Draw(screen, strconv.Itoa(int(G.capture1)), mplusNormalFont, 2310, row*3, color.White)
+	text.Draw(screen, captured, mplusNormalFont, columnWhite, row*4, color.White)
+	text.Draw(screen, strconv.Itoa(int(G.capture1)), mplusNormalFont, 2310, row*4, color.White)
 }
 
 func drawTimer(screen *ebiten.Image, G *Game) {
 	if G.ai0.aiplayer == true || G.ai0.hotseat == true {
-		text.Draw(screen, timer, mplusNormalFont, columnBlack, row*4, color.Black)
+		text.Draw(screen, timer, mplusNormalFont, columnBlack, row*5, color.Black)
 		timer, err := time.ParseDuration(G.ai0.timer.String())
 		if err != nil {
 			panic(err)
@@ -177,10 +182,10 @@ func drawTimer(screen *ebiten.Image, G *Game) {
 		} else if timer >= 1000 {
 			truncated = timer.Truncate(time.Microsecond).String()
 		}
-		text.Draw(screen, truncated, mplusNormalFont, columnBlack+180, row*4, color.Black)
+		text.Draw(screen, truncated, mplusNormalFont, columnBlack+180, row*5, color.Black)
 	}
 	if G.ai1.aiplayer == true || G.ai1.hotseat == true {
-		text.Draw(screen, timer, mplusNormalFont, columnWhite, row*4, color.White)
+		text.Draw(screen, timer, mplusNormalFont, columnWhite, row*5, color.White)
 		timer, err := time.ParseDuration(G.ai1.timer.String())
 		if err != nil {
 			panic(err)
@@ -191,7 +196,7 @@ func drawTimer(screen *ebiten.Image, G *Game) {
 		} else if timer >= 1000 {
 			truncated = timer.Truncate(time.Microsecond).String()
 		}
-		text.Draw(screen, truncated, mplusNormalFont, columnWhite+180, row*4, color.White)
+		text.Draw(screen, truncated, mplusNormalFont, columnWhite+180, row*5, color.White)
 	}
 }
 
@@ -199,16 +204,16 @@ func drawMessage(screen *ebiten.Image, G *Game) {
 	if G.won == false {
 		if G.player == false {
 			text.Draw(screen, blackMove, mplusNormalFont, columnBlack, row, color.Black)
-			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row*5, color.Black)
+			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row*6, color.Black)
 		} else {
 			text.Draw(screen, whiteMove, mplusNormalFont, columnWhite, row, color.White)
-			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row*5, color.White)
+			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row*6, color.White)
 		}
 	} else {
 		if G.message == "Black Wins!" {
-			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row*5, color.Black)
+			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row*6, color.Black)
 		} else {
-			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row*5, color.White)
+			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row*6, color.White)
 		}
 	}
 }

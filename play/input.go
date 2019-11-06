@@ -114,8 +114,10 @@ func input(G *Game) {
 			if clickHotseat0(x, y) == true {
 				if G.ai0.hotseat == false {
 					G.ai0.hotseat = true
+					G.ai0.aiplayer = true
 				} else {
 					G.ai0.hotseat = false
+					G.ai0.aiplayer = false
 				}
 			}
 			if clickHuman1(x, y) == true {
@@ -128,8 +130,10 @@ func input(G *Game) {
 			if clickHotseat1(x, y) == true {
 				if G.ai1.hotseat == false {
 					G.ai1.hotseat = true
+					G.ai1.aiplayer = true
 				} else {
 					G.ai1.hotseat = false
+					G.ai1.aiplayer = false
 				}
 			}
 		}
