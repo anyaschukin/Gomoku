@@ -11,7 +11,7 @@ import (
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-func artificialIdiot(G *Game) {/////// move/remove?
+func artificialIdiot(G *Game) { /////// move/remove?
 	start := time.Now()
 	suggestion := RandomCoordinate()
 	// time.Sleep(498 * time.Millisecond) //////////
@@ -24,7 +24,6 @@ func artificialIdiot(G *Game) {/////// move/remove?
 		G.ai1.timer = elapsed
 	}
 }
-
 
 func isPlayerHuman(G *Game) bool {
 	if (G.player == false && G.ai0.aiplayer == false) ||
@@ -51,7 +50,7 @@ func gameLoop(coordinate coordinate, G *Game) {
 		G.move++
 	}
 	if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
-		artificialIdiot(G)/////create move suggestion
+		artificialIdiot(G) /////create move suggestion
 	}
 }
 
@@ -74,7 +73,6 @@ func (G *Game) UpdateGame() { ////listen for input, update struct
 			} else {
 				coordinate = G.ai1.suggest
 			}
-			// coordinate = RandomCoordinate() // ai suggest move
 			gameLoop(coordinate, G)
 		}
 	}
@@ -93,7 +91,7 @@ func update(screen *ebiten.Image) error {
 func RunEbiten() {
 	w, h := ebiten.ScreenSizeInFullscreen()
 	ebiten.SetFullscreen(true)
-	// ebiten.SetCursorVisible(true)//// helpful?
+	// ebiten.SetCursorVisible(true) //// helpful?
 	if err := ebiten.Run(update, w, h, 1, "Gomoku"); err != nil {
 		log.Fatal(err)
 	}

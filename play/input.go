@@ -83,7 +83,6 @@ func input(G *Game) {
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) == true { // quit if press escape
 		os.Exit(0) ////// is this exiting properly?
 	}
-	// click exit or new game
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 		x, y := ebiten.CursorPosition()
 		// fmt.Printf("mouse pressed x: %d, y: %d\n", x, y) ////////
@@ -98,7 +97,7 @@ func input(G *Game) {
 				G.newGame = true
 			} else {
 				if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
-					artificialIdiot(G)/////create move suggestion
+					artificialIdiot(G) /////create move suggestion
 				}
 				G.newGame = false
 			}

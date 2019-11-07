@@ -17,9 +17,9 @@ import (
 /// Images
 var imgGoban *ebiten.Image
 var imgBlack *ebiten.Image
+var imgWhite *ebiten.Image
 var imgRed *ebiten.Image
 var imgBlue *ebiten.Image
-var imgWhite *ebiten.Image
 var imgExit *ebiten.Image
 var imgNewGame *ebiten.Image
 var imgSelect *ebiten.Image
@@ -38,7 +38,7 @@ var hotseat = `Hotseat`
 var timer = `Timer:`
 var move = `Move:`
 
-/// Goban positions
+/// Goban position
 var positionWidth float64 = 104.6
 var zeroX float64 = 838 // Left
 var zeroY float64 = 34  // Top
@@ -53,15 +53,13 @@ var newGameBlack2 float64 = 5000
 var exitX float64 = 3210
 var exitY float64 = 1814
 
-/// Text rows
+/// Text rows and columns
 var row = 100
-
-/// New Game Columns
-var columnBlack = 80   // screen indent
-var columnWhite = 2050 // screen indent
+var columnBlack = 80
+var columnWhite = 2050
 
 func init() {
-	/// Init images
+	/// Initialize images
 	var err error
 	imgGoban, _, err = ebitenutil.NewImageFromFile("GUI/img/goban.png", ebiten.FilterDefault)
 	if err != nil {
@@ -79,7 +77,7 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgBlue, _, err = ebitenutil.NewImageFromFile("GUI/img/blue.png", ebiten.FilterDefault)////////// use it or lose it////////
+	imgBlue, _, err = ebitenutil.NewImageFromFile("GUI/img/blue.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -95,7 +93,7 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	/// Init text
+	/// Initialize text
 	tt, err := truetype.Parse(fonts.MPlus1pRegular_ttf)
 	if err != nil {
 		log.Fatal(err)
@@ -220,7 +218,7 @@ func drawMessage(screen *ebiten.Image, G *Game) {
 
 func drawMove(screen *ebiten.Image, G *Game) {
 	text.Draw(screen, move, mplusNormalFont, columnBlack, row*13, color.Black)
-	text.Draw(screen, strconv.Itoa(int(G.move)), mplusNormalFont, columnBlack + 160, row*13, color.Black)
+	text.Draw(screen, strconv.Itoa(int(G.move)), mplusNormalFont, columnBlack+160, row*13, color.Black)
 }
 
 func drawText(screen *ebiten.Image, G *Game) {
@@ -229,20 +227,6 @@ func drawText(screen *ebiten.Image, G *Game) {
 	drawTimer(screen, G)
 	drawMessage(screen, G)
 	drawMove(screen, G)
-}
-
-func drawNewGame(screen *ebiten.Image, G *Game) {
-	opNewGame := &ebiten.DrawImageOptions{}
-	opNewGame.GeoM.Translate(newGameX, newGameY)
-	opNewGame.GeoM.Scale(0.6, 0.6)
-	screen.DrawImage(imgNewGame, opNewGame)
-}
-
-func drawExit(screen *ebiten.Image, G *Game) {
-	opExit := &ebiten.DrawImageOptions{}
-	opExit.GeoM.Translate(exitX, exitY)
-	opExit.GeoM.Scale(scale, scale)
-	screen.DrawImage(imgExit, opExit)
 }
 
 func drawHotseatSuggestion(screen *ebiten.Image, G *Game) {
@@ -266,6 +250,20 @@ func drawWinMove(screen *ebiten.Image, G *Game) {
 		screen.DrawImage(imgRed, opWinMove)
 		screen.DrawImage(imgBlue, opWinMove)
 	}
+}
+
+func drawNewGame(screen *ebiten.Image, G *Game) {
+	opNewGame := &ebiten.DrawImageOptions{}
+	opNewGame.GeoM.Translate(newGameX, newGameY)
+	opNewGame.GeoM.Scale(0.6, 0.6)
+	screen.DrawImage(imgNewGame, opNewGame)
+}
+
+func drawExit(screen *ebiten.Image, G *Game) {
+	opExit := &ebiten.DrawImageOptions{}
+	opExit.GeoM.Translate(exitX, exitY)
+	opExit.GeoM.Scale(scale, scale)
+	screen.DrawImage(imgExit, opExit)
 }
 
 func draw(screen *ebiten.Image, G *Game) {
