@@ -8,8 +8,9 @@ import (
 	"github.com/hajimehoshi/ebiten/text"
 )
 
-var newGamecolumnBlack = 140
-var newGamecolumnWhite = 1230
+var newGamecolumnBlack = 140     //100
+var newGamecolumnWhite = 1230    // 1000
+var newGameBlack2 float64 = 5000 //4700
 
 func drawBlackStone(screen *ebiten.Image, G *Game) {
 	opBlack := &ebiten.DrawImageOptions{}
@@ -53,7 +54,7 @@ func drawSelectPlayer(screen *ebiten.Image, G *Game, player bool) {
 	var shift float64
 	if player == true {
 		p = G.ai1
-		shift = 9100
+		shift = 9100 //7500
 	}
 	if p.hotseat == true {
 		drawSelectHotseat(screen, G, shift)

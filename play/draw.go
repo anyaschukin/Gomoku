@@ -47,7 +47,6 @@ var scale float64 = 0.7
 /// New Game position
 var newGameX float64 = 3405
 var newGameY float64 = 1914
-var newGameBlack2 float64 = 5000
 
 /// Exit position
 var exitX float64 = 3210
@@ -229,6 +228,16 @@ func drawText(screen *ebiten.Image, G *Game) {
 	drawMove(screen, G)
 }
 
+func drawLastMove(screen *ebiten.Image, G *Game) {
+	if G.drawLastMove == true && G.move > 0 {
+		opLastMove := &ebiten.DrawImageOptions{}
+		opLastMove.GeoM.Translate((zeroX + (float64(G.lastMove.x) * positionWidth)), (zeroY + (float64(G.lastMove.y) * positionWidth)))
+		opLastMove.GeoM.Scale(scale, scale)
+		screen.DrawImage(imgRed, opLastMove)
+		// screen.DrawImage(imgBlue, opLastMove)
+	}
+}
+
 func drawHotseatSuggestion(screen *ebiten.Image, G *Game) {
 	if isPlayerHotseat(G) == true && G.won == false {
 		coordinate := G.ai0.suggest
@@ -274,6 +283,7 @@ func draw(screen *ebiten.Image, G *Game) {
 		drawGoban(screen, G)
 		drawStones(screen, G)
 		drawText(screen, G)
+		drawLastMove(screen, G)
 		drawHotseatSuggestion(screen, G)
 		drawWinMove(screen, G)
 	}

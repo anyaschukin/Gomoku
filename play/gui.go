@@ -31,6 +31,7 @@ func gameLoop(coordinate coordinate, G *Game) {
 	if validated == true {
 		Capture(coordinate, G)
 		CheckWin(coordinate, G)
+		G.lastMove = coordinate
 		SwapPlayers(G)
 		G.move++
 	}

@@ -32,19 +32,22 @@ type ai struct {
 	suggest  coordinate    // ai suggested move
 }
 
+// Game struct contains all information about currnt game state
 type Game struct {
-	goban    [19][19]position // game board
-	player   bool             // whose move is it? (player 0 - black first)
-	ai0      ai               // is black human or ai?
-	ai1      ai               // is white human or ai?
-	capture0 uint8            // capture 10 and win
-	capture1 uint8            // capture 10 and win
-	align5   align5           // one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
-	move     uint32           // how many moves have been played in total (is this desirable/necessary?)
-	newGame  bool             // New Game button has been pressed, show new game options
-	won      bool             // game finished
-	winmove  coordinate       // how many moves have been played in total
-	message  string           // game feeback (invalid move, win)
+	goban        [19][19]position // game board
+	player       bool             // whose move is it? (player 0 - black first)
+	ai0          ai               // is black human or ai?
+	ai1          ai               // is white human or ai?
+	capture0     uint8            // capture 10 and win
+	capture1     uint8            // capture 10 and win
+	align5       align5           // one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
+	move         uint32           // how many moves have been played in total (is this desirable/necessary?)
+	drawLastMove bool             // Higlight the last move played
+	lastMove     coordinate       // What was the last move played
+	newGame      bool             // New Game button has been pressed, show new game options
+	won          bool             // game finished
+	winmove      coordinate       // how many moves have been played in total
+	message      string           // game feeback (invalid move, win)
 }
 
 // G contains all game state info
@@ -99,6 +102,7 @@ func Play() {
 	G := NewGame()
 	G.ai0.aiplayer = true
 	G.ai0.depth = 3
+	G.drawLastMove = true /////////// implement in gui!!!!!!!
 	suggestMove(G)
 	RunEbiten()
 }

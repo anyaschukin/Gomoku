@@ -95,6 +95,7 @@ func input(G *Game) {
 				G.ai0.aiplayer = true
 				G.ai0.depth = 3 //?
 				G.newGame = true
+				G.drawLastMove = true /////////// implement in gui!!!!!
 			} else {
 				suggestMove(G)
 				G.newGame = false
