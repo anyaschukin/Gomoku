@@ -8,6 +8,21 @@ import (
 	"github.com/hajimehoshi/ebiten/text"
 )
 
+var newGamecolumnBlack = 140
+var newGamecolumnWhite = 1230
+
+func drawBlackStone(screen *ebiten.Image, G *Game) {
+	opBlack := &ebiten.DrawImageOptions{}
+	opBlack.GeoM.Translate(float64(newGamecolumnBlack)+340, 50)
+	screen.DrawImage(imgBlack, opBlack)
+}
+
+func drawWhiteStone(screen *ebiten.Image, G *Game) {
+	opWhite := &ebiten.DrawImageOptions{}
+	opWhite.GeoM.Translate(float64(newGamecolumnWhite)+340, 50)
+	screen.DrawImage(imgWhite, opWhite)
+}
+
 func drawSelectHuman(screen *ebiten.Image, G *Game, shift float64) {
 	opSelect := &ebiten.DrawImageOptions{}
 	opSelect.GeoM.Translate(newGameBlack2+shift, 1550)
@@ -56,29 +71,30 @@ func drawSelect(screen *ebiten.Image, G *Game) {
 	drawSelectPlayer(screen, G, true)
 }
 
+func drawAI(screen *ebiten.Image, G *Game, i int) {
+	text.Draw(screen, artificial, mplusNormalFont, newGamecolumnBlack, row*(i+2)+50, color.Black)
+	text.Draw(screen, strconv.Itoa(i), mplusNormalFont, newGamecolumnBlack+230, row*(i+2)+50, color.Black)
+	text.Draw(screen, artificial, mplusNormalFont, newGamecolumnWhite, row*(i+2)+50, color.White)
+	text.Draw(screen, strconv.Itoa(i), mplusNormalFont, newGamecolumnWhite+230, row*(i+2)+50, color.White)
+}
+
+func drawHuman(screen *ebiten.Image, G *Game) {
+	text.Draw(screen, human, mplusNormalFont, newGamecolumnBlack+520, row*2+50, color.Black)
+	text.Draw(screen, human, mplusNormalFont, newGamecolumnWhite+520, row*2+50, color.White)
+}
+
+func drawHotseat(screen *ebiten.Image, G *Game) {
+	text.Draw(screen, hotseat, mplusNormalFont, newGamecolumnBlack+520, row*3+50, color.Black)
+	text.Draw(screen, hotseat, mplusNormalFont, newGamecolumnWhite+520, row*3+50, color.White)
+}
+
 func drawNewGameOptions(screen *ebiten.Image, G *Game) {
-	columnBlack := 140
-	columnWhite := 1230
-	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff}) /// Draw background/////
-
-	opBlack := &ebiten.DrawImageOptions{}
-	opBlack.GeoM.Translate(float64(columnBlack)+340, 50)
-	screen.DrawImage(imgBlack, opBlack)
-
-	opWhite := &ebiten.DrawImageOptions{}
-	opWhite.GeoM.Translate(float64(columnWhite)+340, 50)
-	screen.DrawImage(imgWhite, opWhite)
-
+	drawBlackStone(screen, G)
+	drawWhiteStone(screen, G)
 	drawSelect(screen, G)
-
 	for i := 0; i <= 11; i++ {
-		text.Draw(screen, artificial, mplusNormalFont, columnBlack, row*(i+2)+50, color.Black)
-		text.Draw(screen, strconv.Itoa(i), mplusNormalFont, columnBlack+230, row*(i+2)+50, color.Black)
-		text.Draw(screen, artificial, mplusNormalFont, columnWhite, row*(i+2)+50, color.White)
-		text.Draw(screen, strconv.Itoa(i), mplusNormalFont, columnWhite+230, row*(i+2)+50, color.White)
+		drawAI(screen, G, i)
 	}
-	text.Draw(screen, human, mplusNormalFont, columnBlack+520, row*2+50, color.Black)
-	text.Draw(screen, hotseat, mplusNormalFont, columnBlack+520, row*3+50, color.Black)
-	text.Draw(screen, human, mplusNormalFont, columnWhite+520, row*2+50, color.White)
-	text.Draw(screen, hotseat, mplusNormalFont, columnWhite+520, row*3+50, color.White)
+	drawHuman(screen, G)
+	drawHotseat(screen, G)
 }
