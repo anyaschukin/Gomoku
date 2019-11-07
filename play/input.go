@@ -96,9 +96,7 @@ func input(G *Game) {
 				G.ai0.depth = 3 //?
 				G.newGame = true
 			} else {
-				if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
-					artificialIdiot(G) /////create move suggestion
-				}
+				suggestMove(G)
 				G.newGame = false
 			}
 		}

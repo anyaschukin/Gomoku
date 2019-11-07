@@ -3,27 +3,12 @@ package play //gui
 import (
 	// "fmt"
 	"log"
-	"time"
 
 	_ "image/png"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
-
-func artificialIdiot(G *Game) { /////// move/remove?
-	start := time.Now()
-	suggestion := RandomCoordinate()
-	// time.Sleep(498 * time.Millisecond) //////////
-	elapsed := (time.Since(start))
-	if G.player == false {
-		G.ai0.suggest = suggestion
-		G.ai0.timer = elapsed
-	} else {
-		G.ai1.suggest = suggestion
-		G.ai1.timer = elapsed
-	}
-}
 
 func isPlayerHuman(G *Game) bool {
 	if (G.player == false && G.ai0.aiplayer == false) ||
@@ -49,9 +34,7 @@ func gameLoop(coordinate coordinate, G *Game) {
 		SwapPlayers(G)
 		G.move++
 	}
-	if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
-		artificialIdiot(G) /////create move suggestion
-	}
+	suggestMove(G)
 }
 
 func (G *Game) UpdateGame() { ////listen for input, update struct

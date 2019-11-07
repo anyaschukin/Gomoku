@@ -230,7 +230,7 @@ func drawText(screen *ebiten.Image, G *Game) {
 }
 
 func drawHotseatSuggestion(screen *ebiten.Image, G *Game) {
-	if isPlayerHotseat(G) == true {
+	if isPlayerHotseat(G) == true && G.won == false {
 		coordinate := G.ai0.suggest
 		if G.player == true {
 			coordinate = G.ai1.suggest

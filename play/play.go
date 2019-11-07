@@ -1,6 +1,7 @@
 package play
 
 import "time"
+
 // import (
 // 	"fmt"
 // 	// lib "Gomoku/golib"
@@ -24,37 +25,38 @@ type align5 struct { //winning move for checking if opponent breaks it in the ne
 }
 
 type ai struct {
-	aiplayer bool			// is player 1 human or AI
-	hotseat  bool			// AI player only suggests moves, human must choose move
-	depth    uint8			// how many moves in advance do we examine
-	timer    time.Duration	// How long did the ai think for
-	suggest  coordinate		// ai suggested move
+	aiplayer bool          // is player 1 human or AI
+	hotseat  bool          // AI player only suggests moves, human must choose move
+	depth    uint8         // how many moves in advance do we examine
+	timer    time.Duration // How long did the ai think for
+	suggest  coordinate    // ai suggested move
 }
 
 type Game struct {
-	goban		[19][19]position
-	player		bool  		// whose move is it? (player 0 - black first)
-	ai0			ai     		// is black human or ai?
-	ai1			ai     		// is white human or ai?
-	capture0	uint8  		// capture 10 and win
-	capture1	uint8  		// capture 10 and win
-	align5		align5 		// one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
-	move		uint32		// how many moves have been played in total (is this desirable/necessary?)
-	newGame		bool		// New Game button has been pressed, show new game options
-	won			bool		// game finished
-	winmove		coordinate	// how many moves have been played in total
-	message		string		// game feeback (invalid move, win)
+	goban    [19][19]position
+	player   bool       // whose move is it? (player 0 - black first)
+	ai0      ai         // is black human or ai?
+	ai1      ai         // is white human or ai?
+	capture0 uint8      // capture 10 and win
+	capture1 uint8      // capture 10 and win
+	align5   align5     // one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
+	move     uint32     // how many moves have been played in total (is this desirable/necessary?)
+	newGame  bool       // New Game button has been pressed, show new game options
+	won      bool       // game finished
+	winmove  coordinate // how many moves have been played in total
+	message  string     // game feeback (invalid move, win)
 }
 
-var (
-	G *Game
-)
+// G contains all game state info
+var G *Game
 
+// NewGame initializes a new game
 func NewGame() *Game {
 	G = &Game{}
 	return G
 }
 
+// Opponent returns the opponent of the current player
 func Opponent(player bool) bool {
 	if player == false {
 		return true
@@ -62,6 +64,7 @@ func Opponent(player bool) bool {
 	return false
 }
 
+// SwapPlayers swaps players and clears the message
 func SwapPlayers(G *Game) {
 	G.player = Opponent(G.player)
 	if G.won == false {
@@ -69,81 +72,30 @@ func SwapPlayers(G *Game) {
 	}
 }
 
+func artificialIdiot(G *Game) { /////// move/remove?
+	start := time.Now()
+	suggestion := RandomCoordinate()
+	// time.Sleep(498 * time.Millisecond) //////////
+	elapsed := (time.Since(start))
+	if G.player == false {
+		G.ai0.suggest = suggestion
+		G.ai0.timer = elapsed
+	} else {
+		G.ai1.suggest = suggestion
+		G.ai1.timer = elapsed
+	}
+}
+
+func suggestMove(G *Game) {
+	if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
+		artificialIdiot(G) /////create move suggestion
+	}
+}
+
 func Play() {
 	G := NewGame()
 	G.ai0.aiplayer = true
 	G.ai0.depth = 3
-	if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
-		artificialIdiot(G)/////create move suggestion
-	}
+	suggestMove(G)
 	RunEbiten()
 }
-
-// func GameLoop(G *Game) {//(G *Game) {
-// 	// G = Ga
-// 	validated := false
-// 	coordinate := RandomCoordinate() /////
-// 	for i := 0; i < 10; i++ {       //moves ////!!!!!!
-// 		validated, coordinate = PlaceRandomIfValid(G)
-// 		if validated == true {
-// 			Capture(coordinate, G)
-// 			DumpGoban(&G.goban) //////
-// 			// CountStones(&G.goban) /////////
-// 			CheckWin(coordinate, G)
-// 			G.player = SwapPlayers(G.player)
-// 		}
-// 	}
-// 	// update Game.moves ++
-// 	//	return err
-// 	// return G
-// }
-
-// func Play() {
-// G := initializeGame()
-// GameLoop(G)
-
-// /// Test DoubleFree
-// zero := coordinate{0, 0}  /////////
-// PlaceIfValid(zero, g)     /////////
-// three := coordinate{1, 1} /////////
-// PlaceIfValid(three, g)    /////////
-// three = coordinate{3, 5}  /////////
-// PlaceIfValid(three, g)    /////////
-// three = coordinate{3, 4}  /////////
-// PlaceIfValid(three, g)    /////////
-// // g.player = true           //////
-// // three = coordinate{3, 2}  ///////// one of the three-aligned obstructed, therefore next move legal.
-// // PlaceIfValid(three, g)    /////////
-// // g.player = false          /////
-// g.player = true          //////
-// three = coordinate{3, 1} /////////
-// PlaceIfValid(three, g)   /////////
-// g.player = false         /////
-// three = coordinate{3, 3} ///////// Double Three, should be rejected
-// PlaceIfValid(three, g)   ///////// Double Three, should be rejected
-
-// // launch ebiten. render goban and Game stats 		// # do first
-// // GameLoop(g)
-
-// /// Test Place stone
-// PlaceIfValid(RandomCoordinate(), g)
-// PlaceIfValid(RandomCoordinate(), g)
-// PlaceIfValid(RandomCoordinate(), g)
-// PlaceIfValid(RandomCoordinate(), g)
-// PlaceIfValid(RandomCoordinate(), g)
-// PlaceIfValid(RandomCoordinate(), g)
-// // PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
-// // PlaceStone(RandomCoordinate(), true, &g.goban)  //////
-// // PlaceStone(RandomCoordinate(), true, &g.goban)  ///////
-// // PlaceStone(RandomCoordinate(), false, &g.goban) ////////
-// // PlaceStone(RandomCoordinate(), true, &g.goban)  ////////
-
-// RemoveStone(zero, &g.goban) /////////
-
-// coordinate, elapsed := ai(g)
-// PlaceIfValid(coordinate, g) //////
-// fmt.Println(elapsed)        // tme taken by ai //////////
-
-// gui.RunEbiten()
-// DumpGoban(&g.goban)/////
-// }
