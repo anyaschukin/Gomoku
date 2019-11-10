@@ -92,12 +92,8 @@ func input(G *Game) {
 		if clickNewGame(x, y) == true {
 			if G.NewGame == false {
 				G := NewGame()
-				G.Ai0.AiPlayer = true
-				G.Ai0.Depth = 3 //?
 				G.NewGame = true
-				G.DrawLastMove = true /////////// implement in gui!!!!!
 			} else {
-				SuggestMove(G)
 				G.NewGame = false
 			}
 		}

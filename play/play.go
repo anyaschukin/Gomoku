@@ -55,6 +55,10 @@ var G *Game
 // NewGame initializes a new game
 func NewGame() *Game {
 	G = &Game{}
+	G.Ai0.AiPlayer = true
+	G.Ai0.Depth = 3
+	G.DrawLastMove = true /////////// implement in gui!!!!!!!
+	SuggestMove(G)
 	return G
 }
 
@@ -122,9 +126,6 @@ func SuggestMove(G *Game) {
 // Play initializes a new game and launches the GUI (Ebiten)
 func Play() {
 	G := NewGame()
-	G.Ai0.AiPlayer = true
-	G.Ai0.Depth = 3
-	G.DrawLastMove = true /////////// implement in gui!!!!!!!
-	SuggestMove(G)
+	G.Ai1.Depth = 3////////
 	RunEbiten()
 }

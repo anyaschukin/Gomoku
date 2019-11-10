@@ -8,3 +8,4 @@ AI
 
 #### BONUS ####
 1. Human vs human, ai vs ai
+2. show last move?
