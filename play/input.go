@@ -92,7 +92,7 @@ func input(G *Game) {
 		if clickNewGame(x, y) == true {
 			if G.newGame == false {
 				G := NewGame()
-				G.ai0.aiplayer = true
+				G.ai0.aiPlayer = true
 				G.ai0.depth = 3 //?
 				G.newGame = true
 				G.drawLastMove = true /////////// implement in gui!!!!!
@@ -103,35 +103,35 @@ func input(G *Game) {
 		}
 		if G.newGame == true {
 			if clickHuman0(x, y) == true {
-				G.ai0.aiplayer = false
+				G.ai0.aiPlayer = false
 			}
 			if clickAI0(x, y) == true {
-				G.ai0.aiplayer = true
+				G.ai0.aiPlayer = true
 				G.ai0.depth = uint8((y - 186) / (1201 / 12))
 			}
 			if clickHotseat0(x, y) == true {
 				if G.ai0.hotseat == false {
 					G.ai0.hotseat = true
-					G.ai0.aiplayer = true
+					G.ai0.aiPlayer = true
 				} else {
 					G.ai0.hotseat = false
-					G.ai0.aiplayer = false
+					G.ai0.aiPlayer = false
 				}
 			}
 			if clickHuman1(x, y) == true {
-				G.ai1.aiplayer = false
+				G.ai1.aiPlayer = false
 			}
 			if clickAI1(x, y) == true {
-				G.ai1.aiplayer = true
+				G.ai1.aiPlayer = true
 				G.ai1.depth = uint8((y - 186) / (1201 / 12))
 			}
 			if clickHotseat1(x, y) == true {
 				if G.ai1.hotseat == false {
 					G.ai1.hotseat = true
-					G.ai1.aiplayer = true
+					G.ai1.aiPlayer = true
 				} else {
 					G.ai1.hotseat = false
-					G.ai1.aiplayer = false
+					G.ai1.aiPlayer = false
 				}
 			}
 		}

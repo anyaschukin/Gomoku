@@ -49,10 +49,10 @@ func drawSelectHotseat(screen *ebiten.Image, G *Game, shift float64) {
 	screen.DrawImage(imgSelect, opSelect)
 }
 
-func drawSelectPlayer(screen *ebiten.Image, G *Game, player bool) {
+func drawSelectPlayer(screen *ebiten.Image, G *Game, Player bool) {
 	p := G.ai0
 	var shift float64
-	if player == true {
+	if Player == true {
 		p = G.ai1
 		shift = 9100 //7500
 	}
@@ -60,7 +60,7 @@ func drawSelectPlayer(screen *ebiten.Image, G *Game, player bool) {
 		drawSelectHotseat(screen, G, shift)
 		drawSelectHuman(screen, G, shift)
 		drawSelectAI(screen, G, shift)
-	} else if p.aiplayer == false {
+	} else if p.aiPlayer == false {
 		drawSelectHuman(screen, G, shift)
 	} else {
 		drawSelectAI(screen, G, shift)

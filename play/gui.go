@@ -11,16 +11,16 @@ import (
 )
 
 func isPlayerHuman(G *Game) bool {
-	if (G.player == false && G.ai0.aiplayer == false) ||
-		(G.player == true && G.ai1.aiplayer == false) {
+	if (G.Player == false && G.ai0.aiPlayer == false) ||
+		(G.Player == true && G.ai1.aiPlayer == false) {
 		return true
 	}
 	return false
 }
 
 func isPlayerHotseat(G *Game) bool {
-	if (G.player == false && G.ai0.hotseat == true) ||
-		(G.player == true && G.ai1.hotseat == true) {
+	if (G.Player == false && G.ai0.hotseat == true) ||
+		(G.Player == true && G.ai1.hotseat == true) {
 		return true
 	}
 	return false
@@ -51,8 +51,8 @@ func (G *Game) UpdateGame() { ////listen for input, update struct
 					gameLoop(coordinate, G)
 				}
 			}
-		} else { /////////// ai player
-			if G.player == false {
+		} else { /////////// ai Player
+			if G.Player == false {
 				coordinate = G.ai0.suggest
 			} else {
 				coordinate = G.ai1.suggest

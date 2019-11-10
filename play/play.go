@@ -15,7 +15,7 @@ type coordinate struct {
 
 type position struct {
 	occupied bool
-	player   bool
+	Player   bool
 }
 
 type align5 struct { //winning move for checking if opponent breaks it in the next move
@@ -25,8 +25,8 @@ type align5 struct { //winning move for checking if opponent breaks it in the ne
 }
 
 type ai struct {
-	aiplayer bool          // is player 1 human or AI
-	hotseat  bool          // AI player only suggests moves, human must choose move
+	aiPlayer bool          // is Player 1 human or AI
+	hotseat  bool          // AI Player only suggests moves, human must choose move
 	depth    uint8         // how many moves in advance do we examine
 	timer    time.Duration // How long did the ai think for
 	suggest  coordinate    // ai suggested move
@@ -34,13 +34,13 @@ type ai struct {
 
 // Game struct contains all information about currnt game state
 type Game struct {
-	goban        [19][19]position // game board
-	player       bool             // whose move is it? (player 0 - black first)
+	Goban        [19][19]position // game board
+	Player       bool             // whose move is it? (Player 0 - black first)
 	ai0          ai               // is black human or ai?
 	ai1          ai               // is white human or ai?
 	capture0     uint8            // capture 10 and win
 	capture1     uint8            // capture 10 and win
-	align5       align5           // one player has aligned 5, however it can be broken. The other player must break it, capture 10, or lose.
+	align5       align5           // one Player has aligned 5, however it can be broken. The other Player must break it, capture 10, or lose.
 	move         uint32           // how many moves have been played in total (is this desirable/necessary?)
 	drawLastMove bool             // Higlight the last move played
 	lastMove     coordinate       // What was the last move played
@@ -59,17 +59,17 @@ func NewGame() *Game {
 	return G
 }
 
-// Opponent returns the opponent of the current player
-func Opponent(player bool) bool {
-	if player == false {
+// Opponent returns the opponent of the current Player
+func Opponent(Player bool) bool {
+	if Player == false {
 		return true
 	}
 	return false
 }
 
-// SwapPlayers swaps players and clears the message
+// SwapPlayers swaps Players and clears the message
 func SwapPlayers(G *Game) {
-	G.player = Opponent(G.player)
+	G.Player = Opponent(G.Player)
 	if G.won == false {
 		G.message = ""
 	}
@@ -81,7 +81,7 @@ func artificialIdiot(G *Game) { /////// move/remove?
 	suggestion := RandomCoordinate()
 	// time.Sleep(498 * time.Millisecond) //////////
 	elapsed := (time.Since(start))
-	if G.player == false {
+	if G.Player == false {
 		G.ai0.suggest = suggestion
 		G.ai0.timer = elapsed
 	} else {
@@ -90,7 +90,7 @@ func artificialIdiot(G *Game) { /////// move/remove?
 	}
 }
 
-// suggestMove checks if player is AI & if so prompts the AI to suggest a move
+// suggestMove checks if Player is AI & if so prompts the AI to suggest a move
 func suggestMove(G *Game) {
 	if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
 		artificialIdiot(G) /////create move suggestion
@@ -100,7 +100,7 @@ func suggestMove(G *Game) {
 // Play initializes a new game and launches the GUI (Ebiten)
 func Play() {
 	G := NewGame()
-	G.ai0.aiplayer = true
+	G.ai0.aiPlayer = true
 	G.ai0.depth = 3
 	G.drawLastMove = true /////////// implement in gui!!!!!!!
 	suggestMove(G)

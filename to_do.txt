@@ -1,7 +1,7 @@
 #### TO DO ####
 
 Graphic interface (ebiten?)
-	- show last move
+	- show last move integrate into gui option
 
 AI
 	- Min/Max

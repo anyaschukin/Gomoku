@@ -15,11 +15,11 @@ func ai(G *game) {//(coordinate coordinate, elapsed time.Duration) {
 	//		take potential captures into account ?
 	//		take current captured stones into account ?
 	//		check for advanteageous combinations ?
-	//		take both players into account ?
-	//		take past player actions into account to identify patterns and weigh board states accordingly ?
+	//		take both Players into account ?
+	//		take past Player actions into account to identify patterns and weigh board states accordingly ?
 	suggestion = RandomCoordinate()
 	elapsed = time.Since(start)
-	if G.player == false {
+	if G.Player == false {
 		G.ai0.suggest = suggestion
 		G.ai0.timer = elapsed
 	} else {

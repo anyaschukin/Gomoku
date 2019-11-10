@@ -7,43 +7,43 @@ func CoordinateOnGoban(coordinate coordinate) (onGoban bool) {
 	return true
 }
 
-func PositionOccupied(coordinate coordinate, goban *[19][19]position) (occupied bool) {
-	if goban[coordinate.y][coordinate.x].occupied == true {
+func PositionOccupied(coordinate coordinate, Goban *[19][19]position) (occupied bool) {
+	if Goban[coordinate.y][coordinate.x].occupied == true {
 		return true
 	}
 	return false
 }
 
-func SamePlayer(coordinate coordinate, goban *[19][19]position, player bool) (samePlayer bool) {
-	if goban[coordinate.y][coordinate.x].player == player {
+func SamePlayer(coordinate coordinate, Goban *[19][19]position, Player bool) (samePlayer bool) {
+	if Goban[coordinate.y][coordinate.x].Player == Player {
 		return true
 	}
 	return false
 }
 
-func PositionOccupiedByPlayer(coordinate coordinate, goban *[19][19]position, player bool) bool {
+func PositionOccupiedByPlayer(coordinate coordinate, Goban *[19][19]position, Player bool) bool {
 	if CoordinateOnGoban(coordinate) == true {
-		if PositionOccupied(coordinate, goban) == true &&
-			SamePlayer(coordinate, goban, player) == true {
+		if PositionOccupied(coordinate, Goban) == true &&
+			SamePlayer(coordinate, Goban, Player) == true {
 			return true
 		}
 	}
 	return false
 }
 
-func PositionOccupiedByOpponent(coordinate coordinate, goban *[19][19]position, player bool) bool {
+func PositionOccupiedByOpponent(coordinate coordinate, Goban *[19][19]position, Player bool) bool {
 	if CoordinateOnGoban(coordinate) == true {
-		if PositionOccupied(coordinate, goban) == true &&
-			SamePlayer(coordinate, goban, player) == false {
+		if PositionOccupied(coordinate, Goban) == true &&
+			SamePlayer(coordinate, Goban, Player) == false {
 			return true
 		}
 	}
 	return false
 }
 
-func PositionUnoccupied(coordinate coordinate, goban *[19][19]position) (unoccupied bool) {
+func PositionUnoccupied(coordinate coordinate, Goban *[19][19]position) (unoccupied bool) {
 	if CoordinateOnGoban(coordinate) == true {
-		if PositionOccupied(coordinate, goban) == false {
+		if PositionOccupied(coordinate, Goban) == false {
 			return true
 		}
 	}
