@@ -1,6 +1,6 @@
 package play
 
-func threeBlocked(end1 coordinate, end2 coordinate, Goban *[19][19]position, Player bool) bool {
+func threeBlocked(end1 Coordinate, end2 Coordinate, Goban *[19][19]position, Player bool) bool {
 	// if PositionOccupiedByOpponent(end1, Goban, Player) == false &&
 	// 	PositionOccupiedByOpponent(end2, Goban, Player) == false {
 	// 	return false
@@ -13,7 +13,7 @@ func threeBlocked(end1 coordinate, end2 coordinate, Goban *[19][19]position, Pla
 }
 
 // checkVertexForThree returns true if it finds an unblocked FreeThree on given vertex
-func checkVertexForThree(coordinate coordinate, Goban *[19][19]position, y int8, x int8, Player bool) bool {
+func checkVertexForThree(coordinate Coordinate, Goban *[19][19]position, y int8, x int8, Player bool) bool {
 	minusTwo := FindNeighbour(coordinate, y, x, -2)
 	minusOne := FindNeighbour(coordinate, y, x, -1)
 	one := FindNeighbour(coordinate, y, x, 1)
@@ -61,7 +61,7 @@ func checkVertexForThree(coordinate coordinate, Goban *[19][19]position, y int8,
 }
 
 // DoubleThree returns false if suggested move breaks the double three rule
-func DoubleThree(coordinate coordinate, g *Game) (valid bool) {
+func DoubleThree(coordinate Coordinate, g *Game) (valid bool) {
 	var freeThree bool
 	var x int8
 	var y int8

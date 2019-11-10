@@ -1,13 +1,13 @@
 package play
 
 // capturedEight returns true if given Player has already captured 8
-func capturedEight(Player bool, capture0 uint8, capture1 uint8) bool {
+func capturedEight(Player bool, Capture0 uint8, Capture1 uint8) bool {
 	if Player == false {
-		if capture0 >= 8 {
+		if Capture0 >= 8 {
 			return true
 		}
 	} else {
-		if capture1 >= 8 {
+		if Capture1 >= 8 {
 			return true
 		}
 	}
@@ -15,7 +15,7 @@ func capturedEight(Player bool, capture0 uint8, capture1 uint8) bool {
 }
 
 // canCaptureVertex returns true if given coordinate can capture on given vertex in the next move
-func canCaptureVertex(coordinate coordinate, Goban *[19][19]position, y int8, x int8, Player bool) bool {
+func canCaptureVertex(coordinate Coordinate, Goban *[19][19]position, y int8, x int8, Player bool) bool {
 	one := FindNeighbour(coordinate, y, x, 1)
 	two := FindNeighbour(coordinate, y, x, 2)
 	three := FindNeighbour(coordinate, y, x, 3)
@@ -29,7 +29,7 @@ func canCaptureVertex(coordinate coordinate, Goban *[19][19]position, y int8, x 
 }
 
 // canCapture returns true if given coordinate can capture in the next move
-func canCapture(coordinate coordinate, Goban *[19][19]position, Player bool) bool {
+func canCapture(coordinate Coordinate, Goban *[19][19]position, Player bool) bool {
 	var y int8
 	var x int8
 	for y = -1; y <= 1; y++ {
@@ -50,7 +50,7 @@ func captureAvailable(Goban *[19][19]position, Player bool) bool {
 	var x int8
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
-			coordinate := coordinate{y, x}
+			coordinate := Coordinate{y, x}
 			if PositionOccupiedByPlayer(coordinate, Goban, Player) == true {
 				if canCapture(coordinate, Goban, Player) == true {
 					return true
@@ -62,8 +62,8 @@ func captureAvailable(Goban *[19][19]position, Player bool) bool {
 }
 
 // canWinByCapture returns true if is it possible for the opponent to win by capturing 10. (have they already captured 8, and is there an available capture move)
-func canWinByCapture(Goban *[19][19]position, Player bool, capture0 uint8, capture1 uint8) bool {
-	if capturedEight(Player, capture0, capture1) == true &&
+func canWinByCapture(Goban *[19][19]position, Player bool, Capture0 uint8, Capture1 uint8) bool {
+	if capturedEight(Player, Capture0, Capture1) == true &&
 		captureAvailable(Goban, Player) == true {
 		return true
 	}

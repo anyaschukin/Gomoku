@@ -2,14 +2,14 @@ package play
 
 // capturedTen returns true if either Player has captured ten stones
 func capturedTen(g *Game) (win bool) {
-	if g.capture0 >= 10 || g.capture1 >= 10 {
+	if g.Capture0 >= 10 || g.Capture1 >= 10 {
 		return true
 	}
 	return false
 }
 
 // checkVertexAlignFive returns true if 5 stones are aligned running through given coodinate on given axes
-func checkVertexAlignFive(coordinate coordinate, Goban *[19][19]position, y int8, x int8, Player bool) bool {
+func checkVertexAlignFive(coordinate Coordinate, Goban *[19][19]position, y int8, x int8, Player bool) bool {
 	var multiple int8
 	var a int8
 	var b int8
@@ -36,7 +36,7 @@ func checkVertexAlignFive(coordinate coordinate, Goban *[19][19]position, y int8
 }
 
 // AlignFive returns true if 5 stones are aligned running through given coodinate
-func AlignFive(coordinate coordinate, Goban *[19][19]position, align5 *align5, Player bool, capture0 uint8, capture1 uint8) (alignedFive bool) {
+func AlignFive(coordinate Coordinate, Goban *[19][19]position, align5 *align5, Player bool, Capture0 uint8, Capture1 uint8) (alignedFive bool) {
 	var x int8
 	var y int8
 	for y = -1; y <= 0; y++ {
@@ -48,11 +48,11 @@ func AlignFive(coordinate coordinate, Goban *[19][19]position, align5 *align5, P
 				if canBreakFive(coordinate, Goban, y, x, Player) == true {
 					align5.break5 = true
 				}
-				if canWinByCapture(Goban, Opponent(Player), capture0, capture1) == true {
+				if canWinByCapture(Goban, Opponent(Player), Capture0, Capture1) == true {
 					align5.capture8 = true
 				}
 				align5.winner = Player
-				G.winmove = coordinate
+				G.Winmove = coordinate
 				return true
 			}
 		}
@@ -61,32 +61,32 @@ func AlignFive(coordinate coordinate, Goban *[19][19]position, align5 *align5, P
 }
 
 func recordWin(G *Game, winner bool) {
-	G.won = true
+	G.Won = true
 	if winner == false {
-		G.message = "Black Wins!"
+		G.Message = "Black Wins!"
 	} else {
-		G.message = "White Wins!"
+		G.Message = "White Wins!"
 	}
 }
 
 // CheckWin checks win conditions and updates Game struct
-func CheckWin(coordinate coordinate, G *Game) {
+func CheckWin(coordinate Coordinate, G *Game) {
 	if capturedTen(G) == true {
 		recordWin(G, G.Player)
-		G.winmove = coordinate
+		G.Winmove = coordinate
 		// fmt.Printf("Player %v wins by capturing 10.\n", G.Player)//////
 	} else if G.align5.break5 == true {
-		if PositionOccupiedByPlayer(G.winmove, &G.Goban, G.align5.winner) == true &&
-			AlignFive(G.winmove, &G.Goban, &G.align5, G.align5.winner, G.capture0, G.capture1) == true {
+		if PositionOccupiedByPlayer(G.Winmove, &G.Goban, G.align5.winner) == true &&
+			AlignFive(G.Winmove, &G.Goban, &G.align5, G.align5.winner, G.Capture0, G.Capture1) == true {
 			recordWin(G, Opponent(G.Player))
 			// fmt.Printf("Player %v win by aligning 5.\nThe other Player could have broken this alignment by capturing a pair, but they didn't, silly!\nWinning move y:%d x:%d.\n", G.align5.winner, G.align5.winmove.y, G.align5.winmove.x)
 		}
 		G.align5.break5 = false
 	} else if G.align5.capture8 == true {
 		recordWin(G, Opponent(G.Player))
-		// fmt.Printf("Player %v win by aligning 5.\nThe other Player could have won by capturing ten, but they didn't, silly!\nWinning move y:%d x:%d.\n", G.align5.winner, G.align5.winmove.y, G.align5.winmove.x)
+		// fmt.Printf("Player %v win by aligning 5.\nThe other Player could have Won by capturing ten, but they didn't, silly!\nWinning move y:%d x:%d.\n", G.align5.winner, G.align5.winmove.y, G.align5.winmove.x)
 	}
-	if AlignFive(coordinate, &G.Goban, &G.align5, G.Player, G.capture0, G.capture1) == true {
+	if AlignFive(coordinate, &G.Goban, &G.align5, G.Player, G.Capture0, G.Capture1) == true {
 		if G.align5.break5 == false && G.align5.capture8 == false {
 			recordWin(G, G.Player)
 		}

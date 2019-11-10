@@ -1,16 +1,15 @@
 package play
 
-import "time"
+import (
+	"time"
+	"math/rand"
+	// lib "Gomoku/golib"
+	// gui "Gomoku/GUI"
+)
 
-// import (
-// 	"fmt"
-// 	// lib "Gomoku/golib"
-// 	// gui "Gomoku/GUI"
-// )
-
-type coordinate struct {
-	y int8
-	x int8
+type Coordinate struct {
+	Y int8
+	X int8
 }
 
 type position struct {
@@ -20,37 +19,37 @@ type position struct {
 
 type align5 struct { //winning move for checking if opponent breaks it in the next move
 	break5   bool
-	capture8 bool // is it possible for the opponent to win by capturing 10? (have they already captured 8, and is there an available capture move)
+	capture8 bool // is it possible for the opponent to win by capturing 10? (have they already captured 8, and is there an avAilable capture move)
 	winner   bool /// rm?
 }
 
-type ai struct {
-	aiPlayer bool          // is Player 1 human or AI
-	hotseat  bool          // AI Player only suggests moves, human must choose move
-	depth    uint8         // how many moves in advance do we examine
-	timer    time.Duration // How long did the ai think for
-	suggest  coordinate    // ai suggested move
+type Ai struct {
+	AiPlayer bool          // is Player 1 human or Ai
+	Hotseat  bool          // Ai Player only suggests moves, human must choose move
+	Depth    uint8         // how many moves in advance do we examine
+	Timer    time.Duration // How long did the Ai think for
+	Suggest  Coordinate    // Ai suggested move
 }
 
-// Game struct contains all information about currnt game state
+// Game struct contAins all information about currnt game state
 type Game struct {
 	Goban        [19][19]position // game board
 	Player       bool             // whose move is it? (Player 0 - black first)
-	ai0          ai               // is black human or ai?
-	ai1          ai               // is white human or ai?
-	capture0     uint8            // capture 10 and win
-	capture1     uint8            // capture 10 and win
+	Ai0          Ai               // is black human or Ai?
+	Ai1          Ai               // is white human or Ai?
+	Capture0     uint8            // capture 10 and win
+	Capture1     uint8            // capture 10 and win
 	align5       align5           // one Player has aligned 5, however it can be broken. The other Player must break it, capture 10, or lose.
-	move         uint32           // how many moves have been played in total (is this desirable/necessary?)
-	drawLastMove bool             // Higlight the last move played
-	lastMove     coordinate       // What was the last move played
-	newGame      bool             // New Game button has been pressed, show new game options
-	won          bool             // game finished
-	winmove      coordinate       // how many moves have been played in total
-	message      string           // game feeback (invalid move, win)
+	Move         uint32           // how many moves have been played in total (is this desirable/necessary?)
+	DrawLastMove bool             // Higlight the last move played
+	LastMove     Coordinate       // What was the last move played
+	NewGame      bool             // New Game button has been pressed, show new game options
+	Won          bool             // game finished
+	Winmove      Coordinate       // how many moves have been played in total
+	Message      string           // game feeback (invalid move, win)
 }
 
-// G contains all game state info
+// G contAins all game state info
 var G *Game
 
 // NewGame initializes a new game
@@ -70,9 +69,16 @@ func Opponent(Player bool) bool {
 // SwapPlayers swaps Players and clears the message
 func SwapPlayers(G *Game) {
 	G.Player = Opponent(G.Player)
-	if G.won == false {
-		G.message = ""
+	if G.Won == false {
+		G.Message = ""
 	}
+}
+
+func RandomCoordinate() Coordinate { ////////move this function somewhere else??
+	x := int8(rand.Intn(19))
+	y := int8(rand.Intn(19))
+	random := Coordinate{y, x}
+	return random
 }
 
 // artificialIdiot suggests a random move
@@ -82,17 +88,33 @@ func artificialIdiot(G *Game) { /////// move/remove?
 	// time.Sleep(498 * time.Millisecond) //////////
 	elapsed := (time.Since(start))
 	if G.Player == false {
-		G.ai0.suggest = suggestion
-		G.ai0.timer = elapsed
+		G.Ai0.Suggest = suggestion
+		G.Ai0.Timer = elapsed
 	} else {
-		G.ai1.suggest = suggestion
-		G.ai1.timer = elapsed
+		G.Ai1.Suggest = suggestion
+		G.Ai1.Timer = elapsed
 	}
 }
 
-// suggestMove checks if Player is AI & if so prompts the AI to suggest a move
-func suggestMove(G *Game) {
-	if isPlayerHuman(G) == false || isPlayerHotseat(G) == true {
+func IsPlayerHuman(G *Game) bool {
+	if (G.Player == false && G.Ai0.AiPlayer == false) ||
+		(G.Player == true && G.Ai1.AiPlayer == false) {
+		return true
+	}
+	return false
+}
+
+func IsPlayerHotseat(G *Game) bool {
+	if (G.Player == false && G.Ai0.Hotseat == true) ||
+		(G.Player == true && G.Ai1.Hotseat == true) {
+		return true
+	}
+	return false
+}
+
+// suggestMove checks if Player is Ai & if so prompts the Ai to suggest a move
+func SuggestMove(G *Game) {
+	if IsPlayerHuman(G) == false || IsPlayerHotseat(G) == true {
 		artificialIdiot(G) /////create move suggestion
 	}
 }
@@ -100,9 +122,9 @@ func suggestMove(G *Game) {
 // Play initializes a new game and launches the GUI (Ebiten)
 func Play() {
 	G := NewGame()
-	G.ai0.aiPlayer = true
-	G.ai0.depth = 3
-	G.drawLastMove = true /////////// implement in gui!!!!!!!
-	suggestMove(G)
+	G.Ai0.AiPlayer = true
+	G.Ai0.Depth = 3
+	G.DrawLastMove = true /////////// implement in gui!!!!!!!
+	SuggestMove(G)
 	RunEbiten()
 }

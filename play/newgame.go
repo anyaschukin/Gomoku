@@ -3,7 +3,7 @@ package play //gui
 import (
 	"image/color"
 	"strconv"
-
+	// play "Gomoku/play"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/text"
 )
@@ -32,12 +32,12 @@ func drawSelectHuman(screen *ebiten.Image, G *Game, shift float64) {
 }
 
 func drawSelectAI(screen *ebiten.Image, G *Game, shift float64) {
-	depth := G.ai0.depth
+	Depth := G.Ai0.Depth
 	if shift != 0 {
-		depth = G.ai1.depth
+		Depth = G.Ai1.Depth
 	}
 	opSelect := &ebiten.DrawImageOptions{}
-	opSelect.GeoM.Translate(950+shift, 1550+(float64(depth)*833))
+	opSelect.GeoM.Translate(950+shift, 1550+(float64(Depth)*833))
 	opSelect.GeoM.Scale(0.12, 0.12)
 	screen.DrawImage(imgSelect, opSelect)
 }
@@ -50,17 +50,17 @@ func drawSelectHotseat(screen *ebiten.Image, G *Game, shift float64) {
 }
 
 func drawSelectPlayer(screen *ebiten.Image, G *Game, Player bool) {
-	p := G.ai0
+	p := G.Ai0
 	var shift float64
 	if Player == true {
-		p = G.ai1
+		p = G.Ai1
 		shift = 9100 //7500
 	}
-	if p.hotseat == true {
+	if p.Hotseat == true {
 		drawSelectHotseat(screen, G, shift)
 		drawSelectHuman(screen, G, shift)
 		drawSelectAI(screen, G, shift)
-	} else if p.aiPlayer == false {
+	} else if p.AiPlayer == false {
 		drawSelectHuman(screen, G, shift)
 	} else {
 		drawSelectAI(screen, G, shift)
@@ -85,8 +85,8 @@ func drawHuman(screen *ebiten.Image, G *Game) {
 }
 
 func drawHotseat(screen *ebiten.Image, G *Game) {
-	text.Draw(screen, hotseat, mplusNormalFont, newGamecolumnBlack+520, row*3+50, color.Black)
-	text.Draw(screen, hotseat, mplusNormalFont, newGamecolumnWhite+520, row*3+50, color.White)
+	text.Draw(screen, Hotseat, mplusNormalFont, newGamecolumnBlack+520, row*3+50, color.Black)
+	text.Draw(screen, Hotseat, mplusNormalFont, newGamecolumnWhite+520, row*3+50, color.White)
 }
 
 func drawNewGameOptions(screen *ebiten.Image, G *Game) {

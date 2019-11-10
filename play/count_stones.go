@@ -8,7 +8,7 @@ func CountStones(Goban *[19][19]position) (black uint16, white uint16) {
 	Player := false // black
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
-			coordinate := coordinate{y, x}
+			coordinate := Coordinate{y, x}
 			if PositionOccupiedByPlayer(coordinate, Goban, Player) == true {
 				black++
 			}

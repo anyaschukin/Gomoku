@@ -2,10 +2,17 @@ package ai
 
 import "time"
 
+func Randomcoordinate() Coordinate { ////////move this function somewhere else??
+	x := int8(rand.Intn(19))
+	y := int8(rand.Intn(19))
+	random := Coordinate{y, x}
+	return random
+}
+
 func ai(G *game) {//(coordinate coordinate, elapsed time.Duration) {
 	start := time.Now()
 	//	"Improved" Minimax implementation (Alpha-beta pruning, negascout, mtdf, ...) -> 5 points!
-	//	Move search depth - 10 or more levels -> 5 points!
+	//	Move search Depth - 10 or more levels -> 5 points!
 	//	search space of the algo - Multiple rectangular windows emcompassing placed stones but minimizing wasted space -> 5
 
 	//	Heuristic
@@ -17,13 +24,13 @@ func ai(G *game) {//(coordinate coordinate, elapsed time.Duration) {
 	//		check for advanteageous combinations ?
 	//		take both Players into account ?
 	//		take past Player actions into account to identify patterns and weigh board states accordingly ?
-	suggestion = RandomCoordinate()
+	suggestion = Randomcoordinate()
 	elapsed = time.Since(start)
 	if G.Player == false {
-		G.ai0.suggest = suggestion
-		G.ai0.timer = elapsed
+		G.Ai0.Suggest = suggestion
+		G.Ai0.Timer = elapsed
 	} else {
-		G.ai1.suggest = suggestion
-		G.ai1.timer = elapsed
+		G.Ai1.Suggest = suggestion
+		G.Ai1.Timer = elapsed
 	}
 }

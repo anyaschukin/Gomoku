@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 	"time"
-
+	// play "Gomoku/play"
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
@@ -33,8 +33,8 @@ var (
 var blackMove = `Black to Move`
 var whiteMove = `White to Move`
 var human = `Human`
-var artificial = `AI depth`
-var hotseat = `Hotseat`
+var artificial = `AI Depth`
+var Hotseat = `Hotseat`
 var timer = `Timer:`
 var move = `Move:`
 
@@ -122,10 +122,10 @@ func drawStones(screen *ebiten.Image, G *Game) {
 	var x int8
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
-			coordinate := coordinate{y, x}
+			coordinate := Coordinate{y, x}
 			if PositionOccupied(coordinate, &G.Goban) == true {
 				opStone := &ebiten.DrawImageOptions{}
-				opStone.GeoM.Translate((zeroX + (float64(coordinate.x) * positionWidth)), (zeroY + (float64(coordinate.y) * positionWidth)))
+				opStone.GeoM.Translate((zeroX + (float64(coordinate.X) * positionWidth)), (zeroY + (float64(coordinate.Y) * positionWidth)))
 				opStone.GeoM.Scale(scale, scale)
 				if PositionOccupiedByPlayer(coordinate, &G.Goban, false) == true {
 					screen.DrawImage(imgBlack, opStone)
@@ -138,21 +138,21 @@ func drawStones(screen *ebiten.Image, G *Game) {
 }
 
 func drawPlayerInfo(screen *ebiten.Image, G *Game) {
-	if G.ai0.hotseat == true {
-		text.Draw(screen, hotseat, mplusNormalFont, columnBlack, row*2, color.Black)
+	if G.Ai0.Hotseat == true {
+		text.Draw(screen, Hotseat, mplusNormalFont, columnBlack, row*2, color.Black)
 	}
-	if G.ai0.aiPlayer == true {
+	if G.Ai0.AiPlayer == true {
 		text.Draw(screen, artificial, mplusNormalFont, columnBlack, row*3, color.Black)
-		text.Draw(screen, strconv.Itoa(int(G.ai0.depth)), mplusNormalFont, columnBlack+230, row*3, color.Black)
+		text.Draw(screen, strconv.Itoa(int(G.Ai0.Depth)), mplusNormalFont, columnBlack+230, row*3, color.Black)
 	} else {
 		text.Draw(screen, human, mplusNormalFont, columnBlack, row*3, color.Black)
 	}
-	if G.ai1.hotseat == true {
-		text.Draw(screen, hotseat, mplusNormalFont, columnWhite, row*2, color.White)
+	if G.Ai1.Hotseat == true {
+		text.Draw(screen, Hotseat, mplusNormalFont, columnWhite, row*2, color.White)
 	}
-	if G.ai1.aiPlayer == true {
+	if G.Ai1.AiPlayer == true {
 		text.Draw(screen, artificial, mplusNormalFont, columnWhite, row*3, color.White)
-		text.Draw(screen, strconv.Itoa(int(G.ai1.depth)), mplusNormalFont, columnWhite+230, row*3, color.White)
+		text.Draw(screen, strconv.Itoa(int(G.Ai1.Depth)), mplusNormalFont, columnWhite+230, row*3, color.White)
 	} else {
 		text.Draw(screen, human, mplusNormalFont, columnWhite, row*3, color.White)
 	}
@@ -160,16 +160,16 @@ func drawPlayerInfo(screen *ebiten.Image, G *Game) {
 
 func drawCaptured(screen *ebiten.Image, G *Game) {
 	text.Draw(screen, captured, mplusNormalFont, columnBlack, row*4, color.Black)
-	text.Draw(screen, strconv.Itoa(int(G.capture0)), mplusNormalFont, 340, row*4, color.Black)
+	text.Draw(screen, strconv.Itoa(int(G.Capture0)), mplusNormalFont, 340, row*4, color.Black)
 
 	text.Draw(screen, captured, mplusNormalFont, columnWhite, row*4, color.White)
-	text.Draw(screen, strconv.Itoa(int(G.capture1)), mplusNormalFont, 2310, row*4, color.White)
+	text.Draw(screen, strconv.Itoa(int(G.Capture1)), mplusNormalFont, 2310, row*4, color.White)
 }
 
 func drawTimer(screen *ebiten.Image, G *Game) {
-	if G.ai0.aiPlayer == true || G.ai0.hotseat == true {
+	if G.Ai0.AiPlayer == true || G.Ai0.Hotseat == true {
 		text.Draw(screen, timer, mplusNormalFont, columnBlack, row*5, color.Black)
-		timer, err := time.ParseDuration(G.ai0.timer.String())
+		timer, err := time.ParseDuration(G.Ai0.Timer.String())
 		if err != nil {
 			panic(err)
 		}
@@ -181,9 +181,9 @@ func drawTimer(screen *ebiten.Image, G *Game) {
 		}
 		text.Draw(screen, truncated, mplusNormalFont, columnBlack+180, row*5, color.Black)
 	}
-	if G.ai1.aiPlayer == true || G.ai1.hotseat == true {
+	if G.Ai1.AiPlayer == true || G.Ai1.Hotseat == true {
 		text.Draw(screen, timer, mplusNormalFont, columnWhite, row*5, color.White)
-		timer, err := time.ParseDuration(G.ai1.timer.String())
+		timer, err := time.ParseDuration(G.Ai1.Timer.String())
 		if err != nil {
 			panic(err)
 		}
@@ -198,26 +198,26 @@ func drawTimer(screen *ebiten.Image, G *Game) {
 }
 
 func drawMessage(screen *ebiten.Image, G *Game) {
-	if G.won == false {
+	if G.Won == false {
 		if G.Player == false {
 			text.Draw(screen, blackMove, mplusNormalFont, columnBlack, row, color.Black)
-			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row*6, color.Black)
+			text.Draw(screen, G.Message, mplusNormalFont, columnBlack, row*6, color.Black)
 		} else {
 			text.Draw(screen, whiteMove, mplusNormalFont, columnWhite, row, color.White)
-			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row*6, color.White)
+			text.Draw(screen, G.Message, mplusNormalFont, columnWhite, row*6, color.White)
 		}
 	} else {
-		if G.message == "Black Wins!" {
-			text.Draw(screen, G.message, mplusNormalFont, columnBlack, row*6, color.Black)
+		if G.Message == "Black Wins!" {
+			text.Draw(screen, G.Message, mplusNormalFont, columnBlack, row*6, color.Black)
 		} else {
-			text.Draw(screen, G.message, mplusNormalFont, columnWhite, row*6, color.White)
+			text.Draw(screen, G.Message, mplusNormalFont, columnWhite, row*6, color.White)
 		}
 	}
 }
 
 func drawMove(screen *ebiten.Image, G *Game) {
 	text.Draw(screen, move, mplusNormalFont, columnBlack, row*13, color.Black)
-	text.Draw(screen, strconv.Itoa(int(G.move)), mplusNormalFont, columnBlack+160, row*13, color.Black)
+	text.Draw(screen, strconv.Itoa(int(G.Move)), mplusNormalFont, columnBlack+160, row*13, color.Black)
 }
 
 func drawText(screen *ebiten.Image, G *Game) {
@@ -229,9 +229,9 @@ func drawText(screen *ebiten.Image, G *Game) {
 }
 
 func drawLastMove(screen *ebiten.Image, G *Game) {
-	if G.drawLastMove == true && G.move > 0 {
+	if G.DrawLastMove == true && G.Move > 0 {
 		opLastMove := &ebiten.DrawImageOptions{}
-		opLastMove.GeoM.Translate((zeroX + (float64(G.lastMove.x) * positionWidth)), (zeroY + (float64(G.lastMove.y) * positionWidth)))
+		opLastMove.GeoM.Translate((zeroX + (float64(G.LastMove.X) * positionWidth)), (zeroY + (float64(G.LastMove.Y) * positionWidth)))
 		opLastMove.GeoM.Scale(scale, scale)
 		screen.DrawImage(imgRed, opLastMove)
 		// screen.DrawImage(imgBlue, opLastMove)
@@ -239,22 +239,22 @@ func drawLastMove(screen *ebiten.Image, G *Game) {
 }
 
 func drawHotseatSuggestion(screen *ebiten.Image, G *Game) {
-	if isPlayerHotseat(G) == true && G.won == false {
-		coordinate := G.ai0.suggest
+	if IsPlayerHotseat(G) == true && G.Won == false {
+		coordinate := G.Ai0.Suggest
 		if G.Player == true {
-			coordinate = G.ai1.suggest
+			coordinate = G.Ai1.Suggest
 		}
 		opSuggestion := &ebiten.DrawImageOptions{}
-		opSuggestion.GeoM.Translate((zeroX + (float64(coordinate.x) * positionWidth)), (zeroY + (float64(coordinate.y) * positionWidth)))
+		opSuggestion.GeoM.Translate((zeroX + (float64(coordinate.X) * positionWidth)), (zeroY + (float64(coordinate.Y) * positionWidth)))
 		opSuggestion.GeoM.Scale(scale, scale)
 		screen.DrawImage(imgRed, opSuggestion)
 	}
 }
 
 func drawWinMove(screen *ebiten.Image, G *Game) {
-	if G.won == true {
+	if G.Won == true {
 		opWinMove := &ebiten.DrawImageOptions{}
-		opWinMove.GeoM.Translate((zeroX + (float64(G.winmove.x) * positionWidth)), (zeroY + (float64(G.winmove.y) * positionWidth)))
+		opWinMove.GeoM.Translate((zeroX + (float64(G.Winmove.X) * positionWidth)), (zeroY + (float64(G.Winmove.Y) * positionWidth)))
 		opWinMove.GeoM.Scale(scale, scale)
 		screen.DrawImage(imgRed, opWinMove)
 		screen.DrawImage(imgBlue, opWinMove)
@@ -277,7 +277,7 @@ func drawExit(screen *ebiten.Image, G *Game) {
 
 func draw(screen *ebiten.Image, G *Game) {
 	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff}) /// Draw background
-	if G.newGame == true {
+	if G.NewGame == true {
 		drawNewGameOptions(screen, G)
 	} else {
 		drawGoban(screen, G)

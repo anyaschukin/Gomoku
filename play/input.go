@@ -2,7 +2,7 @@ package play //gui
 
 import (
 	"os"
-
+	// play "Gomoku/play"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
@@ -90,48 +90,48 @@ func input(G *Game) {
 			os.Exit(0) ////// is this exiting properly?
 		}
 		if clickNewGame(x, y) == true {
-			if G.newGame == false {
+			if G.NewGame == false {
 				G := NewGame()
-				G.ai0.aiPlayer = true
-				G.ai0.depth = 3 //?
-				G.newGame = true
-				G.drawLastMove = true /////////// implement in gui!!!!!
+				G.Ai0.AiPlayer = true
+				G.Ai0.Depth = 3 //?
+				G.NewGame = true
+				G.DrawLastMove = true /////////// implement in gui!!!!!
 			} else {
-				suggestMove(G)
-				G.newGame = false
+				SuggestMove(G)
+				G.NewGame = false
 			}
 		}
-		if G.newGame == true {
+		if G.NewGame == true {
 			if clickHuman0(x, y) == true {
-				G.ai0.aiPlayer = false
+				G.Ai0.AiPlayer = false
 			}
 			if clickAI0(x, y) == true {
-				G.ai0.aiPlayer = true
-				G.ai0.depth = uint8((y - 186) / (1201 / 12))
+				G.Ai0.AiPlayer = true
+				G.Ai0.Depth = uint8((y - 186) / (1201 / 12))
 			}
 			if clickHotseat0(x, y) == true {
-				if G.ai0.hotseat == false {
-					G.ai0.hotseat = true
-					G.ai0.aiPlayer = true
+				if G.Ai0.Hotseat == false {
+					G.Ai0.Hotseat = true
+					G.Ai0.AiPlayer = true
 				} else {
-					G.ai0.hotseat = false
-					G.ai0.aiPlayer = false
+					G.Ai0.Hotseat = false
+					G.Ai0.AiPlayer = false
 				}
 			}
 			if clickHuman1(x, y) == true {
-				G.ai1.aiPlayer = false
+				G.Ai1.AiPlayer = false
 			}
 			if clickAI1(x, y) == true {
-				G.ai1.aiPlayer = true
-				G.ai1.depth = uint8((y - 186) / (1201 / 12))
+				G.Ai1.AiPlayer = true
+				G.Ai1.Depth = uint8((y - 186) / (1201 / 12))
 			}
 			if clickHotseat1(x, y) == true {
-				if G.ai1.hotseat == false {
-					G.ai1.hotseat = true
-					G.ai1.aiPlayer = true
+				if G.Ai1.Hotseat == false {
+					G.Ai1.Hotseat = true
+					G.Ai1.AiPlayer = true
 				} else {
-					G.ai1.hotseat = false
-					G.ai1.aiPlayer = false
+					G.Ai1.Hotseat = false
+					G.Ai1.AiPlayer = false
 				}
 			}
 		}

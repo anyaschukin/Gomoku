@@ -5,57 +5,41 @@ import (
 	"log"
 
 	_ "image/png"
-
+	// play "Gomoku/play"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-func isPlayerHuman(G *Game) bool {
-	if (G.Player == false && G.ai0.aiPlayer == false) ||
-		(G.Player == true && G.ai1.aiPlayer == false) {
-		return true
-	}
-	return false
-}
-
-func isPlayerHotseat(G *Game) bool {
-	if (G.Player == false && G.ai0.hotseat == true) ||
-		(G.Player == true && G.ai1.hotseat == true) {
-		return true
-	}
-	return false
-}
-
-func gameLoop(coordinate coordinate, G *Game) {
+func gameLoop(coordinate Coordinate, G *Game) {
 	validated := PlaceIfValid(coordinate, G)
 	if validated == true {
 		Capture(coordinate, G)
 		CheckWin(coordinate, G)
-		G.lastMove = coordinate
+		G.LastMove = coordinate
 		SwapPlayers(G)
-		G.move++
+		G.Move++
 	}
-	suggestMove(G)
+	SuggestMove(G)
 }
 
 func (G *Game) UpdateGame() { ////listen for input, update struct
 	input(G)
-	coordinate := coordinate{-1, -1} /////////
-	if G.newGame == false && G.won == false {
-		if isPlayerHuman(G) == true || isPlayerHotseat(G) == true {
+	coordinate := Coordinate{-1, -1} /////////
+	if G.NewGame == false && G.Won == false {
+		if IsPlayerHuman(G) == true || IsPlayerHotseat(G) == true {
 			if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 				x, y := ebiten.CursorPosition()
 				if clickGoban(x, y) == true {
-					coordinate.x = int8((float64(x) - (zeroX * scale)) / (positionWidth * scale))
-					coordinate.y = int8((float64(y) - (zeroY * scale)) / (positionWidth * scale))
+					coordinate.X = int8((float64(x) - (zeroX * scale)) / (positionWidth * scale))
+					coordinate.Y = int8((float64(y) - (zeroY * scale)) / (positionWidth * scale))
 					gameLoop(coordinate, G)
 				}
 			}
 		} else { /////////// ai Player
 			if G.Player == false {
-				coordinate = G.ai0.suggest
+				coordinate = G.Ai0.Suggest
 			} else {
-				coordinate = G.ai1.suggest
+				coordinate = G.Ai1.Suggest
 			}
 			gameLoop(coordinate, G)
 		}
