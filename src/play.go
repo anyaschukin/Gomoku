@@ -5,105 +5,105 @@ import (
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-// NewGame initializes a new game
-func NewGame() *Game {
-	G = &Game{}
-	G.Ai0.AiPlayer = true
-	G.Ai0.Depth = 3
-	G.DrawLastMove = true /////////// implement in gui!!!!!!!
-	SuggestMove(G)
-	return G
+// newGame initializes a new game
+func newGame() *game {
+	g = &game{}
+	g.ai0.aiPlayer = true
+	g.ai0.depth = 3
+	g.DrawLastMove = true /////////// implement in gui!!!!!!!
+	suggestMove(g)
+	return g
 }
 
-// Opponent returns the opponent of the current Player
-func Opponent(Player bool) bool {
-	if Player == false {
+// opponent returns the opponent of the current Player
+func opponent(player bool) bool {
+	if player == false {
 		return true
 	}
 	return false
 }
 
-// SwapPlayers swaps Players, clears the message and iterates move
-func SwapPlayers(G *Game) {
-	G.Player = Opponent(G.Player)
-	if G.Won == false {
-		G.Message = ""
+// swapPlayers swaps Players, clears the message and iterates move
+func swapPlayers(g *game) {
+	g.player = opponent(g.player)
+	if g.Won == false {
+		g.Message = ""
 	}
-	G.Move++
+	g.Move++
 
 }
 
-func IsPlayerHuman(G *Game) bool {
-	if (G.Player == false && G.Ai0.AiPlayer == false) ||
-		(G.Player == true && G.Ai1.AiPlayer == false) {
+func isPlayerHuman(g *game) bool {
+	if (g.player == false && g.ai0.aiPlayer == false) ||
+		(g.player == true && g.ai1.aiPlayer == false) {
 		return true
 	}
 	return false
 }
 
-func IsPlayerHotseat(G *Game) bool {
-	if (G.Player == false && G.Ai0.Hotseat == true) ||
-		(G.Player == true && G.Ai1.Hotseat == true) {
+func isPlayerHotseat(g *game) bool {
+	if (g.player == false && g.ai0.hotseat == true) ||
+		(g.player == true && g.ai1.hotseat == true) {
 		return true
 	}
 	return false
 }
 
-// suggestMove checks if Player is Ai & if so prompts the Ai to suggest a move
-func SuggestMove(G *Game) {
-	if IsPlayerHuman(G) == false || IsPlayerHotseat(G) == true {
-		artificialIdiot(G) /////create move suggestion
+// suggestMove checks if Player is ai & if so prompts the ai to suggest a move
+func suggestMove(g *game) {
+	if isPlayerHuman(g) == false || isPlayerHotseat(g) == true {
+		artificialIdiot(g) /////create move suggestion
 	}
 }
 
 // gameLoop runs one move
-func gameLoop(coordinate Coordinate, G *Game) {
-	validated := PlaceIfValid(coordinate, G)
+func gameLoop(coordinate coordinate, g *game) {
+	validated := placeIfValid(coordinate, g)
 	if validated == true {
-		Capture(coordinate, G)
-		CheckWin(coordinate, G)
-		G.LastMove = coordinate
-		SwapPlayers(G)
+		capture(coordinate, g)
+		checkWin(coordinate, g)
+		g.LastMove = coordinate
+		swapPlayers(g)
 	}
-	SuggestMove(G)
+	suggestMove(g)
 }
 
 // humanLoop listens for a click on the goban runs gameloop with clicked coordinate
-func humanLoop(G *Game) {
+func humanLoop(g *game) {
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 		x, y := ebiten.CursorPosition()
 		if clickGoban(x, y) == true {
-			coordinate := Coordinate{-1, -1}
-			coordinate.X = int8((float64(x) - (zeroX * scale)) / (positionWidth * scale))
-			coordinate.Y = int8((float64(y) - (zeroY * scale)) / (positionWidth * scale))
-			gameLoop(coordinate, G)
+			coordinate := coordinate{-1, -1}
+			coordinate.x = int8((float64(x) - (zerox * scale)) / (positionWidth * scale))
+			coordinate.y = int8((float64(y) - (zeroy * scale)) / (positionWidth * scale))
+			gameLoop(coordinate, g)
 		}
 	}
 }
 
 // aiLoop listens runs gameloop with suggested coordinate
-func aiLoop(G *Game) {
-	coordinate := G.Ai0.Suggest
-	if G.Player == true {
-		coordinate = G.Ai1.Suggest
+func aiLoop(g *game) {
+	coordinate := g.ai0.suggest
+	if g.player == true {
+		coordinate = g.ai1.suggest
 	}
-	gameLoop(coordinate, G)
+	gameLoop(coordinate, g)
 }
 
-func (G *Game) updateGame() { ////listen for input, update struct
-	input(G)
-	if G.NewGame == false && G.Won == false {
-		if IsPlayerHuman(G) == true || IsPlayerHotseat(G) == true {
-			humanLoop(G)
+func (g *game) updateGame() { ////listen for input, update struct
+	input(g)
+	if g.newGame == false && g.Won == false {
+		if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
+			humanLoop(g)
 		} else {
-			aiLoop(G)
+			aiLoop(g)
 		}
 	}
 }
 
 // Play initializes a new game and launches the GUI (Ebiten)
 func Play() {
-	G := NewGame()
-	G.Ai1.Depth = 3 ////////
-	RunEbiten()
+	g := newGame()
+	g.ai1.depth = 3 ////////
+	runEbiten()
 }

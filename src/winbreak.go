@@ -1,29 +1,29 @@
 package play
 
-// canBeCapturedVertex returns true if given coordinate can be captured on given vertex in the next move
-func canBeCapturedVertex(coordinate Coordinate, Goban *[19][19]position, y int8, x int8, Player bool) bool {
-	minusOne := FindNeighbour(coordinate, y, x, -1)
-	one := FindNeighbour(coordinate, y, x, 1)
-	two := FindNeighbour(coordinate, y, x, 2)
-	if PositionOccupiedByPlayer(one, Goban, Player) {
-		if PositionOccupiedByOpponent(minusOne, Goban, Player) && PositionUnoccupied(two, Goban) {
+// canBecapturedVertex returns true if given coordinate can be captured on given vertex in the next move
+func canBecapturedVertex(coordinate coordinate, Goban *[19][19]position, y int8, x int8, player bool) bool {
+	minusOne := findNeighbour(coordinate, y, x, -1)
+	one := findNeighbour(coordinate, y, x, 1)
+	two := findNeighbour(coordinate, y, x, 2)
+	if positionOccupiedByPlayer(one, Goban, player) {
+		if positionOccupiedByOpponent(minusOne, Goban, player) && positionUnoccupied(two, Goban) {
 			return true
 		}
-		if PositionOccupiedByOpponent(two, Goban, Player) && PositionUnoccupied(minusOne, Goban) {
+		if positionOccupiedByOpponent(two, Goban, player) && positionUnoccupied(minusOne, Goban) {
 			return true
 		}
 	}
 	return false
 }
 
-// canBeCapturedVertices returns true if given coordinate can be captured in the next move
-func canBeCapturedVertices(coordinate Coordinate, Goban *[19][19]position, Player bool) bool {
+// canBecapturedVertices returns true if given coordinate can be captured in the next move
+func canBecapturedVertices(coordinate coordinate, Goban *[19][19]position, player bool) bool {
 	var y int8
 	var x int8
 	for y = -1; y <= 1; y++ {
 		for x = -1; x <= 1; x++ {
 			if !(x == 0 && y == 0) {
-				if canBeCapturedVertex(coordinate, Goban, y, x, Player) == true {
+				if canBecapturedVertex(coordinate, Goban, y, x, player) == true {
 					return true
 				}
 			}
@@ -33,8 +33,8 @@ func canBeCapturedVertices(coordinate Coordinate, Goban *[19][19]position, Playe
 }
 
 // CanBreakFive returns true if its possible to break the aligned 5
-func canBreakFive(coordinate Coordinate, Goban *[19][19]position, y int8, x int8, Player bool) bool {
-	if canBeCapturedVertices(coordinate, Goban, Player) == true {
+func canBreakFive(coordinate coordinate, Goban *[19][19]position, y int8, x int8, player bool) bool {
+	if canBecapturedVertices(coordinate, Goban, player) == true {
 		return true
 	}
 	//move along winning string//////////////
@@ -42,18 +42,18 @@ func canBreakFive(coordinate Coordinate, Goban *[19][19]position, y int8, x int8
 	var a int8
 	var b int8
 	for multiple = 1; multiple < 5; multiple++ {
-		neighbour := FindNeighbour(coordinate, y, x, multiple)
-		if PositionOccupiedByPlayer(neighbour, Goban, Player) == true &&
-			canBeCapturedVertices(neighbour, Goban, Player) == false {
+		neighbour := findNeighbour(coordinate, y, x, multiple)
+		if positionOccupiedByPlayer(neighbour, Goban, player) == true &&
+			canBecapturedVertices(neighbour, Goban, player) == false {
 			a++
 		} else {
 			break
 		}
 	}
 	for multiple = -1; multiple > -5; multiple-- {
-		neighbour := FindNeighbour(coordinate, y, x, multiple)
-		if PositionOccupiedByPlayer(neighbour, Goban, Player) == true &&
-			canBeCapturedVertices(neighbour, Goban, Player) == false {
+		neighbour := findNeighbour(coordinate, y, x, multiple)
+		if positionOccupiedByPlayer(neighbour, Goban, player) == true &&
+			canBecapturedVertices(neighbour, Goban, player) == false {
 			b++
 		} else {
 			break

@@ -10,16 +10,16 @@ import (
 )
 
 func update(screen *ebiten.Image) error {
-	G.updateGame()
+	g.updateGame()
 	if ebiten.IsDrawingSkipped() {
 		return nil
 	}
-	draw(screen, G)
+	draw(screen, g)
 	// time.Sleep(1 * time.Millisecond) //////////
 	return nil
 }
 
-func RunEbiten() {
+func runEbiten() {
 	w, h := ebiten.ScreenSizeInFullscreen()
 	ebiten.SetFullscreen(true)
 	// ebiten.SetCursorVisible(true) //// helpful?

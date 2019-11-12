@@ -1,58 +1,58 @@
 package play
 
-func coordinateOnGoban(coordinate Coordinate) (onGoban bool) {
-	if coordinate.Y < 0 || coordinate.Y > 18 || coordinate.X < 0 || coordinate.X > 18 {
+func coordinateOnGoban(coordinate coordinate) (onGoban bool) {
+	if coordinate.y < 0 || coordinate.y > 18 || coordinate.x < 0 || coordinate.x > 18 {
 		return false
 	}
 	return true
 }
 
-func PositionOccupied(coordinate Coordinate, Goban *[19][19]position) (occupied bool) {
-	if Goban[coordinate.Y][coordinate.X].occupied == true {
+func positionOccupied(coordinate coordinate, Goban *[19][19]position) (occupied bool) {
+	if Goban[coordinate.y][coordinate.x].occupied == true {
 		return true
 	}
 	return false
 }
 
-func SamePlayer(coordinate Coordinate, Goban *[19][19]position, Player bool) (samePlayer bool) {
-	if Goban[coordinate.Y][coordinate.X].Player == Player {
+func samePlayer(coordinate coordinate, Goban *[19][19]position, player bool) (samePlayer bool) {
+	if Goban[coordinate.y][coordinate.x].player == player {
 		return true
 	}
 	return false
 }
 
-func PositionOccupiedByPlayer(coordinate Coordinate, Goban *[19][19]position, Player bool) bool {
+func positionOccupiedByPlayer(coordinate coordinate, Goban *[19][19]position, player bool) bool {
 	if coordinateOnGoban(coordinate) == true {
-		if PositionOccupied(coordinate, Goban) == true &&
-			SamePlayer(coordinate, Goban, Player) == true {
+		if positionOccupied(coordinate, Goban) == true &&
+			samePlayer(coordinate, Goban, player) == true {
 			return true
 		}
 	}
 	return false
 }
 
-func PositionOccupiedByOpponent(coordinate Coordinate, Goban *[19][19]position, Player bool) bool {
+func positionOccupiedByOpponent(coordinate coordinate, Goban *[19][19]position, player bool) bool {
 	if coordinateOnGoban(coordinate) == true {
-		if PositionOccupied(coordinate, Goban) == true &&
-			SamePlayer(coordinate, Goban, Player) == false {
+		if positionOccupied(coordinate, Goban) == true &&
+			samePlayer(coordinate, Goban, player) == false {
 			return true
 		}
 	}
 	return false
 }
 
-func PositionUnoccupied(coordinate Coordinate, Goban *[19][19]position) (unoccupied bool) {
+func positionUnoccupied(coordinate coordinate, Goban *[19][19]position) (unoccupied bool) {
 	if coordinateOnGoban(coordinate) == true {
-		if PositionOccupied(coordinate, Goban) == false {
+		if positionOccupied(coordinate, Goban) == false {
 			return true
 		}
 	}
 	return false
 }
 
-func FindNeighbour(coordinate Coordinate, y int8, x int8, multiple int8) Coordinate {
+func findNeighbour(coordinate coordinate, y int8, x int8, multiple int8) coordinate {
 	neighbour := coordinate
-	neighbour.Y += y * multiple
-	neighbour.X += x * multiple
+	neighbour.y += y * multiple
+	neighbour.x += x * multiple
 	return neighbour
 }

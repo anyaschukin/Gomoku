@@ -5,14 +5,14 @@ package play
 func CountStones(Goban *[19][19]position) (black uint16, white uint16) {
 	var y int8
 	var x int8
-	Player := false // black
+	player := false // black
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
-			coordinate := Coordinate{y, x}
-			if PositionOccupiedByPlayer(coordinate, Goban, Player) == true {
+			coordinate := coordinate{y, x}
+			if positionOccupiedByPlayer(coordinate, Goban, player) == true {
 				black++
 			}
-			if PositionOccupiedByOpponent(coordinate, Goban, Player) == true {
+			if positionOccupiedByOpponent(coordinate, Goban, player) == true {
 				white++
 			}
 		}

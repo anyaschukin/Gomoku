@@ -55,31 +55,31 @@ func clickAI1(x, y int) bool {
 	return false
 }
 
-func clickNewGame(x, y int) bool {
-	if x > int(newGameX*0.6) && x < 2492 &&
-		y > int(newGameY*0.6) && y < 1240 {
+func clicknewGame(x, y int) bool {
+	if x > int(newGamex*0.6) && x < 2492 &&
+		y > int(newGamey*0.6) && y < 1240 {
 		return true
 	}
 	return false
 }
 
 func clickExit(x, y int) bool {
-	if x > int(exitX*scale) && x < 2492 &&
-		y > int(exitY*scale) && y < 1372 {
+	if x > int(exitx*scale) && x < 2492 &&
+		y > int(exity*scale) && y < 1372 {
 		return true
 	}
 	return false
 }
 
 func clickGoban(x, y int) bool {
-	if x > int(zeroX*scale) && x < int((zeroX*scale)+(positionWidth*float64(19)*scale)) &&
-		y > int(zeroY*scale) && y < int((zeroY*scale)+(positionWidth*float64(19)*scale)) {
+	if x > int(zerox*scale) && x < int((zerox*scale)+(positionWidth*float64(19)*scale)) &&
+		y > int(zeroy*scale) && y < int((zeroy*scale)+(positionWidth*float64(19)*scale)) {
 		return true
 	}
 	return false
 }
 
-func input(G *Game) {
+func input(g *game) {
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) == true { // quit if press escape
 		os.Exit(0) ////// is this exiting properly?
 	}
@@ -89,45 +89,45 @@ func input(G *Game) {
 		if clickExit(x, y) == true {
 			os.Exit(0) ////// is this exiting properly?
 		}
-		if clickNewGame(x, y) == true {
-			if G.NewGame == false {
-				G := NewGame()
-				G.NewGame = true
+		if clicknewGame(x, y) == true {
+			if g.newGame == false {
+				g := newGame()
+				g.newGame = true
 			} else {
-				G.NewGame = false
+				g.newGame = false
 			}
 		}
-		if G.NewGame == true {
+		if g.newGame == true {
 			if clickHuman0(x, y) == true {
-				G.Ai0.AiPlayer = false
+				g.ai0.aiPlayer = false
 			}
 			if clickAI0(x, y) == true {
-				G.Ai0.AiPlayer = true
-				G.Ai0.Depth = uint8((y - 186) / (1201 / 12))
+				g.ai0.aiPlayer = true
+				g.ai0.depth = uint8((y - 186) / (1201 / 12))
 			}
 			if clickHotseat0(x, y) == true {
-				if G.Ai0.Hotseat == false {
-					G.Ai0.Hotseat = true
-					G.Ai0.AiPlayer = true
+				if g.ai0.hotseat == false {
+					g.ai0.hotseat = true
+					g.ai0.aiPlayer = true
 				} else {
-					G.Ai0.Hotseat = false
-					G.Ai0.AiPlayer = false
+					g.ai0.hotseat = false
+					g.ai0.aiPlayer = false
 				}
 			}
 			if clickHuman1(x, y) == true {
-				G.Ai1.AiPlayer = false
+				g.ai1.aiPlayer = false
 			}
 			if clickAI1(x, y) == true {
-				G.Ai1.AiPlayer = true
-				G.Ai1.Depth = uint8((y - 186) / (1201 / 12))
+				g.ai1.aiPlayer = true
+				g.ai1.depth = uint8((y - 186) / (1201 / 12))
 			}
 			if clickHotseat1(x, y) == true {
-				if G.Ai1.Hotseat == false {
-					G.Ai1.Hotseat = true
-					G.Ai1.AiPlayer = true
+				if g.ai1.hotseat == false {
+					g.ai1.hotseat = true
+					g.ai1.aiPlayer = true
 				} else {
-					G.Ai1.Hotseat = false
-					G.Ai1.AiPlayer = false
+					g.ai1.hotseat = false
+					g.ai1.aiPlayer = false
 				}
 			}
 		}

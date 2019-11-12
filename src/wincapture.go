@@ -1,41 +1,41 @@
 package play
 
-// capturedEight returns true if given Player has already captured 8
-func capturedEight(Player bool, Capture0 uint8, Capture1 uint8) bool {
-	if Player == false {
-		if Capture0 >= 8 {
+// capturedEight returns true if given player has already captured 8
+func capturedEight(player bool, capture0 uint8, capture1 uint8) bool {
+	if player == false {
+		if capture0 >= 8 {
 			return true
 		}
 	} else {
-		if Capture1 >= 8 {
+		if capture1 >= 8 {
 			return true
 		}
 	}
 	return false
 }
 
-// canCaptureVertex returns true if given coordinate can capture on given vertex in the next move
-func canCaptureVertex(coordinate Coordinate, Goban *[19][19]position, y int8, x int8, Player bool) bool {
-	one := FindNeighbour(coordinate, y, x, 1)
-	two := FindNeighbour(coordinate, y, x, 2)
-	three := FindNeighbour(coordinate, y, x, 3)
-	if PositionOccupiedByOpponent(one, Goban, Player) == true &&
-		PositionOccupiedByOpponent(two, Goban, Player) == true &&
-		PositionUnoccupied(three, Goban) == true {
-		// fmt.Printf("Capture possible! Player: %v can capture y:%d x:%d & y:%d x:%d\n\n", Player, one.y, one.x, two.y, two.x) /// tips flag!!
+// cancaptureVertex returns true if given coordinate can capture on given vertex in the next move
+func cancaptureVertex(coordinate coordinate, Goban *[19][19]position, y int8, x int8, player bool) bool {
+	one := findNeighbour(coordinate, y, x, 1)
+	two := findNeighbour(coordinate, y, x, 2)
+	three := findNeighbour(coordinate, y, x, 3)
+	if positionOccupiedByOpponent(one, Goban, player) == true &&
+		positionOccupiedByOpponent(two, Goban, player) == true &&
+		positionUnoccupied(three, Goban) == true {
+		// fmt.Printf("capture possible! Player: %v can capture y:%d x:%d & y:%d x:%d\n\n", Player, one.y, one.x, two.y, two.x) /// tips flag!!
 		return true
 	}
 	return false
 }
 
-// canCapture returns true if given coordinate can capture in the next move
-func canCapture(coordinate Coordinate, Goban *[19][19]position, Player bool) bool {
+// cancapture returns true if given coordinate can capture in the next move
+func cancapture(coordinate coordinate, Goban *[19][19]position, player bool) bool {
 	var y int8
 	var x int8
 	for y = -1; y <= 1; y++ {
 		for x = -1; x <= 1; x++ {
 			if !(x == 0 && y == 0) {
-				if canCaptureVertex(coordinate, Goban, y, x, Player) == true {
+				if cancaptureVertex(coordinate, Goban, y, x, player) == true {
 					return true
 				}
 			}
@@ -45,14 +45,14 @@ func canCapture(coordinate Coordinate, Goban *[19][19]position, Player bool) boo
 }
 
 // captureAvailable returns true if given Player can capture in the next move (iterate entire Goban, check if capture possible for each positon)
-func captureAvailable(Goban *[19][19]position, Player bool) bool {
+func captureAvailable(Goban *[19][19]position, player bool) bool {
 	var y int8
 	var x int8
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
-			coordinate := Coordinate{y, x}
-			if PositionOccupiedByPlayer(coordinate, Goban, Player) == true {
-				if canCapture(coordinate, Goban, Player) == true {
+			coordinate := coordinate{y, x}
+			if positionOccupiedByPlayer(coordinate, Goban, player) == true {
+				if cancapture(coordinate, Goban, player) == true {
 					return true
 				}
 			}
@@ -61,10 +61,10 @@ func captureAvailable(Goban *[19][19]position, Player bool) bool {
 	return false
 }
 
-// canWinByCapture returns true if is it possible for the opponent to win by capturing 10. (have they already captured 8, and is there an available capture move)
-func canWinByCapture(Goban *[19][19]position, Player bool, Capture0 uint8, Capture1 uint8) bool {
-	if capturedEight(Player, Capture0, Capture1) == true &&
-		captureAvailable(Goban, Player) == true {
+// canWinBycapture returns true if is it possible for the opponent to win by capturing 10. (have they already captured 8, and is there an available capture move)
+func canWinBycapture(Goban *[19][19]position, player bool, capture0 uint8, capture1 uint8) bool {
+	if capturedEight(player, capture0, capture1) == true &&
+		captureAvailable(Goban, player) == true {
 		return true
 	}
 	return false

@@ -22,14 +22,14 @@ func DumpGoban(Goban *[19][19]position) {
 			}
 			color := ""
 			if Goban[y][x].occupied == true {
-				if Goban[y][x].Player == true {
+				if Goban[y][x].player == true {
 					color = "\x1B[32m"
 				} else {
 					color = "\x1B[33m"
 				}
 			}
-			fmt.Printf("%s%v\x1B[0m", color, Goban[y][x].Player)
-			if Goban[y][x].Player == true {
+			fmt.Printf("%s%v\x1B[0m", color, Goban[y][x].player)
+			if Goban[y][x].player == true {
 				fmt.Printf(" ")
 			}
 			fmt.Printf("} ")

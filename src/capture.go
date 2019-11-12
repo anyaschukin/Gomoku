@@ -1,28 +1,28 @@
 package play
 
-func removeStone(coordinate Coordinate, Goban *[19][19]position) {
-	Goban[coordinate.Y][coordinate.X].occupied = false
+func removeStone(coordinate coordinate, Goban *[19][19]position) {
+	Goban[coordinate.y][coordinate.x].occupied = false
 }
 
-func captureVertex(coordinate Coordinate, g *Game, y int8, x int8) {
-	one := FindNeighbour(coordinate, y, x, 1)
-	two := FindNeighbour(coordinate, y, x, 2)
-	three := FindNeighbour(coordinate, y, x, 3)
-	if PositionOccupiedByOpponent(one, &g.Goban, g.Player) == true &&
-		PositionOccupiedByOpponent(two, &g.Goban, g.Player) == true &&
-		PositionOccupiedByPlayer(three, &g.Goban, g.Player) == true {
+func captureVertex(coordinate coordinate, g *game, y int8, x int8) {
+	one := findNeighbour(coordinate, y, x, 1)
+	two := findNeighbour(coordinate, y, x, 2)
+	three := findNeighbour(coordinate, y, x, 3)
+	if positionOccupiedByOpponent(one, &g.Goban, g.player) == true &&
+		positionOccupiedByOpponent(two, &g.Goban, g.player) == true &&
+		positionOccupiedByPlayer(three, &g.Goban, g.player) == true {
 		removeStone(one, &g.Goban)
 		removeStone(two, &g.Goban)
-		// fmt.Printf("Capture! Player: %v. captured y:%d x:%d & y:%d x:%d\n\n", g.Player, one.y, one.x, two.y, two.x) ///
-		if g.Player == false {
-			g.Capture0 += 2
+		// fmt.Printf("capture! Player: %v. captured y:%d x:%d & y:%d x:%d\n\n", g.Player, one.y, one.x, two.y, two.x) ///
+		if g.player == false {
+			g.capture0 += 2
 		} else {
-			g.Capture1 += 2
+			g.capture1 += 2
 		}
 	}
 }
 
-func Capture(coordinate Coordinate, g *Game) {
+func capture(coordinate coordinate, g *game) {
 	var x int8
 	var y int8
 	for y = -1; y <= 1; y++ {
