@@ -26,7 +26,7 @@ type ai struct {
 	suggest  coordinate    // Ai suggested move
 }
 
-// Game struct contAins all information about currnt game state
+// Game struct contains all information about current game state
 type game struct {
 	goban        [19][19]position // game board
 	player       bool             // whose move is it? (Player 0 - black first)
@@ -36,13 +36,13 @@ type game struct {
 	capture1     uint8            // capture 10 and win
 	align5       align5           // one Player has aligned 5, however it can be broken. The other Player must break it, capture 10, or lose.
 	move         uint32           // how many moves have been played in total (is this desirable/necessary?)
-	DrawLastMove bool             // Higlight the last move played
-	LastMove     coordinate       // What was the last move played
+	drawLastMove bool             // Higlight the last move played
+	lastMove     coordinate       // What was the last move played
 	newGame      bool             // New Game button has been pressed, show new game options
-	Won          bool             // game finished
-	Winmove      coordinate       // how many moves have been played in total
-	Message      string           // game feeback (invalid move, win)
+	won          bool             // game finished
+	winMove      coordinate       // how many moves have been played in total
+	message      string           // game feeback (invalid move, win)
 }
 
-// G contAins all game state info
+// Game var contains all information about current game state
 var g *game

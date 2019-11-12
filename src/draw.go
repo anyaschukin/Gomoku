@@ -198,19 +198,19 @@ func drawTimer(screen *ebiten.Image, g *game) {
 }
 
 func drawMessage(screen *ebiten.Image, g *game) {
-	if g.Won == false {
+	if g.won == false {
 		if g.player == false {
 			text.Draw(screen, blackMove, mplusNormalFont, columnBlack, row, color.Black)
-			text.Draw(screen, g.Message, mplusNormalFont, columnBlack, row*6, color.Black)
+			text.Draw(screen, g.message, mplusNormalFont, columnBlack, row*6, color.Black)
 		} else {
 			text.Draw(screen, whiteMove, mplusNormalFont, columnWhite, row, color.White)
-			text.Draw(screen, g.Message, mplusNormalFont, columnWhite, row*6, color.White)
+			text.Draw(screen, g.message, mplusNormalFont, columnWhite, row*6, color.White)
 		}
 	} else {
-		if g.Message == "Black Wins!" {
-			text.Draw(screen, g.Message, mplusNormalFont, columnBlack, row*6, color.Black)
+		if g.message == "Black Wins!" {
+			text.Draw(screen, g.message, mplusNormalFont, columnBlack, row*6, color.Black)
 		} else {
-			text.Draw(screen, g.Message, mplusNormalFont, columnWhite, row*6, color.White)
+			text.Draw(screen, g.message, mplusNormalFont, columnWhite, row*6, color.White)
 		}
 	}
 }
@@ -229,9 +229,9 @@ func drawText(screen *ebiten.Image, g *game) {
 }
 
 func drawLastMove(screen *ebiten.Image, g *game) {
-	if g.DrawLastMove == true && g.move > 0 {
+	if g.drawLastMove == true && g.move > 0 {
 		opLastMove := &ebiten.DrawImageOptions{}
-		opLastMove.GeoM.Translate((zerox + (float64(g.LastMove.x) * positionWidth)), (zeroy + (float64(g.LastMove.y) * positionWidth)))
+		opLastMove.GeoM.Translate((zerox + (float64(g.lastMove.x) * positionWidth)), (zeroy + (float64(g.lastMove.y) * positionWidth)))
 		opLastMove.GeoM.Scale(scale, scale)
 		screen.DrawImage(imgRed, opLastMove)
 		// screen.DrawImage(imgBlue, opLastMove)
@@ -239,7 +239,7 @@ func drawLastMove(screen *ebiten.Image, g *game) {
 }
 
 func drawHotseatSuggestion(screen *ebiten.Image, g *game) {
-	if isPlayerHotseat(g) == true && g.Won == false {
+	if isPlayerHotseat(g) == true && g.won == false {
 		coordinate := g.ai0.suggest
 		if g.player == true {
 			coordinate = g.ai1.suggest
@@ -252,9 +252,9 @@ func drawHotseatSuggestion(screen *ebiten.Image, g *game) {
 }
 
 func drawWinMove(screen *ebiten.Image, g *game) {
-	if g.Won == true {
+	if g.won == true {
 		opWinMove := &ebiten.DrawImageOptions{}
-		opWinMove.GeoM.Translate((zerox + (float64(g.Winmove.x) * positionWidth)), (zeroy + (float64(g.Winmove.y) * positionWidth)))
+		opWinMove.GeoM.Translate((zerox + (float64(g.winMove.x) * positionWidth)), (zeroy + (float64(g.winMove.y) * positionWidth)))
 		opWinMove.GeoM.Scale(scale, scale)
 		screen.DrawImage(imgRed, opWinMove)
 		screen.DrawImage(imgBlue, opWinMove)

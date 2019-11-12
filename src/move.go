@@ -7,11 +7,11 @@ func placeStone(coordinate coordinate, player bool, goban *[19][19]position) {
 
 func isMoveValid(coordinate coordinate, g *game) bool {
 	if positionOccupied(coordinate, &g.goban) == true {
-		g.Message = "Position Occupied"
+		g.message = "Position Occupied"
 		return false
 	}
 	if doubleThree(coordinate, g) == true {
-		g.Message = "Double-Three"
+		g.message = "Double-Three"
 		return false
 	}
 	return true

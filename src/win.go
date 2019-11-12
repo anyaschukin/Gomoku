@@ -52,7 +52,7 @@ func alignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 					align5.capture8 = true
 				}
 				align5.winner = player
-				g.Winmove = coordinate
+				g.winMove = coordinate
 				return true
 			}
 		}
@@ -61,11 +61,11 @@ func alignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 }
 
 func recordWin(g *game, winner bool) {
-	g.Won = true
+	g.won = true
 	if winner == false {
-		g.Message = "Black Wins!"
+		g.message = "Black Wins!"
 	} else {
-		g.Message = "White Wins!"
+		g.message = "White Wins!"
 	}
 }
 
@@ -73,18 +73,18 @@ func recordWin(g *game, winner bool) {
 func checkWin(coordinate coordinate, g *game) {
 	if capturedTen(g) == true {
 		recordWin(g, g.player)
-		g.Winmove = coordinate
+		g.winMove = coordinate
 		// fmt.Printf("Player %v wins by capturing 10.\n", g.Player)//////
 	} else if g.align5.break5 == true {
-		if positionOccupiedByPlayer(g.Winmove, &g.goban, g.align5.winner) == true &&
-			alignFive(g.Winmove, &g.goban, &g.align5, g.align5.winner, g.capture0, g.capture1) == true {
+		if positionOccupiedByPlayer(g.winMove, &g.goban, g.align5.winner) == true &&
+			alignFive(g.winMove, &g.goban, &g.align5, g.align5.winner, g.capture0, g.capture1) == true {
 			recordWin(g, opponent(g.player))
 			// fmt.Printf("Player %v win by aligning 5.\nThe other Player could have broken this alignment by capturing a pair, but they didn't, silly!\nWinning move y:%d x:%d.\n", g.align5.winner, g.align5.winmove.y, g.align5.winmove.x)
 		}
 		g.align5.break5 = false
 	} else if g.align5.capture8 == true {
 		recordWin(g, opponent(g.player))
-		// fmt.Printf("Player %v win by aligning 5.\nThe other Player could have Won by capturing ten, but they didn't, silly!\nWinning move y:%d x:%d.\n", g.align5.winner, g.align5.winmove.y, g.align5.winmove.x)
+		// fmt.Printf("Player %v win by aligning 5.\nThe other Player could have won by capturing ten, but they didn't, silly!\nWinning move y:%d x:%d.\n", g.align5.winner, g.align5.winmove.y, g.align5.winmove.x)
 	}
 	if alignFive(coordinate, &g.goban, &g.align5, g.player, g.capture0, g.capture1) == true {
 		if g.align5.break5 == false && g.align5.capture8 == false {

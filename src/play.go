@@ -10,7 +10,7 @@ func newGame() *game {
 	g = &game{}
 	g.ai0.aiPlayer = true
 	g.ai0.depth = 3
-	g.DrawLastMove = true /////////// implement in gui!!!!!!!
+	g.drawLastMove = true /////////// implement in gui!!!!!!!
 	suggestMove(g)
 	return g
 }
@@ -26,8 +26,8 @@ func opponent(player bool) bool {
 // swapPlayers swaps Players, clears the message and iterates move
 func swapPlayers(g *game) {
 	g.player = opponent(g.player)
-	if g.Won == false {
-		g.Message = ""
+	if g.won == false {
+		g.message = ""
 	}
 	g.move++
 
@@ -62,7 +62,7 @@ func gameLoop(coordinate coordinate, g *game) {
 	if validated == true {
 		capture(coordinate, g)
 		checkWin(coordinate, g)
-		g.LastMove = coordinate
+		g.lastMove = coordinate
 		swapPlayers(g)
 	}
 	suggestMove(g)
@@ -92,7 +92,7 @@ func aiLoop(g *game) {
 
 func (g *game) updateGame() { ////listen for input, update struct
 	input(g)
-	if g.newGame == false && g.Won == false {
+	if g.newGame == false && g.won == false {
 		if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
 			humanLoop(g)
 		} else {
