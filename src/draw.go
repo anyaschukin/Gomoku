@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 	"time"
-	// play "Gomoku/play"
+
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
@@ -60,35 +60,35 @@ var columnWhite = 2050
 func init() {
 	/// Initialize images
 	var err error
-	imgGoban, _, err = ebitenutil.NewImageFromFile("GUI/img/goban.png", ebiten.FilterDefault)
+	imgGoban, _, err = ebitenutil.NewImageFromFile("src/img/goban.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgBlack, _, err = ebitenutil.NewImageFromFile("GUI/img/black.png", ebiten.FilterDefault)
+	imgBlack, _, err = ebitenutil.NewImageFromFile("src/img/black.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgWhite, _, err = ebitenutil.NewImageFromFile("GUI/img/white.png", ebiten.FilterDefault)
+	imgWhite, _, err = ebitenutil.NewImageFromFile("src/img/white.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgRed, _, err = ebitenutil.NewImageFromFile("GUI/img/red.png", ebiten.FilterDefault)
+	imgRed, _, err = ebitenutil.NewImageFromFile("src/img/red.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgBlue, _, err = ebitenutil.NewImageFromFile("GUI/img/blue.png", ebiten.FilterDefault)
+	imgBlue, _, err = ebitenutil.NewImageFromFile("src/img/blue.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgExit, _, err = ebitenutil.NewImageFromFile("GUI/img/exit.png", ebiten.FilterDefault)
+	imgExit, _, err = ebitenutil.NewImageFromFile("src/img/exit.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgNewGame, _, err = ebitenutil.NewImageFromFile("GUI/img/newGame.png", ebiten.FilterDefault)
+	imgNewGame, _, err = ebitenutil.NewImageFromFile("src/img/newGame.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgSelect, _, err = ebitenutil.NewImageFromFile("GUI/img/select.png", ebiten.FilterDefault)
+	imgSelect, _, err = ebitenutil.NewImageFromFile("src/img/select.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}

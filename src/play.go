@@ -1,10 +1,8 @@
 package play
 
 import (
-	"time"
 	"math/rand"
-	// lib "Gomoku/golib"
-	// gui "Gomoku/GUI"
+	"time"
 )
 
 type Coordinate struct {
@@ -126,6 +124,6 @@ func SuggestMove(G *Game) {
 // Play initializes a new game and launches the GUI (Ebiten)
 func Play() {
 	G := NewGame()
-	G.Ai1.Depth = 3////////
+	G.Ai1.Depth = 3 ////////
 	RunEbiten()
 }

@@ -1,37 +1,37 @@
-package gui
+package play //gui
 
 import (
 	// "fmt"
 	"log"
 
 	_ "image/png"
-	play "Gomoku/play"
+
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-func gameLoop(coordinate play.Coordinate, G *Game) {
-	validated := play.PlaceIfValid(coordinate, G)
+func gameLoop(coordinate Coordinate, G *Game) {
+	validated := PlaceIfValid(coordinate, G)
 	if validated == true {
-		play.Capture(coordinate, G)
-		play.CheckWin(coordinate, G)
+		Capture(coordinate, G)
+		CheckWin(coordinate, G)
 		G.LastMove = coordinate
-		play.SwapPlayers(G)
+		SwapPlayers(G)
 		G.Move++
 	}
-	play.SuggestMove(G)
+	SuggestMove(G)
 }
 
 func (G *Game) UpdateGame() { ////listen for input, update struct
 	input(G)
 	coordinate := Coordinate{-1, -1} /////////
-	if G.newGame == false && G.Won == false {
+	if G.NewGame == false && G.Won == false {
 		if IsPlayerHuman(G) == true || IsPlayerHotseat(G) == true {
 			if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 				x, y := ebiten.CursorPosition()
 				if clickGoban(x, y) == true {
-					coordinate.x = int8((float64(x) - (zeroX * scale)) / (positionWidth * scale))
-					coordinate.y = int8((float64(y) - (zeroY * scale)) / (positionWidth * scale))
+					coordinate.X = int8((float64(x) - (zeroX * scale)) / (positionWidth * scale))
+					coordinate.Y = int8((float64(y) - (zeroY * scale)) / (positionWidth * scale))
 					gameLoop(coordinate, G)
 				}
 			}

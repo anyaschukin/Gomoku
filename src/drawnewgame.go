@@ -3,7 +3,7 @@ package play //gui
 import (
 	"image/color"
 	"strconv"
-	// play "Gomoku/play"
+
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/text"
 )
