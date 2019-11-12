@@ -3,7 +3,7 @@ package main
 import gomoku "Gomoku/src"
 
 func main() {
-	gomoku.Play()
+	gomoku.Launch()
 }
 
 /// go run main.go
