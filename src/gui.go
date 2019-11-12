@@ -1,7 +1,6 @@
 package play //gui
 
 import (
-	// "fmt"
 	"log"
 
 	_ "image/png"
@@ -15,14 +14,13 @@ func update(screen *ebiten.Image) error {
 		return nil
 	}
 	draw(screen, g)
-	// time.Sleep(1 * time.Millisecond) //////////
+	// time.Sleep(1 * time.Millisecond) ////////// speed?
 	return nil
 }
 
 func runEbiten() {
 	w, h := ebiten.ScreenSizeInFullscreen()
 	ebiten.SetFullscreen(true)
-	// ebiten.SetCursorVisible(true) //// helpful?
 	if err := ebiten.Run(update, w, h, 1, "Gomoku"); err != nil {
 		log.Fatal(err)
 	}

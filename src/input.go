@@ -56,24 +56,24 @@ func clickAI1(x, y int) bool {
 }
 
 func clicknewGame(x, y int) bool {
-	if x > int(newGamex*0.6) && x < 2492 &&
-		y > int(newGamey*0.6) && y < 1240 {
+	if x > int(newGameX*0.6) && x < 2492 &&
+		y > int(newGameY*0.6) && y < 1240 {
 		return true
 	}
 	return false
 }
 
 func clickExit(x, y int) bool {
-	if x > int(exitx*scale) && x < 2492 &&
-		y > int(exity*scale) && y < 1372 {
+	if x > int(exitX*scale) && x < 2492 &&
+		y > int(exitY*scale) && y < 1372 {
 		return true
 	}
 	return false
 }
 
 func clickgoban(x, y int) bool {
-	if x > int(zerox*scale) && x < int((zerox*scale)+(positionWidth*float64(19)*scale)) &&
-		y > int(zeroy*scale) && y < int((zeroy*scale)+(positionWidth*float64(19)*scale)) {
+	if x > int(zeroX*scale) && x < int((zeroX*scale)+(positionWidth*float64(19)*scale)) &&
+		y > int(zeroY*scale) && y < int((zeroY*scale)+(positionWidth*float64(19)*scale)) {
 		return true
 	}
 	return false

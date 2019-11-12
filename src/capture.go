@@ -13,7 +13,6 @@ func captureVertex(coordinate coordinate, g *game, y int8, x int8) {
 		positionOccupiedByPlayer(three, &g.goban, g.player) == true {
 		removeStone(one, &g.goban)
 		removeStone(two, &g.goban)
-		// fmt.Printf("capture! Player: %v. captured y:%d x:%d & y:%d x:%d\n\n", g.Player, one.y, one.x, two.y, two.x) ///
 		if g.player == false {
 			g.capture0 += 2
 		} else {

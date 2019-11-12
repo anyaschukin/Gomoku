@@ -74,29 +74,18 @@ func checkWin(coordinate coordinate, g *game) {
 	if capturedTen(g) == true {
 		recordWin(g, g.player)
 		g.winMove = coordinate
-		// fmt.Printf("Player %v wins by capturing 10.\n", g.Player)//////
 	} else if g.align5.break5 == true {
 		if positionOccupiedByPlayer(g.winMove, &g.goban, g.align5.winner) == true &&
 			alignFive(g.winMove, &g.goban, &g.align5, g.align5.winner, g.capture0, g.capture1) == true {
-			recordWin(g, opponent(g.player))
-			// fmt.Printf("Player %v win by aligning 5.\nThe other Player could have broken this alignment by capturing a pair, but they didn't, silly!\nWinning move y:%d x:%d.\n", g.align5.winner, g.align5.winmove.y, g.align5.winmove.x)
+			recordWin(g, opponent(g.player)) // Opponent wins by aligning 5. The other Player could have broken this alignment by capturing a pair, but they didn't, silly!
 		}
 		g.align5.break5 = false
 	} else if g.align5.capture8 == true {
-		recordWin(g, opponent(g.player))
-		// fmt.Printf("Player %v win by aligning 5.\nThe other Player could have won by capturing ten, but they didn't, silly!\nWinning move y:%d x:%d.\n", g.align5.winner, g.align5.winmove.y, g.align5.winmove.x)
+		recordWin(g, opponent(g.player)) // Opponent wins by aligning 5. The other Player could have won by capturing ten, but they didn't, silly!
 	}
 	if alignFive(coordinate, &g.goban, &g.align5, g.player, g.capture0, g.capture1) == true {
 		if g.align5.break5 == false && g.align5.capture8 == false {
-			recordWin(g, g.player)
+			recordWin(g, g.player) // Player wins by aligning 5!
 		}
-		// if g.align5.break5 == true {
-		// 	fmt.Printf("Player %v has aligned 5, however the other Player can break this alignment by capture\n", g.Player)
-		// } else if g.align5.capture8 == true {
-		// 	fmt.Printf("Player %v has aligned 5, however the other Player can win by capturing a pair\n", g.Player)
-		// } else {
-		// 	recordWin(G, g.Player)
-		// 	fmt.Printf("Player %v wins by aligning 5! final move on position y:%d x:%d\n\n", g.Player, coordinate.y, coordinate.x)
-		// }
 	}
 }

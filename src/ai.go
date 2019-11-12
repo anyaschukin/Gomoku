@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func randomcoordinate() coordinate { ////////move this function somewhere else??
+func randomCoordinate() coordinate {
 	x := int8(rand.Intn(19))
 	y := int8(rand.Intn(19))
 	random := coordinate{y, x}
@@ -13,10 +13,9 @@ func randomcoordinate() coordinate { ////////move this function somewhere else??
 }
 
 // artificialIdiot suggests a random move
-func artificialIdiot(g *game) { /////// move/remove?
+func artificialIdiot(g *game) {
 	start := time.Now()
-	suggestion := randomcoordinate()
-	// time.Sleep(498 * time.Millisecond) //////////
+	suggestion := randomCoordinate()
 	elapsed := (time.Since(start))
 	if g.player == false {
 		g.ai0.suggest = suggestion

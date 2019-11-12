@@ -74,8 +74,8 @@ func humanLoop(g *game) {
 		x, y := ebiten.CursorPosition()
 		if clickgoban(x, y) == true {
 			coordinate := coordinate{-1, -1}
-			coordinate.x = int8((float64(x) - (zerox * scale)) / (positionWidth * scale))
-			coordinate.y = int8((float64(y) - (zeroy * scale)) / (positionWidth * scale))
+			coordinate.x = int8((float64(x) - (zeroX * scale)) / (positionWidth * scale))
+			coordinate.y = int8((float64(y) - (zeroY * scale)) / (positionWidth * scale))
 			gameLoop(coordinate, g)
 		}
 	}
