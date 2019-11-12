@@ -29,7 +29,7 @@ func swapPlayers(g *game) {
 	if g.Won == false {
 		g.Message = ""
 	}
-	g.Move++
+	g.move++
 
 }
 
@@ -72,7 +72,7 @@ func gameLoop(coordinate coordinate, g *game) {
 func humanLoop(g *game) {
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 		x, y := ebiten.CursorPosition()
-		if clickGoban(x, y) == true {
+		if clickgoban(x, y) == true {
 			coordinate := coordinate{-1, -1}
 			coordinate.x = int8((float64(x) - (zerox * scale)) / (positionWidth * scale))
 			coordinate.y = int8((float64(y) - (zeroy * scale)) / (positionWidth * scale))

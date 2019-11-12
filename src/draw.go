@@ -15,7 +15,7 @@ import (
 )
 
 /// Images
-var imgGoban *ebiten.Image
+var imggoban *ebiten.Image
 var imgBlack *ebiten.Image
 var imgWhite *ebiten.Image
 var imgRed *ebiten.Image
@@ -38,7 +38,7 @@ var hotseat = `Hotseat`
 var timer = `Timer:`
 var move = `Move:`
 
-/// Goban position
+/// goban position
 var positionWidth float64 = 104.6
 var zerox float64 = 838 // Left
 var zeroy float64 = 34  // Top
@@ -60,7 +60,7 @@ var columnWhite = 2050
 func init() {
 	/// Initialize images
 	var err error
-	imgGoban, _, err = ebitenutil.NewImageFromFile("src/img/goban.png", ebiten.FilterDefault)
+	imggoban, _, err = ebitenutil.NewImageFromFile("src/img/goban.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -110,11 +110,11 @@ func init() {
 	// })
 }
 
-func drawGoban(screen *ebiten.Image, g *game) {
-	opGoban := &ebiten.DrawImageOptions{}
-	opGoban.GeoM.Translate(885, 80)
-	opGoban.GeoM.Scale(scale, scale)
-	screen.DrawImage(imgGoban, opGoban)
+func drawgoban(screen *ebiten.Image, g *game) {
+	opgoban := &ebiten.DrawImageOptions{}
+	opgoban.GeoM.Translate(885, 80)
+	opgoban.GeoM.Scale(scale, scale)
+	screen.DrawImage(imggoban, opgoban)
 }
 
 func drawStones(screen *ebiten.Image, g *game) {
@@ -123,11 +123,11 @@ func drawStones(screen *ebiten.Image, g *game) {
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
 			coordinate := coordinate{y, x}
-			if positionOccupied(coordinate, &g.Goban) == true {
+			if positionOccupied(coordinate, &g.goban) == true {
 				opStone := &ebiten.DrawImageOptions{}
 				opStone.GeoM.Translate((zerox + (float64(coordinate.x) * positionWidth)), (zeroy + (float64(coordinate.y) * positionWidth)))
 				opStone.GeoM.Scale(scale, scale)
-				if positionOccupiedByPlayer(coordinate, &g.Goban, false) == true {
+				if positionOccupiedByPlayer(coordinate, &g.goban, false) == true {
 					screen.DrawImage(imgBlack, opStone)
 				} else {
 					screen.DrawImage(imgWhite, opStone)
@@ -217,7 +217,7 @@ func drawMessage(screen *ebiten.Image, g *game) {
 
 func drawMove(screen *ebiten.Image, g *game) {
 	text.Draw(screen, move, mplusNormalFont, columnBlack, row*13, color.Black)
-	text.Draw(screen, strconv.Itoa(int(g.Move)), mplusNormalFont, columnBlack+160, row*13, color.Black)
+	text.Draw(screen, strconv.Itoa(int(g.move)), mplusNormalFont, columnBlack+160, row*13, color.Black)
 }
 
 func drawText(screen *ebiten.Image, g *game) {
@@ -229,7 +229,7 @@ func drawText(screen *ebiten.Image, g *game) {
 }
 
 func drawLastMove(screen *ebiten.Image, g *game) {
-	if g.DrawLastMove == true && g.Move > 0 {
+	if g.DrawLastMove == true && g.move > 0 {
 		opLastMove := &ebiten.DrawImageOptions{}
 		opLastMove.GeoM.Translate((zerox + (float64(g.LastMove.x) * positionWidth)), (zeroy + (float64(g.LastMove.y) * positionWidth)))
 		opLastMove.GeoM.Scale(scale, scale)
@@ -280,7 +280,7 @@ func draw(screen *ebiten.Image, g *game) {
 	if g.newGame == true {
 		drawNewGameOptions(screen, g)
 	} else {
-		drawGoban(screen, g)
+		drawgoban(screen, g)
 		drawStones(screen, g)
 		drawText(screen, g)
 		drawLastMove(screen, g)

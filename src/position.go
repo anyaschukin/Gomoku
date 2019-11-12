@@ -1,49 +1,49 @@
 package play
 
-func coordinateOnGoban(coordinate coordinate) (onGoban bool) {
+func coordinateOngoban(coordinate coordinate) (ongoban bool) {
 	if coordinate.y < 0 || coordinate.y > 18 || coordinate.x < 0 || coordinate.x > 18 {
 		return false
 	}
 	return true
 }
 
-func positionOccupied(coordinate coordinate, Goban *[19][19]position) (occupied bool) {
-	if Goban[coordinate.y][coordinate.x].occupied == true {
+func positionOccupied(coordinate coordinate, goban *[19][19]position) (occupied bool) {
+	if goban[coordinate.y][coordinate.x].occupied == true {
 		return true
 	}
 	return false
 }
 
-func samePlayer(coordinate coordinate, Goban *[19][19]position, player bool) (samePlayer bool) {
-	if Goban[coordinate.y][coordinate.x].player == player {
+func samePlayer(coordinate coordinate, goban *[19][19]position, player bool) (samePlayer bool) {
+	if goban[coordinate.y][coordinate.x].player == player {
 		return true
 	}
 	return false
 }
 
-func positionOccupiedByPlayer(coordinate coordinate, Goban *[19][19]position, player bool) bool {
-	if coordinateOnGoban(coordinate) == true {
-		if positionOccupied(coordinate, Goban) == true &&
-			samePlayer(coordinate, Goban, player) == true {
+func positionOccupiedByPlayer(coordinate coordinate, goban *[19][19]position, player bool) bool {
+	if coordinateOngoban(coordinate) == true {
+		if positionOccupied(coordinate, goban) == true &&
+			samePlayer(coordinate, goban, player) == true {
 			return true
 		}
 	}
 	return false
 }
 
-func positionOccupiedByOpponent(coordinate coordinate, Goban *[19][19]position, player bool) bool {
-	if coordinateOnGoban(coordinate) == true {
-		if positionOccupied(coordinate, Goban) == true &&
-			samePlayer(coordinate, Goban, player) == false {
+func positionOccupiedByOpponent(coordinate coordinate, goban *[19][19]position, player bool) bool {
+	if coordinateOngoban(coordinate) == true {
+		if positionOccupied(coordinate, goban) == true &&
+			samePlayer(coordinate, goban, player) == false {
 			return true
 		}
 	}
 	return false
 }
 
-func positionUnoccupied(coordinate coordinate, Goban *[19][19]position) (unoccupied bool) {
-	if coordinateOnGoban(coordinate) == true {
-		if positionOccupied(coordinate, Goban) == false {
+func positionUnoccupied(coordinate coordinate, goban *[19][19]position) (unoccupied bool) {
+	if coordinateOngoban(coordinate) == true {
+		if positionOccupied(coordinate, goban) == false {
 			return true
 		}
 	}

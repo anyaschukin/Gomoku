@@ -1,12 +1,12 @@
 package play
 
-func placeStone(coordinate coordinate, player bool, Goban *[19][19]position) {
-	Goban[coordinate.y][coordinate.x].occupied = true
-	Goban[coordinate.y][coordinate.x].player = player
+func placeStone(coordinate coordinate, player bool, goban *[19][19]position) {
+	goban[coordinate.y][coordinate.x].occupied = true
+	goban[coordinate.y][coordinate.x].player = player
 }
 
 func isMoveValid(coordinate coordinate, g *game) bool {
-	if positionOccupied(coordinate, &g.Goban) == true {
+	if positionOccupied(coordinate, &g.goban) == true {
 		g.Message = "Position Occupied"
 		return false
 	}
@@ -19,7 +19,7 @@ func isMoveValid(coordinate coordinate, g *game) bool {
 
 func placeIfValid(coordinate coordinate, g *game) bool {
 	if isMoveValid(coordinate, g) == true {
-		placeStone(coordinate, g.player, &g.Goban)
+		placeStone(coordinate, g.player, &g.goban)
 		return true
 	}
 	return false
