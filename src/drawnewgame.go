@@ -80,8 +80,8 @@ func drawAI(screen *ebiten.Image, g *game, i int) {
 }
 
 func drawHuman(screen *ebiten.Image, g *game) {
-	text.Draw(screen, human, mplusNormalFont, newGamecolumnBlack+520, row*2+50, color.Black)
-	text.Draw(screen, human, mplusNormalFont, newGamecolumnWhite+520, row*2+50, color.White)
+	text.Draw(screen, humanLower, mplusNormalFont, newGamecolumnBlack+520, row*2+50, color.Black)
+	text.Draw(screen, humanLower, mplusNormalFont, newGamecolumnWhite+520, row*2+50, color.White)
 }
 
 func drawHotseat(screen *ebiten.Image, g *game) {
