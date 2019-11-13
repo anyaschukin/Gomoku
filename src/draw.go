@@ -33,9 +33,10 @@ var (
 var whiteMove = `White to Move`
 var humanUpper = `HUMAN`
 var humanLower = `Human`
-var hotseat = `(Hotseat)`
+var hotseatBracket = `(Hotseat)`
+var hotseat = `Hotseat`
 var artificial = `AI`
-var depth = `- depth:`
+var depthColon = `- depth:`
 var captured = `captured:`
 var timer = `timer:`
 var move = `move:`
@@ -141,24 +142,24 @@ func drawStones(screen *ebiten.Image, g *game) {
 
 func drawPlayerInfo(screen *ebiten.Image, g *game) {
 	if g.ai0.hotseat == true {
-		text.Draw(screen, hotseat, mplusNormalFont, columnBlack, row*4, color.Black)
+		text.Draw(screen, hotseatBracket, mplusNormalFont, columnBlack, row*4, color.Black)
 	}
 	if g.ai0.aiPlayer == true {
 		text.Draw(screen, artificial, mplusBigFont, columnBlack, row*5, color.Black)
 		ebitenutil.DrawRect(screen, float64(columnBlack-8), 520, 90, 6, color.Black)
-		text.Draw(screen, depth, mplusNormalFont, columnBlack+100, row*5-9, color.Black)
+		text.Draw(screen, depthColon, mplusNormalFont, columnBlack+100, row*5-9, color.Black)
 		text.Draw(screen, strconv.Itoa(int(g.ai0.depth)), mplusNormalFont, columnBlack+320, row*5-9, color.Black)
 	} else {
 		text.Draw(screen, humanUpper, mplusBigFont, columnBlack, row*5, color.Black)
 		ebitenutil.DrawRect(screen, float64(columnBlack-8), 520, 290, 6, color.Black)
 	}
 	if g.ai1.hotseat == true {
-		text.Draw(screen, hotseat, mplusNormalFont, columnWhite, row*4, color.White)
+		text.Draw(screen, hotseatBracket, mplusNormalFont, columnWhite, row*4, color.White)
 	}
 	if g.ai1.aiPlayer == true {
 		text.Draw(screen, artificial, mplusBigFont, columnWhite, row*5, color.White)
 		ebitenutil.DrawRect(screen, float64(columnWhite-8), 520, 90, 6, color.White)
-		text.Draw(screen, depth, mplusNormalFont, columnWhite+100, row*5-9, color.White)
+		text.Draw(screen, depthColon, mplusNormalFont, columnWhite+100, row*5-9, color.White)
 		text.Draw(screen, strconv.Itoa(int(g.ai1.depth)), mplusNormalFont, columnWhite+320, row*5-9, color.White)
 	} else {
 		text.Draw(screen, humanUpper, mplusBigFont, columnWhite, row*5, color.White)
@@ -260,7 +261,7 @@ func drawHotseatSuggestion(screen *ebiten.Image, g *game) {
 }
 
 func drawWinMove(screen *ebiten.Image, g *game) {
-	if g.won == true {
+	if g.won == true && g.drawWinMove == true {
 		opWinMove := &ebiten.DrawImageOptions{}
 		opWinMove.GeoM.Translate((zeroX + (float64(g.winMove.x) * positionWidth)), (zeroY + (float64(g.winMove.y) * positionWidth)))
 		opWinMove.GeoM.Scale(scale, scale)

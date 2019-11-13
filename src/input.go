@@ -8,48 +8,80 @@ import (
 )
 
 func clickHuman0(x, y int) bool {
-	if x > int(newGameBlack2*0.12) && x < 940 &&
-		y > int(1550*0.12) && y < 277 {
+	if x > 108 && x < 514 &&
+		y > 306 && y < 441 {
 		return true
 	}
 	return false
 }
 
 func clickHuman1(x, y int) bool {
-	if x > int(newGameBlack2*0.12)+1092 && x < 940+1092 &&
-		y > int(1550*0.12) && y < 277 {
+	if x > 108+860 && x < 514+860 &&
+		y > 306 && y < 441 {
 		return true
 	}
 	return false
 }
 
 func clickHotseat0(x, y int) bool {
-	if x > int(newGameBlack2*0.12) && x < 940 &&
-		y > 286 && y < 378 {
+	if x > 108 && x < 514 &&
+		y > 530 && y < 623 {
 		return true
 	}
 	return false
 }
 
 func clickHotseat1(x, y int) bool {
-	if x > int(newGameBlack2*0.12)+1092 && x < 940+1092 &&
-		y > 286 && y < 378 {
+	if x > 108+860 && x < 514+860 &&
+		y > 530 && y < 623 {
 		return true
 	}
 	return false
 }
 
 func clickAI0(x, y int) bool {
-	if x > int(950*0.12) && x < 454 &&
-		y > 186 && y < 1378 {
+	if x > 108 && x < 514 &&
+		y > 715 && y < 849 {
 		return true
 	}
 	return false
 }
 
 func clickAI1(x, y int) bool {
-	if x > int(950*0.12)+1092 && x < 454+1092 &&
-		y > 186 && y < 1378 {
+	if x > 108+860 && x < 514+860 &&
+		y > 715 && y < 849 {
+		return true
+	}
+	return false
+}
+
+func clickUp0(x, y int) bool {
+	if x > 535 && x < 593 &&
+		y > 643 && y < 705 {
+		return true
+	}
+	return false
+}
+
+func clickUp1(x, y int) bool {
+	if x > 535+860 && x < 593+860 &&
+		y > 643 && y < 705 {
+		return true
+	}
+	return false
+}
+
+func clickDown0(x, y int) bool {
+	if x > 535 && x < 593 &&
+		y > 848 && y < 908 {
+		return true
+	}
+	return false
+}
+
+func clickDown1(x, y int) bool {
+	if x > 535+860 && x < 593+860 &&
+		y > 848 && y < 908 {
 		return true
 	}
 	return false
@@ -79,13 +111,30 @@ func clickGoban(x, y int) bool {
 	return false
 }
 
+func clickLastMove(x, y int) bool {
+	if x > 1791 && x < 2172 &&
+		y > 333 && y < 415 {
+		return true
+	}
+	return false
+}
+
+func clickWinMove(x, y int) bool {
+	if x > 1791 && x < 2172 &&
+		y > 533 && y < 621 {
+		return true
+	}
+	return false
+}
+
 func inputNewGame(g *game, x, y int) {
 	if clickHuman0(x, y) == true {
 		g.ai0.aiPlayer = false
+		g.ai0.hotseat = false
 	}
 	if clickAI0(x, y) == true {
 		g.ai0.aiPlayer = true
-		g.ai0.depth = uint8((y - 186) / (1201 / 12))
+		g.ai0.hotseat = false
 	}
 	if clickHotseat0(x, y) == true {
 		if g.ai0.hotseat == false {
@@ -98,10 +147,11 @@ func inputNewGame(g *game, x, y int) {
 	}
 	if clickHuman1(x, y) == true {
 		g.ai1.aiPlayer = false
+		g.ai1.hotseat = false
 	}
 	if clickAI1(x, y) == true {
 		g.ai1.aiPlayer = true
-		g.ai1.depth = uint8((y - 186) / (1201 / 12))
+		g.ai1.hotseat = false
 	}
 	if clickHotseat1(x, y) == true {
 		if g.ai1.hotseat == false {
@@ -110,6 +160,32 @@ func inputNewGame(g *game, x, y int) {
 		} else {
 			g.ai1.hotseat = false
 			g.ai1.aiPlayer = false
+		}
+	}
+	if clickUp0(x, y) == true {
+		g.ai0.depth++
+	}
+	if clickDown0(x, y) == true {
+		g.ai0.depth--
+	}
+	if clickUp1(x, y) == true {
+		g.ai1.depth++
+	}
+	if clickDown1(x, y) == true {
+		g.ai1.depth--
+	}
+	if clickLastMove(x, y) == true {
+		if g.drawLastMove == false {
+			g.drawLastMove = true
+		} else {
+			g.drawLastMove = false
+		}
+	}
+	if clickWinMove(x, y) == true {
+		if g.drawWinMove == false {
+			g.drawWinMove = true
+		} else {
+			g.drawWinMove = false
 		}
 	}
 }

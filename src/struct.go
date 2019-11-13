@@ -40,6 +40,7 @@ type game struct {
 	lastMove     coordinate       // What was the last move played
 	newGame      bool             // New Game button has been pressed, show new game options
 	won          bool             // Game finished
+	drawWinMove  bool             // Higlight the last move played
 	winMove      coordinate       // Winning move
 	message      string           // Game feeback for display in gui (invalid move, win)
 }
