@@ -74,9 +74,9 @@ func drawSelect(screen *ebiten.Image, g *game) {
 
 func drawAI(screen *ebiten.Image, g *game, i int) {
 	text.Draw(screen, artificial, mplusNormalFont, newGamecolumnBlack, row*(i+2)+50, color.Black)
-	text.Draw(screen, strconv.Itoa(i), mplusNormalFont, newGamecolumnBlack+230, row*(i+2)+50, color.Black)
+	text.Draw(screen, strconv.Itoa(i), mplusNormalFont, newGamecolumnBlack+240, row*(i+2)+50, color.Black)
 	text.Draw(screen, artificial, mplusNormalFont, newGamecolumnWhite, row*(i+2)+50, color.White)
-	text.Draw(screen, strconv.Itoa(i), mplusNormalFont, newGamecolumnWhite+230, row*(i+2)+50, color.White)
+	text.Draw(screen, strconv.Itoa(i), mplusNormalFont, newGamecolumnWhite+240, row*(i+2)+50, color.White)
 }
 
 func drawHuman(screen *ebiten.Image, g *game) {

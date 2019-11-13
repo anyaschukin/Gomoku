@@ -25,15 +25,27 @@ var imgnewGame *ebiten.Image
 var imgSelect *ebiten.Image
 
 /// Text
-var (
-	captured        = `captured:`
-	mplusNormalFont font.Face
-	// mpluBigFont     font.Face
-)
+// var (
+// 	captured        = `Captured:`
+// 	mplusNormalFont font.Face
+// 	// mpluBigFont     font.Face
+// )
+var captured = `Captured:`
 var blackMove = `Black to Move`
 var whiteMove = `White to Move`
-var human = `Human`
-var artificial = `AI Depth`
+var (
+	human           = `Human`
+	mplusNormalFont font.Face
+	mpluBigFont     font.Face
+)
+
+// var (
+// 	artificial      = `AI depth:`
+// 	mplusNormalFont font.Face
+// 	// mpluBigFont     font.Face
+// )
+// var human = `Human`
+var artificial = `AI depth:`
 var hotseat = `Hotseat`
 var timer = `Timer:`
 var move = `Move:`
@@ -143,7 +155,7 @@ func drawPlayerInfo(screen *ebiten.Image, g *game) {
 	}
 	if g.ai0.aiPlayer == true {
 		text.Draw(screen, artificial, mplusNormalFont, columnBlack, row*3, color.Black)
-		text.Draw(screen, strconv.Itoa(int(g.ai0.depth)), mplusNormalFont, columnBlack+230, row*3, color.Black)
+		text.Draw(screen, strconv.Itoa(int(g.ai0.depth)), mplusNormalFont, columnBlack+270, row*3, color.Black)
 	} else {
 		text.Draw(screen, human, mplusNormalFont, columnBlack, row*3, color.Black)
 	}
@@ -152,7 +164,7 @@ func drawPlayerInfo(screen *ebiten.Image, g *game) {
 	}
 	if g.ai1.aiPlayer == true {
 		text.Draw(screen, artificial, mplusNormalFont, columnWhite, row*3, color.White)
-		text.Draw(screen, strconv.Itoa(int(g.ai1.depth)), mplusNormalFont, columnWhite+230, row*3, color.White)
+		text.Draw(screen, strconv.Itoa(int(g.ai1.depth)), mplusNormalFont, columnWhite+270, row*3, color.White)
 	} else {
 		text.Draw(screen, human, mplusNormalFont, columnWhite, row*3, color.White)
 	}
@@ -160,10 +172,10 @@ func drawPlayerInfo(screen *ebiten.Image, g *game) {
 
 func drawCaptured(screen *ebiten.Image, g *game) {
 	text.Draw(screen, captured, mplusNormalFont, columnBlack, row*4, color.Black)
-	text.Draw(screen, strconv.Itoa(int(g.capture0)), mplusNormalFont, 340, row*4, color.Black)
+	text.Draw(screen, strconv.Itoa(int(g.capture0)), mplusNormalFont, columnBlack+270, row*4, color.Black)
 
 	text.Draw(screen, captured, mplusNormalFont, columnWhite, row*4, color.White)
-	text.Draw(screen, strconv.Itoa(int(g.capture1)), mplusNormalFont, 2310, row*4, color.White)
+	text.Draw(screen, strconv.Itoa(int(g.capture1)), mplusNormalFont, columnWhite+270, row*4, color.White)
 }
 
 func drawTimer(screen *ebiten.Image, g *game) {
@@ -179,7 +191,7 @@ func drawTimer(screen *ebiten.Image, g *game) {
 		} else if elapsed >= 1000 {
 			truncated = elapsed.Truncate(time.Microsecond).String()
 		}
-		text.Draw(screen, truncated, mplusNormalFont, columnBlack+180, row*5, color.Black)
+		text.Draw(screen, truncated, mplusNormalFont, columnBlack+270, row*5, color.Black)
 	}
 	if g.ai1.aiPlayer == true || g.ai1.hotseat == true {
 		text.Draw(screen, timer, mplusNormalFont, columnWhite, row*5, color.White)
@@ -193,7 +205,7 @@ func drawTimer(screen *ebiten.Image, g *game) {
 		} else if elapsed >= 1000 {
 			truncated = elapsed.Truncate(time.Microsecond).String()
 		}
-		text.Draw(screen, truncated, mplusNormalFont, columnWhite+180, row*5, color.White)
+		text.Draw(screen, truncated, mplusNormalFont, columnWhite+270, row*5, color.White)
 	}
 }
 
