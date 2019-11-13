@@ -12,7 +12,8 @@ type position struct {
 	player   bool
 }
 
-type align5 struct { // If one Player aligns 5, their opponent must break it, capture 10, or lose.
+// If one Player aligns 5, their opponent must break it, capture 10, or lose.
+type align5 struct {
 	break5   bool // Can the opponent break the aligned 5?
 	capture8 bool // Can the opponent win by capturing 10? (have they already captured 8, and is there an available capture move)
 }

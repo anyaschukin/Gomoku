@@ -32,7 +32,7 @@ func canBeCapturedVertices(coordinate coordinate, goban *[19][19]position, playe
 	return false
 }
 
-// CanBreakFive returns true if its possible to break the aligned 5
+// canBreakFive returns true if its possible to break the aligned 5
 func canBreakFive(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
 	if canBeCapturedVertices(coordinate, goban, player) == true {
 		return true
