@@ -56,8 +56,8 @@ func checkVertexForThree(coordinate coordinate, goban *[19][19]position, y int8,
 	return false
 }
 
-// doubleThree returns false if suggested move breaks the double three rule
-func doubleThree(coordinate coordinate, g *game) (valid bool) {
+// doubleThree returns true if suggested move breaks the double three rule
+func doubleThree(coordinate coordinate, g *game) bool {
 	var freeThree bool
 	var x int8
 	var y int8

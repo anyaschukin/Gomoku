@@ -10,6 +10,7 @@ func newGame() *game {
 	g = &game{}
 	g.ai0.aiPlayer = true
 	g.ai0.depth = 3
+	g.ai1.depth = 3
 	g.drawLastMove = true /////////// implement in gui!!!!!!!
 	suggestMove(g)
 	return g
@@ -49,10 +50,10 @@ func isPlayerHotseat(g *game) bool {
 	return false
 }
 
-// suggestMove checks if Player is ai & if so prompts the ai to suggest a move
+// suggestMove, if player is AI call AI to suggest a move
 func suggestMove(g *game) {
 	if isPlayerHuman(g) == false || isPlayerHotseat(g) == true {
-		artificialIdiot(g) /////create move suggestion
+		artificialIdiot(g)
 	}
 }
 
@@ -72,7 +73,7 @@ func gameLoop(coordinate coordinate, g *game) {
 func humanLoop(g *game) {
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 		x, y := ebiten.CursorPosition()
-		if clickgoban(x, y) == true {
+		if clickGoban(x, y) == true {
 			coordinate := coordinate{-1, -1}
 			coordinate.x = int8((float64(x) - (zeroX * scale)) / (positionWidth * scale))
 			coordinate.y = int8((float64(y) - (zeroY * scale)) / (positionWidth * scale))
@@ -90,7 +91,8 @@ func aiLoop(g *game) {
 	gameLoop(coordinate, g)
 }
 
-func (g *game) updateGame() { ////listen for input, update struct
+// updateGame listens for input, and runs a human/AI loop
+func (g *game) updateGame() {
 	input(g)
 	if g.newGame == false && g.won == false {
 		if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {

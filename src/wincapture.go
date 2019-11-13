@@ -61,8 +61,8 @@ func captureAvailable(goban *[19][19]position, player bool) bool {
 	return false
 }
 
-// canWinBycapture returns true if is it possible for the opponent to win by capturing 10. (have they already captured 8, and is there an available capture move)
-func canWinBycapture(goban *[19][19]position, player bool, capture0 uint8, capture1 uint8) bool {
+// canWinByCapture returns true if is it possible for the opponent to win by capturing 10. (have they already captured 8, and is there an available capture move)
+func canWinByCapture(goban *[19][19]position, player bool, capture0 uint8, capture1 uint8) bool {
 	if capturedEight(player, capture0, capture1) == true &&
 		captureAvailable(goban, player) == true {
 		return true

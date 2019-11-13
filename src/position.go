@@ -1,6 +1,6 @@
 package play
 
-func coordinateOngoban(coordinate coordinate) (ongoban bool) {
+func coordinateOnGoban(coordinate coordinate) (ongoban bool) {
 	if coordinate.y < 0 || coordinate.y > 18 || coordinate.x < 0 || coordinate.x > 18 {
 		return false
 	}
@@ -22,7 +22,7 @@ func samePlayer(coordinate coordinate, goban *[19][19]position, player bool) (sa
 }
 
 func positionOccupiedByPlayer(coordinate coordinate, goban *[19][19]position, player bool) bool {
-	if coordinateOngoban(coordinate) == true {
+	if coordinateOnGoban(coordinate) == true {
 		if positionOccupied(coordinate, goban) == true &&
 			samePlayer(coordinate, goban, player) == true {
 			return true
@@ -32,7 +32,7 @@ func positionOccupiedByPlayer(coordinate coordinate, goban *[19][19]position, pl
 }
 
 func positionOccupiedByOpponent(coordinate coordinate, goban *[19][19]position, player bool) bool {
-	if coordinateOngoban(coordinate) == true {
+	if coordinateOnGoban(coordinate) == true {
 		if positionOccupied(coordinate, goban) == true &&
 			samePlayer(coordinate, goban, player) == false {
 			return true
@@ -42,7 +42,7 @@ func positionOccupiedByOpponent(coordinate coordinate, goban *[19][19]position, 
 }
 
 func positionUnoccupied(coordinate coordinate, goban *[19][19]position) (unoccupied bool) {
-	if coordinateOngoban(coordinate) == true {
+	if coordinateOnGoban(coordinate) == true {
 		if positionOccupied(coordinate, goban) == false {
 			return true
 		}

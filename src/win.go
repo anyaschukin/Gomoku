@@ -48,7 +48,7 @@ func alignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 				if canBreakFive(coordinate, goban, y, x, player) == true {
 					align5.break5 = true
 				}
-				if canWinBycapture(goban, opponent(player), capture0, capture1) == true {
+				if canWinByCapture(goban, opponent(player), capture0, capture1) == true {
 					align5.capture8 = true
 				}
 				align5.winner = player

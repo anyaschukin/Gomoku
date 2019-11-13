@@ -110,7 +110,7 @@ func init() {
 	// })
 }
 
-func drawgoban(screen *ebiten.Image, g *game) {
+func drawGoban(screen *ebiten.Image, g *game) {
 	opgoban := &ebiten.DrawImageOptions{}
 	opgoban.GeoM.Translate(885, 80)
 	opgoban.GeoM.Scale(scale, scale)
@@ -158,7 +158,7 @@ func drawPlayerInfo(screen *ebiten.Image, g *game) {
 	}
 }
 
-func drawcaptured(screen *ebiten.Image, g *game) {
+func drawCaptured(screen *ebiten.Image, g *game) {
 	text.Draw(screen, captured, mplusNormalFont, columnBlack, row*4, color.Black)
 	text.Draw(screen, strconv.Itoa(int(g.capture0)), mplusNormalFont, 340, row*4, color.Black)
 
@@ -222,7 +222,7 @@ func drawMove(screen *ebiten.Image, g *game) {
 
 func drawText(screen *ebiten.Image, g *game) {
 	drawPlayerInfo(screen, g)
-	drawcaptured(screen, g)
+	drawCaptured(screen, g)
 	drawTimer(screen, g)
 	drawMessage(screen, g)
 	drawMove(screen, g)
@@ -280,7 +280,7 @@ func draw(screen *ebiten.Image, g *game) {
 	if g.newGame == true {
 		drawNewGameOptions(screen, g)
 	} else {
-		drawgoban(screen, g)
+		drawGoban(screen, g)
 		drawStones(screen, g)
 		drawText(screen, g)
 		drawLastMove(screen, g)

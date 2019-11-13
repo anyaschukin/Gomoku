@@ -2,6 +2,7 @@
 
 Graphic interface (ebiten?)
 	- show last move integrate into gui option
+	- make gui new game options pretty 
 
 AI
 	- Min/Max

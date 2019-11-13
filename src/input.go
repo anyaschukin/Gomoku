@@ -55,7 +55,7 @@ func clickAI1(x, y int) bool {
 	return false
 }
 
-func clicknewGame(x, y int) bool {
+func clickNewGame(x, y int) bool {
 	if x > int(newGameX*0.6) && x < 2492 &&
 		y > int(newGameY*0.6) && y < 1240 {
 		return true
@@ -71,7 +71,7 @@ func clickExit(x, y int) bool {
 	return false
 }
 
-func clickgoban(x, y int) bool {
+func clickGoban(x, y int) bool {
 	if x > int(zeroX*scale) && x < int((zeroX*scale)+(positionWidth*float64(19)*scale)) &&
 		y > int(zeroY*scale) && y < int((zeroY*scale)+(positionWidth*float64(19)*scale)) {
 		return true
@@ -89,7 +89,7 @@ func input(g *game) {
 		if clickExit(x, y) == true {
 			os.Exit(0) ////// is this exiting properly?
 		}
-		if clicknewGame(x, y) == true {
+		if clickNewGame(x, y) == true {
 			if g.newGame == false {
 				g := newGame()
 				g.newGame = true
