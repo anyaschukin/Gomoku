@@ -12,7 +12,7 @@ func newGame() *game {
 	g.ai0.depth = 3
 	g.ai1.depth = 3
 	g.drawLastMove = true /////////// implement in gui!!!!!!!
-	suggestMove(g)
+	aiSuggestMove(g)
 	return g
 }
 
@@ -34,29 +34,6 @@ func swapPlayers(g *game) {
 
 }
 
-func isPlayerHuman(g *game) bool {
-	if (g.player == false && g.ai0.aiPlayer == false) ||
-		(g.player == true && g.ai1.aiPlayer == false) {
-		return true
-	}
-	return false
-}
-
-func isPlayerHotseat(g *game) bool {
-	if (g.player == false && g.ai0.hotseat == true) ||
-		(g.player == true && g.ai1.hotseat == true) {
-		return true
-	}
-	return false
-}
-
-// suggestMove, if player is AI call AI to suggest a move
-func suggestMove(g *game) {
-	if isPlayerHuman(g) == false || isPlayerHotseat(g) == true {
-		artificialIdiot(g)
-	}
-}
-
 // gameLoop runs one move
 func gameLoop(coordinate coordinate, g *game) {
 	validated := placeIfValid(coordinate, g)
@@ -66,7 +43,7 @@ func gameLoop(coordinate coordinate, g *game) {
 		g.lastMove = coordinate
 		swapPlayers(g)
 	}
-	suggestMove(g)
+	aiSuggestMove(g)
 }
 
 // humanLoop listens for a click on the goban runs gameloop with clicked coordinate
@@ -107,5 +84,5 @@ func (g *game) updateGame() {
 func Play() {
 	g := newGame()
 	g.ai1.depth = 3 ////////
-	runEbiten()
+	runGui()
 }

@@ -12,36 +12,35 @@ type position struct {
 	player   bool
 }
 
-type align5 struct { //winning move for checking if opponent breaks it in the next move
-	break5   bool
-	capture8 bool // is it possible for the opponent to win by capturing 10? (have they already captured 8, and is there an available capture move)
-	winner   bool /// rm?
+type align5 struct { // If one Player aligns 5, their opponent must break it, capture 10, or lose.
+	break5   bool // Can the opponent break the aligned 5?
+	capture8 bool // Can the opponent win by capturing 10? (have they already captured 8, and is there an available capture move)
 }
 
 type ai struct {
-	aiPlayer bool          // is Player 1 human or Ai
-	hotseat  bool          // Ai Player only suggests moves, human must choose move
-	depth    uint8         // how many moves in advance do we examine
+	aiPlayer bool          // Is Player Human or Ai
+	hotseat  bool          // Ai Player only suggests moves, Human must choose move
+	depth    uint8         // How many moves in advance do we examine
 	timer    time.Duration // How long did the Ai think for
 	suggest  coordinate    // Ai suggested move
 }
 
-// Game struct contains all information about current game state
+// game struct contains all information about current game state
 type game struct {
-	goban        [19][19]position // game board
-	player       bool             // whose move is it? (Player 0 - black first)
-	ai0          ai               // is black human or Ai?
-	ai1          ai               // is white human or Ai?
-	capture0     uint8            // capture 10 and win
-	capture1     uint8            // capture 10 and win
-	align5       align5           // one Player has aligned 5, however it can be broken. The other Player must break it, capture 10, or lose.
-	move         uint32           // how many moves have been played in total (is this desirable/necessary?)
+	goban        [19][19]position // Game board
+	player       bool             // Whose move is it? (Player 0 - black first)
+	ai0          ai               // Is black human or Ai?
+	ai1          ai               // Is white human or Ai?
+	capture0     uint8            // How many stones has Black Captured? 10 to win
+	capture1     uint8            // How many stones has White Captured? 10 to win
+	align5       align5           // Can an aligned 5 can be broken or trumped by capturing 10?
+	move         uint32           // How many moves have been played in total
 	drawLastMove bool             // Higlight the last move played
 	lastMove     coordinate       // What was the last move played
 	newGame      bool             // New Game button has been pressed, show new game options
-	won          bool             // game finished
-	winMove      coordinate       // how many moves have been played in total
-	message      string           // game feeback (invalid move, win)
+	won          bool             // Game finished
+	winMove      coordinate       // Winning move
+	message      string           // Game feeback for display in gui (invalid move, win)
 }
 
 // Game var contains all information about current game state

@@ -1,7 +1,7 @@
 package play
 
 // capturedTen returns true if either Player has captured ten stones
-func capturedTen(g *game) (win bool) {
+func capturedTen(g *game) bool {
 	if g.capture0 >= 10 || g.capture1 >= 10 {
 		return true
 	}
@@ -9,7 +9,7 @@ func capturedTen(g *game) (win bool) {
 }
 
 // checkVertexAlignFive returns true if 5 stones are aligned running through given coodinate on given axes
-func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) bool {
+func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
 	var multiple int8
 	var a int8
 	var b int8
@@ -36,7 +36,7 @@ func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y int8
 }
 
 // alignFive returns true if 5 stones are aligned running through given coodinate
-func alignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, player bool, capture0 uint8, capture1 uint8) (alignedFive bool) {
+func alignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, player bool, capture0, capture1 uint8) bool {
 	var x int8
 	var y int8
 	for y = -1; y <= 0; y++ {
@@ -51,7 +51,6 @@ func alignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 				if canWinByCapture(goban, opponent(player), capture0, capture1) == true {
 					align5.capture8 = true
 				}
-				align5.winner = player
 				g.winMove = coordinate
 				return true
 			}
@@ -74,14 +73,14 @@ func checkWin(coordinate coordinate, g *game) {
 	if capturedTen(g) == true {
 		recordWin(g, g.player)
 		g.winMove = coordinate
+	} else if g.align5.capture8 == true {
+		recordWin(g, opponent(g.player)) // Opponent wins by aligning 5. The other Player could have won by capturing ten, but they didn't, silly!
 	} else if g.align5.break5 == true {
-		if positionOccupiedByPlayer(g.winMove, &g.goban, g.align5.winner) == true &&
-			alignFive(g.winMove, &g.goban, &g.align5, g.align5.winner, g.capture0, g.capture1) == true {
+		if positionOccupiedByPlayer(g.winMove, &g.goban, opponent(g.player)) == true &&
+			alignFive(g.winMove, &g.goban, &g.align5, opponent(g.player), g.capture0, g.capture1) == true {
 			recordWin(g, opponent(g.player)) // Opponent wins by aligning 5. The other Player could have broken this alignment by capturing a pair, but they didn't, silly!
 		}
 		g.align5.break5 = false
-	} else if g.align5.capture8 == true {
-		recordWin(g, opponent(g.player)) // Opponent wins by aligning 5. The other Player could have won by capturing ten, but they didn't, silly!
 	}
 	if alignFive(coordinate, &g.goban, &g.align5, g.player, g.capture0, g.capture1) == true {
 		if g.align5.break5 == false && g.align5.capture8 == false {

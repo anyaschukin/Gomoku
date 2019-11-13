@@ -3,8 +3,6 @@ package play //gui
 import (
 	"log"
 
-	_ "image/png"
-
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -18,7 +16,7 @@ func update(screen *ebiten.Image) error {
 	return nil
 }
 
-func runEbiten() {
+func runGui() {
 	w, h := ebiten.ScreenSizeInFullscreen()
 	ebiten.SetFullscreen(true)
 	if err := ebiten.Run(update, w, h, 1, "Gomoku"); err != nil {

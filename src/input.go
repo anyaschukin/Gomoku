@@ -79,15 +79,50 @@ func clickGoban(x, y int) bool {
 	return false
 }
 
+func inputNewGame(g *game, x, y int) {
+	if clickHuman0(x, y) == true {
+		g.ai0.aiPlayer = false
+	}
+	if clickAI0(x, y) == true {
+		g.ai0.aiPlayer = true
+		g.ai0.depth = uint8((y - 186) / (1201 / 12))
+	}
+	if clickHotseat0(x, y) == true {
+		if g.ai0.hotseat == false {
+			g.ai0.hotseat = true
+			g.ai0.aiPlayer = true
+		} else {
+			g.ai0.hotseat = false
+			g.ai0.aiPlayer = false
+		}
+	}
+	if clickHuman1(x, y) == true {
+		g.ai1.aiPlayer = false
+	}
+	if clickAI1(x, y) == true {
+		g.ai1.aiPlayer = true
+		g.ai1.depth = uint8((y - 186) / (1201 / 12))
+	}
+	if clickHotseat1(x, y) == true {
+		if g.ai1.hotseat == false {
+			g.ai1.hotseat = true
+			g.ai1.aiPlayer = true
+		} else {
+			g.ai1.hotseat = false
+			g.ai1.aiPlayer = false
+		}
+	}
+}
+
 func input(g *game) {
-	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) == true { // quit if press escape
-		os.Exit(0) ////// is this exiting properly?
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) == true {
+		os.Exit(0)
 	}
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 		x, y := ebiten.CursorPosition()
 		// fmt.Printf("mouse pressed x: %d, y: %d\n", x, y) ////////
 		if clickExit(x, y) == true {
-			os.Exit(0) ////// is this exiting properly?
+			os.Exit(0)
 		}
 		if clickNewGame(x, y) == true {
 			if g.newGame == false {
@@ -98,38 +133,7 @@ func input(g *game) {
 			}
 		}
 		if g.newGame == true {
-			if clickHuman0(x, y) == true {
-				g.ai0.aiPlayer = false
-			}
-			if clickAI0(x, y) == true {
-				g.ai0.aiPlayer = true
-				g.ai0.depth = uint8((y - 186) / (1201 / 12))
-			}
-			if clickHotseat0(x, y) == true {
-				if g.ai0.hotseat == false {
-					g.ai0.hotseat = true
-					g.ai0.aiPlayer = true
-				} else {
-					g.ai0.hotseat = false
-					g.ai0.aiPlayer = false
-				}
-			}
-			if clickHuman1(x, y) == true {
-				g.ai1.aiPlayer = false
-			}
-			if clickAI1(x, y) == true {
-				g.ai1.aiPlayer = true
-				g.ai1.depth = uint8((y - 186) / (1201 / 12))
-			}
-			if clickHotseat1(x, y) == true {
-				if g.ai1.hotseat == false {
-					g.ai1.hotseat = true
-					g.ai1.aiPlayer = true
-				} else {
-					g.ai1.hotseat = false
-					g.ai1.aiPlayer = false
-				}
-			}
+			inputNewGame(g, x, y)
 		}
 	}
 }

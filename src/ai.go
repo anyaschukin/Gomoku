@@ -25,3 +25,26 @@ func artificialIdiot(g *game) {
 		g.ai1.timer = elapsed
 	}
 }
+
+func isPlayerHuman(g *game) bool {
+	if (g.player == false && g.ai0.aiPlayer == false) ||
+		(g.player == true && g.ai1.aiPlayer == false) {
+		return true
+	}
+	return false
+}
+
+func isPlayerHotseat(g *game) bool {
+	if (g.player == false && g.ai0.hotseat == true) ||
+		(g.player == true && g.ai1.hotseat == true) {
+		return true
+	}
+	return false
+}
+
+// aiSuggestMove, if player is AI call AI to suggest a move
+func aiSuggestMove(g *game) {
+	if isPlayerHuman(g) == false || isPlayerHotseat(g) == true {
+		artificialIdiot(g)
+	}
+}
