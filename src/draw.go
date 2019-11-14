@@ -2,32 +2,12 @@ package play //gui
 
 import (
 	"image/color"
-	"log"
 	"strconv"
 	"time"
 
-	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
-	"github.com/hajimehoshi/ebiten/examples/resources/fonts"
 	"github.com/hajimehoshi/ebiten/text"
-	"golang.org/x/image/font"
-)
-
-/// Images
-var imgGoban *ebiten.Image
-var imgBlack *ebiten.Image
-var imgWhite *ebiten.Image
-var imgRed *ebiten.Image
-var imgBlue *ebiten.Image
-var imgExit *ebiten.Image
-var imgNewGame *ebiten.Image
-var imgSelect *ebiten.Image
-
-/// Text
-var (
-	mplusNormalFont font.Face
-	mplusBigFont    font.Face
 )
 
 /// goban position
@@ -35,6 +15,11 @@ var positionWidth = 104.6
 var gobanX float64 = 838 // Left
 var gobanY float64 = 34  // Top
 var scale = 0.7
+
+/// Text rows and columns
+var row = 100
+var columnBlack = 80
+var columnWhite = 2050
 
 /// New Game position
 var newGameX float64 = 3405
@@ -44,64 +29,6 @@ var newGameScale = 0.6
 /// Exit position
 var exitX float64 = 3210
 var exitY float64 = 1814
-
-/// Text rows and columns
-var row = 100
-var columnBlack = 80
-var columnWhite = 2050
-
-func init() {
-	/// Initialize images
-	var err error
-	imgGoban, _, err = ebitenutil.NewImageFromFile("src/img/goban.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatal(err)
-	}
-	imgBlack, _, err = ebitenutil.NewImageFromFile("src/img/black.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatal(err)
-	}
-	imgWhite, _, err = ebitenutil.NewImageFromFile("src/img/white.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatal(err)
-	}
-	imgRed, _, err = ebitenutil.NewImageFromFile("src/img/red.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatal(err)
-	}
-	imgBlue, _, err = ebitenutil.NewImageFromFile("src/img/blue.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatal(err)
-	}
-	imgExit, _, err = ebitenutil.NewImageFromFile("src/img/exit.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatal(err)
-	}
-	imgNewGame, _, err = ebitenutil.NewImageFromFile("src/img/newGame.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatal(err)
-	}
-	imgSelect, _, err = ebitenutil.NewImageFromFile("src/img/select.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatal(err)
-	}
-	/// Initialize text
-	tt, err := truetype.Parse(fonts.MPlus1pRegular_ttf)
-	if err != nil {
-		log.Fatal(err)
-	}
-	const dpi = 72
-	mplusNormalFont = truetype.NewFace(tt, &truetype.Options{
-		Size:    52,
-		DPI:     dpi,
-		Hinting: font.HintingFull,
-	})
-	mplusBigFont = truetype.NewFace(tt, &truetype.Options{
-		Size:    72,
-		DPI:     dpi,
-		Hinting: font.HintingFull,
-	})
-}
 
 func drawGoban(screen *ebiten.Image, g *game) {
 	opGoban := &ebiten.DrawImageOptions{}
@@ -130,7 +57,7 @@ func drawStones(screen *ebiten.Image, g *game) {
 	}
 }
 
-func drawPlayerInfo(screen *ebiten.Image, g *game, p ai, column int, color color.Color) {
+func drawPlayerID(screen *ebiten.Image, g *game, p ai, column int, color color.Color) {
 	if p.hotseat == true {
 		text.Draw(screen, `(Hotseat)`, mplusNormalFont, column, row*4, color)
 	}
@@ -179,7 +106,7 @@ func drawPlayerText(screen *ebiten.Image, g *game, player bool) {
 		captured = g.capture1
 		c = color.White
 	}
-	drawPlayerInfo(screen, g, p, column, c)
+	drawPlayerID(screen, g, p, column, c)
 	drawCaptured(screen, g, captured, column, c)
 	drawTimer(screen, g, p, column, c)
 }
@@ -214,13 +141,72 @@ func drawText(screen *ebiten.Image, g *game) {
 	drawMove(screen, g)
 }
 
+func alphaPulse() float64 {
+	alpha := float64(time.Now().Nanosecond()) / 500000000 //% 1 /////
+	if alpha > 1 {
+		alpha = 2 - alpha
+	}
+	return alpha
+}
+
+func alpha1() float64 {
+	second := float64(time.Now().Second() % 2)
+	alpha := alphaPulse() * second
+	return alpha
+}
+
+func alpha2() float64 {
+	second := float64(time.Now().Second() % 2)
+	nano := time.Now().Nanosecond()
+	var alpha = 0.0
+	if second == 0 {
+		if nano > 500000000 {
+			alpha = (float64(time.Now().Nanosecond()) / 500000000) - 1
+		}
+	} else {
+		if nano < 500000000 {
+			alpha = 1 - (float64(time.Now().Nanosecond()) / 500000000)
+		}
+	}
+	return alpha
+}
+
+func alpha3() float64 {
+	second := float64(time.Now().Second() % 2)
+	alpha := alphaPulse() * (1 - second)
+	return alpha
+}
+
+func alpha4() float64 {
+	second := float64(time.Now().Second() % 2)
+	nano := time.Now().Nanosecond()
+	var alpha = 0.0
+	if second == 0 {
+		if nano < 500000000 {
+			alpha = 1 - (float64(time.Now().Nanosecond()) / 500000000)
+		}
+	} else {
+		if nano > 500000000 {
+			alpha = (float64(time.Now().Nanosecond()) / 500000000) - 1
+		}
+	}
+	return alpha
+}
+
+func drawBluePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebiten.Image) {
+	opLastMove := &ebiten.DrawImageOptions{}
+	opLastMove.GeoM.Translate((gobanX + (float64(g.lastMove.x) * positionWidth)), (gobanY + (float64(g.lastMove.y) * positionWidth)))
+	opLastMove.GeoM.Scale(scale, scale)
+	opLastMove.ColorM.Scale(1, 1, 1, alpha)
+	screen.DrawImage(blue, opLastMove)
+}
+
 func drawLastMove(screen *ebiten.Image, g *game) {
 	if g.drawLastMove == true && g.move > 0 {
-		opLastMove := &ebiten.DrawImageOptions{}
-		opLastMove.GeoM.Translate((gobanX + (float64(g.lastMove.x) * positionWidth)), (gobanY + (float64(g.lastMove.y) * positionWidth)))
-		opLastMove.GeoM.Scale(scale, scale)
-		screen.DrawImage(imgRed, opLastMove)
-		// screen.DrawImage(imgBlue, opLastMove)
+		drawBluePulse(screen, g, alpha4(), imgBlue)
+		drawBluePulse(screen, g, alpha3(), imgBlue2)
+		drawBluePulse(screen, g, alpha2(), imgBlue3)
+		drawBluePulse(screen, g, alpha1(), imgBlue4)
 	}
 }
 
@@ -233,7 +219,12 @@ func drawHotseatSuggestion(screen *ebiten.Image, g *game) {
 		opSuggestion := &ebiten.DrawImageOptions{}
 		opSuggestion.GeoM.Translate((gobanX + (float64(coordinate.x) * positionWidth)), (gobanY + (float64(coordinate.y) * positionWidth)))
 		opSuggestion.GeoM.Scale(scale, scale)
-		screen.DrawImage(imgRed, opSuggestion)
+		opSuggestion.ColorM.Scale(1, 1, 1, alphaPulse())
+		if g.player == false {
+			screen.DrawImage(imgBlack, opSuggestion)
+		} else {
+			screen.DrawImage(imgWhite, opSuggestion)
+		}
 	}
 }
 
@@ -242,8 +233,8 @@ func drawWinMove(screen *ebiten.Image, g *game) {
 		opWinMove := &ebiten.DrawImageOptions{}
 		opWinMove.GeoM.Translate((gobanX + (float64(g.winMove.x) * positionWidth)), (gobanY + (float64(g.winMove.y) * positionWidth)))
 		opWinMove.GeoM.Scale(scale, scale)
+		opWinMove.ColorM.Scale(1, 1, 1, 1-alphaPulse())
 		screen.DrawImage(imgRed, opWinMove)
-		screen.DrawImage(imgBlue, opWinMove)
 	}
 }
 

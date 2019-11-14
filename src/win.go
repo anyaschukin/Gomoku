@@ -74,17 +74,21 @@ func checkWin(coordinate coordinate, g *game) {
 		recordWin(g, g.player)
 		g.winMove = coordinate
 	} else if g.align5.capture8 == true {
-		recordWin(g, opponent(g.player)) // Opponent wins by aligning 5. The other Player could have won by capturing ten, but they didn't, silly!
+		// Opponent wins by aligning 5. Player could have won by capturing ten, but didn't, silly!
+		recordWin(g, opponent(g.player))
 	} else if g.align5.break5 == true {
 		if positionOccupiedByPlayer(g.winMove, &g.goban, opponent(g.player)) == true &&
 			alignFive(g.winMove, &g.goban, &g.align5, opponent(g.player), g.capture0, g.capture1) == true {
-			recordWin(g, opponent(g.player)) // Opponent wins by aligning 5. The other Player could have broken this alignment by capturing a pair, but they didn't, silly!
+			// Opponent wins by aligning 5. Player could have broken this alignment by capturing, but didn't, silly!
+			recordWin(g, opponent(g.player))
+			return
 		}
 		g.align5.break5 = false
 	}
 	if alignFive(coordinate, &g.goban, &g.align5, g.player, g.capture0, g.capture1) == true {
 		if g.align5.break5 == false && g.align5.capture8 == false {
-			recordWin(g, g.player) // Player wins by aligning 5!
+			// Player wins by aligning 5!
+			recordWin(g, g.player)
 		}
 	}
 }
