@@ -101,7 +101,7 @@ func init() {
 }
 
 func alphaPulse() float64 {
-	alpha := float64(time.Now().Nanosecond()) / 500000000 //% 1 /////
+	alpha := float64(time.Now().Nanosecond()) / 500000000
 	if alpha > 1 {
 		alpha = 2 - alpha
 	}
