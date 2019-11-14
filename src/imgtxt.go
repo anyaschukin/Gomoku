@@ -2,6 +2,7 @@ package play //gui
 
 import (
 	"log"
+	"time"
 
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
@@ -92,4 +93,56 @@ func init() {
 		DPI:     dpi,
 		Hinting: font.HintingFull,
 	})
+}
+
+func alphaPulse() float64 {
+	alpha := float64(time.Now().Nanosecond()) / 500000000 //% 1 /////
+	if alpha > 1 {
+		alpha = 2 - alpha
+	}
+	return alpha
+}
+
+func alpha1() float64 {
+	second := float64(time.Now().Second() % 2)
+	alpha := alphaPulse() * second
+	return alpha
+}
+
+func alpha2() float64 {
+	second := float64(time.Now().Second() % 2)
+	nano := time.Now().Nanosecond()
+	var alpha = 0.0
+	if second == 0 {
+		if nano > 500000000 {
+			alpha = (float64(time.Now().Nanosecond()) / 500000000) - 1
+		}
+	} else {
+		if nano < 500000000 {
+			alpha = 1 - (float64(time.Now().Nanosecond()) / 500000000)
+		}
+	}
+	return alpha
+}
+
+func alpha3() float64 {
+	second := float64(time.Now().Second() % 2)
+	alpha := alphaPulse() * (1 - second)
+	return alpha
+}
+
+func alpha4() float64 {
+	second := float64(time.Now().Second() % 2)
+	nano := time.Now().Nanosecond()
+	var alpha = 0.0
+	if second == 0 {
+		if nano < 500000000 {
+			alpha = 1 - (float64(time.Now().Nanosecond()) / 500000000)
+		}
+	} else {
+		if nano > 500000000 {
+			alpha = (float64(time.Now().Nanosecond()) / 500000000) - 1
+		}
+	}
+	return alpha
 }
