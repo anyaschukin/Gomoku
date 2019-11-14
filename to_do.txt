@@ -1,8 +1,7 @@
 #### TO DO ####
 
 Graphic interface (ebiten?)
-	- show last move integrate into gui option
-	- make gui new game options pretty 
+	- bug winmove 2 consecutive align5
 
 AI
 	- Min/Max

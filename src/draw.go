@@ -15,13 +15,13 @@ import (
 )
 
 /// Images
-var imggoban *ebiten.Image
+var imgGoban *ebiten.Image
 var imgBlack *ebiten.Image
 var imgWhite *ebiten.Image
 var imgRed *ebiten.Image
 var imgBlue *ebiten.Image
 var imgExit *ebiten.Image
-var imgnewGame *ebiten.Image
+var imgNewGame *ebiten.Image
 var imgSelect *ebiten.Image
 
 /// Text
@@ -31,14 +31,15 @@ var (
 )
 
 /// goban position
-var positionWidth float64 = 104.6
+var positionWidth = 104.6
 var zeroX float64 = 838 // Left
 var zeroY float64 = 34  // Top
-var scale float64 = 0.7
+var scale = 0.7
 
 /// New Game position
 var newGameX float64 = 3405
 var newGameY float64 = 1914
+var newGameScale = 0.6
 
 /// Exit position
 var exitX float64 = 3210
@@ -52,7 +53,7 @@ var columnWhite = 2050
 func init() {
 	/// Initialize images
 	var err error
-	imggoban, _, err = ebitenutil.NewImageFromFile("src/img/goban.png", ebiten.FilterDefault)
+	imgGoban, _, err = ebitenutil.NewImageFromFile("src/img/goban.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -76,7 +77,7 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgnewGame, _, err = ebitenutil.NewImageFromFile("src/img/newGame.png", ebiten.FilterDefault)
+	imgNewGame, _, err = ebitenutil.NewImageFromFile("src/img/newGame.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -103,10 +104,10 @@ func init() {
 }
 
 func drawGoban(screen *ebiten.Image, g *game) {
-	opgoban := &ebiten.DrawImageOptions{}
-	opgoban.GeoM.Translate(885, 80)
-	opgoban.GeoM.Scale(scale, scale)
-	screen.DrawImage(imggoban, opgoban)
+	opGoban := &ebiten.DrawImageOptions{}
+	opGoban.GeoM.Translate(885, 80)
+	opGoban.GeoM.Scale(scale, scale)
+	screen.DrawImage(imgGoban, opGoban)
 }
 
 func drawStones(screen *ebiten.Image, g *game) {
@@ -262,8 +263,8 @@ func drawWinMove(screen *ebiten.Image, g *game) {
 func drawNewGame(screen *ebiten.Image, g *game) {
 	opnewGame := &ebiten.DrawImageOptions{}
 	opnewGame.GeoM.Translate(newGameX, newGameY)
-	opnewGame.GeoM.Scale(0.6, 0.6)
-	screen.DrawImage(imgnewGame, opnewGame)
+	opnewGame.GeoM.Scale(newGameScale, newGameScale)
+	screen.DrawImage(imgNewGame, opnewGame)
 }
 
 func drawExit(screen *ebiten.Image, g *game) {

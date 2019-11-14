@@ -7,80 +7,47 @@ import (
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-func clickHuman0(x, y int) bool {
-	if x > 108 && x < 514 &&
+func inColumnX(x, column int) bool {
+	if x > newGameColumnBlack-25+column && x < newGameColumnBlack+380+column {
+		return true
+	}
+	return false
+}
+
+func clickHuman(x, y, column int) bool {
+	if inColumnX(x, column) == true &&
 		y > 306 && y < 441 {
 		return true
 	}
 	return false
 }
 
-func clickHuman1(x, y int) bool {
-	if x > 108+860 && x < 514+860 &&
-		y > 306 && y < 441 {
-		return true
-	}
-	return false
-}
-
-func clickHotseat0(x, y int) bool {
-	if x > 108 && x < 514 &&
+func clickHotseat(x, y, column int) bool {
+	if inColumnX(x, column) == true &&
 		y > 530 && y < 623 {
 		return true
 	}
 	return false
 }
 
-func clickHotseat1(x, y int) bool {
-	if x > 108+860 && x < 514+860 &&
-		y > 530 && y < 623 {
-		return true
-	}
-	return false
-}
-
-func clickAI0(x, y int) bool {
-	if x > 108 && x < 514 &&
+func clickAI(x, y, column int) bool {
+	if inColumnX(x, column) == true &&
 		y > 715 && y < 849 {
 		return true
 	}
 	return false
 }
 
-func clickAI1(x, y int) bool {
-	if x > 108+860 && x < 514+860 &&
-		y > 715 && y < 849 {
-		return true
-	}
-	return false
-}
-
-func clickUp0(x, y int) bool {
-	if x > 535 && x < 593 &&
+func clickUp(x, y, column int) bool {
+	if x > 535+column && x < 593+column &&
 		y > 643 && y < 705 {
 		return true
 	}
 	return false
 }
 
-func clickUp1(x, y int) bool {
-	if x > 535+860 && x < 593+860 &&
-		y > 643 && y < 705 {
-		return true
-	}
-	return false
-}
-
-func clickDown0(x, y int) bool {
-	if x > 535 && x < 593 &&
-		y > 848 && y < 908 {
-		return true
-	}
-	return false
-}
-
-func clickDown1(x, y int) bool {
-	if x > 535+860 && x < 593+860 &&
+func clickDown(x, y, column int) bool {
+	if x > 535+column && x < 593+column &&
 		y > 848 && y < 908 {
 		return true
 	}
@@ -88,8 +55,8 @@ func clickDown1(x, y int) bool {
 }
 
 func clickNewGame(x, y int) bool {
-	if x > int(newGameX*0.6) && x < 2492 &&
-		y > int(newGameY*0.6) && y < 1240 {
+	if x > int(newGameX*newGameScale) && x < 2492 &&
+		y > int(newGameY*newGameScale) && y < 1240 {
 		return true
 	}
 	return false
@@ -112,7 +79,7 @@ func clickGoban(x, y int) bool {
 }
 
 func clickLastMove(x, y int) bool {
-	if x > 1791 && x < 2172 &&
+	if inColumnX(x, column1*2) == true &&
 		y > 333 && y < 415 {
 		return true
 	}
@@ -120,60 +87,50 @@ func clickLastMove(x, y int) bool {
 }
 
 func clickWinMove(x, y int) bool {
-	if x > 1791 && x < 2172 &&
+	if inColumnX(x, column1*2) == true &&
 		y > 533 && y < 621 {
 		return true
 	}
 	return false
 }
 
+func clickPlayer(x, y int, player bool) {
+	column := 0
+	p := &g.ai0
+	if player == true {
+		column = column1
+		p = &g.ai1
+	}
+	if clickHuman(x, y, column) == true {
+		p.aiPlayer = false
+		p.hotseat = false
+	}
+	if clickAI(x, y, column) == true {
+		p.aiPlayer = true
+		p.hotseat = false
+	}
+	if clickHotseat(x, y, column) == true {
+		if p.hotseat == false {
+			p.hotseat = true
+			p.aiPlayer = true
+		} else {
+			p.hotseat = false
+			p.aiPlayer = false
+		}
+	}
+	if clickUp(x, y, column) == true {
+		p.depth++
+	}
+	if clickDown(x, y, column) == true {
+		if p.depth > 0 {
+			p.depth--
+		}
+	}
+}
+
 func inputNewGame(g *game, x, y int) {
-	if clickHuman0(x, y) == true {
-		g.ai0.aiPlayer = false
-		g.ai0.hotseat = false
-	}
-	if clickAI0(x, y) == true {
-		g.ai0.aiPlayer = true
-		g.ai0.hotseat = false
-	}
-	if clickHotseat0(x, y) == true {
-		if g.ai0.hotseat == false {
-			g.ai0.hotseat = true
-			g.ai0.aiPlayer = true
-		} else {
-			g.ai0.hotseat = false
-			g.ai0.aiPlayer = false
-		}
-	}
-	if clickHuman1(x, y) == true {
-		g.ai1.aiPlayer = false
-		g.ai1.hotseat = false
-	}
-	if clickAI1(x, y) == true {
-		g.ai1.aiPlayer = true
-		g.ai1.hotseat = false
-	}
-	if clickHotseat1(x, y) == true {
-		if g.ai1.hotseat == false {
-			g.ai1.hotseat = true
-			g.ai1.aiPlayer = true
-		} else {
-			g.ai1.hotseat = false
-			g.ai1.aiPlayer = false
-		}
-	}
-	if clickUp0(x, y) == true {
-		g.ai0.depth++
-	}
-	if clickDown0(x, y) == true {
-		g.ai0.depth--
-	}
-	if clickUp1(x, y) == true {
-		g.ai1.depth++
-	}
-	if clickDown1(x, y) == true {
-		g.ai1.depth--
-	}
+	clickPlayer(x, y, false)
+	clickPlayer(x, y, true)
 	if clickLastMove(x, y) == true {
 		if g.drawLastMove == false {
 			g.drawLastMove = true
