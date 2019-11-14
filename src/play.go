@@ -11,7 +11,8 @@ func newGame() *game {
 	g.ai0.aiPlayer = true
 	g.ai0.depth = 3
 	g.ai1.depth = 3
-	g.drawLastMove = true /////////// implement in gui!!!!!!!
+	g.drawLastMove = true //// false for correction (bonus)!!!!
+	g.drawWinMove = true  //// false for correction (bonus)!!!!
 	aiSuggestMove(g)
 	return g
 }
