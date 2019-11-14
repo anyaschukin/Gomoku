@@ -20,8 +20,9 @@ var imgBlue *ebiten.Image
 var imgBlue2 *ebiten.Image
 var imgBlue3 *ebiten.Image
 var imgBlue4 *ebiten.Image
-var imgExit *ebiten.Image
+var imgCapture *ebiten.Image
 var imgNewGame *ebiten.Image
+var imgExit *ebiten.Image
 var imgSelect *ebiten.Image
 
 /// Text
@@ -65,11 +66,15 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgExit, _, err = ebitenutil.NewImageFromFile("src/img/exit.png", ebiten.FilterDefault)
+	imgCapture, _, err = ebitenutil.NewImageFromFile("src/img/capture.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
 	imgNewGame, _, err = ebitenutil.NewImageFromFile("src/img/newGame.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatal(err)
+	}
+	imgExit, _, err = ebitenutil.NewImageFromFile("src/img/exit.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}

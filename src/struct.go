@@ -26,12 +26,22 @@ type ai struct {
 	suggest  coordinate    // Ai suggested move
 }
 
+// captured struct used to record captures for display in GUI
+type captured struct {
+	drawCapture       bool         // Higlight captures
+	captured          bool         // did the last move capture?
+	capturedOne       coordinate   // captured stone 1
+	capturedTwo       coordinate   // captured stone 2
+	capturedPositions []coordinate // captured stone 1
+}
+
 // game struct contains all information about current game state
 type game struct {
 	goban        [19][19]position // Game board
 	player       bool             // Whose move is it? (Player 0 - black first)
 	ai0          ai               // Is black human or Ai?
 	ai1          ai               // Is white human or Ai?
+	captured     captured         // info to display last capture in GUI
 	capture0     uint8            // How many stones has Black Captured? 10 to win
 	capture1     uint8            // How many stones has White Captured? 10 to win
 	align5       align5           // Can an aligned 5 can be broken or trumped by capturing 10?

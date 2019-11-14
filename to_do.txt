@@ -1,10 +1,10 @@
 #### TO DO ####
 
-Graphic interface (ebiten?)
-	- bug winmove 2 consecutive align5
-
 AI
 	- Min/Max
+	- seperate struct for efficiency? (only things ai needs)
+
+
 
 #### BONUS ####
 1. Human vs human, hotseat vs hotseat, ai vs ai

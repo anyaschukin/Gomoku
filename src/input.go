@@ -94,6 +94,14 @@ func clickWinMove(x, y int) bool {
 	return false
 }
 
+func clickCapture(x, y int) bool {
+	if inColumnX(x, column1*2) == true &&
+		y > 733 && y < 821 {
+		return true
+	}
+	return false
+}
+
 func clickPlayer(x, y int, player bool) {
 	column := 0
 	p := &g.ai0
@@ -143,6 +151,13 @@ func inputNewGame(g *game, x, y int) {
 			g.drawWinMove = true
 		} else {
 			g.drawWinMove = false
+		}
+	}
+	if clickCapture(x, y) == true {
+		if g.captured.drawCapture == false {
+			g.captured.drawCapture = true
+		} else {
+			g.captured.drawCapture = false
 		}
 	}
 }

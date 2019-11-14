@@ -167,7 +167,7 @@ func drawHotseatSuggestion(screen *ebiten.Image, g *game) {
 		opSuggestion := &ebiten.DrawImageOptions{}
 		opSuggestion.GeoM.Translate((gobanX + (float64(coordinate.x) * positionWidth)), (gobanY + (float64(coordinate.y) * positionWidth)))
 		opSuggestion.GeoM.Scale(scale, scale)
-		opSuggestion.ColorM.Scale(1, 1, 1, alphaPulse())
+		opSuggestion.ColorM.Scale(1, 1, 1, 1-alphaPulse())
 		if g.player == false {
 			screen.DrawImage(imgBlack, opSuggestion)
 		} else {
@@ -181,8 +181,24 @@ func drawWinMove(screen *ebiten.Image, g *game) {
 		opWinMove := &ebiten.DrawImageOptions{}
 		opWinMove.GeoM.Translate((gobanX + (float64(g.winMove.x) * positionWidth)), (gobanY + (float64(g.winMove.y) * positionWidth)))
 		opWinMove.GeoM.Scale(scale, scale)
-		opWinMove.ColorM.Scale(1, 1, 1, 1-alphaPulse())
+		opWinMove.ColorM.Scale(1, 1, 1, alphaPulse())
 		screen.DrawImage(imgRed, opWinMove)
+	}
+}
+
+func drawCapturedPosition(screen *ebiten.Image, g *game, position coordinate) {
+	opCapture := &ebiten.DrawImageOptions{}
+	opCapture.GeoM.Translate((gobanX + (float64(position.x) * positionWidth)), (gobanY + (float64(position.y) * positionWidth)))
+	opCapture.GeoM.Scale(scale, scale)
+	opCapture.ColorM.Scale(1, 1, 1, alphaPulse())
+	screen.DrawImage(imgCapture, opCapture)
+}
+
+func drawCapture(screen *ebiten.Image, g *game) {
+	if g.captured.drawCapture == true && g.captured.captured == true {
+		for _, position := range g.captured.capturedPositions {
+			drawCapturedPosition(screen, g, position)
+		}
 	}
 }
 
@@ -211,6 +227,7 @@ func draw(screen *ebiten.Image, g *game) {
 		drawLastMove(screen, g)
 		drawHotseatSuggestion(screen, g)
 		drawWinMove(screen, g)
+		drawCapture(screen, g)
 	}
 	drawNewGame(screen, g)
 	drawExit(screen, g)

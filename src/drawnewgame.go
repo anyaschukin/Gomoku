@@ -59,28 +59,38 @@ func drawSelectPlayer(screen *ebiten.Image, g *game, player bool) {
 }
 
 func drawSelectLastMove(screen *ebiten.Image, g *game) {
-	opSelect := &ebiten.DrawImageOptions{}
-	opSelect.GeoM.Translate((float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 295/scaleSelect)
-	opSelect.GeoM.Scale(scaleSelect, scaleSelect)
-	screen.DrawImage(imgSelect, opSelect)
+	if g.drawLastMove == true {
+		opSelect := &ebiten.DrawImageOptions{}
+		opSelect.GeoM.Translate((float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 295/scaleSelect)
+		opSelect.GeoM.Scale(scaleSelect, scaleSelect)
+		screen.DrawImage(imgSelect, opSelect)
+	}
 }
 
 func drawSelectWinMove(screen *ebiten.Image, g *game) {
-	opSelect := &ebiten.DrawImageOptions{}
-	opSelect.GeoM.Translate((float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 492/scaleSelect)
-	opSelect.GeoM.Scale(scaleSelect, scaleSelect)
-	screen.DrawImage(imgSelect, opSelect)
+	if g.drawWinMove == true {
+		opSelect := &ebiten.DrawImageOptions{}
+		opSelect.GeoM.Translate((float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 493/scaleSelect)
+		opSelect.GeoM.Scale(scaleSelect, scaleSelect)
+		screen.DrawImage(imgSelect, opSelect)
+	}
+}
+
+func drawSelectCapture(screen *ebiten.Image, g *game) {
+	if g.captured.drawCapture == true {
+		opSelect := &ebiten.DrawImageOptions{}
+		opSelect.GeoM.Translate((float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 691/scaleSelect)
+		opSelect.GeoM.Scale(scaleSelect, scaleSelect)
+		screen.DrawImage(imgSelect, opSelect)
+	}
 }
 
 func drawSelect(screen *ebiten.Image, g *game) {
 	drawSelectPlayer(screen, g, false)
 	drawSelectPlayer(screen, g, true)
-	if g.drawLastMove == true {
-		drawSelectLastMove(screen, g)
-	}
-	if g.drawWinMove == true {
-		drawSelectWinMove(screen, g)
-	}
+	drawSelectLastMove(screen, g)
+	drawSelectWinMove(screen, g)
+	drawSelectCapture(screen, g)
 }
 
 func drawHuman(screen *ebiten.Image, g *game) {
@@ -146,6 +156,15 @@ func drawWinMovePulse(screen *ebiten.Image, g *game) {
 	}
 }
 
+func drawCapturedPulse(screen *ebiten.Image, g *game) {
+	if g.captured.drawCapture == true {
+		opCapture := &ebiten.DrawImageOptions{}
+		opCapture.GeoM.Translate(2280, 725)
+		opCapture.ColorM.Scale(1, 1, 1, alphaPulse())
+		screen.DrawImage(imgCapture, opCapture)
+	}
+}
+
 func drawHighlight(screen *ebiten.Image, g *game) {
 	ebitenutil.DrawRect(screen, float64(newGameColumnBlack+column1*2), 242, 320, 6, color.Black)
 	text.Draw(screen, `Highlight`, mplusBigFont, newGameColumnBlack+column1*2, row*2+22, color.Black)
@@ -153,6 +172,8 @@ func drawHighlight(screen *ebiten.Image, g *game) {
 	drawLastMovePulses(screen, g)
 	text.Draw(screen, `Win Move`, mplusBigFont, newGameColumnBlack+column1*2, row*6, color.Black)
 	drawWinMovePulse(screen, g)
+	text.Draw(screen, `Captured`, mplusBigFont, newGameColumnBlack+column1*2, row*8, color.Black)
+	drawCapturedPulse(screen, g)
 }
 
 func drawNewGameOptions(screen *ebiten.Image, g *game) {
