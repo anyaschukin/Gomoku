@@ -71,8 +71,8 @@ func clickExit(x, y int) bool {
 }
 
 func clickGoban(x, y int) bool {
-	if x > int(zeroX*scale) && x < int((zeroX*scale)+(positionWidth*float64(19)*scale)) &&
-		y > int(zeroY*scale) && y < int((zeroY*scale)+(positionWidth*float64(19)*scale)) {
+	if x > int(gobanX*scale) && x < int((gobanX*scale)+(positionWidth*float64(19)*scale)) &&
+		y > int(gobanY*scale) && y < int((gobanY*scale)+(positionWidth*float64(19)*scale)) {
 		return true
 	}
 	return false
