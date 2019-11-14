@@ -210,9 +210,9 @@ func drawNewGame(screen *ebiten.Image, g *game) {
 }
 
 func drawExit(screen *ebiten.Image, g *game) {
-	opExit := &ebiten.DrawImageOptions{}
-	opExit.GeoM.Translate(exitX, exitY)
-	opExit.GeoM.Scale(scale, scale)
+	opExit := &ebiten.DrawImageOptions{} // condense into subfunction !!!!!!!
+	opExit.GeoM.Translate(exitX, exitY) // takes these args!!!!!
+	opExit.GeoM.Scale(scale, scale) // takes these args!!!!!
 	screen.DrawImage(imgExit, opExit)
 }
 
@@ -224,6 +224,9 @@ func draw(screen *ebiten.Image, g *game) {
 		drawGoban(screen, g)
 		drawStones(screen, g)
 		drawText(screen, g)
+		// second := blah blah
+		// pulse := float64(time.Now().Nanosecond()) / 500000000!!!!!!!!!!!!
+		// pass to following functions (inc drawBluePulse), reduce calls to time.!!!!!!!!!
 		drawLastMove(screen, g)
 		drawHotseatSuggestion(screen, g)
 		drawWinMove(screen, g)

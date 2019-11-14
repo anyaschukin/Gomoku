@@ -100,6 +100,7 @@ func init() {
 	})
 }
 
+// every 2 seconds - HotseatSuggestion, WinMove, & CapturedPosition
 func alphaPulse() float64 {
 	alpha := float64(time.Now().Nanosecond()) / 500000000
 	if alpha > 1 {
@@ -108,6 +109,7 @@ func alphaPulse() float64 {
 	return alpha
 }
 
+// alpha1 to 4 - Highlight LastMove rotates pulses
 func alpha1() float64 {
 	second := float64(time.Now().Second() % 2)
 	alpha := alphaPulse() * second
@@ -139,7 +141,7 @@ func alpha3() float64 {
 func alpha4() float64 {
 	second := float64(time.Now().Second() % 2)
 	nano := time.Now().Nanosecond()
-	var alpha = 0.0
+	var alpha = 0.0 // float64!!!!!
 	if second == 0 {
 		if nano < 500000000 {
 			alpha = 1 - (float64(time.Now().Nanosecond()) / 500000000)

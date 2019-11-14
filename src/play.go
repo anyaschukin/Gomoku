@@ -20,7 +20,7 @@ func newGame() *game {
 
 // opponent returns the opponent of the current Player
 func opponent(player bool) bool {
-	if player == false {
+	if player == false {//////// pointer swap function!!!!!!!!!!!!!!!!!!
 		return true
 	}
 	return false

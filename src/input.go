@@ -140,21 +140,21 @@ func inputNewGame(g *game, x, y int) {
 	clickPlayer(x, y, false)
 	clickPlayer(x, y, true)
 	if clickLastMove(x, y) == true {
-		if g.drawLastMove == false {
+		if g.drawLastMove == false {//////// swap function!!!!!!!!!!!!!!!!!!
 			g.drawLastMove = true
 		} else {
 			g.drawLastMove = false
 		}
 	}
 	if clickWinMove(x, y) == true {
-		if g.drawWinMove == false {
+		if g.drawWinMove == false {//////// swap function!!!!!!!!!!!!!!!!!!
 			g.drawWinMove = true
 		} else {
 			g.drawWinMove = false
 		}
 	}
 	if clickCapture(x, y) == true {
-		if g.captured.drawCapture == false {
+		if g.captured.drawCapture == false {//////// swap function!!!!!!!!!!!!!!!!!!
 			g.captured.drawCapture = true
 		} else {
 			g.captured.drawCapture = false
@@ -168,7 +168,7 @@ func input(g *game) {
 	}
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 		x, y := ebiten.CursorPosition()
-		// fmt.Printf("mouse pressed x: %d, y: %d\n", x, y) ////////
+		// fmt.Printf("mouse pressed x: %d, y: %d\n", x, y) // debug tool
 		if clickExit(x, y) == true {
 			os.Exit(0)
 		}
