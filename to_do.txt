@@ -8,8 +8,9 @@ AI
 
 #### BONUS ####
 1. Human vs human, hotseat vs hotseat, ai vs ai
-2. show last move?
-
+2. highlight last move
+3. highlight Win move
+4. highlight captured
 
 #### CORRECTION ####
  - "Improved" Minimax implementation (Alpha-beta pruning, negascout, mtdf, ...) -> 5 points!
