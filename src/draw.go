@@ -149,16 +149,16 @@ func drawBluePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebiten.Im
 	screen.DrawImage(blue, opLastMove)
 }
 
-func drawLastMove(screen *ebiten.Image, g *game) {
+func drawLastMove(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
 	if g.drawLastMove == true && g.move > 0 {
-		drawBluePulse(screen, g, alpha4(), imgBlue)
-		drawBluePulse(screen, g, alpha3(), imgBlue2)
-		drawBluePulse(screen, g, alpha2(), imgBlue3)
-		drawBluePulse(screen, g, alpha1(), imgBlue4)
+		drawBluePulse(screen, g, alpha4(second, pulse), imgBlue)
+		drawBluePulse(screen, g, alpha3(second, alpha), imgBlue2)
+		drawBluePulse(screen, g, alpha2(second, pulse), imgBlue3)
+		drawBluePulse(screen, g, alpha1(second, alpha), imgBlue4)
 	}
 }
 
-func drawHotseatSuggestion(screen *ebiten.Image, g *game) {
+func drawHotseatSuggestion(screen *ebiten.Image, g *game, alpha float64) {
 	if isPlayerHotseat(g) == true && g.won == false {
 		coordinate := g.ai0.suggest
 		if g.player == true {
@@ -167,7 +167,7 @@ func drawHotseatSuggestion(screen *ebiten.Image, g *game) {
 		opSuggestion := &ebiten.DrawImageOptions{}
 		opSuggestion.GeoM.Translate((gobanX + (float64(coordinate.x) * positionWidth)), (gobanY + (float64(coordinate.y) * positionWidth)))
 		opSuggestion.GeoM.Scale(scale, scale)
-		opSuggestion.ColorM.Scale(1, 1, 1, 1-alphaPulse())
+		opSuggestion.ColorM.Scale(1, 1, 1, 1-alpha)
 		if g.player == false {
 			screen.DrawImage(imgBlack, opSuggestion)
 		} else {
@@ -176,28 +176,28 @@ func drawHotseatSuggestion(screen *ebiten.Image, g *game) {
 	}
 }
 
-func drawWinMove(screen *ebiten.Image, g *game) {
+func drawWinMove(screen *ebiten.Image, g *game, alpha float64) {
 	if g.won == true && g.drawWinMove == true {
 		opWinMove := &ebiten.DrawImageOptions{}
 		opWinMove.GeoM.Translate((gobanX + (float64(g.winMove.x) * positionWidth)), (gobanY + (float64(g.winMove.y) * positionWidth)))
 		opWinMove.GeoM.Scale(scale, scale)
-		opWinMove.ColorM.Scale(1, 1, 1, alphaPulse())
+		opWinMove.ColorM.Scale(1, 1, 1, alpha)
 		screen.DrawImage(imgRed, opWinMove)
 	}
 }
 
-func drawCapturedPosition(screen *ebiten.Image, g *game, position coordinate) {
+func drawCapturedPosition(screen *ebiten.Image, g *game, position coordinate, alpha float64) {
 	opCapture := &ebiten.DrawImageOptions{}
 	opCapture.GeoM.Translate((gobanX + (float64(position.x) * positionWidth)), (gobanY + (float64(position.y) * positionWidth)))
 	opCapture.GeoM.Scale(scale, scale)
-	opCapture.ColorM.Scale(1, 1, 1, alphaPulse())
+	opCapture.ColorM.Scale(1, 1, 1, alpha)
 	screen.DrawImage(imgCapture, opCapture)
 }
 
-func drawCapture(screen *ebiten.Image, g *game) {
-	if g.captured.drawCapture == true && g.captured.captured == true {
+func drawCapture(screen *ebiten.Image, g *game, alpha float64) {
+	if g.captured.drawCapture == true {
 		for _, position := range g.captured.capturedPositions {
-			drawCapturedPosition(screen, g, position)
+			drawCapturedPosition(screen, g, position, alpha)
 		}
 	}
 }
@@ -211,26 +211,24 @@ func drawNewGame(screen *ebiten.Image, g *game) {
 
 func drawExit(screen *ebiten.Image, g *game) {
 	opExit := &ebiten.DrawImageOptions{} // condense into subfunction !!!!!!!
-	opExit.GeoM.Translate(exitX, exitY) // takes these args!!!!!
-	opExit.GeoM.Scale(scale, scale) // takes these args!!!!!
+	opExit.GeoM.Translate(exitX, exitY)  // takes these args!!!!!
+	opExit.GeoM.Scale(scale, scale)      // takes these args!!!!!
 	screen.DrawImage(imgExit, opExit)
 }
 
 func draw(screen *ebiten.Image, g *game) {
 	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff}) /// Draw background
+	second, pulse, alpha := alphaTime()
 	if g.newGame == true {
-		drawNewGameOptions(screen, g)
+		drawNewGameOptions(screen, g, second, pulse, alpha)
 	} else {
 		drawGoban(screen, g)
 		drawStones(screen, g)
 		drawText(screen, g)
-		// second := blah blah
-		// pulse := float64(time.Now().Nanosecond()) / 500000000!!!!!!!!!!!!
-		// pass to following functions (inc drawBluePulse), reduce calls to time.!!!!!!!!!
-		drawLastMove(screen, g)
-		drawHotseatSuggestion(screen, g)
-		drawWinMove(screen, g)
-		drawCapture(screen, g)
+		drawLastMove(screen, g, second, pulse, alpha)
+		drawHotseatSuggestion(screen, g, alpha)
+		drawWinMove(screen, g, alpha)
+		drawCapture(screen, g, alpha)
 	}
 	drawNewGame(screen, g)
 	drawExit(screen, g)

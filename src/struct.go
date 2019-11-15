@@ -26,13 +26,10 @@ type ai struct {
 	suggest  coordinate    // Ai suggested move
 }
 
-// captured struct used to record captures for display in GUI
+// captured struct records last captures for display in GUI
 type captured struct {
 	drawCapture       bool         // Higlight captures
-	captured          bool         // did the last move capture? rm ??!!!!!!!!!
-	capturedOne       coordinate   // captured stone 1 rm !!!!!!!!!!!!!!!!!!!!!!!!!!
-	capturedTwo       coordinate   // captured stone 2 rm !!!!!!!!!!!!!!!!!!!!!!!!!!
-	capturedPositions []coordinate // positions of captured stones
+	capturedPositions []coordinate // Positions of captured stones
 }
 
 // game struct contains all information about current game state

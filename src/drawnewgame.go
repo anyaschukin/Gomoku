@@ -98,25 +98,25 @@ func drawHuman(screen *ebiten.Image, g *game) {
 	text.Draw(screen, `Human`, mplusBigFont, newGameColumnBlack+column1, row*4, color.White)
 }
 
-func drawHotseatPulse(screen *ebiten.Image, g *game) {
+func drawHotseatPulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.ai0.hotseat == true {
 		opHotseat0 := &ebiten.DrawImageOptions{}
 		opHotseat0.GeoM.Translate(560, 525)
-		opHotseat0.ColorM.Scale(1, 1, 1, alphaPulse())
+		opHotseat0.ColorM.Scale(1, 1, 1, alpha)
 		screen.DrawImage(imgBlack, opHotseat0)
 	}
 	if g.ai1.hotseat == true {
 		opHotseat1 := &ebiten.DrawImageOptions{}
 		opHotseat1.GeoM.Translate(1425, 525)
-		opHotseat1.ColorM.Scale(1, 1, 1, alphaPulse())
+		opHotseat1.ColorM.Scale(1, 1, 1, alpha)
 		screen.DrawImage(imgWhite, opHotseat1)
 	}
 }
 
-func drawHotseat(screen *ebiten.Image, g *game) {
+func drawHotseat(screen *ebiten.Image, g *game, alpha float64) {
 	text.Draw(screen, `Hotseat`, mplusBigFont, newGameColumnBlack, row*6, color.Black)
 	text.Draw(screen, `Hotseat`, mplusBigFont, newGameColumnBlack+column1, row*6, color.White)
-	drawHotseatPulse(screen, g)
+	drawHotseatPulse(screen, g, alpha)
 }
 
 func drawAIplayer(screen *ebiten.Image, g *game, depth uint8, column int, color color.Color) {
@@ -138,50 +138,50 @@ func drawLastMovePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebite
 	screen.DrawImage(blue, opLastMove)
 }
 
-func drawLastMovePulses(screen *ebiten.Image, g *game) {
+func drawLastMovePulses(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
 	if g.drawLastMove == true {
-		drawLastMovePulse(screen, g, alpha4(), imgBlue)
-		drawLastMovePulse(screen, g, alpha3(), imgBlue2)
-		drawLastMovePulse(screen, g, alpha2(), imgBlue3)
-		drawLastMovePulse(screen, g, alpha1(), imgBlue4)
+		drawLastMovePulse(screen, g, alpha4(second, pulse), imgBlue)
+		drawLastMovePulse(screen, g, alpha3(second, alpha), imgBlue2)
+		drawLastMovePulse(screen, g, alpha2(second, pulse), imgBlue3)
+		drawLastMovePulse(screen, g, alpha1(second, alpha), imgBlue4)
 	}
 }
 
-func drawWinMovePulse(screen *ebiten.Image, g *game) {
+func drawWinMovePulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.drawWinMove == true {
 		opWinMove := &ebiten.DrawImageOptions{}
 		opWinMove.GeoM.Translate(2280, 525)
-		opWinMove.ColorM.Scale(1, 1, 1, alphaPulse())
+		opWinMove.ColorM.Scale(1, 1, 1, alpha)
 		screen.DrawImage(imgRed, opWinMove)
 	}
 }
 
-func drawCapturedPulse(screen *ebiten.Image, g *game) {
+func drawCapturedPulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.captured.drawCapture == true {
 		opCapture := &ebiten.DrawImageOptions{}
 		opCapture.GeoM.Translate(2280, 725)
-		opCapture.ColorM.Scale(1, 1, 1, alphaPulse())
+		opCapture.ColorM.Scale(1, 1, 1, alpha)
 		screen.DrawImage(imgCapture, opCapture)
 	}
 }
 
-func drawHighlight(screen *ebiten.Image, g *game) {
+func drawHighlight(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
 	ebitenutil.DrawRect(screen, float64(newGameColumnBlack+column1*2), 242, 320, 6, color.Black)
 	text.Draw(screen, `Highlight`, mplusBigFont, newGameColumnBlack+column1*2, row*2+22, color.Black)
 	text.Draw(screen, `Last Move`, mplusBigFont, newGameColumnBlack+column1*2, row*4, color.Black)
-	drawLastMovePulses(screen, g)
+	drawLastMovePulses(screen, g, second, pulse, alpha)
 	text.Draw(screen, `Win Move`, mplusBigFont, newGameColumnBlack+column1*2, row*6, color.Black)
-	drawWinMovePulse(screen, g)
+	drawWinMovePulse(screen, g, alpha)
 	text.Draw(screen, `Captured`, mplusBigFont, newGameColumnBlack+column1*2, row*8, color.Black)
-	drawCapturedPulse(screen, g)
+	drawCapturedPulse(screen, g, alpha)
 }
 
-func drawNewGameOptions(screen *ebiten.Image, g *game) {
+func drawNewGameOptions(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
 	drawStone(screen, g, 0, imgBlack)
 	drawStone(screen, g, column1, imgWhite)
 	drawSelect(screen, g)
 	drawHuman(screen, g)
-	drawHotseat(screen, g)
+	drawHotseat(screen, g, alpha)
 	drawAI(screen, g)
-	drawHighlight(screen, g)
+	drawHighlight(screen, g, second, pulse, alpha)
 }

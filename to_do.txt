@@ -1,5 +1,7 @@
 #### TO DO ####
 
+gomoku!! scroll bonus
+
 AI
 	- Min/Max
 	- seperate struct for efficiency? (only things ai needs)

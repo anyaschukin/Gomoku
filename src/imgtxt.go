@@ -100,55 +100,57 @@ func init() {
 	})
 }
 
-// every 2 seconds - HotseatSuggestion, WinMove, & CapturedPosition
-func alphaPulse() float64 {
-	alpha := float64(time.Now().Nanosecond()) / 500000000
+// every second - HotseatSuggestion, WinMove, & CapturedPosition
+func alphaPulse(pulse float64) float64 {
+	alpha := pulse
 	if alpha > 1 {
 		alpha = 2 - alpha
 	}
 	return alpha
 }
 
+// centralized time call
+func alphaTime() (second, pulse, alpha float64) {
+	second = float64(time.Now().Second() % 2)
+	pulse = float64(time.Now().Nanosecond()) / 500000000
+	alpha = alphaPulse(pulse)
+	return
+}
+
 // alpha1 to 4 - Highlight LastMove rotates pulses
-func alpha1() float64 {
-	second := float64(time.Now().Second() % 2)
-	alpha := alphaPulse() * second
+func alpha1(second, alpha float64) float64 {
+	alpha = alpha * second
 	return alpha
 }
 
-func alpha2() float64 {
-	second := float64(time.Now().Second() % 2)
-	nano := time.Now().Nanosecond()
-	var alpha = 0.0
+func alpha2(second, pulse float64) float64 {
+	var alpha float64
 	if second == 0 {
-		if nano > 500000000 {
-			alpha = (float64(time.Now().Nanosecond()) / 500000000) - 1
+		if pulse > 1 {
+			alpha = pulse - 1
 		}
 	} else {
-		if nano < 500000000 {
-			alpha = 1 - (float64(time.Now().Nanosecond()) / 500000000)
+		if pulse < 1 {
+			alpha = 1 - pulse
 		}
 	}
 	return alpha
 }
 
-func alpha3() float64 {
-	second := float64(time.Now().Second() % 2)
-	alpha := alphaPulse() * (1 - second)
+func alpha3(second, alpha float64) float64 {
+	alpha = alpha * (1 - second)
 	return alpha
 }
 
-func alpha4() float64 {
-	second := float64(time.Now().Second() % 2)
-	nano := time.Now().Nanosecond()
-	var alpha = 0.0 // float64!!!!!
+func alpha4(second, pulse float64) float64 {
+	var alpha float64
 	if second == 0 {
-		if nano < 500000000 {
-			alpha = 1 - (float64(time.Now().Nanosecond()) / 500000000)
+		if pulse < 1 {
+			alpha = 1 - pulse
 		}
 	} else {
-		if nano > 500000000 {
-			alpha = (float64(time.Now().Nanosecond()) / 500000000) - 1
+		if pulse > 1 {
+			alpha = pulse - 1
 		}
 	}
 	return alpha
