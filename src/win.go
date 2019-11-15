@@ -59,6 +59,14 @@ func alignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 	return false
 }
 
+// opponent returns the opponent of the current Player
+func opponent(player bool) bool {
+	if player == false {
+		return true
+	}
+	return false
+}
+
 func recordWin(g *game, winner bool) {
 	g.won = true
 	if winner == false {

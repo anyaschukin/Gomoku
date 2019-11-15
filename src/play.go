@@ -18,17 +18,10 @@ func newGame() *game {
 	return g
 }
 
-// opponent returns the opponent of the current Player
-func opponent(player bool) bool {
-	if player == false { //////// pointer swap function!!!!!!!!!!!!!!!!!!
-		return true
-	}
-	return false
-}
-
-// swapPlayers swaps Players, clears the message and iterates move
-func swapPlayers(g *game) {
-	g.player = opponent(g.player)
+// swapPlayers prepares for the next move
+func swapPlayers(coordinate coordinate, g *game) {
+	swapBool(&g.player)
+	g.lastMove = coordinate
 	if g.won == false {
 		g.message = ""
 	}
@@ -42,8 +35,7 @@ func gameLoop(coordinate coordinate, g *game) {
 	if validated == true {
 		capture(coordinate, g)
 		checkWin(coordinate, g)
-		g.lastMove = coordinate
-		swapPlayers(g)
+		swapPlayers(coordinate, g)
 	}
 	aiSuggestMove(g)
 }

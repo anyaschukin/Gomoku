@@ -22,7 +22,7 @@ func canCaptureVertex(coordinate coordinate, goban *[19][19]position, y, x int8,
 	if positionOccupiedByOpponent(one, goban, player) == true &&
 		positionOccupiedByOpponent(two, goban, player) == true &&
 		positionUnoccupied(three, goban) == true {
-		// fmt.Printf("capture possible! Player: %v can capture y:%d x:%d & y:%d x:%d\n\n", Player, one.y, one.x, two.y, two.x) /// tips flag!!
+		// fmt.Printf("capture possible! Player: %v can capture y:%d x:%d & y:%d x:%d\n\n", Player, one.y, one.x, two.y, two.x) /// tips flag!!!
 		return true
 	}
 	return false
@@ -44,7 +44,8 @@ func canCapture(coordinate coordinate, goban *[19][19]position, player bool) boo
 	return false
 }
 
-// captureAvailable returns true if given Player can capture in the next move (iterate entire goban, check if capture possible for each positon)
+// captureAvailable returns true if given Player can capture in the next move
+// (iterate entire goban, check if capture possible for each positon)
 func captureAvailable(goban *[19][19]position, player bool) bool {
 	var y int8
 	var x int8
@@ -61,7 +62,8 @@ func captureAvailable(goban *[19][19]position, player bool) bool {
 	return false
 }
 
-// canWinByCapture returns true if is it possible for the opponent to win by capturing 10. (have they already captured 8, and is there an available capture move)
+// canWinByCapture returns true if is it possible for the opponent to win by capturing 10
+// (have they already captured 8, and is there an available capture move)
 func canWinByCapture(goban *[19][19]position, player bool, capture0, capture1 uint8) bool {
 	if capturedEight(player, capture0, capture1) == true &&
 		captureAvailable(goban, player) == true {

@@ -3,6 +3,7 @@ package play //gui
 import (
 	"os"
 
+	/// import golib swapBool!!!!!!
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
@@ -136,29 +137,25 @@ func clickPlayer(x, y int, player bool) {
 	}
 }
 
+func swapBool(boolean *bool) { ////mv to golib!!!!!!
+	if *boolean == false {
+		*boolean = true
+	} else {
+		*boolean = false
+	}
+}
+
 func inputNewGame(g *game, x, y int) {
 	clickPlayer(x, y, false)
 	clickPlayer(x, y, true)
 	if clickLastMove(x, y) == true {
-		if g.drawLastMove == false {//////// swap function!!!!!!!!!!!!!!!!!!
-			g.drawLastMove = true
-		} else {
-			g.drawLastMove = false
-		}
+		swapBool(&g.drawLastMove)
 	}
 	if clickWinMove(x, y) == true {
-		if g.drawWinMove == false {//////// swap function!!!!!!!!!!!!!!!!!!
-			g.drawWinMove = true
-		} else {
-			g.drawWinMove = false
-		}
+		swapBool(&g.drawWinMove)
 	}
 	if clickCapture(x, y) == true {
-		if g.captured.drawCapture == false {//////// swap function!!!!!!!!!!!!!!!!!!
-			g.captured.drawCapture = true
-		} else {
-			g.captured.drawCapture = false
-		}
+		swapBool(&g.captured.drawCapture)
 	}
 }
 
