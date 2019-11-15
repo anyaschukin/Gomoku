@@ -1,0 +1,337 @@
+package play
+
+import (
+	"time"
+
+	"github.com/hajimehoshi/ebiten"
+)
+
+func drawG(screen *ebiten.Image, alpha float64) {
+	drawImagePulse(screen, imgWhite, stoneX(1), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(1), stoneY(7), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(1), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(1), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(1), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(1), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(1), stoneY(12), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(2), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(2), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(2), stoneY(7), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(2), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(2), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(2), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(2), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(2), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(2), stoneY(13), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(3), stoneY(4), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(3), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(3), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(3), stoneY(7), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(3), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(3), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(3), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(3), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(3), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(3), stoneY(13), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(3), stoneY(14), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(4), stoneY(4), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(4), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(4), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(4), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(4), stoneY(13), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(4), stoneY(14), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(5), stoneY(4), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(5), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(5), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(5), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(5), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(5), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(5), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(5), stoneY(13), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(5), stoneY(14), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(6), stoneY(4), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(6), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(6), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(6), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(6), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(6), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(6), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(6), stoneY(13), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(7), stoneY(4), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(7), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(7), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(7), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(7), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(7), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(7), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(7), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(7), stoneY(13), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(7), stoneY(14), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(8), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(8), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(8), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(8), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(8), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(8), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(8), stoneY(13), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(8), stoneY(14), scale, alpha)
+}
+
+func drawO(screen *ebiten.Image, alpha float64) {
+	drawImagePulse(screen, imgWhite, stoneX(10), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(10), stoneY(7), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(10), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(10), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(10), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(10), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(10), stoneY(12), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(11), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(11), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(11), stoneY(7), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(11), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(11), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(11), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(11), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(11), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(11), stoneY(13), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(12), stoneY(4), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(12), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(12), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(12), stoneY(7), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(12), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(12), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(12), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(12), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(12), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(12), stoneY(13), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(12), stoneY(14), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(13), stoneY(4), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(13), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(13), stoneY(13), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(13), stoneY(14), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(14), stoneY(4), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(14), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(14), stoneY(13), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(14), stoneY(14), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(15), stoneY(4), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(15), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(15), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(15), stoneY(7), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(15), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(15), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(15), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(15), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(15), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(15), stoneY(13), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(15), stoneY(14), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(16), stoneY(5), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(16), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(16), stoneY(7), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(16), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(16), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(16), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(16), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgBlack, stoneX(16), stoneY(12), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(16), stoneY(13), scale, alpha)
+
+	drawImagePulse(screen, imgWhite, stoneX(17), stoneY(6), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(17), stoneY(7), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(17), stoneY(8), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(17), stoneY(9), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(17), stoneY(10), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(17), stoneY(11), scale, alpha)
+	drawImagePulse(screen, imgWhite, stoneX(17), stoneY(12), scale, alpha)
+}
+
+func drawRedG(screen *ebiten.Image, alpha float64) {
+	drawImagePulse(screen, imgRed, stoneX(1), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(1), stoneY(7), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(1), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(1), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(1), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(1), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(1), stoneY(12), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(2), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(2), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(2), stoneY(7), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(2), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(2), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(2), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(2), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(2), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(2), stoneY(13), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(4), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(7), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(13), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(3), stoneY(14), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(4), stoneY(4), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(4), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(4), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(4), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(4), stoneY(13), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(4), stoneY(14), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(5), stoneY(4), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(5), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(5), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(5), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(5), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(5), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(5), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(5), stoneY(13), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(5), stoneY(14), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(6), stoneY(4), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(6), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(6), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(6), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(6), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(6), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(6), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(6), stoneY(13), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(7), stoneY(4), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(7), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(7), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(7), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(7), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(7), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(7), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(7), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(7), stoneY(13), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(7), stoneY(14), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(8), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(8), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(8), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(8), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(8), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(8), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(8), stoneY(13), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(8), stoneY(14), scale, 1-alpha)
+}
+
+func drawRedO(screen *ebiten.Image, alpha float64) {
+	drawImagePulse(screen, imgRed, stoneX(10), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(10), stoneY(7), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(10), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(10), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(10), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(10), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(10), stoneY(12), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(11), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(11), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(11), stoneY(7), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(11), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(11), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(11), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(11), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(11), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(11), stoneY(13), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(4), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(7), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(13), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(12), stoneY(14), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(13), stoneY(4), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(13), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(13), stoneY(13), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(13), stoneY(14), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(14), stoneY(4), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(14), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(14), stoneY(13), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(14), stoneY(14), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(4), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(7), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(13), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(15), stoneY(14), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(16), stoneY(5), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(16), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(16), stoneY(7), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(16), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(16), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(16), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(16), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(16), stoneY(12), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(16), stoneY(13), scale, 1-alpha)
+
+	drawImagePulse(screen, imgRed, stoneX(17), stoneY(6), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(17), stoneY(7), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(17), stoneY(8), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(17), stoneY(9), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(17), stoneY(10), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(17), stoneY(11), scale, 1-alpha)
+	drawImagePulse(screen, imgRed, stoneX(17), stoneY(12), scale, 1-alpha)
+}
+
+func alphaDelay(second, pulse float64) float64 {
+	var alpha float64
+	if second == 0 {
+		if pulse > 1 {
+			alpha = pulse - 1
+		}
+	} else {
+		alpha = 1 - (pulse - 2)
+	}
+	return alpha
+}
+
+func drawIntro(screen *ebiten.Image) {
+	if g.introTime.IsZero() {
+		g.introTime = time.Now()
+	}
+	elapsed := time.Since(g.introTime)
+	second := float64(elapsed.Truncate(time.Second) / 1000000000)
+	pulse := float64(elapsed) / 500000000
+	alpha := alphaPulse(pulse)
+	alpha2 := alphaDelay(second, pulse)
+	drawG(screen, alpha)
+	drawO(screen, alpha)
+	drawRedG(screen, 1-alpha2)
+	drawRedO(screen, 1-alpha2)
+	if elapsed > 1500000000 {
+		g.drawIntro = true
+	}
+}

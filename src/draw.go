@@ -135,12 +135,14 @@ func drawPlayerText(screen *ebiten.Image, g *game, player bool) {
 
 func drawMessage(screen *ebiten.Image, g *game) {
 	if g.won == false {
-		if g.player == false {
-			text.Draw(screen, `Black to Move`, mplusNormalFont, columnBlack, row, color.Black)
-			text.Draw(screen, g.message, mplusNormalFont, columnBlack, row*2, color.Black)
-		} else {
-			text.Draw(screen, `White to Move`, mplusNormalFont, columnWhite, row, color.White)
-			text.Draw(screen, g.message, mplusNormalFont, columnWhite, row*2, color.White)
+		if g.drawIntro == true {
+			if g.player == false {
+				text.Draw(screen, `Black to Move`, mplusNormalFont, columnBlack, row, color.Black)
+				text.Draw(screen, g.message, mplusNormalFont, columnBlack, row*2, color.Black)
+			} else {
+				text.Draw(screen, `White to Move`, mplusNormalFont, columnWhite, row, color.White)
+				text.Draw(screen, g.message, mplusNormalFont, columnWhite, row*2, color.White)
+			}
 		}
 	} else {
 		if g.message == "Black Wins!" {
@@ -223,12 +225,16 @@ func draw(screen *ebiten.Image, g *game) {
 		drawNewGameOptions(screen, g, second, pulse, alpha)
 	} else {
 		drawGoban(screen, g)
-		drawStones(screen, g)
 		drawText(screen, g)
-		drawLastMove(screen, g, second, pulse, alpha)
-		drawHotseatSuggestion(screen, g, alpha)
-		drawWinMove(screen, g, alpha)
-		drawCapture(screen, g, alpha)
+		if g.drawIntro == false {
+			drawIntro(screen)
+		} else {
+			drawStones(screen, g)
+			drawLastMove(screen, g, second, pulse, alpha)
+			drawHotseatSuggestion(screen, g, alpha)
+			drawWinMove(screen, g, alpha)
+			drawCapture(screen, g, alpha)
+		}
 	}
 	drawNewGame(screen, g)
 	drawExit(screen, g)

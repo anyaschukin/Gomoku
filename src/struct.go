@@ -50,6 +50,8 @@ type game struct {
 	drawWinMove  bool             // Higlight the last move played
 	winMove      coordinate       // Winning move
 	message      string           // Game feeback for display in gui (invalid move, win)
+	drawIntro    bool
+	introTime    time.Time // when was the game started
 }
 
 // Game var contains all information about current game state

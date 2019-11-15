@@ -65,7 +65,7 @@ func aiLoop(g *game) {
 // updateGame listens for input, and runs a human/AI loop
 func (g *game) updateGame() {
 	input(g)
-	if g.newGame == false && g.won == false {
+	if g.newGame == false && g.won == false && g.drawIntro == true {
 		if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
 			humanLoop(g)
 		} else {
