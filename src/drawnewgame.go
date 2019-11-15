@@ -14,30 +14,19 @@ var column1 = 860
 var scaleSelect = 0.23
 
 func drawStone(screen *ebiten.Image, g *game, column int, stone *ebiten.Image) {
-	opStone := &ebiten.DrawImageOptions{}
-	opStone.GeoM.Translate(float64(newGameColumnBlack+column)+130, 150)
-	screen.DrawImage(stone, opStone)
+	drawImage(screen, stone, float64(newGameColumnBlack+column)+130, 150, 1)
 }
 
 func drawSelectHuman(screen *ebiten.Image, g *game, shift float64) {
-	opSelect := &ebiten.DrawImageOptions{}
-	opSelect.GeoM.Translate(90/scaleSelect+shift, 292/scaleSelect)
-	opSelect.GeoM.Scale(scaleSelect, scaleSelect)
-	screen.DrawImage(imgSelect, opSelect)
+	drawImage(screen, imgSelect, 90/scaleSelect+shift, 292/scaleSelect, scaleSelect)
 }
 
 func drawSelectHotseat(screen *ebiten.Image, g *game, shift float64) {
-	opSelect := &ebiten.DrawImageOptions{}
-	opSelect.GeoM.Translate(90/scaleSelect+shift, 495/scaleSelect)
-	opSelect.GeoM.Scale(scaleSelect, scaleSelect)
-	screen.DrawImage(imgSelect, opSelect)
+	drawImage(screen, imgSelect, 90/scaleSelect+shift, 495/scaleSelect, scaleSelect)
 }
 
 func drawSelectAI(screen *ebiten.Image, g *game, shift float64) {
-	opSelect := &ebiten.DrawImageOptions{}
-	opSelect.GeoM.Translate(90/scaleSelect+shift, 698/scaleSelect)
-	opSelect.GeoM.Scale(scaleSelect, scaleSelect)
-	screen.DrawImage(imgSelect, opSelect)
+	drawImage(screen, imgSelect, 90/scaleSelect+shift, 698/scaleSelect, scaleSelect)
 }
 
 func drawSelectPlayer(screen *ebiten.Image, g *game, player bool) {
@@ -60,28 +49,19 @@ func drawSelectPlayer(screen *ebiten.Image, g *game, player bool) {
 
 func drawSelectLastMove(screen *ebiten.Image, g *game) {
 	if g.drawLastMove == true {
-		opSelect := &ebiten.DrawImageOptions{}
-		opSelect.GeoM.Translate((float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 295/scaleSelect)
-		opSelect.GeoM.Scale(scaleSelect, scaleSelect)
-		screen.DrawImage(imgSelect, opSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 295/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectWinMove(screen *ebiten.Image, g *game) {
 	if g.drawWinMove == true {
-		opSelect := &ebiten.DrawImageOptions{}
-		opSelect.GeoM.Translate((float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 493/scaleSelect)
-		opSelect.GeoM.Scale(scaleSelect, scaleSelect)
-		screen.DrawImage(imgSelect, opSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 493/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectCapture(screen *ebiten.Image, g *game) {
 	if g.captured.drawCapture == true {
-		opSelect := &ebiten.DrawImageOptions{}
-		opSelect.GeoM.Translate((float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 691/scaleSelect)
-		opSelect.GeoM.Scale(scaleSelect, scaleSelect)
-		screen.DrawImage(imgSelect, opSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 691/scaleSelect, scaleSelect)
 	}
 }
 
@@ -100,16 +80,10 @@ func drawHuman(screen *ebiten.Image, g *game) {
 
 func drawHotseatPulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.ai0.hotseat == true {
-		opHotseat0 := &ebiten.DrawImageOptions{}
-		opHotseat0.GeoM.Translate(560, 525)
-		opHotseat0.ColorM.Scale(1, 1, 1, alpha)
-		screen.DrawImage(imgBlack, opHotseat0)
+		drawImagePulse(screen, imgBlack, 560, 525, 1, alpha)
 	}
 	if g.ai1.hotseat == true {
-		opHotseat1 := &ebiten.DrawImageOptions{}
-		opHotseat1.GeoM.Translate(1425, 525)
-		opHotseat1.ColorM.Scale(1, 1, 1, alpha)
-		screen.DrawImage(imgWhite, opHotseat1)
+		drawImagePulse(screen, imgWhite, 1425, 525, 1, alpha)
 	}
 }
 
@@ -132,10 +106,7 @@ func drawAI(screen *ebiten.Image, g *game) {
 }
 
 func drawLastMovePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebiten.Image) {
-	opLastMove := &ebiten.DrawImageOptions{}
-	opLastMove.GeoM.Translate(2280, 325)
-	opLastMove.ColorM.Scale(1, 1, 1, alpha)
-	screen.DrawImage(blue, opLastMove)
+	drawImagePulse(screen, blue, 2280, 325, 1, alpha)
 }
 
 func drawLastMovePulses(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
@@ -149,19 +120,13 @@ func drawLastMovePulses(screen *ebiten.Image, g *game, second, pulse, alpha floa
 
 func drawWinMovePulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.drawWinMove == true {
-		opWinMove := &ebiten.DrawImageOptions{}
-		opWinMove.GeoM.Translate(2280, 525)
-		opWinMove.ColorM.Scale(1, 1, 1, alpha)
-		screen.DrawImage(imgRed, opWinMove)
+		drawImagePulse(screen, imgRed, 2280, 525, 1, alpha)
 	}
 }
 
 func drawCapturedPulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.captured.drawCapture == true {
-		opCapture := &ebiten.DrawImageOptions{}
-		opCapture.GeoM.Translate(2280, 725)
-		opCapture.ColorM.Scale(1, 1, 1, alpha)
-		screen.DrawImage(imgCapture, opCapture)
+		drawImagePulse(screen, imgCapture, 2280, 725, 1, alpha)
 	}
 }
 
