@@ -155,3 +155,16 @@ func alpha4(second, pulse float64) float64 {
 	}
 	return alpha
 }
+
+// for drawIntro red pulse
+func alphaDelay(second, pulse float64) float64 {
+	var alpha float64
+	if second == 0 {
+		if pulse > 1 {
+			alpha = pulse - 1
+		}
+	} else {
+		alpha = 1 - (pulse - 2)
+	}
+	return alpha
+}

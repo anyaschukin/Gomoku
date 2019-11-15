@@ -154,8 +154,10 @@ func drawMessage(screen *ebiten.Image, g *game) {
 }
 
 func drawMove(screen *ebiten.Image, g *game) {
-	text.Draw(screen, `move:`, mplusNormalFont, columnBlack, row*13, color.Black)
-	text.Draw(screen, strconv.Itoa(int(g.move)), mplusNormalFont, columnBlack+160, row*13, color.Black)
+	if g.drawIntro == true {
+		text.Draw(screen, `move:`, mplusNormalFont, columnBlack, row*13, color.Black)
+		text.Draw(screen, strconv.Itoa(int(g.move)), mplusNormalFont, columnBlack+160, row*13, color.Black)
+	}
 }
 
 func drawText(screen *ebiten.Image, g *game) {
