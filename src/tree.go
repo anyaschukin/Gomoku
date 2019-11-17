@@ -30,6 +30,7 @@ func newNode(id int, value int, newGoban *[19][19]position, newPlayer bool) *nod
 	// return node
 }
 
+// Recursively finds node by ID, and then appends child to node.chilren
 func addChild(node *node, parentID int, child *node) int {
 	if node.id == parentID {
 		node.children = append(node.children, child)
@@ -43,6 +44,27 @@ func addChild(node *node, parentID int, child *node) int {
 	return 0
 }
 
+// Recursively generates every move for a board (to depth 3), assigns value, and adds to tree
+func generateBoardsDepth(depth int8, current *node, goban *[19][19]position, player bool) {
+	if depth > 3 {
+		return
+	}
+	for y = 0; y < 19; y++ {
+		for x = 0; x < 19; x++ {
+			coordinate := {y, x}
+			if isMoveValid2(coordinate, goban) == true {		// duplicate of isMoveValid w/o *game
+				id += 1
+				newGoban := placeStone(coordinate, player, goban)
+				value := valueBoard(newGoban, player)
+				child = newNode(id, value, newGoban, player)
+				addChild(current, current.id, child) //
+				generateBoardsDepth(depth+1, child, !player)
+			}
+			continue
+		}
+	}
+}
+
 func createTree(goban *[19][19]position, player bool) *node {
 	var y		int8
 	var x		int8
@@ -50,32 +72,7 @@ func createTree(goban *[19][19]position, player bool) *node {
 
 	id := 1
 	root := newNode(id, 10, g.goban, g.player)
-	// while depth < 3, generate nodes and addChild
-	// addChild(root, 1, &node{id: 2, Value: 20})
-	
-	// for depth = 1; depth <= 3; depth++ {
-		// do this for every child, at every level 
-
-	for depth <= 3 {
-		generate childBoards
-	}
-
-
-	for y = 0; y < 19; y++ {
-		for x = 0; x < 19; x++ {
-			id += 1
-			coordinate := {y, x}
-			if isMoveValid(coordinate, goban) == true {
-				newGoban := placeStone(coordinate, player, newGoban)
-				value := valueBoard(newGoban, player)
-				child = newNode(id, value, newGoban, player)
-				addChild(root, 1, node)
-			}
-			continue
-		}
-	}
-	player = !player
-	// } 
+	generateBoardsDepth(3, root, g.goban, g.player)
 	return root
 }
 
@@ -96,12 +93,12 @@ func printTree(parent *node) {
 func tree() {			// call this minimaxTree ? 
 	root := createTree()
 	// printTree(root)
-	fmt.Println("-----")
+	// fmt.Println("-----")
 	// alpha := float64(math.Inf(-1))
 	// beta := float64(math.Inf(1))
 	alpha := minInt
 	beta := maxInt
-	minimaxRecursive(root, 3, alpha, beta, false)
+	minimaxRecursive(root, 3, alpha, beta, false)	// for some reason, maximizingplayer has to be set to 'false' for this to work
 	current := root
 	for current.bestMove != nil {
 		fmt.Println(current.id)
@@ -112,6 +109,8 @@ func tree() {			// call this minimaxTree ?
 
 
 
+
+	// addChild(root, 1, &node{id: 2, Value: 20})
 	// addChild(root, 1, &node{id: 3, Value: 30})
 	// addChild(root, 1, &node{id: 4, Value: 40})
 	// addChild(root, 2, &node{id: 5, Value: 50})

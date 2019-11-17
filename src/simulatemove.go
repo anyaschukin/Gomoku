@@ -5,64 +5,8 @@ package play
 
 // re-write these functions so you're passing the goban and player, but not the whole game!
 
-func threeBlocked(end1 coordinate, end2 coordinate, goban *[19][19]position) bool {
-	if positionUnoccupied(end1, goban) == true &&
-		positionUnoccupied(end2, goban) == true {
-		return false
-	}
-	return true
-}
-
-// checkVertexForThree returns true if it finds an unblocked FreeThree on given vertex
-func checkVertexForThree(coordinate coordinate, goban *[19][19]position, y int8, x int8, player bool) bool {
-	minusTwo := findNeighbour(coordinate, y, x, -2)
-	minusOne := findNeighbour(coordinate, y, x, -1)
-	one := findNeighbour(coordinate, y, x, 1)
-	two := findNeighbour(coordinate, y, x, 2)
-	three := findNeighbour(coordinate, y, x, 3)
-	four := findNeighbour(coordinate, y, x, 4)
-	if positionOccupiedByPlayer(one, goban, player) == true {
-		if positionOccupiedByPlayer(two, goban, player) == true {
-			if threeBlocked(minusOne, three, goban) == false {
-				return true
-			}
-		}
-		if positionOccupiedByPlayer(three, goban, player) == true {
-			if threeBlocked(minusOne, four, goban) == false {
-				if positionOccupiedByOpponent(two, goban, player) == false {
-					return true
-				}
-			}
-		}
-		if y < 0 || (y == 0 && x == -1) {
-			if positionOccupiedByPlayer(minusOne, goban, player) == true {
-				if threeBlocked(minusTwo, two, goban) == false {
-					return true
-				}
-			}
-		}
-	}
-	if positionOccupiedByPlayer(two, goban, player) == true {
-		if positionOccupiedByPlayer(three, goban, player) == true {
-			if threeBlocked(minusOne, four, goban) == false {
-				if positionOccupiedByOpponent(one, goban, player) == false {
-					return true
-				}
-			}
-		}
-		if positionOccupiedByPlayer(minusOne, goban, player) == true {
-			if threeBlocked(minusTwo, three, goban) == false {
-				if positionOccupiedByOpponent(one, goban, player) == false {
-					return true
-				}
-			}
-		}
-	}
-	return false
-}
-
 // doubleThree returns true if suggested move breaks the double three rule
-func doubleThree(coordinate coordinate, goban *[19][19]position, player bool) bool {
+func doubleThree2(coordinate coordinate, goban *[19][19]position, player bool) bool {
 	var freeThree bool
 	var x int8
 	var y int8
@@ -83,27 +27,15 @@ func doubleThree(coordinate coordinate, goban *[19][19]position, player bool) bo
 	return false
 }
 
-func placeStone(coordinate coordinate, player bool, goban *[19][19]position) {
-	goban[coordinate.y][coordinate.x].occupied = true
-	goban[coordinate.y][coordinate.x].player = player
-}
 
-func isMoveValid(coordinate coordinate, goban *[19][19]position) bool {
+func isMoveValid2(coordinate coordinate, goban *[19][19]position) bool {
 	if positionOccupied(coordinate, &goban) == true {
 		// g.message = "Position Occupied"
 		return false
 	}
-	if doubleThree(coordinate, goban, player) == true {
+	if doubleThree2(coordinate, goban, player) == true {	 // duplicate w/o *game
 		// g.message = "Double-Three"
 		return false
 	}
 	return true
-}
-
-func placeIfValid(coordinate coordinate, goban *[19][19]position) bool {
-	if isMoveValid(coordinate, goban) == true {
-		placeStone(coordinate, g.player, &g.goban)
-		return true
-	}
-	return false
 }
