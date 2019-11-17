@@ -1,6 +1,7 @@
 #### TO DO ####
 
-gomoku!! scroll bonus
+GUI
+	- flashing/time limited messages (position occupied & double three)
 
 AI
 	- Min/Max
@@ -13,6 +14,7 @@ AI
 2. highlight last move
 3. highlight Win move
 4. highlight captured
+5. GO intro
 
 #### CORRECTION ####
  - "Improved" Minimax implementation (Alpha-beta pruning, negascout, mtdf, ...) -> 5 points!

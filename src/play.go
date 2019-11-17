@@ -36,8 +36,10 @@ func gameLoop(coordinate coordinate, g *game) {
 		capture(coordinate, g)
 		checkWin(coordinate, g)
 		swapPlayers(coordinate, g)
+		if isPlayerHotseat(g) == true {
+			aiSuggestMove(g)
+		}
 	}
-	aiSuggestMove(g)
 }
 
 // humanLoop listens for a click on the goban runs gameloop with clicked coordinate
@@ -60,6 +62,7 @@ func aiLoop(g *game) {
 		coordinate = g.ai1.suggest
 	}
 	gameLoop(coordinate, g)
+	aiSuggestMove(g)
 }
 
 // updateGame listens for input, and runs a human/AI loop
