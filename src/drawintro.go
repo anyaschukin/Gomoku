@@ -165,10 +165,32 @@ func drawIntro(screen *ebiten.Image) {
 	pulse := float64(elapsed) / 500000000
 	alpha := alphaPulse(pulse)
 	alpha2 := alphaDelay(second, pulse)
+
 	drawG(screen, alpha, imgWhite, imgBlack)
 	drawO(screen, alpha, imgWhite, imgBlack)
+	// drawG(screen, alpha, imgBlue, imgBlue3)
+	// drawG(screen, alpha, imgBlue, imgBlue3)
+	// drawO(screen, alpha, imgBlue, imgBlue3)
+	// drawO(screen, alpha, imgBlue, imgBlue3)
+
+	// drawG(screen, alpha2, imgWhite, imgBlack)
+	// drawO(screen, alpha2, imgWhite, imgBlack)
+	// drawG(screen, alpha2, imgBlue, imgBlue3)
+	// drawG(screen, alpha2, imgBlue, imgBlue3)
+	// drawO(screen, alpha2, imgBlue, imgBlue3)
+	// drawO(screen, alpha2, imgBlue, imgBlue3)
+
 	drawG(screen, alpha2, imgRed, imgRed)
 	drawO(screen, alpha2, imgRed, imgRed)
+	// drawG(screen, alpha2, imgBlue, imgBlue3)
+	// drawG(screen, alpha2, imgBlue, imgBlue3)
+	// drawG(screen, alpha2, imgBlue3, imgBlue)
+	// drawG(screen, alpha2, imgBlue2, imgBlue4)
+	// drawG(screen, alpha2, imgBlue4, imgBlue2)
+
+	// drawO(screen, alpha2, imgBlue, imgBlue3)
+	// drawO(screen, alpha2, imgBlue3, imgBlue)
+	// drawO(screen, alpha2, imgBlue2, imgBlue4)
 	if elapsed > 1500000000 {
 		g.drawIntro = true
 	}
