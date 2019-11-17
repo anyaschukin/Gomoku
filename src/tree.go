@@ -61,6 +61,7 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 			coordinate := coordinate{y, x}
 			// fmt.Printf("depth %d\n", depth)
 			if isMoveValid2(coordinate, &current.goban, player) == true {		// duplicate of isMoveValid w/o *game
+				// id not incrementing correctly in recursive function
 				id += 1
 				newGoban := current.goban
 				placeStone(coordinate, player, &newGoban)
