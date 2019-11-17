@@ -2,6 +2,9 @@ package play
 
 import (
 	"fmt"
+	// "os"
+	"time"
+	// lib "Gomoku/golib"
 	// "math"
 )
 
@@ -17,6 +20,8 @@ type node struct {
 	children []*node
 	bestMove *node
 }
+
+// newGoban := [19][19]position{}
 
 func newNode(id int, value int, newGoban *[19][19]position, newPlayer bool) *node {
 	return &node{
@@ -48,22 +53,23 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 	var y int8
 	var x int8
 	
-	if depth > 3 {
+	if depth > 2 {
 		return
 	}
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
 			coordinate := coordinate{y, x}
+			// fmt.Printf("depth %d\n", depth)
 			if isMoveValid2(coordinate, &current.goban, player) == true {		// duplicate of isMoveValid w/o *game
 				id += 1
-				newGoban := &current.goban
-				placeStone(coordinate, player, newGoban)
-				value := valueBoard(newGoban, player)
-				child := newNode(id, value, newGoban, player)
+				newGoban := current.goban
+				placeStone(coordinate, player, &newGoban)
+				value := valueBoard(&newGoban, player)
+				child := newNode(id, value, &newGoban, player)
 				addChild(current, current.id, child) //
 				generateBoardsDepth(depth+1, child, child.id, !player)
 			}
-			continue
+			// continue
 		}
 	}
 }
@@ -71,7 +77,7 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 func createTree(g *game) *node {
 	id := 1
 	root := newNode(id, 10, &g.goban, g.player)
-	generateBoardsDepth(3, root, root.id, root.player)
+	generateBoardsDepth(1, root, root.id, root.player)
 	return root
 }
 
@@ -81,29 +87,33 @@ func printTree(parent *node) {
 	for i := range current.children {
 		child := current.children[i]
 		fmt.Printf("child: %d", child.id)
+		// printTree(child)
 		// put in a mutex/lock to wait until this range is done, and then call printTree for the child
 	}
+	time.Sleep(1000000000)
+	// depth-first
 	for i := range current.children {
 		current := current.children[i]
+		// dumpGoban(&current.goban)
 		printTree(current)
 	}
 }
 
 func minimaxTree(g *game) {
 	root := createTree(g)
-	// printTree(root)
+	printTree(root)
 	// fmt.Println("-----")
 	// alpha := float64(math.Inf(-1))
 	// beta := float64(math.Inf(1))
-	alpha := minInt
-	beta := maxInt
-	minimaxRecursive(root, 3, alpha, beta, false)	// for some reason, maximizingplayer has to be set to 'false' for this to work
-	current := root
-	for current.bestMove != nil {
-		fmt.Println(current.id)
-		current = current.bestMove
-	}
-	fmt.Println(current.id)
+	// alpha := minInt
+	// beta := maxInt
+	// minimaxRecursive(root, 3, alpha, beta, false)	// for some reason, maximizingplayer has to be set to 'false' for this to work
+	// current := root
+	// for current.bestMove != nil {
+		// fmt.Println(current.id)
+		// current = current.bestMove
+	// }
+	// fmt.Println(current.id)
 }
 
 
