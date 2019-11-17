@@ -90,7 +90,7 @@ func printTree(parent *node) {
 	}
 }
 
-func tree() {			// call this minimaxTree ? 
+func minimaxTree() {
 	root := createTree()
 	// printTree(root)
 	// fmt.Println("-----")
