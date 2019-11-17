@@ -108,6 +108,10 @@ func minimaxTree() {
 }
 
 
+//  creates a tree, whose root is the goban
+//  creates all possible moves/boards to depth _, calculates values, add to tree
+//  applies minimax to tree, finds best move
+
 
 
 	// addChild(root, 1, &node{id: 2, Value: 20})
