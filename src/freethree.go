@@ -17,40 +17,32 @@ func checkVertexForThree(coordinate coordinate, goban *[19][19]position, y int8,
 	three := findNeighbour(coordinate, y, x, 3)
 	four := findNeighbour(coordinate, y, x, 4)
 	if positionOccupiedByPlayer(one, goban, player) == true {
-		if positionOccupiedByPlayer(two, goban, player) == true {
-			if threeBlocked(minusOne, three, goban) == false {
-				return true
-			}
+		if positionOccupiedByPlayer(two, goban, player) == true &&
+			threeBlocked(minusOne, three, goban) == false {
+			return true
 		}
-		if positionOccupiedByPlayer(three, goban, player) == true {
-			if threeBlocked(minusOne, four, goban) == false {
-				if positionOccupiedByOpponent(two, goban, player) == false {
-					return true
-				}
-			}
+		if positionOccupiedByPlayer(three, goban, player) == true &&
+			threeBlocked(minusOne, four, goban) == false &&
+			positionOccupiedByOpponent(two, goban, player) == false {
+			return true
 		}
 		if y < 0 || (y == 0 && x == -1) {
-			if positionOccupiedByPlayer(minusOne, goban, player) == true {
-				if threeBlocked(minusTwo, two, goban) == false {
-					return true
-				}
+			if positionOccupiedByPlayer(minusOne, goban, player) == true &&
+				threeBlocked(minusTwo, two, goban) == false {
+				return true
 			}
 		}
 	}
 	if positionOccupiedByPlayer(two, goban, player) == true {
-		if positionOccupiedByPlayer(three, goban, player) == true {
-			if threeBlocked(minusOne, four, goban) == false {
-				if positionOccupiedByOpponent(one, goban, player) == false {
-					return true
-				}
-			}
+		if positionOccupiedByPlayer(three, goban, player) == true &&
+			threeBlocked(minusOne, four, goban) == false &&
+			positionOccupiedByOpponent(one, goban, player) == false {
+			return true
 		}
-		if positionOccupiedByPlayer(minusOne, goban, player) == true {
-			if threeBlocked(minusTwo, three, goban) == false {
-				if positionOccupiedByOpponent(one, goban, player) == false {
-					return true
-				}
-			}
+		if positionOccupiedByPlayer(minusOne, goban, player) == true &&
+			threeBlocked(minusTwo, three, goban) == false &&
+			positionOccupiedByOpponent(one, goban, player) == false {
+			return true
 		}
 	}
 	return false

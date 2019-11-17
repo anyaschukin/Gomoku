@@ -1,20 +1,20 @@
 package play
 
-func coordinateOnGoban(coordinate coordinate) (ongoban bool) {
+func coordinateOnGoban(coordinate coordinate) bool {
 	if coordinate.y < 0 || coordinate.y > 18 || coordinate.x < 0 || coordinate.x > 18 {
 		return false
 	}
 	return true
 }
 
-func positionOccupied(coordinate coordinate, goban *[19][19]position) (occupied bool) {
+func positionOccupied(coordinate coordinate, goban *[19][19]position) bool {
 	if goban[coordinate.y][coordinate.x].occupied == true {
 		return true
 	}
 	return false
 }
 
-func samePlayer(coordinate coordinate, goban *[19][19]position, player bool) (samePlayer bool) {
+func samePlayer(coordinate coordinate, goban *[19][19]position, player bool) bool {
 	if goban[coordinate.y][coordinate.x].player == player {
 		return true
 	}
@@ -41,7 +41,7 @@ func positionOccupiedByOpponent(coordinate coordinate, goban *[19][19]position, 
 	return false
 }
 
-func positionUnoccupied(coordinate coordinate, goban *[19][19]position) (unoccupied bool) {
+func positionUnoccupied(coordinate coordinate, goban *[19][19]position) bool {
 	if coordinateOnGoban(coordinate) == true {
 		if positionOccupied(coordinate, goban) == false {
 			return true
