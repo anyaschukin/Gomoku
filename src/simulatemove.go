@@ -8,12 +8,12 @@ package play
 // doubleThree returns true if suggested move breaks the double three rule
 func doubleThree2(coordinate coordinate, goban *[19][19]position, player bool) bool {
 	var freeThree bool
-	var x int8
 	var y int8
+	var x int8
 	for y = -1; y <= 1; y++ {
 		for x = -1; x <= 1; x++ {
 			if !(x == 0 && y == 0) {
-				foundThree := checkVertexForThree(coordinate, &goban, y, x, player)
+				foundThree := checkVertexForThree(coordinate, goban, y, x, player)
 				if foundThree == true {
 					if freeThree == true {
 						return true
@@ -28,8 +28,8 @@ func doubleThree2(coordinate coordinate, goban *[19][19]position, player bool) b
 }
 
 
-func isMoveValid2(coordinate coordinate, goban *[19][19]position) bool {
-	if positionOccupied(coordinate, &goban) == true {
+func isMoveValid2(coordinate coordinate, goban *[19][19]position, player bool) bool {
+	if positionOccupied(coordinate, goban) == true {
 		// g.message = "Position Occupied"
 		return false
 	}

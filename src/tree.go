@@ -2,8 +2,7 @@ package play
 
 import (
 	"fmt"
-	"math"
-	// play "Gomoku.play"
+	// "math"
 )
 
 const maxInt = int(^uint(0) >> 1)
@@ -23,8 +22,8 @@ func newNode(id int, value int, newGoban *[19][19]position, newPlayer bool) *nod
 	return &node{
 		id:   	id,
 		value:	value,	// change this to initialize to zero
-		goban:	newGoban
-		player: newPlayer
+		goban:	*newGoban,
+		player: newPlayer,
 	}
 	// node.board = &play.Game
 	// return node
@@ -45,34 +44,34 @@ func addChild(node *node, parentID int, child *node) int {
 }
 
 // Recursively generates every move for a board (to depth 3), assigns value, and adds to tree
-func generateBoardsDepth(depth int8, current *node, goban *[19][19]position, player bool) {
+func generateBoardsDepth(depth int8, current *node, id int, player bool) {
+	var y int8
+	var x int8
+	
 	if depth > 3 {
 		return
 	}
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
-			coordinate := {y, x}
-			if isMoveValid2(coordinate, goban) == true {		// duplicate of isMoveValid w/o *game
+			coordinate := coordinate{y, x}
+			if isMoveValid2(coordinate, &current.goban, player) == true {		// duplicate of isMoveValid w/o *game
 				id += 1
-				newGoban := placeStone(coordinate, player, goban)
+				newGoban := &current.goban
+				placeStone(coordinate, player, newGoban)
 				value := valueBoard(newGoban, player)
-				child = newNode(id, value, newGoban, player)
+				child := newNode(id, value, newGoban, player)
 				addChild(current, current.id, child) //
-				generateBoardsDepth(depth+1, child, !player)
+				generateBoardsDepth(depth+1, child, child.id, !player)
 			}
 			continue
 		}
 	}
 }
 
-func createTree(goban *[19][19]position, player bool) *node {
-	var y		int8
-	var x		int8
-	var tmp		*node
-
+func createTree(g *game) *node {
 	id := 1
-	root := newNode(id, 10, g.goban, g.player)
-	generateBoardsDepth(3, root, g.goban, g.player)
+	root := newNode(id, 10, &g.goban, g.player)
+	generateBoardsDepth(3, root, root.id, root.player)
 	return root
 }
 
@@ -90,8 +89,8 @@ func printTree(parent *node) {
 	}
 }
 
-func minimaxTree() {
-	root := createTree()
+func minimaxTree(g *game) {
+	root := createTree(g)
 	// printTree(root)
 	// fmt.Println("-----")
 	// alpha := float64(math.Inf(-1))

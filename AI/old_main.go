@@ -14,33 +14,33 @@ package ai
 //  plug board into minimax
 //  choose board
 
-func GameLoop(G *play.Game) {
-	validated := false
-	coordinate := play.RandomCoordinate() /////
-	for i := 0; i < 10000; i++ {          //moves
-		validated, coordinate = play.PlaceRandomIfValid(G)
-		if validated == true {
-			play.Capture(coordinate, G)
-			play.DumpGoban(&G.Goban)   //////
-			play.CountStones(&G.Goban) /////////
-			play.CheckWin(coordinate, G)
-			G.Player = play.SwapPlayers(G.Player)
-		}
-	}
-	// update game.moves ++
-	//	return err
-}
+// func GameLoop(G *play.Game) {
+// 	validated := false
+// 	coordinate := play.RandomCoordinate() /////
+// 	for i := 0; i < 10000; i++ {          //moves
+// 		validated, coordinate = play.PlaceRandomIfValid(G)
+// 		if validated == true {
+// 			play.Capture(coordinate, G)
+// 			play.DumpGoban(&G.Goban)   //////
+// 			play.CountStones(&G.Goban) /////////
+// 			play.CheckWin(coordinate, G)
+// 			G.Player = play.SwapPlayers(G.Player)
+// 		}
+// 	}
+// 	// update game.moves ++
+// 	//	return err
+// }
 
-func main() {
-	fmt.Println("Hello world!") ////////
-	G := play.newGame()
-	// gui.RunEbiten()
-	GameLoop(G)
-	fmt.Println("Goodbye world!") ////////
-}
+// func main() {
+// 	fmt.Println("Hello world!") ////////
+// 	G := play.newGame()
+// 	// gui.RunEbiten()
+// 	GameLoop(G)
+// 	fmt.Println("Goodbye world!") ////////
+// }
 
 // func GameLoop(g) {
-// if AI:git ad
+// if AI:
 //		suggest move
 // if human or hotseat:
 //		listen for mouse click 						//###### do first
