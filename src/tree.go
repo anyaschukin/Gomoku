@@ -110,10 +110,10 @@ func printBestRoute(root *node) {
 
 func minimaxTree(g *game) {
 	start := time.Now()
-	depth := g.ai0.depth
-	if g.player == true {
-		depth = g.ai1.depth
-	}
+	// depth := g.ai0.depth
+	// if g.player == true {
+	// 	depth = g.ai1.depth
+	// }
 	root := createTree(g)
 	// printTree(root)
 	// fmt.Println("-----")
