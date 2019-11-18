@@ -45,6 +45,7 @@ func isPlayerHotseat(g *game) bool {
 // aiSuggestMove, if player is AI call AI to suggest a move
 func aiSuggestMove(g *game) {
 	if isPlayerHuman(g) == false || isPlayerHotseat(g) == true {
-		artificialIdiot(g)
+		// artificialIdiot(g)
+		minimaxTree(g)
 	}
 }
