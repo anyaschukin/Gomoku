@@ -168,7 +168,7 @@ func drawText(screen *ebiten.Image, g *game) {
 }
 
 func drawBluePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebiten.Image) {
-	drawImagePulse(screen, blue, stoneX(g.lastMove.x), stoneY(g.lastMove.y), scale, alpha)
+	drawImagePulse(screen, blue, stoneX(g.lastMove.x), stoneY(g.lastMove.y), scale, alpha*2)
 }
 
 func drawLastMove(screen *ebiten.Image, g *game, second, pulse, alpha float64) {

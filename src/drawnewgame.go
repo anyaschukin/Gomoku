@@ -106,7 +106,7 @@ func drawAI(screen *ebiten.Image, g *game) {
 }
 
 func drawLastMovePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebiten.Image) {
-	drawImagePulse(screen, blue, 2280, 325, 1, alpha)
+	drawImagePulse(screen, blue, 2280, 325, 1, alpha*2)
 }
 
 func drawLastMovePulses(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
