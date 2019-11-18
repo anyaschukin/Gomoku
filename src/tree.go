@@ -3,7 +3,7 @@ package play
 import (
 	"fmt"
 	// "os"
-	// "time"
+	"time"
 	// lib "Gomoku/golib"
 	// "math"
 )
@@ -64,11 +64,6 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 				newGoban := current.goban
 				placeStone(coordinate, player, &newGoban)
 				value := valueBoard(&newGoban, player)
-				// if value > 80 {
-				// 	dumpGoban(&newGoban)
-				// 	fmt.Printf("value = %v\n", value)
-				// 	time.Sleep(100000000)
-				// }
 				child := newNode(identity, value, &newGoban, coordinate, player)
 				addChild(current, current.id, child) //
 				generateBoardsDepth(depth+1, child, child.id, !player)
@@ -79,10 +74,6 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 
 func createTree(g *game) *node {
 	root := newNode(0, 0, &g.goban, coordinate{-1, -1}, g.player)
-	// placeStone(coordinate{1, 1}, true, &root.goban) //
-	// placeStone(coordinate{2, 2}, true, &root.goban) //
-	// placeStone(coordinate{3, 3}, true, &root.goban) //
-	// placeStone(coordinate{4, 4}, false, &root.goban) //
 	generateBoardsDepth(1, root, root.id, root.player)
 	return root
 }
@@ -118,18 +109,26 @@ func printBestRoute(root *node) {
 }
 
 func minimaxTree(g *game) {
+	start := time.Now()
+	depth := g.ai0.depth
+	if g.player == true {
+		depth = g.ai1.depth
+	}
 	root := createTree(g)
 	// printTree(root)
 	// fmt.Println("-----")
 	alpha := minInt
 	beta := maxInt
 	minimaxRecursive(root, 3, alpha, beta, true) // for some reason, maximizingplayer has to be set to 'false' for this to work
-	printBestRoute(root)
+	elapsed := (time.Since(start))
+	// printBestRoute(root)///
 	// fmt.Printf("coordinate %v", root.bestMove.coordinate)
 	if g.player == false {
 		g.ai0.suggest = root.bestMove.coordinate
+		g.ai0.timer = elapsed
 	} else {
 		g.ai1.suggest = root.bestMove.coordinate
+		g.ai1.timer = elapsed
 	}
 }
 

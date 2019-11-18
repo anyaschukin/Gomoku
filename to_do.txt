@@ -6,7 +6,7 @@ GUI
 AI
 	- Min/Max
 	- seperate struct for efficiency? (only things ai needs)
-
+	- standard opening moves
 
 
 #### BONUS ####
