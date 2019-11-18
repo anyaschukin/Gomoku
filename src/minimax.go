@@ -25,7 +25,7 @@ func minimaxRecursive(node *node, depth int, alpha int, beta int, maximizingPlay
 		return node.value
 	}
 
-	if maximizingPlayer {
+	if maximizingPlayer == true {
 		maxValue := alpha // set maxEval to -infinity
 		// generate new boards (by creating a board with a piece at the next spot)
 		for idx, _ := range node.children {

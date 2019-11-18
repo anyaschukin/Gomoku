@@ -14,21 +14,22 @@ const minInt = -maxInt - 1
 var identity int
 
 type node struct {
-	id     int
-	value  int
-	goban  [19][19]position
-	player bool
-	// game     *play.Game
-	children []*node
-	bestMove *node
+	id         int
+	value      int
+	goban      [19][19]position
+	coordinate coordinate
+	player     bool
+	children   []*node
+	bestMove   *node
 }
 
-func newNode(id int, value int, newGoban *[19][19]position, newPlayer bool) *node {
+func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, newPlayer bool) *node {
 	return &node{
-		id:     id,
-		value:  value, // change this to initialize to zero
-		goban:  *newGoban,
-		player: newPlayer,
+		id:         id,
+		value:      value, // change this to initialize to zero
+		goban:      *newGoban,
+		coordinate: coordinate,
+		player:     newPlayer,
 	}
 }
 
@@ -62,10 +63,13 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 				identity++
 				newGoban := current.goban
 				placeStone(coordinate, player, &newGoban)
-				// dumpGoban(&newGoban)
-				// time.Sleep(100000000)
 				value := valueBoard(&newGoban, player)
-				child := newNode(identity, value, &newGoban, player)
+				// if value > 80 {
+				// 	dumpGoban(&newGoban)
+				// 	fmt.Printf("value = %v\n", value)
+				// 	time.Sleep(100000000)
+				// }
+				child := newNode(identity, value, &newGoban, coordinate, player)
 				addChild(current, current.id, child) //
 				generateBoardsDepth(depth+1, child, child.id, !player)
 			}
@@ -74,11 +78,11 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 }
 
 func createTree(g *game) *node {
-	root := newNode(0, 10, &g.goban, g.player)
-	placeStone(coordinate{1, 1}, true, &root.goban)
-	placeStone(coordinate{2, 2}, true, &root.goban)
-	placeStone(coordinate{3, 3}, true, &root.goban)
-	placeStone(coordinate{4, 4}, false, &root.goban)
+	root := newNode(0, 0, &g.goban, coordinate{-1, -1}, g.player)
+	// placeStone(coordinate{1, 1}, true, &root.goban) //
+	// placeStone(coordinate{2, 2}, true, &root.goban) //
+	// placeStone(coordinate{3, 3}, true, &root.goban) //
+	// placeStone(coordinate{4, 4}, false, &root.goban) //
 	generateBoardsDepth(1, root, root.id, root.player)
 	return root
 }
@@ -100,21 +104,33 @@ func printTree(parent *node) {
 	}
 }
 
+func printBestRoute(root *node) {
+	current := root
+	for current.bestMove != nil {
+		fmt.Println(current.id)
+		fmt.Println(current.value)
+		dumpGoban(&current.goban)
+		current = current.bestMove
+	}
+	fmt.Println(current.id)
+	fmt.Println(current.value)
+	dumpGoban(&current.goban)
+}
+
 func minimaxTree(g *game) {
 	root := createTree(g)
 	// printTree(root)
 	// fmt.Println("-----")
 	alpha := minInt
 	beta := maxInt
-	minimaxRecursive(root, 3, alpha, beta, false) // for some reason, maximizingplayer has to be set to 'false' for this to work
-	current := root
-	for current.bestMove != nil {
-		fmt.Println(current.id)
-		dumpGoban(&current.goban)
-		current = current.bestMove
+	minimaxRecursive(root, 3, alpha, beta, true) // for some reason, maximizingplayer has to be set to 'false' for this to work
+	printBestRoute(root)
+	// fmt.Printf("coordinate %v", root.bestMove.coordinate)
+	if g.player == false {
+		g.ai0.suggest = root.bestMove.coordinate
+	} else {
+		g.ai1.suggest = root.bestMove.coordinate
 	}
-	fmt.Println(current.id)
-	dumpGoban(&current.goban)
 }
 
 //  creates a tree, whose root is the goban
