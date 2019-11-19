@@ -1,6 +1,7 @@
 package play
 
 // import "math"
+// import "fmt"
 
 // //  Alpha is the best choice which has been found so far for the maximising player.
 // //  Beta is the best choice which has been found so far for the minimising player
@@ -27,7 +28,6 @@ func minimaxRecursive(node *node, depth int, alpha int, beta int, maximizingPlay
 
 	if maximizingPlayer == true {
 		maxValue := alpha // set maxEval to -infinity
-		// generate new boards (by creating a board with a piece at the next spot)
 		for idx, _ := range node.children {
 			child := node.children[idx]
 			value := minimaxRecursive(child, depth-1, alpha, beta, false)
@@ -37,6 +37,7 @@ func minimaxRecursive(node *node, depth int, alpha int, beta int, maximizingPlay
 				node.bestMove = child
 			}
 			if beta <= alpha {
+				// fmt.Println("oh hi") //
 				break
 			}
 		}
@@ -52,6 +53,7 @@ func minimaxRecursive(node *node, depth int, alpha int, beta int, maximizingPlay
 				node.bestMove = child
 			}
 			if beta <= alpha {
+				// fmt.Println("oh hi there") //
 				break
 			}
 		}
