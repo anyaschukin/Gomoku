@@ -133,15 +133,31 @@ func drawPlayerText(screen *ebiten.Image, g *game, player bool) {
 	drawTimer(screen, g, p, column, c)
 }
 
-func drawMessage(screen *ebiten.Image, g *game) {
+func drawBlackMessage(screen *ebiten.Image, msg string, alpha float64) {
+	var TextColor color.RGBA
+	TextColor.A = uint8(alpha * 255)
+	text.Draw(screen, msg, mplusNormalFont, columnBlack, row*2, TextColor)
+}
+
+func drawWhiteMessage(screen *ebiten.Image, msg string, alpha float64) {
+	var TextColor color.RGBA
+	TextColor.R = 255
+	TextColor.G = 255
+	TextColor.B = 255
+	TextColor.A = uint8(alpha * 255)
+	text.Draw(screen, msg, mplusNormalFont, columnWhite, row*2, TextColor)
+}
+
+func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 	if g.won == false {
 		if g.drawIntro == true {
 			if g.player == false {
 				text.Draw(screen, `Black to Move`, mplusNormalFont, columnBlack, row, color.Black)
-				text.Draw(screen, g.message, mplusNormalFont, columnBlack, row*2, color.Black)
+				drawBlackMessage(screen, g.message, alpha)
 			} else {
 				text.Draw(screen, `White to Move`, mplusNormalFont, columnWhite, row, color.White)
-				text.Draw(screen, g.message, mplusNormalFont, columnWhite, row*2, color.White)
+				drawWhiteMessage(screen, g.message, alpha)
+
 			}
 		}
 	} else {
@@ -160,10 +176,10 @@ func drawMove(screen *ebiten.Image, g *game) {
 	}
 }
 
-func drawText(screen *ebiten.Image, g *game) {
+func drawText(screen *ebiten.Image, g *game, alpha float64) {
 	drawPlayerText(screen, g, false)
 	drawPlayerText(screen, g, true)
-	drawMessage(screen, g)
+	drawMessage(screen, g, alpha)
 	drawMove(screen, g)
 }
 
@@ -227,7 +243,7 @@ func draw(screen *ebiten.Image, g *game) {
 		drawNewGameOptions(screen, g, second, pulse, alpha)
 	} else {
 		drawGoban(screen, g)
-		drawText(screen, g)
+		drawText(screen, g, alpha)
 		if g.drawIntro == false {
 			drawIntro(screen)
 		} else {
