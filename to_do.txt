@@ -4,9 +4,9 @@ GUI
 	- flashing/time limited messages (position occupied & double three)
 
 AI
+	- standard opening moves
 	- Min/Max
 	- seperate struct for efficiency? (only things ai needs)
-	- standard opening moves
 
 
 #### BONUS ####
