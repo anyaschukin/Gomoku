@@ -27,9 +27,9 @@ func dumpGoban(goban *[19][19]position) {
 			if goban[y][x].occupied == true {
 				if goban[y][x].player == true {
 					color = "\x1B[32m"
-					} else {
-						color = "\x1B[33m"
-					}
+				} else {
+					color = "\x1B[33m"
+				}
 			}
 			fmt.Printf("%s%v\x1B[0m", color, goban[y][x].player)
 			if goban[y][x].player == true {
@@ -66,11 +66,9 @@ func doubleThree2(coordinate coordinate, goban *[19][19]position, player bool) b
 
 func isMoveValid2(coordinate coordinate, goban *[19][19]position, player bool) bool {
 	if positionOccupied(coordinate, goban) == true {
-		// g.message = "Position Occupied"
 		return false
 	}
-	if doubleThree2(coordinate, goban, player) == true {	 // duplicate w/o *game
-		// g.message = "Double-Three"
+	if doubleThree2(coordinate, goban, player) == true { // duplicate w/o *game
 		return false
 	}
 	return true
