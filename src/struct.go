@@ -28,14 +28,15 @@ type ai struct {
 
 // captured struct records last captures for display in GUI
 type gui struct {
-	drawCapture       bool         // Higlight captures
-	capturedPositions []coordinate // Positions of captured stones
-	drawIntro    	  bool 		   // Finished drawing the intro?
-	introTime    	  time.Time    // when was the game started
-	drawLastMove	  bool             // Higlight the last move played
-	drawWinMove  	  bool             // Higlight the last move played
-	newGame      	  bool             // New Game button has been pressed, show new game options
-	message      	  string           // Game feeback for display in gui (invalid move, win)
+	drawCapture      	bool         // Higlight captures
+	capturedPositions	[]coordinate // Positions of captured stones
+	capturedPositions2	[]coordinate // Positions of captured stones from move before lastå
+	drawIntro    	    bool 		   // Finished drawing the intro?
+	introTime    	    time.Time    // when was the game started
+	drawLastMove	    bool             // Higlight the last move played
+	drawWinMove  	    bool             // Higlight the last move played
+	newGame      	    bool             // New Game button has been pressed, show new game options
+	message      	    string           // Game feeback for display in gui (invalid move, win)
 }
 
 // game struct contains all information about current game state
@@ -44,12 +45,13 @@ type game struct {
 	player       bool             // Whose move is it? (Player 0 - black first)
 	ai0          ai               // Is black human or Ai?
 	ai1          ai               // Is white human or Ai?
-	gui      	 gui       		  // info to display last capture in GUI
+	gui      	 gui       		  // info to display in GUI
 	capture0     uint8            // How many stones has Black Captured? 10 to win
 	capture1     uint8            // How many stones has White Captured? 10 to win
 	align5       align5           // Can an aligned 5 can be broken or trumped by capturing 10?
 	move         uint32           // How many moves have been played in total
 	lastMove     coordinate       // What was the last move played
+	lastMove2    coordinate       // Move before last
 	won          bool             // Game finished
 	winMove      coordinate       // Winning move
 }

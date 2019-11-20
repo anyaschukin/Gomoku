@@ -1,9 +1,9 @@
 #### TO DO ####
-
-AI
-	- Min/Max
+	- take potential captures into account ?
+	- take current captured stones into account ?
+	- take past Player actions into account to identify patterns and weigh board states accordingly ?
+	
 	- seperate struct for efficiency? (only things ai needs)
-
 
 #### BONUS ####
 1. Human vs human, hotseat vs hotseat, ai vs ai
@@ -11,8 +11,13 @@ AI
 3. highlight Win move
 4. highlight captured
 5. GO intro
+
 - undo move button?
 - display value for position?
+- tips
+	- align 5
+	- can capture
+	- can be captured?
 
 #### CORRECTION ####
  - "Improved" Minimax implementation (Alpha-beta pruning, negascout, mtdf, ...) -> 5 points!

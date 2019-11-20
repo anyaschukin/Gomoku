@@ -21,6 +21,7 @@ func newGame() *game {
 // swapPlayers prepares for the next move
 func swapPlayers(coordinate coordinate, g *game) {
 	swapBool(&g.player)
+	g.lastMove2 = g.lastMove
 	g.lastMove = coordinate
 	if g.won == false {
 		g.gui.message = ""
@@ -30,6 +31,7 @@ func swapPlayers(coordinate coordinate, g *game) {
 
 // gameLoop runs one move
 func gameLoop(coordinate coordinate, g *game) {
+	g.gui.capturedPositions2 = g.gui.capturedPositions
 	g.gui.capturedPositions = nil
 	validated := placeIfValid(coordinate, g)
 	if validated == true {
