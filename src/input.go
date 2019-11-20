@@ -2,7 +2,7 @@ package play //gui
 
 import (
 	"os"
-
+	"fmt"
 	/// import golib swapBool!!!!!!
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
@@ -119,6 +119,14 @@ func clickTips(x, y int) bool {
 	return false
 }
 
+func clickUndoButton(x, y int) bool {
+	if x > 83 && x < 241 &&
+		y > 1085 && y < 1232 {
+		return true
+	}
+	return false
+}
+
 func clickPlayer(x, y int, player bool) {
 	column := 0
 	p := &g.ai0
@@ -198,6 +206,9 @@ func input(g *game) {
 			} else {
 				g.gui.newGame = false
 			}
+		}
+		if g.gui.undo == true && clickUndoButton(x, y) == true {
+			g.gui.message = "Undo!!!"//////!!!!!!
 		}
 		if g.gui.newGame == true {
 			inputNewGame(g, x, y)
