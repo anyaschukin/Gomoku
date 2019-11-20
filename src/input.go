@@ -2,7 +2,7 @@ package play //gui
 
 import (
 	"os"
-	"fmt"
+	// "fmt"
 	/// import golib swapBool!!!!!!
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
@@ -208,7 +208,7 @@ func input(g *game) {
 			}
 		}
 		if g.gui.undo == true && clickUndoButton(x, y) == true {
-			g.gui.message = "Undo!!!"//////!!!!!!
+			undo(g)
 		}
 		if g.gui.newGame == true {
 			inputNewGame(g, x, y)
