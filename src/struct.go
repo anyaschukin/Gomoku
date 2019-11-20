@@ -37,6 +37,8 @@ type gui struct {
 	drawWinMove  	    bool             // Higlight the last move played
 	newGame      	    bool             // New Game button has been pressed, show new game options
 	message      	    string           // Game feeback for display in gui (invalid move, win)
+	undo	 bool			// show undo button
+	tips	 bool			 // display undo button
 }
 
 // game struct contains all information about current game state

@@ -103,6 +103,22 @@ func clickCapture(x, y int) bool {
 	return false
 }
 
+func clickUndo(x, y int) bool {
+	if inColumnX(x, column1*3) == true &&
+		y > 333 && y < 415 {
+		return true
+	}
+	return false
+}
+
+func clickTips(x, y int) bool {
+	if inColumnX(x, column1*3) == true &&
+		y > 533 && y < 621 {
+		return true
+	}
+	return false
+}
+
 func clickPlayer(x, y int, player bool) {
 	column := 0
 	p := &g.ai0
@@ -156,6 +172,12 @@ func inputNewGame(g *game, x, y int) {
 	}
 	if clickCapture(x, y) == true {
 		swapBool(&g.gui.drawCapture)
+	}
+	if clickUndo(x, y) == true {
+		swapBool(&g.gui.undo)
+	}
+	if clickTips(x, y) == true {
+		swapBool(&g.gui.tips)
 	}
 }
 

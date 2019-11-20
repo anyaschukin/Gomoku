@@ -10,7 +10,7 @@ import (
 )
 
 var newGameColumnBlack = 140
-var column1 = 860
+var column1 = 640
 var scaleSelect = 0.23
 
 func drawStone(screen *ebiten.Image, g *game, column int, stone *ebiten.Image) {
@@ -65,12 +65,26 @@ func drawSelectCapture(screen *ebiten.Image, g *game) {
 	}
 }
 
+func drawSelectUndo(screen *ebiten.Image, g *game) {
+	if g.gui.undo == true {
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-52)/scaleSelect, 295/scaleSelect, scaleSelect)
+	}
+}
+
+func drawSelectTips(screen *ebiten.Image, g *game) {
+	if g.gui.tips == true {
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-52)/scaleSelect, 493/scaleSelect, scaleSelect)
+	}
+}
+
 func drawSelect(screen *ebiten.Image, g *game) {
 	drawSelectPlayer(screen, g, false)
 	drawSelectPlayer(screen, g, true)
 	drawSelectLastMove(screen, g)
 	drawSelectWinMove(screen, g)
 	drawSelectCapture(screen, g)
+	drawSelectUndo(screen, g)
+	drawSelectTips(screen, g)
 }
 
 func drawHuman(screen *ebiten.Image, g *game) {
@@ -80,10 +94,10 @@ func drawHuman(screen *ebiten.Image, g *game) {
 
 func drawHotseatPulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.ai0.hotseat == true {
-		drawImagePulse(screen, imgBlack, 560, 525, 1, alpha)
+		drawImagePulse(screen, imgBlack, float64(newGameColumnBlack+420), 525, 1, alpha)
 	}
 	if g.ai1.hotseat == true {
-		drawImagePulse(screen, imgWhite, 1425, 525, 1, alpha)
+		drawImagePulse(screen, imgWhite, float64(newGameColumnBlack+column1+420), 525, 1, alpha)
 	}
 }
 
@@ -106,7 +120,7 @@ func drawAI(screen *ebiten.Image, g *game) {
 }
 
 func drawLastMovePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebiten.Image) {
-	drawImagePulse(screen, blue, 2280, 325, 1, alpha*2)
+	drawImagePulse(screen, blue, float64(newGameColumnBlack+(column1*2)+420), 325, 1, alpha*2)
 }
 
 func drawLastMovePulses(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
@@ -120,13 +134,13 @@ func drawLastMovePulses(screen *ebiten.Image, g *game, second, pulse, alpha floa
 
 func drawWinMovePulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.gui.drawWinMove == true {
-		drawImagePulse(screen, imgRed, 2280, 525, 1, alpha)
+		drawImagePulse(screen, imgRed, float64(newGameColumnBlack+(column1*2)+420), 525, 1, alpha)
 	}
 }
 
 func drawCapturedPulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.gui.drawCapture == true {
-		drawImagePulse(screen, imgCapture, 2280, 725, 1, alpha)
+		drawImagePulse(screen, imgCapture, float64(newGameColumnBlack+(column1*2)+420), 725, 1, alpha)
 	}
 }
 
@@ -139,6 +153,11 @@ func drawHighlight(screen *ebiten.Image, g *game, second, pulse, alpha float64) 
 	drawWinMovePulse(screen, g, alpha)
 	text.Draw(screen, `Captured`, mplusBigFont, newGameColumnBlack+column1*2, row*8, color.Black)
 	drawCapturedPulse(screen, g, alpha)
+
+	text.Draw(screen, `Cheats`, mplusBigFont, newGameColumnBlack+column1*3, row*2+22, color.Black)
+	ebitenutil.DrawRect(screen, float64(newGameColumnBlack+column1*3), 242, 250, 6, color.Black)
+	text.Draw(screen, `Undo`, mplusBigFont, newGameColumnBlack+column1*3, row*4, color.Black)
+	text.Draw(screen, `Tips`, mplusBigFont, newGameColumnBlack+column1*3, row*6, color.Black)
 }
 
 func drawNewGameOptions(screen *ebiten.Image, g *game, second, pulse, alpha float64) {

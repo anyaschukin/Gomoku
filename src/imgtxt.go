@@ -24,6 +24,7 @@ var imgCapture *ebiten.Image
 var imgNewGame *ebiten.Image
 var imgExit *ebiten.Image
 var imgSelect *ebiten.Image
+var imgUndo *ebiten.Image
 
 /// Text
 var (
@@ -79,6 +80,10 @@ func init() {
 		log.Fatal(err)
 	}
 	imgSelect, _, err = ebitenutil.NewImageFromFile("src/img/select.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatal(err)
+	}
+	imgUndo, _, err = ebitenutil.NewImageFromFile("src/img/undo.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}

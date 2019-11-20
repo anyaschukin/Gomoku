@@ -30,6 +30,10 @@ var newGameScale = 0.6
 var exitX float64 = 3210
 var exitY float64 = 1814
 
+/// Undo position
+var undoX float64 = float64(columnBlack)
+var undoY float64 = float64(row*15)
+
 func opImage(x, y, scale float64) *ebiten.DrawImageOptions {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(x, y)
@@ -229,6 +233,12 @@ func drawCapture(screen *ebiten.Image, g *game, alpha float64) {
 	}
 }
 
+func drawUndo(screen *ebiten.Image, g *game) {
+	if g.gui.undo == true {
+		drawImage(screen, imgUndo, undoX, undoY, scale)
+	}
+}
+
 func drawNewGame(screen *ebiten.Image, g *game) {
 	drawImage(screen, imgNewGame, newGameX, newGameY, newGameScale)
 }
@@ -253,6 +263,7 @@ func draw(screen *ebiten.Image, g *game) {
 			drawHotseatSuggestion(screen, g, alpha)
 			drawWinMove(screen, g, alpha)
 			drawCapture(screen, g, alpha)
+			drawUndo(screen, g)
 		}
 	}
 	drawNewGame(screen, g)
