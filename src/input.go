@@ -170,14 +170,14 @@ func input(g *game) {
 			os.Exit(0)
 		}
 		if clickNewGame(x, y) == true {
-			if g.newGame == false {
+			if g.gui.newGame == false {
 				g := newGame()
-				g.newGame = true
+				g.gui.newGame = true
 			} else {
-				g.newGame = false
+				g.gui.newGame = false
 			}
 		}
-		if g.newGame == true {
+		if g.gui.newGame == true {
 			inputNewGame(g, x, y)
 		}
 	}

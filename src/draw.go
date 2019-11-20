@@ -239,7 +239,7 @@ func drawExit(screen *ebiten.Image, g *game) {
 func draw(screen *ebiten.Image, g *game) {
 	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff}) /// Draw background
 	second, pulse, alpha := alphaTime()
-	if g.newGame == true {
+	if g.gui.newGame == true {
 		drawNewGameOptions(screen, g, second, pulse, alpha)
 	} else {
 		drawGoban(screen, g)

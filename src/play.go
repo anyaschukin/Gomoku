@@ -68,7 +68,7 @@ func aiLoop(g *game) {
 // updateGame listens for input, and runs a human/AI loop
 func (g *game) updateGame() {
 	input(g)
-	if g.newGame == false && g.won == false && g.gui.drawIntro == true {
+	if g.gui.newGame == false && g.won == false && g.gui.drawIntro == true {
 		if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
 			humanLoop(g)
 		} else {
@@ -80,6 +80,6 @@ func (g *game) updateGame() {
 // Play initializes a new game and launches the GUI (Ebiten)
 func Play() {
 	g := newGame()
-	g.newGame = true
+	g.gui.newGame = true
 	runGui()
 }

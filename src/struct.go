@@ -34,6 +34,7 @@ type gui struct {
 	introTime    	  time.Time    // when was the game started
 	drawLastMove	  bool             // Higlight the last move played
 	drawWinMove  	  bool             // Higlight the last move played
+	newGame      	  bool             // New Game button has been pressed, show new game options
 	message      	  string           // Game feeback for display in gui (invalid move, win)
 }
 
@@ -49,7 +50,6 @@ type game struct {
 	align5       align5           // Can an aligned 5 can be broken or trumped by capturing 10?
 	move         uint32           // How many moves have been played in total
 	lastMove     coordinate       // What was the last move played
-	newGame      bool             // New Game button has been pressed, show new game options
 	won          bool             // Game finished
 	winMove      coordinate       // Winning move
 }
