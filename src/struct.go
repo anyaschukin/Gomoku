@@ -39,7 +39,8 @@ type gui struct {
 	message      	    string           // Game feeback for display in gui (invalid move, win)
 	undo	 			bool			// show undo button
 	undoMove	 		uint32			// last move undone
-	tips	 bool			 // display undo button
+	tips	 			bool			 // display undo button
+	align5Positions		[]coordinate // Positions of align5
 }
 
 // game struct contains all information about current game state

@@ -207,7 +207,7 @@ func input(g *game) {
 				g.gui.newGame = false
 			}
 		}
-		if g.gui.undo == true && clickUndoButton(x, y) == true {
+		if clickUndoButton(x, y) == true {
 			undo(g)
 		}
 		if g.gui.newGame == true {

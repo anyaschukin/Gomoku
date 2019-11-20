@@ -11,8 +11,8 @@
 3. highlight Win move
 4. highlight captured
 5. GO intro
+6. Undo button
 
-- undo move button?
 - display value for position?
 - tips
 	- align 5

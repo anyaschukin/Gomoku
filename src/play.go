@@ -35,6 +35,9 @@ func swapPlayers(coordinate coordinate, g *game) {
 func gameLoop(coordinate coordinate, g *game) {
 	g.gui.capturedPositions2 = g.gui.capturedPositions
 	g.gui.capturedPositions = nil
+	if alignFive(g.winMove, &g.goban, &g.align5, g.player, g.capture0, g.capture1) == false {
+		g.gui.align5Positions = nil
+	}
 	validated := placeIfValid(coordinate, g)
 	if validated == true {
 		capture(coordinate, g)

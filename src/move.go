@@ -24,19 +24,3 @@ func placeIfValid(coordinate coordinate, g *game) bool {
 	}
 	return false
 }
-
-func undo(g *game) {
-	if g.gui.undo == true && g.won == false &&
-		g.move > 1 && g.move > g.gui.undoMove {
-		g.gui.undoMove = g.move
-		for _, position := range g.gui.capturedPositions {
-			placeStone(position, g.player, &g.goban)
-		}
-		for _, position := range g.gui.capturedPositions2 {
-			placeStone(position, opponent(g.player), &g.goban)
-		}
-		removeStone(g.lastMove, &g.goban)
-		removeStone(g.lastMove2, &g.goban)
-		g.move -= 2
-	}
-}

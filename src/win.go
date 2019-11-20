@@ -45,13 +45,13 @@ func alignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, p
 				return false
 			}
 			if checkVertexAlignFive(coordinate, goban, y, x, player) == true {
+				recordAlignFive(coordinate, y, x, g)
 				if canBreakFive(coordinate, goban, y, x, player) == true {
 					align5.break5 = true
 				}
 				if canWinByCapture(goban, opponent(player), capture0, capture1) == true {
 					align5.capture8 = true
 				}
-				g.winMove = coordinate
 				return true
 			}
 		}
