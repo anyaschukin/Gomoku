@@ -41,6 +41,8 @@ type gui struct {
 	undoMove	 		uint32			// last move undone
 	tips	 			bool			 // display undo button
 	align5Positions		[]coordinate // Positions of align5
+	canCapturePositions	[]coordinate // Positions can capture
+	canCaptureByPlaying	[]coordinate // Positions can capture
 }
 
 // game struct contains all information about current game state

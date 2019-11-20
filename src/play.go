@@ -31,13 +31,20 @@ func swapPlayers(coordinate coordinate, g *game) {
 	g.move++
 }
 
-// gameLoop runs one move
-func gameLoop(coordinate coordinate, g *game) {
+// guiUpdate prepares gui for the upcoming move
+func guiUpdate(g *game) {
 	g.gui.capturedPositions2 = g.gui.capturedPositions
 	g.gui.capturedPositions = nil
 	if alignFive(g.winMove, &g.goban, &g.align5, g.player, g.capture0, g.capture1) == false {
 		g.gui.align5Positions = nil
 	}
+	g.gui.canCapturePositions = nil
+	g.gui.canCaptureByPlaying = nil
+}
+
+// gameLoop runs one move
+func gameLoop(coordinate coordinate, g *game) {
+	guiUpdate(g)
 	validated := placeIfValid(coordinate, g)
 	if validated == true {
 		capture(coordinate, g)

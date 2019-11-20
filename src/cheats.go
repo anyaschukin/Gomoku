@@ -55,3 +55,43 @@ func drawAlign5(screen *ebiten.Image, g *game, alpha float64) {
 		}
 	}
 }
+
+func canCaptureVertexCheat(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) {
+	one := findNeighbour(coordinate, y, x, 1)
+	two := findNeighbour(coordinate, y, x, 2)
+	three := findNeighbour(coordinate, y, x, 3)
+	if positionOccupiedByOpponent(one, goban, player) == true &&
+		positionOccupiedByOpponent(two, goban, player) == true &&
+		positionUnoccupied(three, goban) == true {
+		g.gui.canCapturePositions = append(g.gui.canCapturePositions, one, two)
+		g.gui.canCaptureByPlaying = append(g.gui.canCaptureByPlaying, three)
+	}
+}
+
+// canCapture returns true if given coordinate can capture in the next move
+func canCaptureCheat(coordinate coordinate, goban *[19][19]position, player bool) {
+	var y int8
+	var x int8
+	for y = -1; y <= 1; y++ {
+		for x = -1; x <= 1; x++ {
+			if !(x == 0 && y == 0) {
+				canCaptureVertexCheat(coordinate, goban, y, x, player)
+			}
+		}
+	}
+}
+
+// captureAvailable returns true if given Player can capture in the next move
+// (iterate entire goban, check if capture possible for each positon)
+func captureCheat(goban *[19][19]position, player bool) {
+	var y int8
+	var x int8
+	for y = 0; y < 19; y++ {
+		for x = 0; x < 19; x++ {
+			coordinate := coordinate{y, x}
+			if positionOccupiedByPlayer(coordinate, goban, player) == true {
+				canCaptureCheat(coordinate, goban, player)
+			}
+		}
+	}
+}

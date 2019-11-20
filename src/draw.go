@@ -262,8 +262,9 @@ func draw(screen *ebiten.Image, g *game) {
 			drawLastMove(screen, g, second, pulse, alpha)
 			drawHotseatSuggestion(screen, g, alpha)
 			drawWinMove(screen, g, alpha)
-			drawAlign5(screen, g, alpha)
 			drawCapture(screen, g, alpha)
+			captureCheat(&g.goban, g.player)
+			drawAlign5(screen, g, alpha)
 			drawUndo(screen, g)
 		}
 	}
