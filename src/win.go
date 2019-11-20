@@ -37,6 +37,9 @@ func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y, x i
 
 // alignFive returns true if 5 stones are aligned running through given coodinate
 func alignFive(coordinate coordinate, goban *[19][19]position, align5 *align5, player bool, capture0, capture1 uint8) bool {
+	if positionOccupiedByPlayer(coordinate, &g.goban, player) == false {
+		return false
+	}
 	var x int8
 	var y int8
 	for y = -1; y <= 0; y++ {

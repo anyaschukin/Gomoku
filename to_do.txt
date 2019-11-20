@@ -12,12 +12,9 @@
 4. highlight captured
 5. GO intro
 6. Undo button
+7. Tips
 
 - display value for position?
-- tips
-	- align 5
-	- can capture
-	- can be captured?
 
 #### CORRECTION ####
  - "Improved" Minimax implementation (Alpha-beta pruning, negascout, mtdf, ...) -> 5 points!
