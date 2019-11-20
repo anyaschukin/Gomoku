@@ -18,7 +18,7 @@ func captureVertex(coordinate coordinate, g *game, y int8, x int8) {
 		} else {
 			g.capture1 += 2
 		}
-		g.guiDraw.capturedPositions = append(g.guiDraw.capturedPositions, one, two)
+		g.gui.capturedPositions = append(g.gui.capturedPositions, one, two)
 	}
 }
 

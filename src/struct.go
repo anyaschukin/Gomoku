@@ -27,9 +27,10 @@ type ai struct {
 }
 
 // captured struct records last captures for display in GUI
-type guiDraw struct {
+type gui struct {
 	drawCapture       bool         // Higlight captures
 	capturedPositions []coordinate // Positions of captured stones
+	drawIntro    	  bool 		   // Finished drawing the intro?
 }
 
 // game struct contains all information about current game state
@@ -38,7 +39,7 @@ type game struct {
 	player       bool             // Whose move is it? (Player 0 - black first)
 	ai0          ai               // Is black human or Ai?
 	ai1          ai               // Is white human or Ai?
-	guiDraw      guiDraw         // info to display last capture in GUI
+	gui      	 gui       		  // info to display last capture in GUI
 	capture0     uint8            // How many stones has Black Captured? 10 to win
 	capture1     uint8            // How many stones has White Captured? 10 to win
 	align5       align5           // Can an aligned 5 can be broken or trumped by capturing 10?
@@ -50,7 +51,6 @@ type game struct {
 	drawWinMove  bool             // Higlight the last move played
 	winMove      coordinate       // Winning move
 	message      string           // Game feeback for display in gui (invalid move, win)
-	drawIntro    bool
 	introTime    time.Time // when was the game started
 }
 

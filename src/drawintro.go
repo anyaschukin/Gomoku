@@ -192,6 +192,6 @@ func drawIntro(screen *ebiten.Image) {
 	// drawO(screen, alpha2, imgBlue3, imgBlue)
 	// drawO(screen, alpha2, imgBlue2, imgBlue4)
 	if elapsed > 1500000000 {
-		g.drawIntro = true
+		g.gui.drawIntro = true
 	}
 }

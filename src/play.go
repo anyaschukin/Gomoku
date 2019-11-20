@@ -13,7 +13,7 @@ func newGame() *game {
 	g.ai1.depth = 2 // 3
 	g.drawLastMove = true         //// false for correction (bonus)!!!!
 	g.drawWinMove = true          //// false for correction (bonus)!!!!
-	g.guiDraw.drawCapture = true //// false for correction (bonus)!!!!
+	g.gui.drawCapture = true //// false for correction (bonus)!!!!
 	aiSuggestMove(g)
 	return g
 }
@@ -30,7 +30,7 @@ func swapPlayers(coordinate coordinate, g *game) {
 
 // gameLoop runs one move
 func gameLoop(coordinate coordinate, g *game) {
-	g.guiDraw.capturedPositions = nil
+	g.gui.capturedPositions = nil
 	validated := placeIfValid(coordinate, g)
 	if validated == true {
 		capture(coordinate, g)
@@ -68,7 +68,7 @@ func aiLoop(g *game) {
 // updateGame listens for input, and runs a human/AI loop
 func (g *game) updateGame() {
 	input(g)
-	if g.newGame == false && g.won == false && g.drawIntro == true {
+	if g.newGame == false && g.won == false && g.gui.drawIntro == true {
 		if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
 			humanLoop(g)
 		} else {

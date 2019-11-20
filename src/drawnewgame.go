@@ -60,7 +60,7 @@ func drawSelectWinMove(screen *ebiten.Image, g *game) {
 }
 
 func drawSelectCapture(screen *ebiten.Image, g *game) {
-	if g.guiDraw.drawCapture == true {
+	if g.gui.drawCapture == true {
 		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 691/scaleSelect, scaleSelect)
 	}
 }
@@ -125,7 +125,7 @@ func drawWinMovePulse(screen *ebiten.Image, g *game, alpha float64) {
 }
 
 func drawCapturedPulse(screen *ebiten.Image, g *game, alpha float64) {
-	if g.guiDraw.drawCapture == true {
+	if g.gui.drawCapture == true {
 		drawImagePulse(screen, imgCapture, 2280, 725, 1, alpha)
 	}
 }

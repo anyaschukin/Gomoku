@@ -155,7 +155,7 @@ func inputNewGame(g *game, x, y int) {
 		swapBool(&g.drawWinMove)
 	}
 	if clickCapture(x, y) == true {
-		swapBool(&g.guiDraw.drawCapture)
+		swapBool(&g.gui.drawCapture)
 	}
 }
 

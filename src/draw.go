@@ -150,7 +150,7 @@ func drawWhiteMessage(screen *ebiten.Image, msg string, alpha float64) {
 
 func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 	if g.won == false {
-		if g.drawIntro == true {
+		if g.gui.drawIntro == true {
 			if g.player == false {
 				text.Draw(screen, `Black to Move`, mplusNormalFont, columnBlack, row, color.Black)
 				drawBlackMessage(screen, g.message, alpha)
@@ -170,7 +170,7 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 }
 
 func drawMove(screen *ebiten.Image, g *game) {
-	if g.drawIntro == true {
+	if g.gui.drawIntro == true {
 		text.Draw(screen, `move:`, mplusNormalFont, columnBlack, row*13, color.Black)
 		text.Draw(screen, strconv.Itoa(int(g.move)), mplusNormalFont, columnBlack+160, row*13, color.Black)
 	}
@@ -221,8 +221,8 @@ func drawCapturedPosition(screen *ebiten.Image, g *game, position coordinate, al
 }
 
 func drawCapture(screen *ebiten.Image, g *game, alpha float64) {
-	if g.guiDraw.drawCapture == true {
-		for _, position := range g.guiDraw.capturedPositions {
+	if g.gui.drawCapture == true {
+		for _, position := range g.gui.capturedPositions {
 			drawCapturedPosition(screen, g, position, alpha)
 		}
 	}
@@ -244,7 +244,7 @@ func draw(screen *ebiten.Image, g *game) {
 	} else {
 		drawGoban(screen, g)
 		drawText(screen, g, alpha)
-		if g.drawIntro == false {
+		if g.gui.drawIntro == false {
 			drawIntro(screen)
 		} else {
 			drawStones(screen, g)
