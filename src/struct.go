@@ -27,7 +27,7 @@ type ai struct {
 }
 
 // captured struct records last captures for display in GUI
-type captured struct {
+type guiDraw struct {
 	drawCapture       bool         // Higlight captures
 	capturedPositions []coordinate // Positions of captured stones
 }
@@ -38,7 +38,7 @@ type game struct {
 	player       bool             // Whose move is it? (Player 0 - black first)
 	ai0          ai               // Is black human or Ai?
 	ai1          ai               // Is white human or Ai?
-	captured     captured         // info to display last capture in GUI
+	guiDraw      guiDraw         // info to display last capture in GUI
 	capture0     uint8            // How many stones has Black Captured? 10 to win
 	capture1     uint8            // How many stones has White Captured? 10 to win
 	align5       align5           // Can an aligned 5 can be broken or trumped by capturing 10?

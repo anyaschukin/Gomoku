@@ -13,7 +13,7 @@ func newGame() *game {
 	g.ai1.depth = 2 // 3
 	g.drawLastMove = true         //// false for correction (bonus)!!!!
 	g.drawWinMove = true          //// false for correction (bonus)!!!!
-	g.captured.drawCapture = true //// false for correction (bonus)!!!!
+	g.guiDraw.drawCapture = true //// false for correction (bonus)!!!!
 	aiSuggestMove(g)
 	return g
 }
@@ -30,7 +30,7 @@ func swapPlayers(coordinate coordinate, g *game) {
 
 // gameLoop runs one move
 func gameLoop(coordinate coordinate, g *game) {
-	g.captured.capturedPositions = nil
+	g.guiDraw.capturedPositions = nil
 	validated := placeIfValid(coordinate, g)
 	if validated == true {
 		capture(coordinate, g)

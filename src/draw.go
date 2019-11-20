@@ -221,8 +221,8 @@ func drawCapturedPosition(screen *ebiten.Image, g *game, position coordinate, al
 }
 
 func drawCapture(screen *ebiten.Image, g *game, alpha float64) {
-	if g.captured.drawCapture == true {
-		for _, position := range g.captured.capturedPositions {
+	if g.guiDraw.drawCapture == true {
+		for _, position := range g.guiDraw.capturedPositions {
 			drawCapturedPosition(screen, g, position, alpha)
 		}
 	}
