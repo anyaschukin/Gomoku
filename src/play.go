@@ -23,7 +23,7 @@ func swapPlayers(coordinate coordinate, g *game) {
 	swapBool(&g.player)
 	g.lastMove = coordinate
 	if g.won == false {
-		g.message = ""
+		g.gui.message = ""
 	}
 	g.move++
 }

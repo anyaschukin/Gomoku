@@ -153,18 +153,18 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 		if g.gui.drawIntro == true {
 			if g.player == false {
 				text.Draw(screen, `Black to Move`, mplusNormalFont, columnBlack, row, color.Black)
-				drawBlackMessage(screen, g.message, alpha)
+				drawBlackMessage(screen, g.gui.message, alpha)
 			} else {
 				text.Draw(screen, `White to Move`, mplusNormalFont, columnWhite, row, color.White)
-				drawWhiteMessage(screen, g.message, alpha)
+				drawWhiteMessage(screen, g.gui.message, alpha)
 
 			}
 		}
 	} else {
-		if g.message == "Black Wins!" {
-			text.Draw(screen, g.message, mplusBigFont, columnBlack, row*1+50, color.Black)
+		if g.gui.message == "Black Wins!" {
+			text.Draw(screen, g.gui.message, mplusBigFont, columnBlack, row*1+50, color.Black)
 		} else {
-			text.Draw(screen, g.message, mplusBigFont, columnWhite, row*1+50, color.White)
+			text.Draw(screen, g.gui.message, mplusBigFont, columnWhite, row*1+50, color.White)
 		}
 	}
 }

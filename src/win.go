@@ -70,9 +70,9 @@ func opponent(player bool) bool {
 func recordWin(g *game, winner bool) {
 	g.won = true
 	if winner == false {
-		g.message = "Black Wins!"
+		g.gui.message = "Black Wins!"
 	} else {
-		g.message = "White Wins!"
+		g.gui.message = "White Wins!"
 	}
 }
 
