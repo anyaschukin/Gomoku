@@ -31,6 +31,7 @@ type gui struct {
 	drawCapture       bool         // Higlight captures
 	capturedPositions []coordinate // Positions of captured stones
 	drawIntro    	  bool 		   // Finished drawing the intro?
+	introTime    	  time.Time    // when was the game started
 	message      	  string           // Game feeback for display in gui (invalid move, win)
 }
 
@@ -51,7 +52,6 @@ type game struct {
 	won          bool             // Game finished
 	drawWinMove  bool             // Higlight the last move played
 	winMove      coordinate       // Winning move
-	introTime    time.Time // when was the game started
 }
 
 // Game var contains all information about current game state

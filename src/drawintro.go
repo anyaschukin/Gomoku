@@ -157,10 +157,10 @@ func drawO(screen *ebiten.Image, alpha float64, img1 *ebiten.Image, img2 *ebiten
 }
 
 func drawIntro(screen *ebiten.Image) {
-	if g.introTime.IsZero() {
-		g.introTime = time.Now()
+	if g.gui.introTime.IsZero() {
+		g.gui.introTime = time.Now()
 	}
-	elapsed := time.Since(g.introTime)
+	elapsed := time.Since(g.gui.introTime)
 	second := float64(elapsed.Truncate(time.Second) / 1000000000)
 	pulse := float64(elapsed) / 500000000
 	alpha := alphaPulse(pulse)
