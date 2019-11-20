@@ -97,7 +97,7 @@ func captureCheat(goban *[19][19]position, player bool) {
 }
 
 func drawCaptureCheat(screen *ebiten.Image, g *game, alpha float64) {
-	if g.gui.tips == true {
+	if g.gui.tips == true && isPlayerHuman(g) == true {
 		for _, position := range g.gui.canCapturePositions {
 			drawCapturedPosition(screen, g, position, alpha)
 		}
