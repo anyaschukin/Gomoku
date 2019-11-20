@@ -95,3 +95,23 @@ func captureCheat(goban *[19][19]position, player bool) {
 		}
 	}
 }
+
+func drawCaptureCheat(screen *ebiten.Image, g *game, alpha float64) {
+	if g.gui.tips == true {
+		for _, position := range g.gui.canCapturePositions {
+			drawCapturedPosition(screen, g, position, alpha)
+		}
+		for _, position := range g.gui.canCaptureByPlaying {
+			if g.player == false {
+				drawImagePulse(screen, imgBlack, stoneX(position.x), stoneY(position.y), scale, alpha)
+			} else {
+				drawImagePulse(screen, imgWhite, stoneX(position.x), stoneY(position.y), scale, alpha)
+			}
+		}
+	}
+}
+
+func drawCheats(screen *ebiten.Image, g *game, alpha float64) {
+	drawAlign5(screen, g, alpha)
+	drawCaptureCheat(screen, g, alpha)
+}

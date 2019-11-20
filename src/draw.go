@@ -32,7 +32,7 @@ var exitY float64 = 1814
 
 /// Undo position
 var undoX float64 = float64(columnBlack)
-var undoY float64 = float64(row*15)
+var undoY float64 = float64(row * 15)
 
 func opImage(x, y, scale float64) *ebiten.DrawImageOptions {
 	op := &ebiten.DrawImageOptions{}
@@ -263,8 +263,7 @@ func draw(screen *ebiten.Image, g *game) {
 			drawHotseatSuggestion(screen, g, alpha)
 			drawWinMove(screen, g, alpha)
 			drawCapture(screen, g, alpha)
-			captureCheat(&g.goban, g.player)
-			drawAlign5(screen, g, alpha)
+			drawCheats(screen, g, alpha)
 			drawUndo(screen, g)
 		}
 	}
