@@ -149,10 +149,10 @@ func inputNewGame(g *game, x, y int) {
 	clickPlayer(x, y, false)
 	clickPlayer(x, y, true)
 	if clickLastMove(x, y) == true {
-		swapBool(&g.drawLastMove)
+		swapBool(&g.gui.drawLastMove)
 	}
 	if clickWinMove(x, y) == true {
-		swapBool(&g.drawWinMove)
+		swapBool(&g.gui.drawWinMove)
 	}
 	if clickCapture(x, y) == true {
 		swapBool(&g.gui.drawCapture)

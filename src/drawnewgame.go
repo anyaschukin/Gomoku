@@ -48,13 +48,13 @@ func drawSelectPlayer(screen *ebiten.Image, g *game, player bool) {
 }
 
 func drawSelectLastMove(screen *ebiten.Image, g *game) {
-	if g.drawLastMove == true {
+	if g.gui.drawLastMove == true {
 		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 295/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectWinMove(screen *ebiten.Image, g *game) {
-	if g.drawWinMove == true {
+	if g.gui.drawWinMove == true {
 		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 493/scaleSelect, scaleSelect)
 	}
 }
@@ -110,7 +110,7 @@ func drawLastMovePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebite
 }
 
 func drawLastMovePulses(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
-	if g.drawLastMove == true {
+	if g.gui.drawLastMove == true {
 		drawLastMovePulse(screen, g, alpha4(second, pulse), imgBlue)
 		drawLastMovePulse(screen, g, alpha3(second, alpha), imgBlue2)
 		drawLastMovePulse(screen, g, alpha2(second, pulse), imgBlue3)
@@ -119,7 +119,7 @@ func drawLastMovePulses(screen *ebiten.Image, g *game, second, pulse, alpha floa
 }
 
 func drawWinMovePulse(screen *ebiten.Image, g *game, alpha float64) {
-	if g.drawWinMove == true {
+	if g.gui.drawWinMove == true {
 		drawImagePulse(screen, imgRed, 2280, 525, 1, alpha)
 	}
 }

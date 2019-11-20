@@ -32,6 +32,8 @@ type gui struct {
 	capturedPositions []coordinate // Positions of captured stones
 	drawIntro    	  bool 		   // Finished drawing the intro?
 	introTime    	  time.Time    // when was the game started
+	drawLastMove	  bool             // Higlight the last move played
+	drawWinMove  	  bool             // Higlight the last move played
 	message      	  string           // Game feeback for display in gui (invalid move, win)
 }
 
@@ -46,11 +48,9 @@ type game struct {
 	capture1     uint8            // How many stones has White Captured? 10 to win
 	align5       align5           // Can an aligned 5 can be broken or trumped by capturing 10?
 	move         uint32           // How many moves have been played in total
-	drawLastMove bool             // Higlight the last move played
 	lastMove     coordinate       // What was the last move played
 	newGame      bool             // New Game button has been pressed, show new game options
 	won          bool             // Game finished
-	drawWinMove  bool             // Higlight the last move played
 	winMove      coordinate       // Winning move
 }
 

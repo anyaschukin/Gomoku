@@ -188,7 +188,7 @@ func drawBluePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebiten.Im
 }
 
 func drawLastMove(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
-	if g.drawLastMove == true && g.move > 0 {
+	if g.gui.drawLastMove == true && g.move > 0 {
 		drawBluePulse(screen, g, alpha4(second, pulse), imgBlue)
 		drawBluePulse(screen, g, alpha3(second, alpha), imgBlue2)
 		drawBluePulse(screen, g, alpha2(second, pulse), imgBlue3)
@@ -211,7 +211,7 @@ func drawHotseatSuggestion(screen *ebiten.Image, g *game, alpha float64) {
 }
 
 func drawWinMove(screen *ebiten.Image, g *game, alpha float64) {
-	if g.won == true && g.drawWinMove == true {
+	if g.won == true && g.gui.drawWinMove == true {
 		drawImagePulse(screen, imgRed, stoneX(g.winMove.x), stoneY(g.winMove.y), scale, alpha)
 	}
 }
