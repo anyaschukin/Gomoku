@@ -6,8 +6,8 @@ import (
 
 // undo undoes the last 2 moves
 func undo(g *game) {
-	if g.gui.undo == true && g.won == false &&
-		g.move > 1 && g.move > g.gui.undoMove {
+	if g.gui.undo == true && (isPlayerHuman(g) || isOpponentHuman(g)) &&
+		g.move > 1 && g.move >= g.gui.undoMove {
 		g.gui.undoMove = g.move
 		for _, position := range g.gui.capturedPositions {
 			placeStone(position, g.player, &g.goban)
@@ -18,6 +18,8 @@ func undo(g *game) {
 		removeStone(g.lastMove, &g.goban)
 		removeStone(g.lastMove2, &g.goban)
 		g.move -= 2
+		g.won = false
+		g.gui.message = ""
 	}
 }
 
@@ -97,7 +99,7 @@ func captureCheat(goban *[19][19]position, player bool) {
 }
 
 func drawCaptureCheat(screen *ebiten.Image, g *game, alpha float64) {
-	if g.gui.tips == true && isPlayerHuman(g) == true {
+	if g.gui.tips == true && isPlayerHuman(g) == true && g.won == false {
 		for _, position := range g.gui.canCapturePositions {
 			drawCapturedPosition(screen, g, position, alpha)
 		}

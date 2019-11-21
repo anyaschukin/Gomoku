@@ -201,11 +201,9 @@ func input(g *game) {
 		}
 		if clickNewGame(x, y) == true {
 			if g.gui.newGame == false {
-				g := newGame()
-				g.gui.newGame = true
-			} else {
-				g.gui.newGame = false
+				g = newGame()
 			}
+			swapBool(&g.gui.newGame)
 		}
 		if clickUndoButton(x, y) == true {
 			undo(g)
