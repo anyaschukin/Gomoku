@@ -4,6 +4,7 @@
 	- take past Player actions into account to identify patterns and weigh board states accordingly ?
 	
 	- seperate struct for efficiency? (only things ai needs)
+	- bug black human white ai first move
 
 #### BONUS ####
 1. Human vs human, hotseat vs hotseat, ai vs ai
