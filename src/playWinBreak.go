@@ -1,15 +1,15 @@
 package play
 
 // canBecapturedVertex returns true if given coordinate can be captured on given vertex in the next move
-func canBecapturedVertex(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
+func canBecapturedVertex(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {///////// canBeCapturedVertex!!!
 	minusOne := findNeighbour(coordinate, y, x, -1)
 	one := findNeighbour(coordinate, y, x, 1)
 	two := findNeighbour(coordinate, y, x, 2)
 	if positionOccupiedByPlayer(one, goban, player) {
-		if positionOccupiedByOpponent(minusOne, goban, player) && positionUnoccupied(two, goban) {
+		if positionOccupiedByOpponent(minusOne, goban, player) && positionUnoccupied(two, goban) {//// || !!!!!!!
 			return true
 		}
-		if positionOccupiedByOpponent(two, goban, player) && positionUnoccupied(minusOne, goban) {
+		if positionOccupiedByOpponent(two, goban, player) && positionUnoccupied(minusOne, goban) {/// || !!!!!!!
 			return true
 		}
 	}
@@ -23,7 +23,7 @@ func canBeCapturedVertices(coordinate coordinate, goban *[19][19]position, playe
 	for y = -1; y <= 1; y++ {
 		for x = -1; x <= 1; x++ {
 			if !(x == 0 && y == 0) {
-				if canBecapturedVertex(coordinate, goban, y, x, player) == true {
+				if canBecapturedVertex(coordinate, goban, y, x, player) == true {////////// canBeCapturedVertex!!!
 					return true
 				}
 			}

@@ -23,7 +23,7 @@ func undo(g *game) {
 	}
 }
 
-// recordAlignFive stores the positions of the align 5 for display in gui
+// recordAlignFive stores align 5 positions for display in gui
 func recordAlignFive(coordinate coordinate, y, x int8, g *game) {
 	g.winMove = coordinate
 	g.gui.align5Positions = append(g.gui.align5Positions, coordinate)
@@ -50,6 +50,7 @@ func recordAlignFive(coordinate coordinate, y, x int8, g *game) {
 	}
 }
 
+// drawAlign5 displays pulsing red align5 for tips
 func drawAlign5(screen *ebiten.Image, g *game, alpha float64) {
 	if g.won == true || g.gui.tips == true {
 		for _, position := range g.gui.align5Positions {
@@ -58,6 +59,7 @@ func drawAlign5(screen *ebiten.Image, g *game, alpha float64) {
 	}
 }
 
+// canCaptureCheat stores positions if a capture is possible for a given position and vertex
 func canCaptureVertexCheat(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) {
 	one := findNeighbour(coordinate, y, x, 1)
 	two := findNeighbour(coordinate, y, x, 2)
@@ -70,7 +72,7 @@ func canCaptureVertexCheat(coordinate coordinate, goban *[19][19]position, y, x 
 	}
 }
 
-// canCapture returns true if given coordinate can capture in the next move
+// canCaptureCheat checks if a capture is possible for a given position
 func canCaptureCheat(coordinate coordinate, goban *[19][19]position, player bool) {
 	var y int8
 	var x int8
@@ -83,7 +85,7 @@ func canCaptureCheat(coordinate coordinate, goban *[19][19]position, player bool
 	}
 }
 
-// captureAvailable returns true if given Player can capture in the next move
+// captureCheat stores possible capture positions for gui tips
 // (iterate entire goban, check if capture possible for each positon)
 func captureCheat(goban *[19][19]position, player bool) {
 	var y int8
@@ -98,6 +100,7 @@ func captureCheat(goban *[19][19]position, player bool) {
 	}
 }
 
+// drawCaptureCheat draws pulsing possible captures for gui tips
 func drawCaptureCheat(screen *ebiten.Image, g *game, alpha float64) {
 	if g.gui.tips == true && isPlayerHuman(g) == true && g.won == false {
 		for _, position := range g.gui.canCapturePositions {
@@ -113,6 +116,7 @@ func drawCaptureCheat(screen *ebiten.Image, g *game, alpha float64) {
 	}
 }
 
+// drawTips!!!!!!!!!! draws tips in gui
 func drawCheats(screen *ebiten.Image, g *game, alpha float64) {
 	drawAlign5(screen, g, alpha)
 	drawCaptureCheat(screen, g, alpha)

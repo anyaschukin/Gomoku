@@ -6,6 +6,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
+// update updates and draws the game state
 func update(screen *ebiten.Image) error {
 	g.updateGame()
 	if ebiten.IsDrawingSkipped() {
@@ -16,6 +17,7 @@ func update(screen *ebiten.Image) error {
 	return nil
 }
 
+// runGui launches ebiten.Run which calls update 60 times/second
 func runGui() {
 	w, h := ebiten.ScreenSizeInFullscreen()
 	ebiten.SetFullscreen(true)

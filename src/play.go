@@ -15,7 +15,7 @@ func newGame() *game {
 	g.gui.drawWinMove = true  //// false for correction (bonus)!!!!
 	g.gui.drawCapture = true  //// false for correction (bonus)!!!!
 	g.gui.undo = true         //// false for correction (bonus)!!!!
-	g.gui.tips = true         //// false for correction (bonus)!!!!
+	// g.gui.tips = true         //// false for correction (bonus)!!!!
 	aiSuggestMove(g)
 	return g
 }
