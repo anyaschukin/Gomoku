@@ -26,8 +26,23 @@
 	- take current alignments into account ?
 	- check whether an alignment has enough space to develop into a 5-in-a-row ?
 	- weigh an alignment according to its freedom (Free, half-free, flanked) ?
-	- take potential captures into account ?
-	- take current captured stones into account ?
+
 	- check for advanteageous combinations ?
 	- take both Players into account ?
+
+
+	- take potential captures into account ?
+	- take current captured stones into account ?
 	- take past Player actions into account to identify patterns and weigh board states accordingly ?
+
+
+
+PROFILER STEPS
+##############
+go build
+./gomoku > /dev/null
+## check that stuff is in the file
+cat /var/folders/zz/zyxvpxvq6csfxvn_n00037_0000sth/T/profile200705421/cpu.pprof
+go tool pprof --pdf gomoku /var/folders/zz/zyxvpxvq6csfxvn_n00037_0000sth/T/profile514021302/cpu.pprof > ./profgraph.pdf
+open ./profgraph.pdf 
+C

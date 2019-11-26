@@ -83,14 +83,14 @@ func checkAlign(coordinate coordinate, goban *[19][19]position, player bool) int
 					}
 				case 3:
 					value = align*20	// open 3
-					if flanked != 0 || space != 0 {
-						value -= 20
-					}
+					// if flanked != 0 || space != 0 {
+						// value -= 20
+					// }
 				case 2:
 					value = align*15	// open 2
-					if flanked != 0 {
-						value = -50
-					}
+					// if flanked != 0 {
+						// value = -50
+					// }
 			}
 			return value
 		}
