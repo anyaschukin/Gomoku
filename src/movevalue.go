@@ -54,6 +54,12 @@ func checkVertexAlign(coordinate coordinate, goban *[19][19]position, y int8, x 
 	return 0, flanked, space
 }
 
+// offensive move vs. defensive move... Total the score and select whichever is best?
+// maximize your align
+// break your opponent's align
+// capture opponent's 2s
+// defend against capture
+
 // NOTE: Is there a way for use to use this to GENERATE boards only if they align 2,3,4??
 // as in... is it necessary to generate a board for every position? Or can we simulate them, then generate and store in struct with value?
 
