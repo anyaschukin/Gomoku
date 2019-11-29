@@ -63,6 +63,7 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 				identity++
 				newGoban := current.goban
 				placeStone(coordinate, player, &newGoban)
+				// dumpGoban(&current.goban)
 				value := moveEvaluationAlgorithm(coordinate, &newGoban, player)
 				// value := valueBoard(&newGoban, player)
 				child := newNode(identity, value, &newGoban, coordinate, player)
@@ -124,7 +125,7 @@ func minimaxTree(g *game) {
 	elapsed := (time.Since(start))
 	// printBestRoute(root)///
 
-	fmt.Printf("Coordinate: %v --- player: %v\n", root.bestMove.coordinate, root.player)
+	fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	dumpGoban(&root.bestMove.goban)
 	fmt.Println("------------\n")
 	time.Sleep(100000000)

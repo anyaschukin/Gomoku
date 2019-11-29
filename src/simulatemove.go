@@ -65,6 +65,9 @@ func doubleThree2(coordinate coordinate, goban *[19][19]position, player bool) b
 }
 
 func isMoveValid2(coordinate coordinate, goban *[19][19]position, player bool) bool {
+	if coordinateOnGoban(coordinate) == false {
+		return false
+	}
 	if positionOccupied(coordinate, goban) == true {
 		return false
 	}

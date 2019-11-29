@@ -1,5 +1,7 @@
 package play
 
+// import "fmt"
+
 // the weight of an empty point
 // epsilon := 2
 
@@ -42,9 +44,14 @@ func lineInfluence(evalAxis int, coordinate coordinate, goban *[19][19]position,
 	epsilon := 2
 	for z = 1; z <= 5; z++ { // for each point
 		neighbour := findNeighbour(coordinate, y, x, z)
+		if coordinateOnGoban(neighbour) == false {
+			continue
+		}
+		// fmt.Printf("neighbour = %v\n", neighbour)
 		if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			break
-		} else if positionOccupied(neighbour, goban) == false { /* if neighbour is empty */
+		}
+		if positionOccupied(neighbour, goban) == false { /* if neighbour is empty */
 			evalAxis = evalAxis * epsilon
 		} else if positionOccupiedByPlayer(neighbour, goban, player) == true { /* neighbour is own stone */
 			evalAxis = evalAxis * weight(z)
