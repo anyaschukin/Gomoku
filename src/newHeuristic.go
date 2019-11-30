@@ -1,6 +1,11 @@
 package play
 
-// import "fmt"
+import (
+	"fmt"
+	"math"
+	"time"
+	// "os"
+)
 
 // the weight of an empty point
 // epsilon := 2
@@ -20,73 +25,83 @@ func coordinateOnBorder(coordinate coordinate) bool {
 }
 
 func weight(z int8) int {
-	var influence int
+	var influence float64
 
 	switch z {
 	case 1:
 		influence = 1
 	case 2:
-		influence = 2 ^ 12
+		influence = math.Pow(2, 12)
 	case 3:
-		influence = 2 ^ 11
+		influence = math.Pow(2, 11)
 	case 4:
-		influence = 2 ^ 10
+		influence = math.Pow(2, 10)
 	case 5:
-		influence = 2 ^ 9
+		influence = math.Pow(2, 9)
 	}
-	return influence
+	return int(influence)
+}
+
+func calcLine(evalAxis int, neighbour coordinate, goban *[19][19]position, player bool, z int8) int {
+	epsilon := 2
+
+	if positionOccupied(neighbour, goban) == false { /* if neighbour is empty */
+		evalAxis = evalAxis * epsilon
+		// fmt.Printf("evalAxis = %v, epsilon = %v\n", evalAxis, epsilon)
+	} else if positionOccupiedByPlayer(neighbour, goban, player) == true { /* neighbour is own stone */
+		evalAxis = evalAxis * weight(z)
+	}
+	return evalAxis
 }
 
 // calculates the influence of { ownStone, empty spaces, opponentStone/border } at each space in one direction
-func lineInfluence(evalAxis int, coordinate coordinate, goban *[19][19]position, player bool, y int8, x int8) int {
-	var z int8
+func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, y int8, x int8) int {
+	var a int8
+	var b int8
 
-	epsilon := 2
-	for z = 1; z <= 5; z++ { // for each point
-		neighbour := findNeighbour(coordinate, y, x, z)
+	evalAxis := 1
+	for a = 1; a <= 5; a++ {
+		neighbour := findNeighbour(coordinate, y, x, a)
+		fmt.Printf("neighbour = %v\n", neighbour)
+		time.Sleep(200 * time.Millisecond)
 		if coordinateOnGoban(neighbour) == false {
 			continue
-		}
-		// fmt.Printf("neighbour = %v\n", neighbour)
-		if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
+		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
+			evalAxis += int(a)
 			break
+		} else {
+			evalAxis += calcLine(evalAxis, neighbour, goban, player, a)
 		}
-		if positionOccupied(neighbour, goban) == false { /* if neighbour is empty */
-			evalAxis = evalAxis * epsilon
-		} else if positionOccupiedByPlayer(neighbour, goban, player) == true { /* neighbour is own stone */
-			evalAxis = evalAxis * weight(z)
+	}
+	for b = -1; b >= -5; b-- {
+		neighbour := findNeighbour(coordinate, y, x, b)
+		fmt.Printf("neighbour = %v\n", neighbour)
+		time.Sleep(200 * time.Millisecond)
+		if coordinateOnGoban(neighbour) == false {
+			continue
+		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
+			evalAxis += int(b)
+			break
+		} else {
+			evalAxis += calcLine(evalAxis, neighbour, goban, player, b)
 		}
 	}
 	return evalAxis
 }
 
+// alignFive returns true if 5 stones are aligned running through given coodinate
 func moveEvaluationAlgorithm(coordinate coordinate, goban *[19][19]position, player bool) int {
-	var y int8
 	var x int8
+	var y int8
 
 	eval := 0
-	evalAxis := 1
-	for y = 1; y <= 4; y++ { // for four directions (vertical, horizontal, diagonal1, diagonal2)
-		for x = 1; x <= 5; x++ { // for half of a line, in one direction
-			evalAxis = lineInfluence(evalAxis, coordinate, goban, player, y, x)
-			eval += evalAxis
-		}
-		for x = -1; x <= -5; x-- { // for half of a line, in one direction
-			evalAxis = lineInfluence(evalAxis, coordinate, goban, player, y, x)
-			eval += evalAxis
+	for y = -1; y <= 0; y++ {
+		for x = -1; x <= 1; x++ {
+			if x == 0 && y == 0 {
+				return eval
+			}
+			eval += lineInfluence(coordinate, goban, player, y, x)
 		}
 	}
 	return eval
 }
-
-// for each half of a line (a goes 5 in one direction, b goes 5 in the other direction)
-// for k = 1; k <= 5; k++ { // for each point
-// 	neighbour := findNeighbour(coordinate, y, x, k)
-// 	if positionOccupiedByOpponent(neighbour, goban, player) == true /*|| border*/ {
-// 		break
-// 	} else if positionOccupied(coordinate, goban) == false { /* if coordinate is empty */
-// 		evalAxis = evalAxis * epsilon
-// 	} else if positionOccupiedByPlayer(coordinate, goban) == true { /* coordinate is own stone */
-// 		evalAxis = evalAxis * weight(k)
-// 	}
-// }
