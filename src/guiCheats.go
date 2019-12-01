@@ -116,8 +116,8 @@ func drawCaptureCheat(screen *ebiten.Image, g *game, alpha float64) {
 	}
 }
 
-// drawTips!!!!!!!!!! draws tips in gui
-func drawCheats(screen *ebiten.Image, g *game, alpha float64) {
+// drawTips draws tips in gui
+func drawTips(screen *ebiten.Image, g *game, alpha float64) {
 	drawAlign5(screen, g, alpha)
 	drawCaptureCheat(screen, g, alpha)
 }

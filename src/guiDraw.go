@@ -263,7 +263,7 @@ func draw(screen *ebiten.Image, g *game) {
 			drawHotseatSuggestion(screen, g, alpha)
 			drawWinMove(screen, g, alpha)
 			drawCapture(screen, g, alpha)
-			drawCheats(screen, g, alpha)
+			drawTips(screen, g, alpha)
 			drawUndo(screen, g)
 		}
 	}

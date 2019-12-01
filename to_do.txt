@@ -5,6 +5,7 @@
 	
 	- seperate struct for efficiency? (only things ai needs)
 	- bug black human white ai first move
+	- win show align 5
 
 #### BONUS ####
 1. Human vs human, hotseat vs hotseat, ai vs ai

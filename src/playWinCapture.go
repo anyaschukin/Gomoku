@@ -52,10 +52,9 @@ func captureAvailable(goban *[19][19]position, player bool) bool {
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
 			coordinate := coordinate{y, x}
-			if positionOccupiedByPlayer(coordinate, goban, player) == true { /// && !!!!!!!
-				if canCapture(coordinate, goban, player) == true {
-					return true
-				}
+			if positionOccupiedByPlayer(coordinate, goban, player) == true &&
+				canCapture(coordinate, goban, player) == true {
+				return true
 			}
 		}
 	}
