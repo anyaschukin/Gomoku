@@ -156,10 +156,18 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 	if g.won == false {
 		if g.gui.drawIntro == true {
 			if g.player == false {
-				text.Draw(screen, `Black to Move`, mplusNormalFont, columnBlack, row, color.Black)
+				if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
+					text.Draw(screen, `Black to Move`, mplusNormalFont, columnBlack, row, color.Black)
+				} else {
+					text.Draw(screen, `Black Thinking...`, mplusNormalFont, columnBlack, row, color.Black)
+				}
 				drawBlackMessage(screen, g.gui.message, alpha)
 			} else {
-				text.Draw(screen, `White to Move`, mplusNormalFont, columnWhite, row, color.White)
+				if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
+					text.Draw(screen, `White to Move`, mplusNormalFont, columnWhite, row, color.White)
+				} else {
+					text.Draw(screen, `White Thinking...`, mplusNormalFont, columnWhite, row, color.White)
+				}
 				drawWhiteMessage(screen, g.gui.message, alpha)
 
 			}
