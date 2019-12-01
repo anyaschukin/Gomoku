@@ -65,9 +65,9 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 				newGoban := current.goban
 				placeStone(coordinate, player, &newGoban)
 				value := moveEvaluationAlgorithm(coordinate, &newGoban, player)
-				// fmt.Printf("coordinate = %v, value = %v\n", coordinate, value)
-				// dumpGoban(&newGoban)
-				// time.Sleep(300 * time.Millisecond)
+				fmt.Printf("coordinate = %v, value = %v\n", coordinate, value)
+				dumpGoban(&newGoban)
+				time.Sleep(300 * time.Millisecond)
 				// os.Exit(1)
 				// value := valueBoard(&newGoban, player)
 				child := newNode(identity, value, &newGoban, coordinate, player)
