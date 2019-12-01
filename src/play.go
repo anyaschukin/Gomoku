@@ -15,7 +15,6 @@ func newGame() *game {
 	g.gui.drawWinMove = true  //// false for correction (bonus)!!!!
 	g.gui.drawCapture = true  //// false for correction (bonus)!!!!
 	g.gui.undo = true         //// false for correction (bonus)!!!!
-	// g.gui.tips = true         //// false for correction (bonus)!!!!
 	aiSuggestMove(g)
 	return g
 }
@@ -31,8 +30,8 @@ func swapPlayers(coordinate coordinate, g *game) {
 	g.move++
 }
 
-// guiUpdate prepares gui for the upcoming move
-func guiUpdate(g *game) {
+// guiReset prepares gui for the upcoming move
+func guiReset(g *game) {
 	g.gui.capturedPositions2 = g.gui.capturedPositions
 	g.gui.capturedPositions = nil
 	if alignFive(g.winMove, &g.goban, &g.align5, g.player, g.capture0, g.capture1) == false {
@@ -44,7 +43,7 @@ func guiUpdate(g *game) {
 
 // gameLoop runs one move
 func gameLoop(coordinate coordinate, g *game) {
-	guiUpdate(g)
+	guiReset(g)
 	validated := placeIfValid(coordinate, g)
 	if validated == true {
 		capture(coordinate, g)
@@ -74,12 +73,12 @@ func humanLoop(g *game) {
 
 // aiLoop listens runs gameloop with suggested coordinate
 func aiLoop(g *game) {
+	aiSuggestMove(g)
 	coordinate := g.ai0.suggest
 	if g.player == true {
 		coordinate = g.ai1.suggest
 	}
 	gameLoop(coordinate, g)
-	aiSuggestMove(g)
 }
 
 // updateGame listens for input, and runs a human/AI loop

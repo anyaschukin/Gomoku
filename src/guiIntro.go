@@ -168,9 +168,10 @@ func drawIntro(screen *ebiten.Image) {
 
 	drawG(screen, alpha, imgWhite, imgBlack)
 	drawO(screen, alpha, imgWhite, imgBlack)
+
+	drawG(screen, alpha, imgBlue, imgBlue3)
 	// drawG(screen, alpha, imgBlue, imgBlue3)
-	// drawG(screen, alpha, imgBlue, imgBlue3)
-	// drawO(screen, alpha, imgBlue, imgBlue3)
+	drawO(screen, alpha, imgBlue, imgBlue3)
 	// drawO(screen, alpha, imgBlue, imgBlue3)
 
 	// drawG(screen, alpha2, imgWhite, imgBlack)

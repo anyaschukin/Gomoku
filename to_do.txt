@@ -4,17 +4,15 @@
 	- take past Player actions into account to identify patterns and weigh board states accordingly ?
 	
 	- seperate struct for efficiency? (only things ai needs)
-	- bug black human white ai first move
-	- win show align 5
 
 #### BONUS ####
 1. Human vs human, hotseat vs hotseat, ai vs ai
-2. highlight last move
-3. highlight Win move
-4. highlight captured
-5. GO intro
-6. Undo button
-7. Tips
+2. Undo button
+3. Tips
+4. Highlight Last Move
+5. Highlight Win Move
+6. Highlight Captured
+7. GO intro
 
 - display value for position?
 

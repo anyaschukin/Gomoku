@@ -18,15 +18,15 @@ func drawStone(screen *ebiten.Image, g *game, column int, stone *ebiten.Image) {
 }
 
 func drawSelectHuman(screen *ebiten.Image, g *game, shift float64) {
-	drawImage(screen, imgSelect, 90/scaleSelect+shift, 292/scaleSelect, scaleSelect)
+	drawImage(screen, imgSelect, 90/scaleSelect+shift, float64(row*3-5)/scaleSelect, scaleSelect)
 }
 
 func drawSelectHotseat(screen *ebiten.Image, g *game, shift float64) {
-	drawImage(screen, imgSelect, 90/scaleSelect+shift, 495/scaleSelect, scaleSelect)
+	drawImage(screen, imgSelect, 90/scaleSelect+shift, float64(row*5-5)/scaleSelect, scaleSelect)
 }
 
 func drawSelectAI(screen *ebiten.Image, g *game, shift float64) {
-	drawImage(screen, imgSelect, 90/scaleSelect+shift, 698/scaleSelect, scaleSelect)
+	drawImage(screen, imgSelect, 90/scaleSelect+shift, float64(row*7-5)/scaleSelect, scaleSelect)
 }
 
 func drawSelectPlayer(screen *ebiten.Image, g *game, player bool) {
@@ -49,31 +49,31 @@ func drawSelectPlayer(screen *ebiten.Image, g *game, player bool) {
 
 func drawSelectLastMove(screen *ebiten.Image, g *game) {
 	if g.gui.drawLastMove == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 295/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, float64(row*3-5)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectWinMove(screen *ebiten.Image, g *game) {
 	if g.gui.drawWinMove == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 493/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, float64(row*5-5)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectCapture(screen *ebiten.Image, g *game) {
 	if g.gui.drawCapture == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, 691/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, float64(row*7-5)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectUndo(screen *ebiten.Image, g *game) {
 	if g.gui.undo == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-52)/scaleSelect, 295/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-52)/scaleSelect, float64(row*3-5)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectTips(screen *ebiten.Image, g *game) {
 	if g.gui.tips == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-52)/scaleSelect, 493/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-52)/scaleSelect, float64(row*5-5)/scaleSelect, scaleSelect)
 	}
 }
 
