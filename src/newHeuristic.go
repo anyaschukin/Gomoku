@@ -1,9 +1,9 @@
 package play
 
 import (
-	"fmt"
+	// "fmt"
 	"math"
-	"time"
+	// "time"
 	// "os"
 )
 
@@ -29,15 +29,15 @@ func weight(z int8) int {
 
 	switch z {
 	case 1:
-		influence = 1
-	case 2:
 		influence = math.Pow(2, 12)
-	case 3:
+	case 2:
 		influence = math.Pow(2, 11)
-	case 4:
+	case 3:
 		influence = math.Pow(2, 10)
-	case 5:
+	case 4:
 		influence = math.Pow(2, 9)
+		// case 5:
+		// 	influence = math.Pow(2, 8)
 	}
 	return int(influence)
 }
@@ -47,7 +47,6 @@ func calcLine(evalAxis int, neighbour coordinate, goban *[19][19]position, playe
 
 	if positionOccupied(neighbour, goban) == false { /* if neighbour is empty */
 		evalAxis = evalAxis * epsilon
-		// fmt.Printf("evalAxis = %v, epsilon = %v\n", evalAxis, epsilon)
 	} else if positionOccupiedByPlayer(neighbour, goban, player) == true { /* neighbour is own stone */
 		evalAxis = evalAxis * weight(z)
 	}
@@ -60,10 +59,8 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	var b int8
 
 	evalAxis := 1
-	for a = 1; a <= 5; a++ {
+	for a = 1; a <= 4; a++ {
 		neighbour := findNeighbour(coordinate, y, x, a)
-		fmt.Printf("neighbour = %v\n", neighbour)
-		time.Sleep(200 * time.Millisecond)
 		if coordinateOnGoban(neighbour) == false {
 			continue
 		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
@@ -73,10 +70,8 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 			evalAxis += calcLine(evalAxis, neighbour, goban, player, a)
 		}
 	}
-	for b = -1; b >= -5; b-- {
+	for b = -1; b >= -4; b-- {
 		neighbour := findNeighbour(coordinate, y, x, b)
-		fmt.Printf("neighbour = %v\n", neighbour)
-		time.Sleep(200 * time.Millisecond)
 		if coordinateOnGoban(neighbour) == false {
 			continue
 		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
