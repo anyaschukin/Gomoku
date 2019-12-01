@@ -62,7 +62,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	for a = 1; a <= 4; a++ {
 		neighbour := findNeighbour(coordinate, y, x, a)
 		if coordinateOnGoban(neighbour) == false {
-			continue
+			break
 		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(a)
 			break
@@ -73,7 +73,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	for b = -1; b >= -4; b-- {
 		neighbour := findNeighbour(coordinate, y, x, b)
 		if coordinateOnGoban(neighbour) == false {
-			continue
+			break
 		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(b)
 			break
