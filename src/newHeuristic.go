@@ -7,9 +7,6 @@ import (
 	// "os"
 )
 
-// the weight of an empty point
-// epsilon := 2
-
 // the weights of the adjacent points of influence
 // w(k+1) := 2^12, w(k+2):= 2^11, w(k+3) := 2^10, w(k+4) := 2^9
 
@@ -17,11 +14,26 @@ import (
 
 // the scores of the four directions are combined (by addition) to make up the evaluation score
 
-func coordinateOnBorder(coordinate coordinate) bool {
-	if coordinate.y == 0 || coordinate.y == 18 || coordinate.x == 0 || coordinate.x == 18 {
-		return true
+/* the weight of an empty point */
+const epsilon = 2
+
+/* if this move captures a 2-in-a-row */
+const captureTwo = 42e8
+
+func weight(z int8) int {
+	var influence float64
+
+	switch z {
+	case 1:
+		influence = math.Pow(2, 12)
+	case 2:
+		influence = math.Pow(2, 11)
+	case 3:
+		influence = math.Pow(2, 10)
+	case 4:
+		influence = math.Pow(2, 9)
 	}
-	return false
+	return int(influence)
 }
 
 func canCapture2(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
@@ -36,27 +48,14 @@ func canCapture2(coordinate coordinate, goban *[19][19]position, y, x int8, play
 	return false
 }
 
-func weight(z int8) int {
-	var influence float64
-
-	switch z {
-	case 0:
-		influence = 42 * math.Pow10(7)
-	case 1:
-		influence = math.Pow(2, 12)
-	case 2:
-		influence = math.Pow(2, 11)
-	case 3:
-		influence = math.Pow(2, 10)
-	case 4:
-		influence = math.Pow(2, 9)
+func coordinateOnBorder(coordinate coordinate) bool {
+	if coordinate.y == 0 || coordinate.y == 18 || coordinate.x == 0 || coordinate.x == 18 {
+		return true
 	}
-	return int(influence)
+	return false
 }
 
 func calcLine(evalAxis int, neighbour coordinate, goban *[19][19]position, player bool, z int8) int {
-	epsilon := 2
-
 	if positionOccupied(neighbour, goban) == false { /* if neighbour is empty */
 		evalAxis *= epsilon
 	} else if positionOccupiedByPlayer(neighbour, goban, player) == true { /* neighbour is own stone */
@@ -76,8 +75,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		if coordinateOnGoban(neighbour) == false {
 			break
 		} else if canCapture2(coordinate, goban, y, x, player) == true {
-			evalAxis *= weight(0)
-			// 4200000000
+			evalAxis *= captureTwo
 			break
 		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(a)
@@ -91,7 +89,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		if coordinateOnGoban(neighbour) == false {
 			break
 		} else if canCapture2(coordinate, goban, -y, -x, player) == true {
-			evalAxis *= weight(0)
+			evalAxis *= captureTwo
 			break
 		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(b)
