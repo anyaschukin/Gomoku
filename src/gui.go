@@ -10,6 +10,7 @@ import (
 func update(screen *ebiten.Image) error {
 	g.updateGame()
 	if ebiten.IsDrawingSkipped() {
+		// If game running slowly, rendering result not adopted
 		return nil
 	}
 	draw(screen, g)
@@ -20,7 +21,7 @@ func update(screen *ebiten.Image) error {
 // runGui launches ebiten.Run which calls update 60 times/second
 func runGui() {
 	w, h := ebiten.ScreenSizeInFullscreen()
-	ebiten.SetFullscreen(true)
+	// ebiten.SetFullscreen(true) // toggle Fullscreen
 	if err := ebiten.Run(update, w, h, 1, "Gomoku"); err != nil {
 		log.Fatal(err)
 	}
