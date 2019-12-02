@@ -2,8 +2,8 @@ package play //gui
 
 import (
 	"os"
-	// "fmt"
-	/// import golib swapBool!!!!!!
+	// "fmt" ///
+	/// import golib swapBool///!!!!
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
@@ -189,9 +189,17 @@ func inputNewGame(g *game, x, y int) {
 	}
 }
 
+// input listens for keyboard and mouse input
 func input(g *game) {
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) == true {
 		os.Exit(0)
+	}
+	if inpututil.IsKeyJustPressed(ebiten.KeyF) == true {
+		if ebiten.IsFullscreen() == true {
+			ebiten.SetFullscreen(false)
+		} else {
+			ebiten.SetFullscreen(true)
+		}
 	}
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 		x, y := ebiten.CursorPosition()
