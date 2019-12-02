@@ -58,18 +58,15 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 	for y = 0; y < 19; y++ {
 		for x = 0; x < 19; x++ {
 			coordinate := coordinate{y, x}
-			// coordinate := coordinate{8, 9}
-			// fmt.Printf("depth %d\n", depth)
 			if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
 				identity++
 				newGoban := current.goban
 				placeStone(coordinate, player, &newGoban)
 				value := moveEvaluationAlgorithm(coordinate, &newGoban, player)
-				fmt.Printf("coordinate = %v, value = %v\n", coordinate, value)
-				dumpGoban(&newGoban)
-				time.Sleep(300 * time.Millisecond)
+				// fmt.Printf("coordinate = %v, value = %v\n", coordinate, value)
+				// dumpGoban(&newGoban)
+				// time.Sleep(300 * time.Millisecond)
 				// os.Exit(1)
-				// value := valueBoard(&newGoban, player)
 				child := newNode(identity, value, &newGoban, coordinate, player)
 				addChild(current, current.id, child) //
 				generateBoardsDepth(depth+1, child, child.id, !player)
