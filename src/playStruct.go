@@ -26,7 +26,7 @@ type ai struct {
 	suggest  coordinate    // Ai suggested move
 }
 
-// captured struct records last captures for display in GUI
+// captured struct records info for display in GUI
 type gui struct {
 	newGame             bool         // New Game button has been pressed, show new game options
 	message             string       // Game feeback for display in gui (invalid move, win)
@@ -56,8 +56,8 @@ type game struct {
 	capture1  uint8            // How many stones has White Captured? 10 to win
 	align5    align5           // Can an aligned 5 can be broken or trumped by capturing 10?
 	move      uint32           // How many moves have been played in total
-	lastMove  coordinate       // What was the last move played
-	lastMove2 coordinate       // Move before last
+	lastMove  coordinate       // last move played
+	lastMove2 coordinate       // move before last played
 	won       bool             // Game finished
 	winMove   coordinate       // Winning move
 }
