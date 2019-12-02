@@ -19,10 +19,10 @@ func update(screen *ebiten.Image) error {
 
 // runGui launches ebiten.Run which calls update 60 times/second
 func runGui() {
-	w, h := ebiten.ScreenSizeInFullscreen()
-	windowSize := float64(2560 / w)
+	w, _ := ebiten.ScreenSizeInFullscreen()
+	windowSize := float64(w) / float64(2560)
 	ebiten.SetFullscreen(true) // toggle Fullscreen
-	if err := ebiten.Run(update, w, h, windowSize, "Gomoku"); err != nil {
+	if err := ebiten.Run(update, 2560, 1440, windowSize, "Gomoku"); err != nil {
 		log.Fatal(err)
 	}
 }
