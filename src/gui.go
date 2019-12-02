@@ -14,15 +14,15 @@ func update(screen *ebiten.Image) error {
 		return nil
 	}
 	draw(screen, g)
-	// time.Sleep(1 * time.Millisecond) ////////// speed?
 	return nil
 }
 
 // runGui launches ebiten.Run which calls update 60 times/second
 func runGui() {
 	w, h := ebiten.ScreenSizeInFullscreen()
-	// ebiten.SetFullscreen(true) // toggle Fullscreen
-	if err := ebiten.Run(update, w, h, 1, "Gomoku"); err != nil {
+	ebiten.SetFullscreen(true) // toggle Fullscreen
+	windowSize := float64(2560 / w)
+	if err := ebiten.Run(update, w, h, windowSize, "Gomoku"); err != nil {
 		log.Fatal(err)
 	}
 }

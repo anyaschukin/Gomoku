@@ -77,12 +77,6 @@ func drawSelectTips(screen *ebiten.Image, g *game) {
 	}
 }
 
-func drawSelectFullscreen(screen *ebiten.Image, g *game) {
-	if ebiten.IsFullscreen() == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, float64(row*11-5)/scaleSelect, scaleSelect)
-	}
-}
-
 func drawSelect(screen *ebiten.Image, g *game) {
 	drawSelectPlayer(screen, g, false)
 	drawSelectPlayer(screen, g, true)
@@ -91,7 +85,6 @@ func drawSelect(screen *ebiten.Image, g *game) {
 	drawSelectCapture(screen, g)
 	drawSelectUndo(screen, g)
 	drawSelectTips(screen, g)
-	drawSelectFullscreen(screen, g)
 }
 
 func drawHuman(screen *ebiten.Image, g *game) {
@@ -160,7 +153,6 @@ func drawHighlight(screen *ebiten.Image, g *game, second, pulse, alpha float64) 
 	drawWinMovePulse(screen, g, alpha)
 	text.Draw(screen, `Captured`, mplusBigFont, newGameColumnBlack+column1*2, row*8, color.Black)
 	drawCapturedPulse(screen, g, alpha)
-	text.Draw(screen, `Fullscreen`, mplusBigFont, newGameColumnBlack+column1*2, row*12, color.Black)
 
 	text.Draw(screen, `Cheats`, mplusBigFont, newGameColumnBlack+column1*3, row*2+22, color.Black)
 	ebitenutil.DrawRect(screen, float64(newGameColumnBlack+column1*3), 242, 250, 6, color.Black)

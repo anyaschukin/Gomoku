@@ -8,6 +8,22 @@ import (
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
+func swapBool(boolean *bool) { ////mv to golib!!!!!!
+	if *boolean == false {
+		*boolean = true
+	} else {
+		*boolean = false
+	}
+}
+
+func swapFullscreen() {
+	if ebiten.IsFullscreen() == true {
+		ebiten.SetFullscreen(false)
+	} else {
+		ebiten.SetFullscreen(true)
+	}
+}
+
 func inColumnX(x, column int) bool {
 	if x > newGameColumnBlack-25+column && x < newGameColumnBlack+380+column {
 		return true
@@ -161,30 +177,6 @@ func clickPlayer(x, y int, player bool) {
 	}
 }
 
-func swapBool(boolean *bool) { ////mv to golib!!!!!!
-	if *boolean == false {
-		*boolean = true
-	} else {
-		*boolean = false
-	}
-}
-
-func clickFullscreen(x, y int) bool {
-	if inColumnX(x, column1*2) == true &&
-		y > 1111 && y < 1245 {
-		return true
-	}
-	return false
-}
-
-func swapFullscreen() {
-	if ebiten.IsFullscreen() == true {
-		ebiten.SetFullscreen(false)
-	} else {
-		ebiten.SetFullscreen(true)
-	}
-}
-
 func inputNewGame(g *game, x, y int) {
 	clickPlayer(x, y, false)
 	clickPlayer(x, y, true)
@@ -202,9 +194,6 @@ func inputNewGame(g *game, x, y int) {
 	}
 	if clickTips(x, y) == true {
 		swapBool(&g.gui.tips)
-	}
-	if clickFullscreen(x, y) == true {
-		swapFullscreen()
 	}
 }
 
