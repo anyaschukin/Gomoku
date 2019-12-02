@@ -13,6 +13,7 @@
 5. Highlight Win Move
 6. Highlight Captured
 7. GO intro
+8. key press f enter/exit Fullscreen
 
 - display value for position?
 

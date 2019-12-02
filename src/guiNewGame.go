@@ -49,31 +49,31 @@ func drawSelectPlayer(screen *ebiten.Image, g *game, player bool) {
 
 func drawSelectLastMove(screen *ebiten.Image, g *game) {
 	if g.gui.drawLastMove == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, float64(row*3-5)/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-50)/scaleSelect, float64(row*3-5)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectWinMove(screen *ebiten.Image, g *game) {
 	if g.gui.drawWinMove == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, float64(row*5-5)/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-50)/scaleSelect, float64(row*5-5)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectCapture(screen *ebiten.Image, g *game) {
 	if g.gui.drawCapture == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-45)/scaleSelect, float64(row*7-5)/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-50)/scaleSelect, float64(row*7-5)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectUndo(screen *ebiten.Image, g *game) {
 	if g.gui.undo == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-52)/scaleSelect, float64(row*3-5)/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-50)/scaleSelect, float64(row*3-5)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectTips(screen *ebiten.Image, g *game) {
 	if g.gui.tips == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-52)/scaleSelect, float64(row*5-5)/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-50)/scaleSelect, float64(row*5-5)/scaleSelect, scaleSelect)
 	}
 }
 
