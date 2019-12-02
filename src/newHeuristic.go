@@ -24,10 +24,24 @@ func coordinateOnBorder(coordinate coordinate) bool {
 	return false
 }
 
+func canCapture2(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
+	one := findNeighbour(coordinate, y, x, 1)
+	two := findNeighbour(coordinate, y, x, 2)
+	three := findNeighbour(coordinate, y, x, 3)
+	if positionOccupiedByOpponent(one, goban, player) == true &&
+		positionOccupiedByOpponent(two, goban, player) == true &&
+		positionOccupiedByPlayer(three, goban, player) == true {
+		return true
+	}
+	return false
+}
+
 func weight(z int8) int {
 	var influence float64
 
 	switch z {
+	case 0:
+		influence = 42 * math.Pow10(7)
 	case 1:
 		influence = math.Pow(2, 12)
 	case 2:
@@ -36,8 +50,6 @@ func weight(z int8) int {
 		influence = math.Pow(2, 10)
 	case 4:
 		influence = math.Pow(2, 9)
-		// case 5:
-		// 	influence = math.Pow(2, 8)
 	}
 	return int(influence)
 }
@@ -46,9 +58,9 @@ func calcLine(evalAxis int, neighbour coordinate, goban *[19][19]position, playe
 	epsilon := 2
 
 	if positionOccupied(neighbour, goban) == false { /* if neighbour is empty */
-		evalAxis = evalAxis * epsilon
+		evalAxis *= epsilon
 	} else if positionOccupiedByPlayer(neighbour, goban, player) == true { /* neighbour is own stone */
-		evalAxis = evalAxis * weight(z)
+		evalAxis *= weight(z)
 	}
 	return evalAxis
 }
@@ -63,6 +75,10 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		neighbour := findNeighbour(coordinate, y, x, a)
 		if coordinateOnGoban(neighbour) == false {
 			break
+		} else if canCapture2(coordinate, goban, y, x, player) == true {
+			evalAxis *= weight(0)
+			// 4200000000
+			break
 		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(a)
 			break
@@ -73,6 +89,9 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	for b = -1; b >= -4; b-- {
 		neighbour := findNeighbour(coordinate, y, x, b)
 		if coordinateOnGoban(neighbour) == false {
+			break
+		} else if canCapture2(coordinate, goban, -y, -x, player) == true {
+			evalAxis *= weight(0)
 			break
 		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(b)
