@@ -169,6 +169,22 @@ func swapBool(boolean *bool) { ////mv to golib!!!!!!
 	}
 }
 
+func clickFullscreen(x, y int) bool {
+	if inColumnX(x, column1*2) == true &&
+		y > 1111 && y < 1245 {
+		return true
+	}
+	return false
+}
+
+func swapFullscreen() {
+	if ebiten.IsFullscreen() == true {
+		ebiten.SetFullscreen(false)
+	} else {
+		ebiten.SetFullscreen(true)
+	}
+}
+
 func inputNewGame(g *game, x, y int) {
 	clickPlayer(x, y, false)
 	clickPlayer(x, y, true)
@@ -187,6 +203,9 @@ func inputNewGame(g *game, x, y int) {
 	if clickTips(x, y) == true {
 		swapBool(&g.gui.tips)
 	}
+	if clickFullscreen(x, y) == true {
+		swapFullscreen()
+	}
 }
 
 // input listens for keyboard and mouse input
@@ -195,11 +214,7 @@ func input(g *game) {
 		os.Exit(0)
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyF) == true {
-		if ebiten.IsFullscreen() == true {
-			ebiten.SetFullscreen(false)
-		} else {
-			ebiten.SetFullscreen(true)
-		}
+		swapFullscreen()
 	}
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 		x, y := ebiten.CursorPosition()
