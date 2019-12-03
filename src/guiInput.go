@@ -1,15 +1,14 @@
-package play //gui
+package play
 
 import (
 	"os"
 
-	// "fmt" ///
-	/// import golib swapBool///!!!!
+	// lib "Gomoku/src/golib" // mv swapBool !!!!
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-func swapBool(boolean *bool) { ////mv to golib!!!!!!
+func swapBool(boolean *bool) {
 	if *boolean == false {
 		*boolean = true
 	} else {

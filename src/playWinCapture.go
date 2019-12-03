@@ -22,7 +22,6 @@ func canCaptureVertex(coordinate coordinate, goban *[19][19]position, y, x int8,
 	if positionOccupiedByOpponent(one, goban, player) == true &&
 		positionOccupiedByOpponent(two, goban, player) == true &&
 		positionUnoccupied(three, goban) == true {
-		// fmt.Printf("capture possible! Player: %v can capture y:%d x:%d & y:%d x:%d\n\n", Player, one.y, one.x, two.y, two.x) /// tips flag!!!
 		return true
 	}
 	return false

@@ -18,17 +18,6 @@ func newGame() *game {
 	return g
 }
 
-// swapPlayers prepares for the next move
-func swapPlayers(coordinate coordinate, g *game) {
-	swapBool(&g.player)
-	g.lastMove2 = g.lastMove
-	g.lastMove = coordinate
-	if g.won == false {
-		g.gui.message = ""
-	}
-	g.move++
-}
-
 // guiReset prepares gui for the upcoming move
 func guiReset(g *game) {
 	g.gui.capturedPositions2 = g.gui.capturedPositions
@@ -38,6 +27,17 @@ func guiReset(g *game) {
 	}
 	g.gui.canCapturePositions = nil
 	g.gui.canCaptureByPlaying = nil
+}
+
+// swapPlayers prepares for the next move
+func swapPlayers(coordinate coordinate, g *game) {
+	swapBool(&g.player)
+	g.lastMove2 = g.lastMove
+	g.lastMove = coordinate
+	if g.won == false {
+		g.gui.message = ""
+	}
+	g.move++
 }
 
 // gameLoop runs one move

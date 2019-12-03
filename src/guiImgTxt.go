@@ -1,4 +1,4 @@
-package play //gui
+package play
 
 import (
 	"log"
