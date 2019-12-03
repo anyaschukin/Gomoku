@@ -16,9 +16,10 @@ import (
 
 /* the weight of an empty point */
 const epsilon = 2
-
 /* if this move captures a 2-in-a-row */
 const captureTwo = 42e8
+/* defend against opponent's 3-in-a-row */
+const defendThree = 42e11
 
 func weight(z int8) int {
 	var influence float64
@@ -34,6 +35,18 @@ func weight(z int8) int {
 		influence = math.Pow(2, 9)
 	}
 	return int(influence)
+}
+
+func defend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
+	one := findNeighbour(coordinate, y, x, 1)
+	two := findNeighbour(coordinate, y, x, 2)
+	three := findNeighbour(coordinate, y, x, 3)
+	if positionOccupiedByOpponent(one, goban, player) == true &&
+		positionOccupiedByOpponent(two, goban, player) == true &&
+		positionOccupiedByOpponent(three, goban, player) == true {
+		return true
+	}
+	return false
 }
 
 func canCapture2(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
@@ -64,7 +77,7 @@ func calcLine(evalAxis int, neighbour coordinate, goban *[19][19]position, playe
 	return evalAxis
 }
 
-// calculates the influence of { ownStone, empty spaces, opponentStone/border } at each space in one direction
+// calculates the influence of { ownStone, empty spaces, opponentStone, border } at each space in one direction
 func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, y int8, x int8) int {
 	var a int8
 	var b int8
@@ -73,6 +86,9 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	for a = 1; a <= 4; a++ {
 		neighbour := findNeighbour(coordinate, y, x, a)
 		if coordinateOnGoban(neighbour) == false {
+			break
+		} else if defend(coordinate, goban, y, x, player) == true {
+			evalAxis *= defendThree
 			break
 		} else if canCapture2(coordinate, goban, y, x, player) == true {
 			evalAxis *= captureTwo
@@ -87,6 +103,9 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	for b = -1; b >= -4; b-- {
 		neighbour := findNeighbour(coordinate, y, x, b)
 		if coordinateOnGoban(neighbour) == false {
+			break
+		} else if defend(coordinate, goban, y, x, player) == true {
+			evalAxis *= defendThree
 			break
 		} else if canCapture2(coordinate, goban, -y, -x, player) == true {
 			evalAxis *= captureTwo
