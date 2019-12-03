@@ -14,7 +14,7 @@ var column1 = 640
 var scaleSelect = 0.21
 
 func drawStone(screen *ebiten.Image, g *game, column int, stone *ebiten.Image) {
-	drawImage(screen, stone, float64(newGameColumnBlack+column)+130, 150, 1)
+	drawImage(screen, stone, float64(newGameColumnBlack+column)+110, 150, 1)
 }
 
 func drawSelectHuman(screen *ebiten.Image, g *game, shift float64) {
