@@ -11,22 +11,22 @@ import (
 
 var newGameColumnBlack = 140
 var column1 = 640
-var scaleSelect = 0.23
+var scaleSelect = 0.21
 
 func drawStone(screen *ebiten.Image, g *game, column int, stone *ebiten.Image) {
 	drawImage(screen, stone, float64(newGameColumnBlack+column)+130, 150, 1)
 }
 
 func drawSelectHuman(screen *ebiten.Image, g *game, shift float64) {
-	drawImage(screen, imgSelect, 90/scaleSelect+shift, float64(row*3-5)/scaleSelect, scaleSelect)
+	drawImage(screen, imgSelect, 90/scaleSelect+shift, float64(row*3+3)/scaleSelect, scaleSelect)
 }
 
 func drawSelectHotseat(screen *ebiten.Image, g *game, shift float64) {
-	drawImage(screen, imgSelect, 90/scaleSelect+shift, float64(row*5-5)/scaleSelect, scaleSelect)
+	drawImage(screen, imgSelect, 90/scaleSelect+shift, float64(row*5+3)/scaleSelect, scaleSelect)
 }
 
 func drawSelectAI(screen *ebiten.Image, g *game, shift float64) {
-	drawImage(screen, imgSelect, 90/scaleSelect+shift, float64(row*7-5)/scaleSelect, scaleSelect)
+	drawImage(screen, imgSelect, 90/scaleSelect+shift, float64(row*7+3)/scaleSelect, scaleSelect)
 }
 
 func drawSelectPlayer(screen *ebiten.Image, g *game, player bool) {
@@ -49,31 +49,31 @@ func drawSelectPlayer(screen *ebiten.Image, g *game, player bool) {
 
 func drawSelectLastMove(screen *ebiten.Image, g *game) {
 	if g.gui.drawLastMove == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-50)/scaleSelect, float64(row*3-5)/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-50)/scaleSelect, float64(row*3+3)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectWinMove(screen *ebiten.Image, g *game) {
 	if g.gui.drawWinMove == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-50)/scaleSelect, float64(row*5-5)/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-50)/scaleSelect, float64(row*5+3)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectCapture(screen *ebiten.Image, g *game) {
 	if g.gui.drawCapture == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-50)/scaleSelect, float64(row*7-5)/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*2)-50)/scaleSelect, float64(row*7+3)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectUndo(screen *ebiten.Image, g *game) {
 	if g.gui.undo == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-50)/scaleSelect, float64(row*3-5)/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-50)/scaleSelect, float64(row*3+3)/scaleSelect, scaleSelect)
 	}
 }
 
 func drawSelectTips(screen *ebiten.Image, g *game) {
 	if g.gui.tips == true {
-		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-50)/scaleSelect, float64(row*5-5)/scaleSelect, scaleSelect)
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-50)/scaleSelect, float64(row*5+3)/scaleSelect, scaleSelect)
 	}
 }
 
@@ -88,30 +88,30 @@ func drawSelect(screen *ebiten.Image, g *game) {
 }
 
 func drawHuman(screen *ebiten.Image, g *game) {
-	text.Draw(screen, `Human`, mplusBigFont, newGameColumnBlack, row*4, color.Black)
-	text.Draw(screen, `Human`, mplusBigFont, newGameColumnBlack+column1, row*4, color.White)
+	text.Draw(screen, `Human`, mplusMediumFont, newGameColumnBlack, row*4, color.Black)
+	text.Draw(screen, `Human`, mplusMediumFont, newGameColumnBlack+column1, row*4, color.White)
 }
 
 func drawHotseatPulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.ai0.hotseat == true {
-		drawImagePulse(screen, imgBlack, float64(newGameColumnBlack+420), 525, 1, alpha)
+		drawImagePulse(screen, imgBlack, float64(newGameColumnBlack+370), 525, 1, alpha)
 	}
 	if g.ai1.hotseat == true {
-		drawImagePulse(screen, imgWhite, float64(newGameColumnBlack+column1+420), 525, 1, alpha)
+		drawImagePulse(screen, imgWhite, float64(newGameColumnBlack+column1+370), 525, 1, alpha)
 	}
 }
 
 func drawHotseat(screen *ebiten.Image, g *game, alpha float64) {
-	text.Draw(screen, `Hotseat`, mplusBigFont, newGameColumnBlack, row*6, color.Black)
-	text.Draw(screen, `Hotseat`, mplusBigFont, newGameColumnBlack+column1, row*6, color.White)
+	text.Draw(screen, `Hotseat`, mplusMediumFont, newGameColumnBlack, row*6, color.Black)
+	text.Draw(screen, `Hotseat`, mplusMediumFont, newGameColumnBlack+column1, row*6, color.White)
 	drawHotseatPulse(screen, g, alpha)
 }
 
 func drawAIplayer(screen *ebiten.Image, g *game, depth uint8, column int, color color.Color) {
-	text.Draw(screen, `AI - depth`, mplusBigFont, newGameColumnBlack+column, row*8, color)
-	text.Draw(screen, strconv.Itoa(int(depth)), mplusBigFont, newGameColumnBlack+column+400, row*8, color)
-	text.Draw(screen, string('⇧'), mplusBigFont, newGameColumnBlack+column+387, row*7, color)
-	text.Draw(screen, string('⇩'), mplusBigFont, newGameColumnBlack+column+387, row*9, color)
+	text.Draw(screen, `AI - depth`, mplusMediumFont, newGameColumnBlack+column, row*8, color)
+	text.Draw(screen, strconv.Itoa(int(depth)), mplusMediumFont, newGameColumnBlack+column+360, row*8, color)
+	text.Draw(screen, string('⇧'), mplusBigFont, newGameColumnBlack+column+345, row*7+20, color)
+	text.Draw(screen, string('⇩'), mplusBigFont, newGameColumnBlack+column+345, row*9-10, color)
 }
 
 func drawAI(screen *ebiten.Image, g *game) {
@@ -120,7 +120,7 @@ func drawAI(screen *ebiten.Image, g *game) {
 }
 
 func drawLastMovePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebiten.Image) {
-	drawImagePulse(screen, blue, float64(newGameColumnBlack+(column1*2)+420), 325, 1, alpha*2)
+	drawImagePulse(screen, blue, float64(newGameColumnBlack+(column1*2)+370), 325, 1, alpha*2)
 }
 
 func drawLastMovePulses(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
@@ -134,30 +134,30 @@ func drawLastMovePulses(screen *ebiten.Image, g *game, second, pulse, alpha floa
 
 func drawWinMovePulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.gui.drawWinMove == true {
-		drawImagePulse(screen, imgRed, float64(newGameColumnBlack+(column1*2)+420), 525, 1, alpha)
+		drawImagePulse(screen, imgRed, float64(newGameColumnBlack+(column1*2)+370), 525, 1, alpha)
 	}
 }
 
 func drawCapturedPulse(screen *ebiten.Image, g *game, alpha float64) {
 	if g.gui.drawCapture == true {
-		drawImagePulse(screen, imgCapture, float64(newGameColumnBlack+(column1*2)+420), 725, 1, alpha)
+		drawImagePulse(screen, imgCapture, float64(newGameColumnBlack+(column1*2)+370), 725, 1, alpha)
 	}
 }
 
 func drawHighlight(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
 	ebitenutil.DrawRect(screen, float64(newGameColumnBlack+column1*2), 242, 320, 6, color.Black)
 	text.Draw(screen, `Highlight`, mplusBigFont, newGameColumnBlack+column1*2, row*2+22, color.Black)
-	text.Draw(screen, `Last Move`, mplusBigFont, newGameColumnBlack+column1*2, row*4, color.Black)
+	text.Draw(screen, `Last Move`, mplusMediumFont, newGameColumnBlack+column1*2, row*4, color.Black)
 	drawLastMovePulses(screen, g, second, pulse, alpha)
-	text.Draw(screen, `Win Move`, mplusBigFont, newGameColumnBlack+column1*2, row*6, color.Black)
+	text.Draw(screen, `Win Move`, mplusMediumFont, newGameColumnBlack+column1*2, row*6, color.Black)
 	drawWinMovePulse(screen, g, alpha)
-	text.Draw(screen, `Captured`, mplusBigFont, newGameColumnBlack+column1*2, row*8, color.Black)
+	text.Draw(screen, `Captured`, mplusMediumFont, newGameColumnBlack+column1*2, row*8, color.Black)
 	drawCapturedPulse(screen, g, alpha)
 
 	text.Draw(screen, `Cheats`, mplusBigFont, newGameColumnBlack+column1*3, row*2+22, color.Black)
 	ebitenutil.DrawRect(screen, float64(newGameColumnBlack+column1*3), 242, 250, 6, color.Black)
-	text.Draw(screen, `Undo`, mplusBigFont, newGameColumnBlack+column1*3, row*4, color.Black)
-	text.Draw(screen, `Tips`, mplusBigFont, newGameColumnBlack+column1*3, row*6, color.Black)
+	text.Draw(screen, `Undo`, mplusMediumFont, newGameColumnBlack+column1*3, row*4, color.Black)
+	text.Draw(screen, `Tips`, mplusMediumFont, newGameColumnBlack+column1*3, row*6, color.Black)
 }
 
 func drawNewGameOptions(screen *ebiten.Image, g *game, second, pulse, alpha float64) {

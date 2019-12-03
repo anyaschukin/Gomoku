@@ -9,12 +9,11 @@ import (
 func newGame() *game {
 	g = &game{}
 	g.ai0.aiPlayer = true
-	g.ai0.depth = 2           // 3
-	g.ai1.depth = 2           // 3
-	g.gui.drawLastMove = true //// false for correction (bonus)!!!!
-	g.gui.drawWinMove = true  //// false for correction (bonus)!!!!
-	g.gui.drawCapture = true  //// false for correction (bonus)!!!!
-	g.gui.undo = true         //// false for correction (bonus)!!!!
+	g.ai0.depth = 2 // 3 // !!!
+	g.ai1.depth = 2 // 3 // !!!
+	g.gui.drawLastMove = true
+	g.gui.drawWinMove = true
+	g.gui.drawCapture = true
 	aiSuggestMove(g)
 	return g
 }
@@ -34,7 +33,7 @@ func swapPlayers(coordinate coordinate, g *game) {
 func guiReset(g *game) {
 	g.gui.capturedPositions2 = g.gui.capturedPositions
 	g.gui.capturedPositions = nil
-	if alignFive(g.winMove, &g.goban, &g.align5, g.player, g.capture0, g.capture1) == false {
+	if alignFive(g.winMove, &g.goban, &g.align5, opponent(g.player), g.capture0, g.capture1) == false {
 		g.gui.align5Positions = nil
 	}
 	g.gui.canCapturePositions = nil
@@ -52,9 +51,7 @@ func gameLoop(coordinate coordinate, g *game) {
 		if isPlayerHotseat(g) == true {
 			aiSuggestMove(g)
 		}
-		if g.gui.tips == true {
-			captureCheat(&g.goban, g.player)
-		}
+		captureCheat(&g.goban, g.player)
 	}
 }
 

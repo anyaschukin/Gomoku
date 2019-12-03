@@ -17,6 +17,8 @@ func undo(g *game) {
 		}
 		removeStone(g.lastMove, &g.goban)
 		removeStone(g.lastMove2, &g.goban)
+		g.gui.capturedPositions = nil
+		g.gui.capturedPositions2 = nil
 		g.move -= 2
 		g.won = false
 		g.gui.message = ""
@@ -88,13 +90,15 @@ func canCaptureCheat(coordinate coordinate, goban *[19][19]position, player bool
 // captureCheat stores possible capture positions for gui tips
 // (iterate entire goban, check if capture possible for each positon)
 func captureCheat(goban *[19][19]position, player bool) {
-	var y int8
-	var x int8
-	for y = 0; y < 19; y++ {
-		for x = 0; x < 19; x++ {
-			coordinate := coordinate{y, x}
-			if positionOccupiedByPlayer(coordinate, goban, player) == true {
-				canCaptureCheat(coordinate, goban, player)
+	if g.gui.tips == true {
+		var y int8
+		var x int8
+		for y = 0; y < 19; y++ {
+			for x = 0; x < 19; x++ {
+				coordinate := coordinate{y, x}
+				if positionOccupiedByPlayer(coordinate, goban, player) == true {
+					canCaptureCheat(coordinate, goban, player)
+				}
 			}
 		}
 	}

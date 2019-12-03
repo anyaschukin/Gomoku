@@ -12,12 +12,6 @@ type position struct {
 	player   bool
 }
 
-// If one Player aligns 5, their opponent must break it, capture 10, or lose.
-type align5 struct {
-	break5   bool // Can the opponent break the aligned 5?
-	capture8 bool // Can the opponent win by capturing 10? (have they already captured 8, and is there an available capture move)
-}
-
 type ai struct {
 	aiPlayer bool          // Is Player Human or Ai
 	hotseat  bool          // Ai Player only suggests moves, Human must choose move
@@ -26,17 +20,23 @@ type ai struct {
 	suggest  coordinate    // Ai suggested move
 }
 
-// captured struct records info for display in GUI
+// If a Player aligns 5, their opponent must break it, capture 10, or lose.
+type align5 struct {
+	break5   bool // Can the opponent break the aligned 5?
+	capture8 bool // Can the opponent win by capturing 10? (have they already captured 8, and is there an available capture move)
+}
+
+// gui struct records info for display in GUI
 type gui struct {
 	newGame             bool         // New Game button has been pressed, show new game options
+	drawIntro           bool         // Finished drawing the intro?
+	introTime           time.Time    // when was the game started
 	message             string       // Game feeback for display in gui (invalid move, win)
+	drawLastMove        bool         // Higlight the last move played
+	drawWinMove         bool         // Higlight the last move played
 	drawCapture         bool         // Higlight captures
 	capturedPositions   []coordinate // Positions of captured stones
 	capturedPositions2  []coordinate // Positions of captured stones from move before lastå
-	drawIntro           bool         // Finished drawing the intro?
-	introTime           time.Time    // when was the game started
-	drawLastMove        bool         // Higlight the last move played
-	drawWinMove         bool         // Higlight the last move played
 	undo                bool         // show undo button
 	undoMove            uint32       // last move undone
 	tips                bool         // display undo button
@@ -51,7 +51,6 @@ type game struct {
 	player    bool             // Whose move is it? (Player 0 - black first)
 	ai0       ai               // Is black human or Ai?
 	ai1       ai               // Is white human or Ai?
-	gui       gui              // info to display in GUI
 	capture0  uint8            // How many stones has Black Captured? 10 to win
 	capture1  uint8            // How many stones has White Captured? 10 to win
 	align5    align5           // Can an aligned 5 can be broken or trumped by capturing 10?
@@ -60,6 +59,7 @@ type game struct {
 	lastMove2 coordinate       // move before last played
 	won       bool             // Game finished
 	winMove   coordinate       // Winning move
+	gui       gui              // info to display in GUI
 }
 
 // Game var contains all information about current game state

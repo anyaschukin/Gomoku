@@ -29,6 +29,7 @@ var imgUndo *ebiten.Image
 /// Text
 var (
 	mplusNormalFont font.Face
+	mplusMediumFont font.Face
 	mplusBigFont    font.Face
 )
 
@@ -95,6 +96,11 @@ func init() {
 	const dpi = 72
 	mplusNormalFont = truetype.NewFace(tt, &truetype.Options{
 		Size:    52,
+		DPI:     dpi,
+		Hinting: font.HintingFull,
+	})
+	mplusMediumFont = truetype.NewFace(tt, &truetype.Options{
+		Size:    62,
 		DPI:     dpi,
 		Hinting: font.HintingFull,
 	})

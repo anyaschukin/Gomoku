@@ -71,12 +71,9 @@ func openingMoves(g *game) {
 
 // aiSuggestMove, if player is AI call AI to suggest a move
 func aiSuggestMove(g *game) {
-	if isPlayerHuman(g) == false || isPlayerHotseat(g) == true { /////do we need this??!!!
-		// artificialIdiot(g)
-		if g.move < 2 {
-			openingMoves(g)
-			return
-		}
-		minimaxTree(g)
+	if g.move < 2 {
+		openingMoves(g)
+		return
 	}
+	minimaxTree(g)
 }

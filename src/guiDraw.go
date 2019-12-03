@@ -152,6 +152,21 @@ func drawWhiteMessage(screen *ebiten.Image, msg string, alpha float64) {
 	text.Draw(screen, msg, mplusNormalFont, columnWhite, row*2, TextColor)
 }
 
+func drawBlackWin(screen *ebiten.Image, msg string, alpha float64) {
+	var TextColor color.RGBA
+	TextColor.A = uint8(alpha * 255)
+	text.Draw(screen, msg, mplusBigFont, columnBlack, row*1+50, TextColor)
+}
+
+func drawWhiteWin(screen *ebiten.Image, msg string, alpha float64) {
+	var TextColor color.RGBA
+	TextColor.R = 255
+	TextColor.G = 255
+	TextColor.B = 255
+	TextColor.A = uint8(alpha * 255)
+	text.Draw(screen, msg, mplusBigFont, columnWhite, row*1+50, TextColor)
+}
+
 func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 	if g.won == false {
 		if g.gui.drawIntro == true {
@@ -174,9 +189,9 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 		}
 	} else {
 		if g.gui.message == "Black Wins!" {
-			text.Draw(screen, g.gui.message, mplusBigFont, columnBlack, row*1+50, color.Black)
+			drawBlackWin(screen, g.gui.message, alpha)
 		} else {
-			text.Draw(screen, g.gui.message, mplusBigFont, columnWhite, row*1+50, color.White)
+			drawWhiteWin(screen, g.gui.message, alpha)
 		}
 	}
 }

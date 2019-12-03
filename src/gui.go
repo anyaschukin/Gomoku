@@ -21,7 +21,7 @@ func update(screen *ebiten.Image) error {
 func runGui() {
 	w, _ := ebiten.ScreenSizeInFullscreen()
 	windowSize := float64(w) / float64(2560)
-	ebiten.SetFullscreen(true) // toggle Fullscreen
+	ebiten.SetFullscreen(true)
 	if err := ebiten.Run(update, 2560, 1440, windowSize, "Gomoku"); err != nil {
 		log.Fatal(err)
 	}

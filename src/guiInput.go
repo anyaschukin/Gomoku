@@ -2,6 +2,7 @@ package play //gui
 
 import (
 	"os"
+
 	// "fmt" ///
 	/// import golib swapBool///!!!!
 	"github.com/hajimehoshi/ebiten"
@@ -25,7 +26,7 @@ func swapFullscreen() {
 }
 
 func inColumnX(x, column int) bool {
-	if x > newGameColumnBlack-25+column && x < newGameColumnBlack+380+column {
+	if x > newGameColumnBlack-25+column && x < newGameColumnBlack+340+column {
 		return true
 	}
 	return false
@@ -56,16 +57,16 @@ func clickAI(x, y, column int) bool {
 }
 
 func clickUp(x, y, column int) bool {
-	if x > 535+column && x < 593+column &&
-		y > 643 && y < 705 {
+	if x > 495+column && x < 550+column &&
+		y > 664 && y < 723 {
 		return true
 	}
 	return false
 }
 
 func clickDown(x, y, column int) bool {
-	if x > 535+column && x < 593+column &&
-		y > 848 && y < 908 {
+	if x > 495+column && x < 550+column &&
+		y > 837 && y < 898 {
 		return true
 	}
 	return false
