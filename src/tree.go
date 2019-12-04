@@ -52,7 +52,6 @@ func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player
 	var y int8
 	var x int8
 
-	// if depth > 2 {
 	if depth == limit {
 		return
 	}
@@ -77,17 +76,13 @@ func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player
 	}
 }
 
-func createTree(g *game) *node {
-	limit := g.ai0.depth
-	if g.player == true {
-		limit = g.ai1.depth
-	}
-
+func createTree(g *game, limit uint8) *node {
 	root := newNode(0, 0, &g.goban, coordinate{-1, -1}, g.player)
 	generateBoardsDepth(limit, 1, root, root.id, root.player)
 	return root
 }
 
+/* prints the tree from the root */
 func printTree(parent *node) {
 	current := parent
 	fmt.Printf("\nparent: %d\n", current.id)
@@ -97,7 +92,7 @@ func printTree(parent *node) {
 		// printTree(child)
 		// put in a mutex/lock to wait until this range is done, and then call printTree for the child
 	}
-	// depth-first
+	/* depth-first */
 	for i := range current.children {
 		current := current.children[i]
 		// dumpGoban(&current.goban)
@@ -105,6 +100,7 @@ func printTree(parent *node) {
 	}
 }
 
+/* prints the best move at the selected depth */
 func printBestRoute(root *node) {
 	current := root
 	for current.bestMove != nil {
@@ -120,18 +116,17 @@ func printBestRoute(root *node) {
 
 func minimaxTree(g *game) {
 	start := time.Now()
-	// depth := g.ai0.depth
-	// if g.player == true {
-	// 	depth = g.ai1.depth
-	// }
-	root := createTree(g)
-	// printTree(root)
-	// fmt.Println("-----")
+
+	limit := g.ai0.depth
+	if g.player == true {
+		limit = g.ai1.depth
+	}
+
+	root := createTree(g, limit)
 	alpha := minInt
 	beta := maxInt
-	minimaxRecursive(root, 3, alpha, beta, true) // for some reason, maximizingplayer has to be set to 'false' for this to work
+	minimaxRecursive(root, limit, alpha, beta, true) // for some reason, maximizingplayer has to be set to 'false' for this to work
 	elapsed := (time.Since(start))
-	// printBestRoute(root)///
 
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
