@@ -1,8 +1,10 @@
 #### TO DO ####
 	- take current captured stones into account ?
 	- take past Player actions into account to identify patterns and weigh board states accordingly ?
-	
-	- seperate struct for efficiency? (only things ai needs)
+
+	- prioritize block 4 over block 3
+	- if opponent aligns 5, prioritize capture over everything else (also prioritize break5 over other captures)
+
 
 #### BONUS ####
 1. Human vs human, hotseat vs hotseat, ai vs ai

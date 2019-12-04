@@ -78,7 +78,7 @@ func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player
 
 func createTree(g *game, limit uint8) *node {
 	root := newNode(0, 0, &g.goban, coordinate{-1, -1}, g.player)
-	generateBoardsDepth(limit, 1, root, root.id, root.player)
+	generateBoardsDepth(limit, 0, root, root.id, root.player)
 	return root
 }
 
@@ -116,7 +116,6 @@ func printBestRoute(root *node) {
 
 func minimaxTree(g *game) {
 	start := time.Now()
-
 	limit := g.ai0.depth
 	if g.player == true {
 		limit = g.ai1.depth
