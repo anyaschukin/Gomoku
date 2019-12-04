@@ -93,11 +93,6 @@ func (g *game) updateGame() {
 // Play initializes a new game and launches the GUI (Ebiten)
 func Play() {
 	g := newGame()
-<<<<<<< HEAD
 	g.gui.newGame = true
-=======
-	g.newGame = true
-	// g.ai1.depth = 3 ////////
->>>>>>> f169ea7959953f85c79e94773c3558ef44b492af
 	runGui()
 }
