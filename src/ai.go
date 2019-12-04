@@ -5,6 +5,25 @@ import (
 	"time"
 )
 
+func openingMoves(g *game) {
+	start := time.Now()
+	openingBlack := coordinate{9, 9}
+	if g.move == 0 { // Black opening
+		elapsed := (time.Since(start))
+		g.ai0.suggest = openingBlack
+		g.ai0.timer = elapsed
+	}
+	if g.move == 1 { // White opening
+		openingWhite := openingBlack
+		if positionOccupied(openingBlack, &g.goban) == true {
+			openingWhite = coordinate{8, 8}
+		}
+		elapsed := (time.Since(start))
+		g.ai1.suggest = openingWhite
+		g.ai1.timer = elapsed
+	}
+}
+
 func randomCoordinate() coordinate {
 	x := int8(rand.Intn(19))
 	y := int8(rand.Intn(19))
@@ -22,25 +41,6 @@ func artificialIdiot(g *game) {
 		g.ai0.timer = elapsed
 	} else {
 		g.ai1.suggest = suggestion
-		g.ai1.timer = elapsed
-	}
-}
-
-func openingMoves(g *game) {
-	start := time.Now()
-	openingBlack := coordinate{9, 9}
-	if g.move == 0 { // Black opening
-		elapsed := (time.Since(start))
-		g.ai0.suggest = openingBlack
-		g.ai0.timer = elapsed
-	}
-	if g.move == 1 { // White opening
-		openingWhite := openingBlack
-		if positionOccupied(openingBlack, &g.goban) == true {
-			openingWhite = coordinate{8, 8}
-		}
-		elapsed := (time.Since(start))
-		g.ai1.suggest = openingWhite
 		g.ai1.timer = elapsed
 	}
 }
