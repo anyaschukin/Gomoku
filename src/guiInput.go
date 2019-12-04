@@ -2,70 +2,15 @@ package play
 
 import (
 	"os"
-
+	// "fmt"
 	// lib "Gomoku/src/golib" // mv swapBool !!!!
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-func swapBool(boolean *bool) {
-	if *boolean == false {
-		*boolean = true
-	} else {
-		*boolean = false
-	}
-}
-
-func swapFullscreen() {
-	if ebiten.IsFullscreen() == true {
-		ebiten.SetFullscreen(false)
-	} else {
-		ebiten.SetFullscreen(true)
-	}
-}
-
-func inColumnX(x, column int) bool {
-	if x > newGameColumnBlack-25+column && x < newGameColumnBlack+340+column {
-		return true
-	}
-	return false
-}
-
-func clickHuman(x, y, column int) bool {
-	if inColumnX(x, column) == true &&
-		y > 306 && y < 441 {
-		return true
-	}
-	return false
-}
-
-func clickHotseat(x, y, column int) bool {
-	if inColumnX(x, column) == true &&
-		y > 530 && y < 623 {
-		return true
-	}
-	return false
-}
-
-func clickAI(x, y, column int) bool {
-	if inColumnX(x, column) == true &&
-		y > 715 && y < 849 {
-		return true
-	}
-	return false
-}
-
-func clickUp(x, y, column int) bool {
-	if x > 495+column && x < 550+column &&
-		y > 664 && y < 723 {
-		return true
-	}
-	return false
-}
-
-func clickDown(x, y, column int) bool {
-	if x > 495+column && x < 550+column &&
-		y > 837 && y < 898 {
+func clickGoban(x, y int) bool {
+	if x > int(gobanX*scale) && x < int((gobanX*scale)+(positionWidth*float64(19)*scale)) &&
+		y > int(gobanY*scale) && y < int((gobanY*scale)+(positionWidth*float64(19)*scale)) {
 		return true
 	}
 	return false
@@ -87,9 +32,63 @@ func clickExit(x, y int) bool {
 	return false
 }
 
-func clickGoban(x, y int) bool {
-	if x > int(gobanX*scale) && x < int((gobanX*scale)+(positionWidth*float64(19)*scale)) &&
-		y > int(gobanY*scale) && y < int((gobanY*scale)+(positionWidth*float64(19)*scale)) {
+func clickUndoButton(x, y int) bool {
+	if x > 83 && x < 241 &&
+		y > 1085 && y < 1232 {
+		return true
+	}
+	return false
+}
+
+func inColumnX(x, column int) bool {
+	if x > newGameColumnBlack-25+column && x < newGameColumnBlack+340+column {
+		return true
+	}
+	return false
+}
+
+func inRowY(y, rowI int) bool {
+	if y > rowI*row+25 && y < rowI*row+134 {
+		return true
+	}
+	return false
+}
+
+func clickHuman(x, y, column int) bool {
+	if inColumnX(x, column) == true &&
+		inRowY(y, 3) {
+		return true
+	}
+	return false
+}
+
+func clickHotseat(x, y, column int) bool {
+	if inColumnX(x, column) == true &&
+		inRowY(y, 5) {
+		return true
+	}
+	return false
+}
+
+func clickAI(x, y, column int) bool {
+	if inColumnX(x, column) == true &&
+		inRowY(y, 7) {
+		return true
+	}
+	return false
+}
+
+func clickUp(x, y, column int) bool {
+	if x > 495+column && x < 550+column &&
+		y > 664 && y < 723 {
+		return true
+	}
+	return false
+}
+
+func clickDown(x, y, column int) bool {
+	if x > 495+column && x < 550+column &&
+		y > 837 && y < 898 {
 		return true
 	}
 	return false
@@ -97,7 +96,7 @@ func clickGoban(x, y int) bool {
 
 func clickLastMove(x, y int) bool {
 	if inColumnX(x, column1*2) == true &&
-		y > 333 && y < 415 {
+		inRowY(y, 3) {
 		return true
 	}
 	return false
@@ -105,7 +104,7 @@ func clickLastMove(x, y int) bool {
 
 func clickWinMove(x, y int) bool {
 	if inColumnX(x, column1*2) == true &&
-		y > 533 && y < 621 {
+		inRowY(y, 5) {
 		return true
 	}
 	return false
@@ -113,7 +112,7 @@ func clickWinMove(x, y int) bool {
 
 func clickCapture(x, y int) bool {
 	if inColumnX(x, column1*2) == true &&
-		y > 733 && y < 821 {
+		inRowY(y, 7) {
 		return true
 	}
 	return false
@@ -121,7 +120,7 @@ func clickCapture(x, y int) bool {
 
 func clickUndo(x, y int) bool {
 	if inColumnX(x, column1*3) == true &&
-		y > 333 && y < 415 {
+		inRowY(y, 3) {
 		return true
 	}
 	return false
@@ -129,15 +128,7 @@ func clickUndo(x, y int) bool {
 
 func clickTips(x, y int) bool {
 	if inColumnX(x, column1*3) == true &&
-		y > 533 && y < 621 {
-		return true
-	}
-	return false
-}
-
-func clickUndoButton(x, y int) bool {
-	if x > 83 && x < 241 &&
-		y > 1085 && y < 1232 {
+		inRowY(y, 5) {
 		return true
 	}
 	return false
@@ -174,6 +165,22 @@ func clickPlayer(x, y int, player bool) {
 		if p.depth > 0 {
 			p.depth--
 		}
+	}
+}
+
+func swapBool(boolean *bool) {
+	if *boolean == false {
+		*boolean = true
+	} else {
+		*boolean = false
+	}
+}
+
+func swapFullscreen() {
+	if ebiten.IsFullscreen() == true {
+		ebiten.SetFullscreen(false)
+	} else {
+		ebiten.SetFullscreen(true)
 	}
 }
 
