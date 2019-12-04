@@ -156,6 +156,7 @@ func drawO(screen *ebiten.Image, alpha float64, img1 *ebiten.Image, img2 *ebiten
 	drawImagePulse(screen, img1, stoneX(17), stoneY(12), scale, alpha)
 }
 
+// drawIntro draws "GO" in stones on the goban at the start of a new game
 func drawIntro(screen *ebiten.Image) {
 	if g.gui.introTime.IsZero() {
 		g.gui.introTime = time.Now()
