@@ -1,5 +1,4 @@
 #### TO DO ####
-	- take potential captures into account ?
 	- take current captured stones into account ?
 	- take past Player actions into account to identify patterns and weigh board states accordingly ?
 	
