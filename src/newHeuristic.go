@@ -18,7 +18,7 @@ import (
 const epsilon = 2
 /* if this move captures a 2-in-a-row */
 const captureTwo = 42e8
-/* defend against opponent's 3-in-a-row */
+/* defend against or break a 3-in-a-row */
 const defendThree = 42e11
 
 func weight(z int8) int {
@@ -88,8 +88,6 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		if coordinateOnGoban(neighbour) == false {
 			break
 		} else if defend(coordinate, goban, y, x, player) == true {
-			// evalAxis *= defendThree
-			// break
 			return defendThree
 		} else if canCapture2(coordinate, goban, y, x, player) == true {
 			evalAxis *= captureTwo
@@ -106,8 +104,6 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		if coordinateOnGoban(neighbour) == false {
 			break
 		} else if defend(coordinate, goban, -y, -x, player) == true {
-			// evalAxis *= defendThree
-			// break
 			return defendThree
 		} else if canCapture2(coordinate, goban, -y, -x, player) == true {
 			evalAxis *= captureTwo
@@ -123,7 +119,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 }
 
 // alignFive returns true if 5 stones are aligned running through given coodinate
-func moveEvaluationAlgorithm(coordinate coordinate, goban *[19][19]position, player bool) int {
+func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool) int {
 	var x int8
 	var y int8
 
