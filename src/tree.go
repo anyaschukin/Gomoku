@@ -48,11 +48,12 @@ func addChild(node *node, parentID int, child *node) int {
 }
 
 // Recursively generates every move for a board (to depth 3), assigns value, and adds to tree
-func generateBoardsDepth(depth int8, current *node, id int, player bool) {
+func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player bool) {
 	var y int8
 	var x int8
 
-	if depth > 2 {
+	// if depth > 2 {
+	if depth == limit {
 		return
 	}
 	for y = 0; y < 19; y++ {
@@ -62,7 +63,7 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 				identity++
 				newGoban := current.goban
 				placeStone(coordinate, player, &newGoban)
-				value := moveEvaluationAlgorithm(coordinate, &newGoban, player)
+				value := evaluateMove(coordinate, &newGoban, player)
 				// fmt.Printf("coordinate = %v, value = %v\n", coordinate, value)
 				// dumpGoban(&newGoban)
 				// time.Sleep(300 * time.Millisecond)
@@ -70,15 +71,20 @@ func generateBoardsDepth(depth int8, current *node, id int, player bool) {
 				// value := valueBoard(&newGoban, player)
 				child := newNode(identity, value, &newGoban, coordinate, player)
 				addChild(current, current.id, child) //
-				generateBoardsDepth(depth+1, child, child.id, !player)
+				generateBoardsDepth(limit, depth+1, child, child.id, !player)
 			}
 		}
 	}
 }
 
 func createTree(g *game) *node {
+	limit := g.ai0.depth
+	if g.player == true {
+		limit = g.ai1.depth
+	}
+
 	root := newNode(0, 0, &g.goban, coordinate{-1, -1}, g.player)
-	generateBoardsDepth(1, root, root.id, root.player)
+	generateBoardsDepth(limit, 1, root, root.id, root.player)
 	return root
 }
 
@@ -127,10 +133,10 @@ func minimaxTree(g *game) {
 	elapsed := (time.Since(start))
 	// printBestRoute(root)///
 
-	fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
-	dumpGoban(&root.bestMove.goban)
-	fmt.Println("------------\n")
-	time.Sleep(100000000)
+	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
+	// dumpGoban(&root.bestMove.goban)
+	// fmt.Println("------------\n")
+	// time.Sleep(100000000)
 
 	if g.player == false {
 		g.ai0.suggest = root.bestMove.coordinate
