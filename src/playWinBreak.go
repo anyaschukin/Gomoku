@@ -35,7 +35,7 @@ func canBreakFive(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 	if canBeCapturedVertices(coordinate, goban, player) == true {
 		return true
 	}
-	//move along winning string//////////////
+	// move along winning chain, check if positions can be captured
 	var multiple int8
 	var a int8
 	var b int8

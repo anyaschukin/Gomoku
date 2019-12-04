@@ -1,15 +1,10 @@
 package play
 
-// capturedEight returns true if either player has already captured 8
+// capturedEight returns true if given player has already captured 8
 func capturedEight(player bool, capture0 uint8, capture1 uint8) bool {
-	if player == false {
-		if capture0 >= 8 {
-			return true
-		}
-	} else {
-		if capture1 >= 8 {
-			return true
-		}
+	if (player == false && capture0 >= 8) ||
+		(player == true && capture1 >= 8) {
+		return true
 	}
 	return false
 }

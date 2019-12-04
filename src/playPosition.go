@@ -1,7 +1,8 @@
 package play
 
 func coordinateOnGoban(coordinate coordinate) bool {
-	if coordinate.y < 0 || coordinate.y > 18 || coordinate.x < 0 || coordinate.x > 18 {
+	if coordinate.y < 0 || coordinate.y > 18 ||
+		coordinate.x < 0 || coordinate.x > 18 {
 		return false
 	}
 	return true

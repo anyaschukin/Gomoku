@@ -55,8 +55,8 @@ func gameLoop(coordinate coordinate, g *game) {
 	}
 }
 
-// humanLoop listens for a click on the goban runs gameloop with clicked coordinate
-func humanLoop(g *game) {
+// humanMove listens for a click on the goban runs gameloop with clicked coordinate
+func humanMove(g *game) {
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 		x, y := ebiten.CursorPosition()
 		if clickGoban(x, y) == true {
@@ -68,8 +68,8 @@ func humanLoop(g *game) {
 	}
 }
 
-// aiLoop listens runs gameloop with suggested coordinate
-func aiLoop(g *game) {
+// aiMove listens runs gameloop with suggested coordinate
+func aiMove(g *game) {
 	aiSuggestMove(g)
 	coordinate := g.ai0.suggest
 	if g.player == true {
@@ -83,9 +83,9 @@ func (g *game) updateGame() {
 	input(g)
 	if g.gui.newGame == false && g.won == false && g.gui.drawIntro == true {
 		if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
-			humanLoop(g)
+			humanMove(g)
 		} else {
-			aiLoop(g)
+			aiMove(g)
 		}
 	}
 }
