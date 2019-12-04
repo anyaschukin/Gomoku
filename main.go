@@ -6,4 +6,6 @@ func main() {
 	gomoku.Play()
 }
 
-/// go run main.go
+// ## To run enter either command:
+// go run main.go
+// go build; ./Gomoku

@@ -83,58 +83,18 @@ func drawStones(screen *ebiten.Image, g *game) {
 	}
 }
 
-func drawPlayerID(screen *ebiten.Image, g *game, p ai, column int, color color.Color) {
-	if p.hotseat == true {
-		text.Draw(screen, `(Hotseat)`, mplusNormalFont, column, row*4, color)
-	}
-	if p.aiPlayer == true {
-		text.Draw(screen, `AI`, mplusBigFont, column, row*5, color)
-		ebitenutil.DrawRect(screen, float64(column-8), 520, 90, 6, color)
-		text.Draw(screen, `- depth:`, mplusNormalFont, column+100, row*5-9, color)
-		text.Draw(screen, strconv.Itoa(int(p.depth)), mplusNormalFont, column+320, row*5-9, color)
-	} else {
-		text.Draw(screen, `HUMAN`, mplusBigFont, column, row*5, color)
-		ebitenutil.DrawRect(screen, float64(column-8), 520, 290, 6, color)
-	}
-}
-
-func drawCaptured(screen *ebiten.Image, g *game, captured uint8, column int, color color.Color) {
-	text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, color)
-	text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, color)
-}
-
-func drawTimer(screen *ebiten.Image, g *game, p ai, column int, color color.Color) {
-	if p.aiPlayer == true || p.hotseat == true {
-		text.Draw(screen, `timer:`, mplusNormalFont, column, row*6+75, color)
-		elapsed, err := time.ParseDuration(p.timer.String())
-		if err != nil {
-			panic(err)
+func drawHotseatSuggestion(screen *ebiten.Image, g *game, alpha float64) {
+	if isPlayerHotseat(g) == true && g.won == false {
+		coordinate := g.ai0.suggest
+		if g.player == true {
+			coordinate = g.ai1.suggest
 		}
-		truncated := elapsed.Truncate(time.Nanosecond).String()
-		if elapsed >= 1000000 {
-			truncated = elapsed.Truncate(time.Millisecond).String()
-		} else if elapsed >= 1000 {
-			truncated = elapsed.Truncate(time.Microsecond).String()
+		if g.player == false {
+			drawImagePulse(screen, imgBlack, stoneX(coordinate.x), stoneY(coordinate.y), scale, 1-alpha)
+		} else {
+			drawImagePulse(screen, imgWhite, stoneX(coordinate.x), stoneY(coordinate.y), scale, 1-alpha)
 		}
-		text.Draw(screen, truncated, mplusNormalFont, column+180, row*6+75, color)
 	}
-}
-
-func drawPlayerText(screen *ebiten.Image, g *game, player bool) {
-	var c color.Color
-	column := columnBlack
-	p := g.ai0
-	captured := g.capture0
-	c = color.Black
-	if player == true {
-		column = columnWhite
-		p = g.ai1
-		captured = g.capture1
-		c = color.White
-	}
-	drawPlayerID(screen, g, p, column, c)
-	drawCaptured(screen, g, captured, column, c)
-	drawTimer(screen, g, p, column, c)
 }
 
 func drawBlackMessage(screen *ebiten.Image, msg string, alpha float64) {
@@ -196,6 +156,60 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 	}
 }
 
+func drawPlayerID(screen *ebiten.Image, g *game, p ai, column int, color color.Color) {
+	if p.hotseat == true {
+		text.Draw(screen, `(Hotseat)`, mplusNormalFont, column, row*4, color)
+	}
+	if p.aiPlayer == true {
+		text.Draw(screen, `AI`, mplusBigFont, column, row*5, color)
+		ebitenutil.DrawRect(screen, float64(column-8), 520, 90, 6, color)
+		text.Draw(screen, `- depth:`, mplusNormalFont, column+100, row*5-9, color)
+		text.Draw(screen, strconv.Itoa(int(p.depth)), mplusNormalFont, column+320, row*5-9, color)
+	} else {
+		text.Draw(screen, `HUMAN`, mplusBigFont, column, row*5, color)
+		ebitenutil.DrawRect(screen, float64(column-8), 520, 290, 6, color)
+	}
+}
+
+func drawCaptured(screen *ebiten.Image, g *game, captured uint8, column int, color color.Color) {
+	text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, color)
+	text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, color)
+}
+
+func drawTimer(screen *ebiten.Image, g *game, p ai, column int, color color.Color) {
+	if p.aiPlayer == true || p.hotseat == true {
+		text.Draw(screen, `timer:`, mplusNormalFont, column, row*6+75, color)
+		elapsed, err := time.ParseDuration(p.timer.String())
+		if err != nil {
+			panic(err)
+		}
+		truncated := elapsed.Truncate(time.Nanosecond).String()
+		if elapsed >= 1000000 {
+			truncated = elapsed.Truncate(time.Millisecond).String()
+		} else if elapsed >= 1000 {
+			truncated = elapsed.Truncate(time.Microsecond).String()
+		}
+		text.Draw(screen, truncated, mplusNormalFont, column+180, row*6+75, color)
+	}
+}
+
+func drawPlayerText(screen *ebiten.Image, g *game, player bool) {
+	var c color.Color
+	column := columnBlack
+	p := g.ai0
+	captured := g.capture0
+	c = color.Black
+	if player == true {
+		column = columnWhite
+		p = g.ai1
+		captured = g.capture1
+		c = color.White
+	}
+	drawPlayerID(screen, g, p, column, c)
+	drawCaptured(screen, g, captured, column, c)
+	drawTimer(screen, g, p, column, c)
+}
+
 func drawMove(screen *ebiten.Image, g *game) {
 	if g.gui.drawIntro == true {
 		text.Draw(screen, `move:`, mplusNormalFont, columnBlack, row*13, color.Black)
@@ -204,15 +218,14 @@ func drawMove(screen *ebiten.Image, g *game) {
 }
 
 func drawText(screen *ebiten.Image, g *game, alpha float64) {
+	drawMessage(screen, g, alpha)
 	drawPlayerText(screen, g, false)
 	drawPlayerText(screen, g, true)
-	drawMessage(screen, g, alpha)
 	drawMove(screen, g)
 }
 
 func drawBluePulse(screen *ebiten.Image, g *game, alpha float64, blue *ebiten.Image) {
 	drawImagePulse(screen, blue, stoneX(g.lastMove.x), stoneY(g.lastMove.y), scale, alpha*2)
-	// drawImagePulse(screen, blue, stoneX(g.lastMove2.x), stoneY(g.lastMove2.y), scale, alpha)
 }
 
 func drawLastMove(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
@@ -221,20 +234,6 @@ func drawLastMove(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
 		drawBluePulse(screen, g, alpha3(second, alpha), imgBlue2)
 		drawBluePulse(screen, g, alpha2(second, pulse), imgBlue3)
 		drawBluePulse(screen, g, alpha1(second, alpha), imgBlue4)
-	}
-}
-
-func drawHotseatSuggestion(screen *ebiten.Image, g *game, alpha float64) {
-	if isPlayerHotseat(g) == true && g.won == false {
-		coordinate := g.ai0.suggest
-		if g.player == true {
-			coordinate = g.ai1.suggest
-		}
-		if g.player == false {
-			drawImagePulse(screen, imgBlack, stoneX(coordinate.x), stoneY(coordinate.y), scale, 1-alpha)
-		} else {
-			drawImagePulse(screen, imgWhite, stoneX(coordinate.x), stoneY(coordinate.y), scale, 1-alpha)
-		}
 	}
 }
 
@@ -282,8 +281,8 @@ func draw(screen *ebiten.Image, g *game) {
 			drawIntro(screen)
 		} else {
 			drawStones(screen, g)
-			drawLastMove(screen, g, second, pulse, alpha)
 			drawHotseatSuggestion(screen, g, alpha)
+			drawLastMove(screen, g, second, pulse, alpha)
 			drawWinMove(screen, g, alpha)
 			drawCapture(screen, g, alpha)
 			drawTips(screen, g, alpha)
