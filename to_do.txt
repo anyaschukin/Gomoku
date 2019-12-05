@@ -6,16 +6,17 @@
 	- prioritize block 4 over block 3
 	- if opponent aligns 5, prioritize capture over everything else (also prioritize break5 over other captures)
 
+	- w-www-	->	w-wwwb	should be	wbwww-
+	- var to const? e.g. row
 
 #### BONUS ####
 1. Human vs human, hotseat vs hotseat, ai vs ai
-2. Undo button
-3. Tips
-4. Highlight Last Move
-5. Highlight Win Move
-6. Highlight Captured
-7. GO intro
-8. key press f enter/exit Fullscreen
+2. Highlight Last Move, Win Move, & Captured
+3. Tips - show possible captures, & align 5
+4. Undo button
+5. GO intro
+6. Artificial Idiot - AI depth 0
+7. key press f enter/exit Fullscreen
 
 - display value for position?
 
