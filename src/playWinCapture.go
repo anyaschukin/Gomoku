@@ -1,4 +1,4 @@
-package play
+package gomoku
 
 // capturedEight returns true if given player has already captured 8
 func capturedEight(player bool, capture0 uint8, capture1 uint8) bool {

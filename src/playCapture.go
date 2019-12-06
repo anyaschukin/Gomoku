@@ -1,4 +1,4 @@
-package play
+package gomoku
 
 func removeStone(coordinate coordinate, goban *[19][19]position) {
 	goban[coordinate.y][coordinate.x].occupied = false

@@ -1,4 +1,4 @@
-package play
+package gomoku
 
 import (
 	"image/color"

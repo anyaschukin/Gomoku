@@ -1,4 +1,4 @@
-package play
+package gomoku
 
 // ultimately, I'd like to re-use the same functions that Drew wrote originally
 // that way, we're DRY

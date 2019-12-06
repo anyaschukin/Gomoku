@@ -1,4 +1,4 @@
-package play
+package gomoku
 
 func coordinateOnGoban(coordinate coordinate) bool {
 	if coordinate.y < 0 || coordinate.y > 18 ||

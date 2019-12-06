@@ -1,4 +1,4 @@
-package play
+package gomoku
 
 // capturedTen returns true if either Player has captured ten stones
 func capturedTen(g *game) bool {

@@ -1,4 +1,4 @@
-package play
+package gomoku
 
 func threeBlocked(end1 coordinate, end2 coordinate, goban *[19][19]position) bool {
 	if positionUnoccupied(end1, goban) == true &&

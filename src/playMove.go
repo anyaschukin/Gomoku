@@ -1,4 +1,4 @@
-package play
+package gomoku
 
 func placeStone(coordinate coordinate, player bool, goban *[19][19]position) {
 	goban[coordinate.y][coordinate.x].occupied = true

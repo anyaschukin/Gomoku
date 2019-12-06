@@ -1,4 +1,4 @@
-package play
+package gomoku
 
 func isPlayerHuman(g *game) bool {
 	if (g.player == false && g.ai0.aiPlayer == false) ||

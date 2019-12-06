@@ -1,4 +1,4 @@
-package play
+package gomoku
 
 // canBeCapturedVertex returns true if given coordinate can be captured on given vertex in the next move
 func canBeCapturedVertex(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
@@ -30,33 +30,29 @@ func canBeCapturedVertices(coordinate coordinate, goban *[19][19]position, playe
 	return false
 }
 
+// measureChainBeCaptured returns how many stones in a row cannot be captured
+func measureChainBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int8 {
+	var length int8
+	var multiple int8
+	for multiple = 1; multiple < 5; multiple++ {
+		neighbour := findNeighbour(coordinate, y, x, multiple)
+		if positionOccupiedByPlayer(neighbour, goban, player) == true &&
+			canBeCapturedVertices(neighbour, goban, player) == false {
+			length++
+		} else {
+			break
+		}
+	}
+	return length
+}
+
 // canBreakFive returns true if its possible to break the aligned 5
 func canBreakFive(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
 	if canBeCapturedVertices(coordinate, goban, player) == true {
 		return true
 	}
-	// move along winning chain, check if positions can be captured
-	var multiple int8
-	var a int8
-	var b int8
-	for multiple = 1; multiple < 5; multiple++ {
-		neighbour := findNeighbour(coordinate, y, x, multiple)
-		if positionOccupiedByPlayer(neighbour, goban, player) == true &&
-			canBeCapturedVertices(neighbour, goban, player) == false {
-			a++
-		} else {
-			break
-		}
-	}
-	for multiple = -1; multiple > -5; multiple-- {
-		neighbour := findNeighbour(coordinate, y, x, multiple)
-		if positionOccupiedByPlayer(neighbour, goban, player) == true &&
-			canBeCapturedVertices(neighbour, goban, player) == false {
-			b++
-		} else {
-			break
-		}
-	}
+	a := measureChainBeCaptured(coordinate, goban, y, x, player)
+	b := measureChainBeCaptured(coordinate, goban, -y, -x, player)
 	if a+b >= 4 {
 		return false
 	}
