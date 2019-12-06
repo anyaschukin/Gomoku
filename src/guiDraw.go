@@ -270,10 +270,19 @@ func drawExit(screen *ebiten.Image, g *game) {
 	drawImage(screen, imgExit, exitX, exitY, scale)
 }
 
+
+func drawBackground(screen *ebiten.Image) {
+	// screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
+	// drawImage(screen, imgUgly, 0, 0, 1)//////
+	drawImage(screen, imgUgly2, 0, 0, 1)//////
+	// drawImage(screen, imgUgly3, 0, 0, 1)//////
+	// drawImage(screen, imgUgly4, 0, 0, 1)//////
+}
+
 // draw draws the current game state
 func draw(screen *ebiten.Image, g *game) {
-	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff}) // Draw background
 	second, pulse, alpha := alphaTime()
+	drawBackground(screen)
 	if g.gui.newGame == true {
 		drawNewGameOptions(screen, g, second, pulse, alpha)
 	} else {

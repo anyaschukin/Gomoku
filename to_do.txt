@@ -17,7 +17,8 @@
 4. Undo button
 5. GO intro
 6. Artificial Idiot - AI depth 0
-7. key press f enter/exit Fullscreen
+7. key press f enter/exit Doge Mode
+8. key press f enter/exit Fullscreen
 
 - display value for position?
 

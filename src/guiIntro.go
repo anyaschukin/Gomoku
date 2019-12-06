@@ -169,12 +169,15 @@ func drawIntro(screen *ebiten.Image) {
 
 	drawG(screen, alpha, imgWhite, imgBlack)
 	drawO(screen, alpha, imgWhite, imgBlack)
-	drawG(screen, alpha, imgBlue, imgBlue3)
-	drawO(screen, alpha, imgBlue, imgBlue3)
-
-	drawG(screen, alpha2, imgRed, imgRed)
-	drawO(screen, alpha2, imgRed, imgRed)
-
+	if dogeMode == false {
+		drawG(screen, alpha, imgBlue, imgBlue3)
+		drawO(screen, alpha, imgBlue, imgBlue3)
+		drawG(screen, alpha2, imgRed, imgRed)
+		drawO(screen, alpha2, imgRed, imgRed)
+	} else {
+		drawG(screen, alpha2, imgBlack, imgWhite)
+		drawO(screen, alpha2, imgBlack, imgWhite)
+	}
 	if elapsed > 1500000000 {
 		g.gui.drawIntro = true
 	}

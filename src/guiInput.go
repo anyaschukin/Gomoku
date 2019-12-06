@@ -184,6 +184,18 @@ func swapFullscreen() {
 	}
 }
 
+func swapDogeMode() {
+	if dogeMode == true {
+		imgBlack = imgBlackStone
+		imgWhite = imgWhiteStone
+		dogeMode = false
+	} else {
+		imgBlack = imgCorg
+		imgWhite = imgDoge
+		dogeMode = true
+	}
+}
+
 func inputNewGame(g *game, x, y int) {
 	clickPlayer(x, y, false)
 	clickPlayer(x, y, true)
@@ -211,6 +223,9 @@ func input(g *game) {
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyF) == true {
 		swapFullscreen()
+	}
+	if inpututil.IsKeyJustPressed(ebiten.KeyD) == true {
+		swapDogeMode()
 	}
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 		x, y := ebiten.CursorPosition()

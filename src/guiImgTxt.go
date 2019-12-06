@@ -3,7 +3,7 @@ package gomoku
 import (
 	"log"
 	"time"
-
+	
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
@@ -13,6 +13,8 @@ import (
 
 /// Images
 var imgGoban *ebiten.Image
+var imgBlackStone *ebiten.Image
+var imgWhiteStone *ebiten.Image
 var imgBlack *ebiten.Image
 var imgWhite *ebiten.Image
 var imgRed *ebiten.Image
@@ -25,6 +27,14 @@ var imgNewGame *ebiten.Image
 var imgExit *ebiten.Image
 var imgSelect *ebiten.Image
 var imgUndo *ebiten.Image
+var imgCorg *ebiten.Image
+var imgDoge *ebiten.Image
+var dogeMode bool
+/// Backgrounds
+var imgUgly *ebiten.Image
+var imgUgly2 *ebiten.Image
+var imgUgly3 *ebiten.Image
+var imgUgly4 *ebiten.Image
 
 /// Text
 var (
@@ -40,11 +50,11 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgBlack, _, err = ebitenutil.NewImageFromFile("src/img/black.png", ebiten.FilterDefault)
+	imgBlackStone, _, err = ebitenutil.NewImageFromFile("src/img/black.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	imgWhite, _, err = ebitenutil.NewImageFromFile("src/img/white.png", ebiten.FilterDefault)
+	imgWhiteStone, _, err = ebitenutil.NewImageFromFile("src/img/white.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -88,6 +98,31 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	imgCorg, _, err = ebitenutil.NewImageFromFile("src/img/back/corg.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatal(err)
+	}
+	imgDoge, _, err = ebitenutil.NewImageFromFile("src/img/back/doge.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatal(err)
+	}
+	/// Initialize Backgrounds
+	imgUgly, _, err = ebitenutil.NewImageFromFile("src/img/back/ugly.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatal(err)
+	}
+	imgUgly2, _, err = ebitenutil.NewImageFromFile("src/img/back/ugly2.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatal(err)
+	}
+	imgUgly3, _, err = ebitenutil.NewImageFromFile("src/img/back/ugly3.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatal(err)
+	}
+	imgUgly4, _, err = ebitenutil.NewImageFromFile("src/img/back/ugly4.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatal(err)
+	}
 	/// Initialize text
 	tt, err := truetype.Parse(fonts.MPlus1pRegular_ttf)
 	if err != nil {
@@ -109,6 +144,8 @@ func init() {
 		DPI:     dpi,
 		Hinting: font.HintingFull,
 	})
+	imgBlack = imgBlackStone
+	imgWhite = imgWhiteStone
 }
 
 // every second - HotseatSuggestion, WinMove, & CapturedPosition
