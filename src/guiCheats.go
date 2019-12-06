@@ -1,7 +1,6 @@
 package gomoku
 
 import (
-	"fmt"
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -32,7 +31,6 @@ func recordChain(coordinate coordinate, goban *[19][19]position, y, x int8, play
 	for multiple = 1; multiple < 5; multiple++ {
 		neighbour := findNeighbour(coordinate, y, x, multiple)
 		if positionOccupiedByPlayer(neighbour, goban, player) == true {
-			fmt.Printf("y: %v, x: %v\n", neighbour.y, neighbour.x)
 			*align5Positions = append(*align5Positions, neighbour)
 		} else {
 			break
