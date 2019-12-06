@@ -190,8 +190,8 @@ func swapDogeMode() {
 		imgWhite = imgWhiteStone
 		dogeMode = false
 	} else {
-		imgBlack = imgCorg
-		imgWhite = imgDoge
+		imgBlack = imgDoge
+		imgWhite = imgCorg
 		dogeMode = true
 	}
 }

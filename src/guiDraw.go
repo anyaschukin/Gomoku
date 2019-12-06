@@ -104,6 +104,10 @@ func drawBlackMessage(screen *ebiten.Image, msg string, alpha float64) {
 }
 
 func drawBlackWin(screen *ebiten.Image, msg string, alpha float64) {
+	if dogeMode == true {
+		drawImagePulse(screen, imgDogeBig, 60, 1, 0.50, alpha)
+		msg = "          Wins!"
+	}
 	var textColor color.RGBA
 	textColor.A = uint8(alpha * 255)
 	text.Draw(screen, msg, mplusBigFont, columnBlack, row*1+50, textColor)
@@ -124,6 +128,10 @@ func drawWhiteMessage(screen *ebiten.Image, msg string, alpha float64) {
 }
 
 func drawWhiteWin(screen *ebiten.Image, msg string, alpha float64) {
+	if dogeMode == true {
+		drawImagePulse(screen, imgCorgBig, float64(columnWhite) - 125, 5, 1, alpha)
+		msg = "        Wins!"
+	}
 	textColor := textColorWhite(alpha)
 	text.Draw(screen, msg, mplusBigFont, columnWhite, row*1+50, textColor)
 }
@@ -134,6 +142,9 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 			if g.player == false {
 				if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
 					text.Draw(screen, `Black to Move`, mplusNormalFont, columnBlack, row, color.Black)
+					if dogeMode == true {
+						drawImage(screen, imgDogeBig, 60, 1, 0.42)
+					}
 				} else {
 					text.Draw(screen, `Black Thinking...`, mplusNormalFont, columnBlack, row, color.Black)
 				}
@@ -141,6 +152,9 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 			} else {
 				if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
 					text.Draw(screen, `White to Move`, mplusNormalFont, columnWhite, row, color.White)
+					if dogeMode == true {
+						drawImage(screen, imgCorgBig, float64(columnWhite) - 125, 5, 1)
+					}
 				} else {
 					text.Draw(screen, `White Thinking...`, mplusNormalFont, columnWhite, row, color.White)
 				}
@@ -272,9 +286,11 @@ func drawExit(screen *ebiten.Image, g *game) {
 
 
 func drawBackground(screen *ebiten.Image) {
-	// screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
+	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
 	// drawImage(screen, imgUgly, 0, 0, 1)//////
-	drawImage(screen, imgUgly2, 0, 0, 1)//////
+	if dogeMode == true {
+		drawImage(screen, imgUgly2, 0, 0, 1)//////
+	}
 	// drawImage(screen, imgUgly3, 0, 0, 1)//////
 	// drawImage(screen, imgUgly4, 0, 0, 1)//////
 }
