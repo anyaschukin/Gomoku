@@ -10,7 +10,7 @@ import (
 	"github.com/hajimehoshi/ebiten/text"
 )
 
-/// goban position
+/// Goban position
 var positionWidth = 104.6
 var gobanX float64 = 838 // Left
 var gobanY float64 = 34  // Top
@@ -31,8 +31,8 @@ var exitX float64 = 3210
 var exitY float64 = 1814
 
 /// Undo position
-var undoX float64 = float64(columnBlack)
-var undoY float64 = float64(row * 15)
+var undoX = float64(columnBlack)
+var undoY = float64(row * 15)
 
 func opImage(x, y, scale float64) *ebiten.DrawImageOptions {
 	op := &ebiten.DrawImageOptions{}
@@ -98,33 +98,34 @@ func drawHotseatSuggestion(screen *ebiten.Image, g *game, alpha float64) {
 }
 
 func drawBlackMessage(screen *ebiten.Image, msg string, alpha float64) {
-	var TextColor color.RGBA
-	TextColor.A = uint8(alpha * 255)
-	text.Draw(screen, msg, mplusNormalFont, columnBlack, row*2, TextColor)
-}
-
-func drawWhiteMessage(screen *ebiten.Image, msg string, alpha float64) {
-	var TextColor color.RGBA
-	TextColor.R = 255
-	TextColor.G = 255
-	TextColor.B = 255
-	TextColor.A = uint8(alpha * 255)
-	text.Draw(screen, msg, mplusNormalFont, columnWhite, row*2, TextColor)
+	var textColor color.RGBA
+	textColor.A = uint8(alpha * 255)
+	text.Draw(screen, msg, mplusNormalFont, columnBlack, row*2, textColor)
 }
 
 func drawBlackWin(screen *ebiten.Image, msg string, alpha float64) {
-	var TextColor color.RGBA
-	TextColor.A = uint8(alpha * 255)
-	text.Draw(screen, msg, mplusBigFont, columnBlack, row*1+50, TextColor)
+	var textColor color.RGBA
+	textColor.A = uint8(alpha * 255)
+	text.Draw(screen, msg, mplusBigFont, columnBlack, row*1+50, textColor)
+}
+
+func textColorWhite(alpha float64) color.RGBA {
+	var textColor color.RGBA
+	textColor.R = 255
+	textColor.G = 255
+	textColor.B = 255
+	textColor.A = uint8(alpha * 255)
+	return textColor
+}
+
+func drawWhiteMessage(screen *ebiten.Image, msg string, alpha float64) {
+	textColor := textColorWhite(alpha)
+	text.Draw(screen, msg, mplusNormalFont, columnWhite, row*2, textColor)
 }
 
 func drawWhiteWin(screen *ebiten.Image, msg string, alpha float64) {
-	var TextColor color.RGBA
-	TextColor.R = 255
-	TextColor.G = 255
-	TextColor.B = 255
-	TextColor.A = uint8(alpha * 255)
-	text.Draw(screen, msg, mplusBigFont, columnWhite, row*1+50, TextColor)
+	textColor := textColorWhite(alpha)
+	text.Draw(screen, msg, mplusBigFont, columnWhite, row*1+50, textColor)
 }
 
 func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
@@ -269,8 +270,9 @@ func drawExit(screen *ebiten.Image, g *game) {
 	drawImage(screen, imgExit, exitX, exitY, scale)
 }
 
+// draw draws the current game state
 func draw(screen *ebiten.Image, g *game) {
-	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff}) /// Draw background
+	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff}) // Draw background
 	second, pulse, alpha := alphaTime()
 	if g.gui.newGame == true {
 		drawNewGameOptions(screen, g, second, pulse, alpha)
