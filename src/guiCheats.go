@@ -1,6 +1,7 @@
 package gomoku
 
 import (
+	"fmt"
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -25,31 +26,26 @@ func undo(g *game) {
 	}
 }
 
+// recordChain stores winning chains for display in gui
+func recordChain(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, align5Positions *[]coordinate) {
+	var multiple int8
+	for multiple = 1; multiple < 5; multiple++ {
+		neighbour := findNeighbour(coordinate, y, x, multiple)
+		if positionOccupiedByPlayer(neighbour, goban, player) == true {
+			fmt.Printf("y: %v, x: %v\n", neighbour.y, neighbour.x)
+			*align5Positions = append(*align5Positions, neighbour)
+		} else {
+			break
+		}
+	}
+}
+
 // recordAlignFive stores align 5 positions for display in gui
 func recordAlignFive(coordinate coordinate, y, x int8, g *game) {
 	g.winMove = coordinate
 	g.gui.align5Positions = append(g.gui.align5Positions, coordinate)
-	var multiple int8
-	var a int8
-	var b int8
-	for multiple = 1; multiple < 5; multiple++ {
-		neighbour := findNeighbour(coordinate, y, x, multiple)
-		if positionOccupiedByPlayer(neighbour, &g.goban, g.player) == true {
-			g.gui.align5Positions = append(g.gui.align5Positions, neighbour)
-			a++
-		} else {
-			break
-		}
-	}
-	for multiple = -1; multiple > -5; multiple-- {
-		neighbour := findNeighbour(coordinate, y, x, multiple)
-		if positionOccupiedByPlayer(neighbour, &g.goban, g.player) == true {
-			g.gui.align5Positions = append(g.gui.align5Positions, neighbour)
-			b++
-		} else {
-			break
-		}
-	}
+	recordChain(coordinate, &g.goban, y, x, g.player, &g.gui.align5Positions)
+	recordChain(coordinate, &g.goban, -y, -x, g.player, &g.gui.align5Positions)
 }
 
 // drawAlign5 displays pulsing red align5 for tips
@@ -88,7 +84,6 @@ func canCaptureCheat(coordinate coordinate, goban *[19][19]position, player bool
 }
 
 // captureCheat stores possible capture positions for gui tips
-// (iterate entire goban, check if capture possible for each positon)
 func captureCheat(goban *[19][19]position, player bool) {
 	if g.gui.tips == true {
 		var y int8
