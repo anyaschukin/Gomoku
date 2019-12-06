@@ -39,7 +39,7 @@ func canCapture(coordinate coordinate, goban *[19][19]position, player bool) boo
 }
 
 // captureAvailable returns true if given Player can capture in the next move
-// (iterate entire goban, check if capture possible for each positon)
+// (Check if capture possible for every positon)
 func captureAvailable(goban *[19][19]position, player bool) bool {
 	var y int8
 	var x int8

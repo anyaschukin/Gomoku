@@ -8,6 +8,7 @@
 
 	- w-www-	->	w-wwwb	should be	wbwww-
 	- var to const? e.g. row
+	- avoid capture in heurstic? accounted for by level3?
 
 #### BONUS ####
 1. Human vs human, hotseat vs hotseat, ai vs ai

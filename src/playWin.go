@@ -8,27 +8,25 @@ func capturedTen(g *game) bool {
 	return false
 }
 
-// checkVertexAlignFive returns true if 5 stones are aligned running through given coodinate on given axes
-func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
+// measureChain returns how many stones in a row for given coordinate, axes & player
+func measureChain(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int8 {
+	var length int8
 	var multiple int8
-	var a int8
-	var b int8
 	for multiple = 1; multiple < 5; multiple++ {
 		neighbour := findNeighbour(coordinate, y, x, multiple)
 		if positionOccupiedByPlayer(neighbour, goban, player) == true {
-			a++
+			length++
 		} else {
 			break
 		}
 	}
-	for multiple = -1; multiple > -5; multiple-- {
-		neighbour := findNeighbour(coordinate, y, x, multiple)
-		if positionOccupiedByPlayer(neighbour, goban, player) == true {
-			b++
-		} else {
-			break
-		}
-	}
+	return length
+}
+
+// checkVertexAlignFive returns true if 5 stones are aligned running through given coodinate on given axes
+func checkVertexAlignFive(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
+	a := measureChain(coordinate, goban, y, x, player)
+	b := measureChain(coordinate, goban, -y, -x, player)
 	if a+b >= 4 {
 		return true
 	}

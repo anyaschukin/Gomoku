@@ -78,7 +78,7 @@ func aiMove(g *game) {
 	gameLoop(coordinate, g)
 }
 
-// updateGame listens for input, and runs a human/AI loop
+// updateGame listens for input, and runs a human/AI move
 func (g *game) updateGame() {
 	input(g)
 	if g.gui.newGame == false && g.won == false && g.gui.drawIntro == true {
