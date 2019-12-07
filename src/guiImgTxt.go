@@ -31,12 +31,12 @@ var imgCorg *ebiten.Image
 var imgCorgBig *ebiten.Image
 var imgDoge *ebiten.Image
 var imgDogeBig *ebiten.Image
+var imgColor *ebiten.Image
+// var imgUgly *ebiten.Image
+var imgBackground *ebiten.Image
+// var imgUgly3 *ebiten.Image
+// var imgUgly4 *ebiten.Image
 var dogeMode bool
-/// Backgrounds
-var imgUgly *ebiten.Image
-var imgUgly2 *ebiten.Image
-var imgUgly3 *ebiten.Image
-var imgUgly4 *ebiten.Image
 
 /// Text
 var (
@@ -116,23 +116,14 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	/// Initialize Backgrounds
-	// imgUgly, _, err = ebitenutil.NewImageFromFile("src/img/back/ugly.png", ebiten.FilterDefault)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	imgUgly2, _, err = ebitenutil.NewImageFromFile("src/img/back/ugly2.png", ebiten.FilterDefault)
+	imgBackground, _, err = ebitenutil.NewImageFromFile("src/img/back/background.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatal(err)
 	}
-	// imgUgly3, _, err = ebitenutil.NewImageFromFile("src/img/back/ugly3.png", ebiten.FilterDefault)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// imgUgly4, _, err = ebitenutil.NewImageFromFile("src/img/back/ugly4.png", ebiten.FilterDefault)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	imgColor, _, err = ebitenutil.NewImageFromFile("src/img/back/Color.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatal(err)
+	}
 	/// Initialize text
 	tt, err := truetype.Parse(fonts.MPlus1pRegular_ttf)
 	if err != nil {

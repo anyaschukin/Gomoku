@@ -147,7 +147,7 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 				if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
 					text.Draw(screen, `Black to Move`, mplusNormalFont, columnBlack, row, color.Black)
 					if dogeMode == true {
-						drawImage(screen, imgDogeBig, 60, 1, 0.42)
+						drawImage(screen, imgDogeBig, 60, 0, 0.42)
 					}
 				} else {
 					text.Draw(screen, `Black Thinking...`, mplusNormalFont, columnBlack, row, color.Black)
@@ -303,13 +303,15 @@ func drawExit(screen *ebiten.Image, g *game) {
 
 
 func drawBackground(screen *ebiten.Image) {
-	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
 	if dogeMode == true {
-		drawImage(screen, imgUgly2, 0, 0, 1)
+		drawImage(screen, imgBackground, 0, 0, 1)
+	} else {
+		if g.gui.background == nil {
+			screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
+		} else {
+			screen.Fill(g.gui.background)
+		}
 	}
-	// drawImage(screen, imgUgly, 0, 0, 1)//////
-	// drawImage(screen, imgUgly3, 0, 0, 1)//////
-	// drawImage(screen, imgUgly4, 0, 0, 1)//////
 }
 
 // draw draws the current game state

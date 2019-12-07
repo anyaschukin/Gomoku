@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/inpututil"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
 	"github.com/hajimehoshi/ebiten/text"
 )
@@ -144,6 +145,12 @@ func drawHighlight(screen *ebiten.Image, g *game) {
 	text.Draw(screen, `Captured`, mplusMediumFont, newGameColumnBlack+column1*2, row*8, color.Black)
 }
 
+func drawColor(screen *ebiten.Image, g *game) {
+	if dogeMode == false {
+		drawImage(screen, imgColor, (float64(newGameColumnBlack+column1*2)/0.49)-42, float64(row*10)/0.49, 0.49)
+	}
+}
+
 func drawCheats(screen *ebiten.Image, g *game) {
 	text.Draw(screen, `Cheats`, mplusBigFont, newGameColumnBlack+column1*3, row*2+22, color.Black)
 	ebitenutil.DrawRect(screen, float64(newGameColumnBlack+column1*3), 242, 250, 6, color.Black)
@@ -155,6 +162,17 @@ func drawCheats(screen *ebiten.Image, g *game) {
 	}
 }
 
+func updateBackground(screen *ebiten.Image, g * game) {
+	if dogeMode == false {
+		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
+			x, y := ebiten.CursorPosition()
+			if clickColor(x, y) == true {
+				g.gui.background = screen.At(x, y)
+			}
+		}
+	}
+}
+
 func drawNewGameOptions(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
 	drawStone(screen, g, 0, imgBlack)
 	drawStone(screen, g, column1, imgWhite)
@@ -163,5 +181,7 @@ func drawNewGameOptions(screen *ebiten.Image, g *game, second, pulse, alpha floa
 	drawHotseat(screen, g, alpha)
 	drawAI(screen, g)
 	drawHighlight(screen, g)
+	drawColor(screen, g)
 	drawCheats(screen, g)
+	updateBackground(screen, g)
 }

@@ -142,6 +142,14 @@ func clickDoge(x, y int) bool {
 	return false
 }
 
+func clickColor(x, y int) bool {
+	if inColumnX(x, column1*2) == true &&
+		y > 1000 && y < 1357 {
+		return true
+	}
+	return false
+}
+
 func clickPlayer(x, y int, player bool) {
 	column := 0
 	p := &g.ai0
