@@ -97,20 +97,10 @@ func drawHotseatSuggestion(screen *ebiten.Image, g *game, alpha float64) {
 	}
 }
 
-func drawBlackMessage(screen *ebiten.Image, msg string, alpha float64) {
+func textColorBlack(alpha float64) color.RGBA {
 	var textColor color.RGBA
 	textColor.A = uint8(alpha * 255)
-	text.Draw(screen, msg, mplusNormalFont, columnBlack, row*2, textColor)
-}
-
-func drawBlackWin(screen *ebiten.Image, msg string, alpha float64) {
-	if dogeMode == true {
-		drawImagePulse(screen, imgDogeBig, 60, 1, 0.50, alpha)
-		msg = "          Wins!"
-	}
-	var textColor color.RGBA
-	textColor.A = uint8(alpha * 255)
-	text.Draw(screen, msg, mplusBigFont, columnBlack, row*1+50, textColor)
+	return textColor
 }
 
 func textColorWhite(alpha float64) color.RGBA {
@@ -120,6 +110,20 @@ func textColorWhite(alpha float64) color.RGBA {
 	textColor.B = 255
 	textColor.A = uint8(alpha * 255)
 	return textColor
+}
+
+func drawBlackMessage(screen *ebiten.Image, msg string, alpha float64) {
+	textColor := textColorBlack(alpha)
+	text.Draw(screen, msg, mplusNormalFont, columnBlack, row*2, textColor)
+}
+
+func drawBlackWin(screen *ebiten.Image, msg string, alpha float64) {
+	if dogeMode == true {
+		drawImagePulse(screen, imgDogeBig, 60, 1, 0.50, alpha)
+		msg = "          Wins!"
+	}
+	textColor := textColorBlack(alpha)
+	text.Draw(screen, msg, mplusBigFont, columnBlack, row*1+50, textColor)
 }
 
 func drawWhiteMessage(screen *ebiten.Image, msg string, alpha float64) {
@@ -165,7 +169,6 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 					}
 				}
 				drawWhiteMessage(screen, g.gui.message, alpha)
-
 			}
 		}
 	} else {
@@ -192,9 +195,31 @@ func drawPlayerID(screen *ebiten.Image, g *game, p ai, column int, color color.C
 	}
 }
 
-func drawCaptured(screen *ebiten.Image, g *game, captured uint8, column int, color color.Color) {
-	text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, color)
-	text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, color)
+func drawCaptured(screen *ebiten.Image, g *game, captured uint8, alpha float64, column int, color color.Color) {
+	if capturedTen(g) == false {
+		text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, color)
+		text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, color)
+	} else {
+		if g.player == true {
+			if column == columnBlack {
+				textColor := textColorBlack(alpha)
+				text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, textColor)
+				text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, textColor)
+			} else {
+				text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, color)
+				text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, color)
+			}
+		} else {
+			if column == columnBlack {
+				text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, color)
+				text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, color)
+			} else {
+				textColor := textColorWhite(alpha)
+				text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, textColor)
+				text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, textColor)
+			}
+		}
+	}
 }
 
 func drawTimer(screen *ebiten.Image, g *game, p ai, column int, color color.Color) {
@@ -214,7 +239,7 @@ func drawTimer(screen *ebiten.Image, g *game, p ai, column int, color color.Colo
 	}
 }
 
-func drawPlayerText(screen *ebiten.Image, g *game, player bool) {
+func drawPlayerText(screen *ebiten.Image, g *game, alpha float64, player bool) {
 	var c color.Color
 	column := columnBlack
 	p := g.ai0
@@ -227,7 +252,7 @@ func drawPlayerText(screen *ebiten.Image, g *game, player bool) {
 		c = color.White
 	}
 	drawPlayerID(screen, g, p, column, c)
-	drawCaptured(screen, g, captured, column, c)
+	drawCaptured(screen, g, captured, alpha, column, c)
 	drawTimer(screen, g, p, column, c)
 }
 
@@ -240,8 +265,8 @@ func drawMove(screen *ebiten.Image, g *game) {
 
 func drawText(screen *ebiten.Image, g *game, alpha float64) {
 	drawMessage(screen, g, alpha)
-	drawPlayerText(screen, g, false)
-	drawPlayerText(screen, g, true)
+	drawPlayerText(screen, g, alpha, false)
+	drawPlayerText(screen, g, alpha, true)
 	drawMove(screen, g)
 }
 
@@ -293,10 +318,10 @@ func drawExit(screen *ebiten.Image, g *game) {
 
 func drawBackground(screen *ebiten.Image) {
 	screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
-	// drawImage(screen, imgUgly, 0, 0, 1)//////
 	if dogeMode == true {
-		drawImage(screen, imgUgly2, 0, 0, 1)//////
+		drawImage(screen, imgUgly2, 0, 0, 1)
 	}
+	// drawImage(screen, imgUgly, 0, 0, 1)//////
 	// drawImage(screen, imgUgly3, 0, 0, 1)//////
 	// drawImage(screen, imgUgly4, 0, 0, 1)//////
 }
