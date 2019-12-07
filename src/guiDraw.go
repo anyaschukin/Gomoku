@@ -147,6 +147,9 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 					}
 				} else {
 					text.Draw(screen, `Black Thinking...`, mplusNormalFont, columnBlack, row, color.Black)
+					if dogeMode == true {
+						drawImage(screen, imgDogeBig, 60, 1, 0.42)
+					}
 				}
 				drawBlackMessage(screen, g.gui.message, alpha)
 			} else {
@@ -157,6 +160,9 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 					}
 				} else {
 					text.Draw(screen, `White Thinking...`, mplusNormalFont, columnWhite, row, color.White)
+					if dogeMode == true {
+						drawImage(screen, imgCorgBig, float64(columnWhite) - 125, 5, 1)
+					}
 				}
 				drawWhiteMessage(screen, g.gui.message, alpha)
 

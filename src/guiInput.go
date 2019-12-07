@@ -134,6 +134,14 @@ func clickTips(x, y int) bool {
 	return false
 }
 
+func clickDoge(x, y int) bool {
+	if inColumnX(x, column1*3) == true &&
+		inRowY(y, 7) {
+		return true
+	}
+	return false
+}
+
 func clickPlayer(x, y int, player bool) {
 	column := 0
 	p := &g.ai0
@@ -213,6 +221,9 @@ func inputNewGame(g *game, x, y int) {
 	}
 	if clickTips(x, y) == true {
 		swapBool(&g.gui.tips)
+	}
+	if clickDoge(x, y) == true {
+		swapDogeMode()
 	}
 }
 

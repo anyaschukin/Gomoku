@@ -87,6 +87,12 @@ func drawSelectTips(screen *ebiten.Image, g *game) {
 	}
 }
 
+func drawSelectDoge(screen *ebiten.Image, g *game) {
+	if dogeMode == true {
+		drawImage(screen, imgSelect, (float64(newGameColumnBlack+column1*3)-50)/scaleSelect, float64(row*7+3)/scaleSelect, scaleSelect)
+	}
+}
+
 func drawSelect(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
 	drawSelectPlayer(screen, g, false)
 	drawSelectPlayer(screen, g, true)
@@ -95,6 +101,7 @@ func drawSelect(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
 	drawSelectCapture(screen, g, alpha)
 	drawSelectUndo(screen, g)
 	drawSelectTips(screen, g)
+	drawSelectDoge(screen, g)
 }
 
 func drawHuman(screen *ebiten.Image, g *game) {
@@ -142,6 +149,10 @@ func drawCheats(screen *ebiten.Image, g *game) {
 	ebitenutil.DrawRect(screen, float64(newGameColumnBlack+column1*3), 242, 250, 6, color.Black)
 	text.Draw(screen, `Undo`, mplusMediumFont, newGameColumnBlack+column1*3, row*4, color.Black)
 	text.Draw(screen, `Tips`, mplusMediumFont, newGameColumnBlack+column1*3, row*6, color.Black)
+	if dogeMode == true {
+		drawImage(screen, imgDoge, float64(newGameColumnBlack+column1*3), float64(row*7+22), float64(1))
+		text.Draw(screen, `      mode`, mplusMediumFont, newGameColumnBlack+column1*3, row*8, color.Black)
+	}
 }
 
 func drawNewGameOptions(screen *ebiten.Image, g *game, second, pulse, alpha float64) {
