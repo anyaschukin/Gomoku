@@ -306,10 +306,10 @@ func drawBackground(screen *ebiten.Image) {
 	if dogeMode == true {
 		drawImage(screen, imgBackground, 0, 0, 1)
 	} else {
-		if g.gui.background == nil {
+		if background == nil {
 			screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
 		} else {
-			screen.Fill(g.gui.background)
+			screen.Fill(background)
 		}
 	}
 }

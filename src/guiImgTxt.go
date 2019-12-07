@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 	
+	"image/color"
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
@@ -32,11 +33,10 @@ var imgCorgBig *ebiten.Image
 var imgDoge *ebiten.Image
 var imgDogeBig *ebiten.Image
 var imgColor *ebiten.Image
-// var imgUgly *ebiten.Image
 var imgBackground *ebiten.Image
-// var imgUgly3 *ebiten.Image
-// var imgUgly4 *ebiten.Image
+
 var dogeMode bool
+var background color.Color
 
 /// Text
 var (

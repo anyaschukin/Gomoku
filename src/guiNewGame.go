@@ -167,7 +167,7 @@ func updateBackground(screen *ebiten.Image, g * game) {
 		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 			x, y := ebiten.CursorPosition()
 			if clickColor(x, y) == true {
-				g.gui.background = screen.At(x, y)
+				background = screen.At(x, y)
 			}
 		}
 	}

@@ -2,7 +2,6 @@ package gomoku
 
 import (
 	"time"
-	"image/color"
 )
 
 type coordinate struct {
@@ -33,7 +32,6 @@ type align5 struct {
 // gui struct records info for display in GUI
 type gui struct {
 	newGame             bool         // Show new game options
-	background			color.Color	 // Background color
 	drawIntro           bool         // Finished drawing the intro
 	introTime           time.Time    // when was the game started
 	message             string       // Game feeback for display in gui (invalid move, win)
