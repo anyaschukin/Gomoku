@@ -19,6 +19,7 @@
 6. Artificial Idiot - AI depth 0
 7. key press f enter/exit Doge Mode
 8. key press f enter/exit Fullscreen
+9. Select background color
 
 - display value for position?
 
