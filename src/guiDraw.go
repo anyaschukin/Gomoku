@@ -196,30 +196,16 @@ func drawPlayerID(screen *ebiten.Image, g *game, p ai, column int, color color.C
 }
 
 func drawCaptured(screen *ebiten.Image, g *game, captured uint8, alpha float64, column int, color color.Color) {
-	if capturedTen(g) == false {
-		text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, color)
-		text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, color)
-	} else {
-		if g.player == true {
-			if column == columnBlack {
-				textColor := textColorBlack(alpha)
-				text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, textColor)
-				text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, textColor)
-			} else {
-				text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, color)
-				text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, color)
-			}
-		} else {
-			if column == columnBlack {
-				text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, color)
-				text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, color)
-			} else {
-				textColor := textColorWhite(alpha)
-				text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, textColor)
-				text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, textColor)
-			}
+	if capturedTen(g) == true {
+		if g.player == true && column == columnBlack {
+			color = textColorBlack(alpha)
+		}
+		if g.player == false && column == columnWhite {
+			color = textColorWhite(alpha)
 		}
 	}
+	text.Draw(screen, `captured:`, mplusNormalFont, column, row*6, color)
+	text.Draw(screen, strconv.Itoa(int(captured)), mplusNormalFont, column+270, row*6, color)
 }
 
 func drawTimer(screen *ebiten.Image, g *game, p ai, column int, color color.Color) {

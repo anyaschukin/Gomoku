@@ -37,6 +37,9 @@ func swapPlayers(coordinate coordinate, g *game) {
 	if g.won == false {
 		g.gui.message = ""
 	}
+	if capturedTen(g) == true {
+		g.gui.align5Positions = nil
+	}
 	g.move++
 }
 
