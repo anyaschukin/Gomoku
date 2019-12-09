@@ -10,6 +10,8 @@ import (
 	"github.com/hajimehoshi/ebiten/text"
 )
 
+var dogeMode bool
+
 /// Goban position
 var positionWidth = 104.6
 var gobanX float64 = 838 // Left
@@ -50,6 +52,18 @@ func drawImagePulse(screen, image *ebiten.Image, x, y, scale, alpha float64) {
 	op := opImage(x, y, scale)
 	op.ColorM.Scale(1, 1, 1, alpha)
 	screen.DrawImage(image, op)
+}
+
+func drawBackground(screen *ebiten.Image) {
+	if dogeMode == true {
+		drawImage(screen, imgBackground, 0, 0, 1)
+	} else {
+		if background == nil {
+			screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
+		} else {
+			screen.Fill(background)
+		}
+	}
 }
 
 func drawGoban(screen *ebiten.Image, g *game) {
@@ -299,19 +313,6 @@ func drawNewGame(screen *ebiten.Image, g *game) {
 
 func drawExit(screen *ebiten.Image, g *game) {
 	drawImage(screen, imgExit, exitX, exitY, scale)
-}
-
-
-func drawBackground(screen *ebiten.Image) {
-	if dogeMode == true {
-		drawImage(screen, imgBackground, 0, 0, 1)
-	} else {
-		if background == nil {
-			screen.Fill(color.RGBA{0xaf, 0xaf, 0xff, 0xff})
-		} else {
-			screen.Fill(background)
-		}
-	}
 }
 
 // draw draws the current game state

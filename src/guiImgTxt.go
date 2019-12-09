@@ -35,7 +35,6 @@ var imgDogeBig *ebiten.Image
 var imgColor *ebiten.Image
 var imgBackground *ebiten.Image
 
-var dogeMode bool
 var background color.Color
 
 /// Text
