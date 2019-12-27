@@ -48,15 +48,17 @@ func addChild(node *node, parentID int, child *node) int {
 }
 
 // Recursively generates every move for a board (to depth 3), assigns value, and adds to tree
-func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player bool) {
+func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player bool, lastMove coordinate) {
 	var y int8
 	var x int8
 
 	if depth == limit {
 		return
 	}
-	for y = 0; y < 19; y++ {
-		for x = 0; x < 19; x++ {
+	// for y = 0; y < 19; y++ {
+	// 		for x = 0; x < 19; x++ {
+	for y = lastMove.y - 3; y < lastMove.y+3; y++ {
+		for x = lastMove.x - 3; x < lastMove.x+3; x++ {
 			coordinate := coordinate{y, x}
 			if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
 				identity++
@@ -70,7 +72,7 @@ func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player
 				// value := valueBoard(&newGoban, player)
 				child := newNode(identity, value, &newGoban, coordinate, player)
 				addChild(current, current.id, child) //
-				generateBoardsDepth(limit, depth+1, child, child.id, !player)
+				generateBoardsDepth(limit, depth+1, child, child.id, !player, coordinate)
 			}
 		}
 	}
@@ -78,7 +80,7 @@ func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player
 
 func createTree(g *game, limit uint8) *node {
 	root := newNode(0, 0, &g.goban, coordinate{-1, -1}, g.player)
-	generateBoardsDepth(limit, 0, root, root.id, root.player)
+	generateBoardsDepth(limit, 0, root, root.id, root.player, g.lastMove)
 	return root
 }
 
