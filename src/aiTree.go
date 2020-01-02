@@ -11,16 +11,18 @@ import (
 const maxInt = int(^uint(0) >> 1)
 const minInt = -maxInt - 1
 
+// const threatSpace = 3
 var identity int
 
 type node struct {
-	id         int
-	value      int
-	goban      [19][19]position
-	coordinate coordinate
-	player     bool
-	children   []*node
-	bestMove   *node
+	id               int
+	value            int
+	goban            [19][19]position
+	coordinate       coordinate
+	player           bool
+	maximizingPlayer bool
+	children         []*node
+	bestMove         *node
 }
 
 func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, newPlayer bool) *node {
@@ -48,7 +50,7 @@ func addChild(node *node, parentID int, child *node) int {
 }
 
 // Recursively generates every move for a board (to depth 3), assigns value, and adds to tree
-func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player bool, lastMove coordinate) {
+func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player bool, lastMove coordinate, lastMove2 coordinate) {
 	var y int8
 	var x int8
 
@@ -57,8 +59,8 @@ func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player
 	}
 	// for y = 0; y < 19; y++ {
 	// 		for x = 0; x < 19; x++ {
-	for y = lastMove.y - 3; y < lastMove.y+3; y++ {
-		for x = lastMove.x - 3; x < lastMove.x+3; x++ {
+	for y = lastMove.y - 4; y < lastMove.y+4; y++ {
+		for x = lastMove.x - 4; x < lastMove.x+4; x++ {
 			coordinate := coordinate{y, x}
 			if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
 				identity++
@@ -72,7 +74,26 @@ func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player
 				// value := valueBoard(&newGoban, player)
 				child := newNode(identity, value, &newGoban, coordinate, player)
 				addChild(current, current.id, child) //
-				generateBoardsDepth(limit, depth+1, child, child.id, !player, coordinate)
+				generateBoardsDepth(limit, depth+1, child, child.id, !player, coordinate, current.coordinate)
+			}
+		}
+	}
+	for y = lastMove2.y - 4; y < lastMove2.y+4; y++ {
+		for x = lastMove2.x - 4; x < lastMove2.x+4; x++ {
+			coordinate := coordinate{y, x}
+			if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
+				identity++
+				newGoban := current.goban
+				placeStone(coordinate, player, &newGoban)
+				value := evaluateMove(coordinate, &newGoban, player)
+				// fmt.Printf("coordinate = %v, value = %v\n", coordinate, value)
+				// dumpGoban(&newGoban)
+				// time.Sleep(300 * time.Millisecond)
+				// os.Exit(1)
+				// value := valueBoard(&newGoban, player)
+				child := newNode(identity, value, &newGoban, coordinate, player)
+				addChild(current, current.id, child) //
+				generateBoardsDepth(limit, depth+1, child, child.id, !player, coordinate, current.coordinate)
 			}
 		}
 	}
@@ -80,7 +101,7 @@ func generateBoardsDepth(limit uint8, depth uint8, current *node, id int, player
 
 func createTree(g *game, limit uint8) *node {
 	root := newNode(0, 0, &g.goban, coordinate{-1, -1}, g.player)
-	generateBoardsDepth(limit, 0, root, root.id, root.player, g.lastMove)
+	generateBoardsDepth(limit, 0, root, root.id, root.player, g.lastMove, g.lastMove2)
 	return root
 }
 
@@ -106,14 +127,16 @@ func printTree(parent *node) {
 func printBestRoute(root *node) {
 	current := root
 	for current.bestMove != nil {
-		fmt.Println(current.id)
-		fmt.Println(current.value)
-		dumpGoban(&current.goban)
+		fmt.Printf("id = %d, value = %d, maximizingPlayer = %v\n", current.id, current.value, current.maximizingPlayer)
+		// fmt.Println(current.id)
+		// fmt.Println(current.value)
+		// dumpGoban(&current.goban)
 		current = current.bestMove
 	}
-	fmt.Println(current.id)
-	fmt.Println(current.value)
-	dumpGoban(&current.goban)
+	fmt.Printf("id = %d, value = %d, maximizingPlayer = %v\n\n", current.id, current.value, current.maximizingPlayer)
+	// fmt.Println(current.id)
+	// fmt.Println(current.value)
+	// dumpGoban(&current.goban)
 }
 
 func minimaxTree(g *game) {
@@ -128,7 +151,7 @@ func minimaxTree(g *game) {
 	beta := maxInt
 	minimaxRecursive(root, limit, alpha, beta, true) // for some reason, maximizingplayer has to be set to 'false' for this to work
 	elapsed := (time.Since(start))
-
+	// printBestRoute(root)
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
 	// fmt.Println("------------\n")

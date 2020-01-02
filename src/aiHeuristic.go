@@ -16,8 +16,10 @@ import (
 
 /* the weight of an empty point */
 const epsilon = 2
+
 /* if this move captures a 2-in-a-row */
 const captureTwo = 42e8
+
 /* defend against or break a 3-in-a-row */
 const defendThree = 42e11
 
