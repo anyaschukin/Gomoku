@@ -10,6 +10,14 @@
 	- var to const? e.g. row
 	- avoid capture in heurstic? accounted for by level3?
 
+	- algo: alpha-beta pruning WHILE creating the tree
+	- algo: concurrency/channels, sync pool/workers
+	- algo: sync.pool to allocate memory for tree
+	- heuristics: offensive/defensive 
+	- heuristics: edit capture2
+	- heuristics: map of threat sequences
+
+
 #### BONUS ####
 1. Human vs human, hotseat vs hotseat, ai vs ai
 2. Highlight Last Move, Win Move, & Captured
