@@ -57,8 +57,6 @@ func generateBoardsDepth(current *node, id int, player bool, lastMove coordinate
 	var y int8
 	var x int8
 
-	// fmt.Printf("lastMove = %v, lastMove2 = %v\n", lastMove, lastMove2)
-	// time.Sleep(100000000)
 	for y = lastMove.y - 4; y <= lastMove.y+4; y++ {
 		for x = lastMove.x - 4; x <= lastMove.x+4; x++ {
 			coordinate := coordinate{y, x}
@@ -74,17 +72,17 @@ func generateBoardsDepth(current *node, id int, player bool, lastMove coordinate
 	}
 	for y = lastMove2.y - 4; y <= lastMove2.y+4; y++ {
 		for x = lastMove2.x - 4; x <= lastMove2.x+4; x++ {
-			//if !(y > lastMove.y - 4 && y < lastMove.y+4 &&
-			//	x > lastMove.x - 4 && x < lastMove.x+4)
-			coordinate := coordinate{y, x}
-			// fmt.Printf("coordinate = %v\n", coordinate)
-			if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
-				identity++
-				newGoban := current.goban
-				placeStone(coordinate, player, &newGoban)
-				value := evaluateMove(coordinate, &newGoban, player)
-				child := newNode(identity, value, &newGoban, coordinate, lastMove2, player)
-				addChild(current, current.id, child)
+			// optimized so the threat-space searches don't overlap
+			if !(y >= lastMove.y-4 && y <= lastMove.y+4 && x >= lastMove.x-4 && x <= lastMove.x+4) {
+				coordinate := coordinate{y, x}
+				if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
+					identity++
+					newGoban := current.goban
+					placeStone(coordinate, player, &newGoban)
+					value := evaluateMove(coordinate, &newGoban, player)
+					child := newNode(identity, value, &newGoban, coordinate, lastMove2, player)
+					addChild(current, current.id, child)
+				}
 			}
 		}
 	}
