@@ -56,8 +56,8 @@ func generateBoardsDepth(current *node, id int, player bool, lastMove coordinate
 	var y int8
 	var x int8
 
-	for y = lastMove.y - 4; y < lastMove.y+4; y++ {
-		for x = lastMove.x - 4; x < lastMove.x+4; x++ {
+	for y = lastMove.y - 4; y <= lastMove.y+4; y++ {
+		for x = lastMove.x - 4; x <= lastMove.x+4; x++ {
 			coordinate := coordinate{y, x}
 			if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
 				identity++
@@ -69,8 +69,8 @@ func generateBoardsDepth(current *node, id int, player bool, lastMove coordinate
 			}
 		}
 	}
-	for y = lastMove2.y - 4; y < lastMove2.y+4; y++ {
-		for x = lastMove2.x - 4; x < lastMove2.x+4; x++ {
+	for y = lastMove2.y - 4; y <= lastMove2.y+4; y++ {
+		for x = lastMove2.x - 4; x <= lastMove2.x+4; x++ {
 			//if !(y > lastMove.y - 4 && y < lastMove.y+4 &&
 			//	x > lastMove.x - 4 && x < lastMove.x+4)
 			coordinate := coordinate{y, x}
