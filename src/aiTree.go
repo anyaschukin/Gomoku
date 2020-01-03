@@ -32,7 +32,7 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 		id:         id,
 		value:      value, // change this to initialize to zero
 		goban:      *newGoban,
-		coordinate: coordinate,
+		coordinate: coordinate, // change this to move
 		lastMove:   lastMove,
 		player:     newPlayer,
 	}
@@ -63,7 +63,7 @@ func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
 	}
 }
 
-func generateBoardsDepth(current *node, lastMove, lastMove2 coordinate) {
+func generateBoards(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
 
@@ -122,7 +122,7 @@ func minimaxTree(g *game) {
 	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, g.player)
 	alpha := minInt
 	beta := maxInt
-	TreeMinimaxRecursive(root, limit, alpha, beta, true)
+	minimaxRecursive(root, limit, alpha, beta, true)
 	elapsed := (time.Since(start))
 	// printBestRoute(root)
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
