@@ -20,7 +20,6 @@ type node struct {
 	goban            [19][19]position
 	coordinate       coordinate
 	lastMove         coordinate
-	lastMove2        coordinate
 	player           bool
 	maximizingPlayer bool
 	children         []*node
@@ -52,14 +51,10 @@ func addChild(node *node, parentID int, child *node) int {
 	return 0
 }
 
-// Recursively generates every move for a board (to depth 3), assigns value, and adds to tree
-func generateBoardsDepth( /*limit uint8, depth uint8,*/ current *node, id int, player bool, lastMove coordinate, lastMove2 coordinate) {
+// Generates every move for a board (to depth 3), assigns value, and adds to tree
+func generateBoardsDepth(current *node, id int, player bool, lastMove coordinate, lastMove2 coordinate) {
 	var y int8
 	var x int8
-
-	// if depth == limit {
-	// return
-	// }
 
 	for y = lastMove.y - 4; y < lastMove.y+4; y++ {
 		for x = lastMove.x - 4; x < lastMove.x+4; x++ {
@@ -69,14 +64,8 @@ func generateBoardsDepth( /*limit uint8, depth uint8,*/ current *node, id int, p
 				newGoban := current.goban
 				placeStone(coordinate, player, &newGoban)
 				value := evaluateMove(coordinate, &newGoban, player)
-				// fmt.Printf("coordinate = %v, value = %v\n", coordinate, value)
-				// dumpGoban(&newGoban)
-				// time.Sleep(300 * time.Millisecond)
-				// os.Exit(1)
-				// value := valueBoard(&newGoban, player)
 				child := newNode(identity, value, &newGoban, coordinate, lastMove, player)
-				addChild(current, current.id, child) //
-				// generateBoardsDepth(limit, depth+1, child, child.id, !player, coordinate, current.coordinate)
+				addChild(current, current.id, child)
 			}
 		}
 	}
@@ -90,24 +79,11 @@ func generateBoardsDepth( /*limit uint8, depth uint8,*/ current *node, id int, p
 				newGoban := current.goban
 				placeStone(coordinate, player, &newGoban)
 				value := evaluateMove(coordinate, &newGoban, player)
-				// fmt.Printf("coordinate = %v, value = %v\n", coordinate, value)
-				// dumpGoban(&newGoban)
-				// time.Sleep(300 * time.Millisecond)
-				// os.Exit(1)
-				// value := valueBoard(&newGoban, player)
 				child := newNode(identity, value, &newGoban, coordinate, lastMove2, player)
-				addChild(current, current.id, child) //
-				// generateBoardsDepth(limit, depth+1, child, child.id, !player, coordinate, current.coordinate)
+				addChild(current, current.id, child)
 			}
 		}
 	}
-}
-
-func createTree(g *game, limit uint8) *node {
-	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, g.player)
-	// root := newNode(0, 0, &g.goban, coordinate{-1, -1}, g.lastMove, g.player)
-	// generateBoardsDepth( /*limit,*/ 0, root, root.id, root.player, g.lastMove, g.lastMove2)
-	return root
 }
 
 /* prints the tree from the root */
@@ -133,14 +109,10 @@ func printBestRoute(root *node) {
 	current := root
 	for current.bestMove != nil {
 		fmt.Printf("id = %d, value = %d, maximizingPlayer = %v\n", current.id, current.value, current.maximizingPlayer)
-		// fmt.Println(current.id)
-		// fmt.Println(current.value)
 		// dumpGoban(&current.goban)
 		current = current.bestMove
 	}
 	fmt.Printf("id = %d, value = %d, maximizingPlayer = %v\n\n", current.id, current.value, current.maximizingPlayer)
-	// fmt.Println(current.id)
-	// fmt.Println(current.value)
 	// dumpGoban(&current.goban)
 }
 
@@ -151,16 +123,14 @@ func minimaxTree(g *game) {
 		limit = g.ai1.depth
 	}
 
-	root := createTree(g, limit)
+	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, g.player)
 	alpha := minInt
 	beta := maxInt
-	TreeMinimaxRecursive(root, limit, alpha, beta, true) // for some reason, maximizingplayer has to be set to 'false' for this to work
+	TreeMinimaxRecursive(root, limit, alpha, beta, true)
 	elapsed := (time.Since(start))
 	// printBestRoute(root)
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
-	// fmt.Println("------------\n")
-	// time.Sleep(100000000)
 
 	if g.player == false {
 		g.ai0.suggest = root.bestMove.coordinate
@@ -170,18 +140,3 @@ func minimaxTree(g *game) {
 		g.ai1.timer = elapsed
 	}
 }
-
-//  creates a tree, whose root is the goban
-//  creates all possible moves/boards to depth _, calculates values, add to tree
-//  applies minimax to tree, finds best move
-
-// addChild(root, 1, &node{id: 2, Value: 20})
-// addChild(root, 1, &node{id: 3, Value: 30})
-// addChild(root, 1, &node{id: 4, Value: 40})
-// addChild(root, 2, &node{id: 5, Value: 50})
-// addChild(root, 2, &node{id: 6, Value: 60})
-// addChild(root, 2, &node{id: 7, Value: 70})
-// addChild(root, 3, &node{id: 8, Value: 80})
-// addChild(root, 3, &node{id: 9, Value: 90})
-// addChild(root, 3, &node{id: 10, Value: 100})
-// addChild(root, 4, &node{id: 11, Value: 110})
