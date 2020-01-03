@@ -1,7 +1,5 @@
 package gomoku
 
-import "fmt"
-
 // //  Alpha is the best choice which has been found so far for the maximising player.
 // //  Beta is the best choice which has been found so far for the minimising player
 
@@ -21,13 +19,12 @@ func min(a, b int) int {
 
 func TreeMinimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPlayer bool) int {
 	// if game over in position {
-	if depth == 0 || len(node.children) == 0 {
+	if depth == 0 /*|| len(node.children) == 0*/ {
 		return node.value
 	}
 
 	node.maximizingPlayer = maximizingPlayer
-	fmt.Println("segfault?\n")
-	generateBoardsDepth( /*limit,*/ depth+1, node, node.id, node.player, node.coordinate, node.lastMove)
+	generateBoardsDepth( /*limit, depth+1,*/ node, node.id, node.player, node.coordinate, node.lastMove)
 	if maximizingPlayer == true {
 		maxValue := alpha // set maxEval to -infinity
 		for idx := range node.children {

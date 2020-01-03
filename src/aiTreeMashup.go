@@ -53,7 +53,7 @@ func addChild(node *node, parentID int, child *node) int {
 }
 
 // Recursively generates every move for a board (to depth 3), assigns value, and adds to tree
-func generateBoardsDepth( /*limit uint8,*/ depth uint8, current *node, id int, player bool, lastMove coordinate, lastMove2 coordinate) {
+func generateBoardsDepth( /*limit uint8, depth uint8,*/ current *node, id int, player bool, lastMove coordinate, lastMove2 coordinate) {
 	var y int8
 	var x int8
 
@@ -82,6 +82,8 @@ func generateBoardsDepth( /*limit uint8,*/ depth uint8, current *node, id int, p
 	}
 	for y = lastMove2.y - 4; y < lastMove2.y+4; y++ {
 		for x = lastMove2.x - 4; x < lastMove2.x+4; x++ {
+			//if !(y > lastMove.y - 4 && y < lastMove.y+4 &&
+			//	x > lastMove.x - 4 && x < lastMove.x+4)
 			coordinate := coordinate{y, x}
 			if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
 				identity++
@@ -93,7 +95,7 @@ func generateBoardsDepth( /*limit uint8,*/ depth uint8, current *node, id int, p
 				// time.Sleep(300 * time.Millisecond)
 				// os.Exit(1)
 				// value := valueBoard(&newGoban, player)
-				child := newNode(identity, value, &newGoban, coordinate, lastMove, player)
+				child := newNode(identity, value, &newGoban, coordinate, lastMove2, player)
 				addChild(current, current.id, child) //
 				// generateBoardsDepth(limit, depth+1, child, child.id, !player, coordinate, current.coordinate)
 			}
@@ -102,7 +104,7 @@ func generateBoardsDepth( /*limit uint8,*/ depth uint8, current *node, id int, p
 }
 
 func createTree(g *game, limit uint8) *node {
-	root := newNode(0, 0, &g.goban, coordinate{-1, -1}, g.lastMove, g.player)
+	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, g.player)
 	// root := newNode(0, 0, &g.goban, coordinate{-1, -1}, g.lastMove, g.player)
 	// generateBoardsDepth( /*limit,*/ 0, root, root.id, root.player, g.lastMove, g.lastMove2)
 	return root
@@ -114,7 +116,7 @@ func printTree(parent *node) {
 	fmt.Printf("\nparent: %d\n", current.id)
 	for i := range current.children {
 		child := current.children[i]
-		fmt.Printf("child: %d", child.id)
+		fmt.Printf("child: %d", child.id) //////
 		// printTree(child)
 		// put in a mutex/lock to wait until this range is done, and then call printTree for the child
 	}
@@ -153,7 +155,6 @@ func minimaxTree(g *game) {
 	alpha := minInt
 	beta := maxInt
 	TreeMinimaxRecursive(root, limit, alpha, beta, true) // for some reason, maximizingplayer has to be set to 'false' for this to work
-	fmt.Println("seg here?\n")
 	elapsed := (time.Since(start))
 	// printBestRoute(root)
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
