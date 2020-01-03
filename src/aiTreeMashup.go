@@ -21,8 +21,8 @@ type node struct {
 	goban            [19][19]position
 	coordinate       coordinate
 	lastMove         coordinate
-	player           bool
-	maximizingPlayer bool
+	player           bool // black or white
+	maximizingPlayer bool // used by miniMax algo
 	children         []*node
 	bestMove         *node
 }
@@ -39,64 +39,44 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 }
 
 // Recursively finds node by ID, and then appends child to node.chilren
-func addChild(node *node, parentID int, child *node) int {
+func addChild(node *node, parentID int, child *node) {
 	if node.id == parentID {
 		node.children = append(node.children, child)
-		return 1
 	} else {
 		for idx, _ := range node.children {
 			current := node.children[idx]
 			addChild(current, parentID, child)
 		}
 	}
-	return 0
 }
 
-func generateChildBoards(current *node, player bool, lastMove coordinate, x, y int8) {
+// Generates every move for a board, assigns value, and adds to tree
+func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
 	coordinate := coordinate{y, x}
-	if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
+	if isMoveValid2(coordinate, &current.goban, current.player) == true { // duplicate of isMoveValid w/o *game
 		identity++
 		newGoban := current.goban
-		placeStone(coordinate, player, &newGoban)
-		value := evaluateMove(coordinate, &newGoban, player)
-		child := newNode(identity, value, &newGoban, coordinate, lastMove, player)
+		placeStone(coordinate, current.player, &newGoban)
+		value := evaluateMove(coordinate, &newGoban, current.player)
+		child := newNode(identity, value, &newGoban, coordinate, lastMove, current.player)
 		addChild(current, current.id, child)
 	}
 }
 
-// Generates every move for a board (to depth 3), assigns value, and adds to tree
-func generateBoardsDepth(current *node, player bool, lastMove, lastMove2 coordinate) {
+func generateBoardsDepth(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
 
 	for y = lastMove.y - 4; y <= lastMove.y+4; y++ {
 		for x = lastMove.x - 4; x <= lastMove.x+4; x++ {
-			generateChildBoards(current, player, lastMove, x, y)
-			// coordinate := coordinate{y, x}
-			// if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
-			// 	identity++
-			// 	newGoban := current.goban
-			// 	placeStone(coordinate, player, &newGoban)
-			// 	value := evaluateMove(coordinate, &newGoban, player)
-			// 	child := newNode(identity, value, &newGoban, coordinate, lastMove, player)
-			// 	addChild(current, current.id, child)
-			// }
+			generateChildBoards(current, lastMove, x, y)
 		}
 	}
 	for y = lastMove2.y - 4; y <= lastMove2.y+4; y++ {
 		for x = lastMove2.x - 4; x <= lastMove2.x+4; x++ {
 			// optimized so the threat-space searches don't overlap
 			if !(y >= lastMove.y-4 && y <= lastMove.y+4 && x >= lastMove.x-4 && x <= lastMove.x+4) {
-				generateChildBoards(current, player, lastMove2, x, y)
-				// coordinate := coordinate{y, x}
-				// if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
-				// 	identity++
-				// 	newGoban := current.goban
-				// 	placeStone(coordinate, player, &newGoban)
-				// 	value := evaluateMove(coordinate, &newGoban, player)
-				// 	child := newNode(identity, value, &newGoban, coordinate, lastMove2, player)
-				// 	addChild(current, current.id, child)
-				// }
+				generateChildBoards(current, lastMove2, x, y)
 			}
 		}
 	}

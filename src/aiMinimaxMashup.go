@@ -24,7 +24,7 @@ func TreeMinimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizi
 	}
 
 	node.maximizingPlayer = maximizingPlayer
-	generateBoardsDepth(node, node.player, node.coordinate, node.lastMove)
+	generateBoardsDepth(node, node.coordinate, node.lastMove)
 	if maximizingPlayer == true {
 		maxValue := alpha // set maxEval to -infinity
 		for idx := range node.children {
