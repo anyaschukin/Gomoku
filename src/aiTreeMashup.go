@@ -2,6 +2,7 @@ package gomoku
 
 import (
 	"fmt"
+
 	// "os"
 	"time"
 	// lib "Gomoku/golib"
@@ -32,7 +33,7 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 		value:      value, // change this to initialize to zero
 		goban:      *newGoban,
 		coordinate: coordinate,
-		lastMove:   coordinate,
+		lastMove:   lastMove,
 		player:     newPlayer,
 	}
 }
@@ -56,6 +57,8 @@ func generateBoardsDepth(current *node, id int, player bool, lastMove coordinate
 	var y int8
 	var x int8
 
+	// fmt.Printf("lastMove = %v, lastMove2 = %v\n", lastMove, lastMove2)
+	// time.Sleep(100000000)
 	for y = lastMove.y - 4; y <= lastMove.y+4; y++ {
 		for x = lastMove.x - 4; x <= lastMove.x+4; x++ {
 			coordinate := coordinate{y, x}
@@ -74,6 +77,7 @@ func generateBoardsDepth(current *node, id int, player bool, lastMove coordinate
 			//if !(y > lastMove.y - 4 && y < lastMove.y+4 &&
 			//	x > lastMove.x - 4 && x < lastMove.x+4)
 			coordinate := coordinate{y, x}
+			// fmt.Printf("coordinate = %v\n", coordinate)
 			if isMoveValid2(coordinate, &current.goban, player) == true { // duplicate of isMoveValid w/o *game
 				identity++
 				newGoban := current.goban
