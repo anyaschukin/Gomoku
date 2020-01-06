@@ -103,12 +103,13 @@ func printTree(parent *node) {
 /* prints the best move at the selected depth */
 func printBestRoute(root *node) {
 	current := root
+	fmt.Printf("root.player = %v\n", root.player)
 	for current.bestMove != nil {
-		fmt.Printf("id = %d, value = %d, maximizingPlayer = %v\n", current.id, current.value, current.maximizingPlayer)
+		fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
 		// dumpGoban(&current.goban)
 		current = current.bestMove
 	}
-	fmt.Printf("id = %d, value = %d, maximizingPlayer = %v\n\n", current.id, current.value, current.maximizingPlayer)
+	fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
 	// dumpGoban(&current.goban)
 }
 
@@ -120,11 +121,12 @@ func minimaxTree(g *game) {
 	}
 
 	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, g.player)
+	fmt.Printf("First root.player = %v\n", root.player)
 	alpha := minInt
 	beta := maxInt
 	minimaxRecursive(root, limit, alpha, beta, true)
 	elapsed := (time.Since(start))
-	// printBestRoute(root)
+	printBestRoute(root) /////////////
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
 
