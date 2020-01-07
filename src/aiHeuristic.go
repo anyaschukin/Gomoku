@@ -1,7 +1,6 @@
 package gomoku
 
 import (
-	// "fmt"
 	"math"
 	// "time"
 	// "os"
@@ -134,5 +133,10 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool) i
 			eval += lineInfluence(coordinate, goban, player, y, x)
 		}
 	}
+	// if player == true {
+	// 	eval = -eval
+	// 	fmt.Println("oh hi!")
+	// 	fmt.Printf("eval: %v\n", eval)
+	// }
 	return eval
 }

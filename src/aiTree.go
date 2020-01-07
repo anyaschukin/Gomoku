@@ -63,6 +63,12 @@ func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
 		// 	evalPlayer = true
 		// }
 		value := evaluateMove(coordinate, &newGoban, current.player) //evalPlayer)//
+		// if current.maximizingPlayer == true {                        ////////
+		// if (current.player == false && current.maximizingPlayer == false) || (current.player == true && current.maximizingPlayer == true) {
+		// value = -value ////////
+		// fmt.Println("oh hi!")
+		// fmt.Printf("value: %v\n", current.value)
+		// }
 		child := newNode(identity, value, &newGoban, coordinate, lastMove, current.player)
 		addChild(current, current.id, child)
 	}

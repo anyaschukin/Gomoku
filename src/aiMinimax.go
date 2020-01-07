@@ -1,7 +1,5 @@
 package gomoku
 
-import "fmt"
-
 // //  Alpha is the best choice which has been found so far for the maximising player.
 // //  Beta is the best choice which has been found so far for the minimising player
 
@@ -28,15 +26,15 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 		return node.value
 	}
 
-	fmt.Printf("parent: %v\n", node.id) //////
+	// fmt.Printf("parent: %v\n", node.id) //////
 	generateBoards(node, node.coordinate, node.lastMove)
 
-	fmt.Printf("parent.id = %d, parent.coordinate: %v, parent.value = %d\n", node.id, node.coordinate, node.value) //////
-	for i := range node.children {
-		child := node.children[i]
-		fmt.Printf("child.id = %d, child.coordinate: %v, child.value = %d\n", child.id, child.coordinate, child.value) //////
-	}
-	fmt.Printf("\n") //////
+	// fmt.Printf("parent.id = %d, parent.coordinate: %v, parent.value = %d\n", node.id, node.coordinate, node.value) //////
+	// for i := range node.children {
+	// 	child := node.children[i]
+	// 	fmt.Printf("child.id = %d, child.coordinate: %v, child.value = %d\n", child.id, child.coordinate, child.value) //////
+	// }
+	// fmt.Printf("\n") //////
 
 	if maximizingPlayer == true {
 		maxValue := alpha // set maxEval to -infinity
