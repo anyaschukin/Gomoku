@@ -57,7 +57,12 @@ func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
 		identity++
 		newGoban := current.goban
 		placeStone(coordinate, current.player, &newGoban)
-		value := evaluateMove(coordinate, &newGoban, current.player)
+
+		// evalPlayer := false
+		// if (current.player == false && current.maximizingPlayer == false) || (current.player == true && current.maximizingPlayer == true) {
+		// 	evalPlayer = true
+		// }
+		value := evaluateMove(coordinate, &newGoban, current.player) //evalPlayer)//
 		child := newNode(identity, value, &newGoban, coordinate, lastMove, current.player)
 		addChild(current, current.id, child)
 	}
@@ -67,6 +72,7 @@ func generateBoards(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
 
+	fmt.Printf("current.player: %v\n", current.player)
 	for y = lastMove.y - 4; y <= lastMove.y+4; y++ {
 		for x = lastMove.x - 4; x <= lastMove.x+4; x++ {
 			generateChildBoards(current, lastMove, x, y)
@@ -120,11 +126,12 @@ func minimaxTree(g *game) {
 		limit = g.ai1.depth
 	}
 
-	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, g.player)
+	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player)
 	fmt.Printf("First root.player = %v\n", root.player)
 	alpha := minInt
 	beta := maxInt
-	minimaxRecursive(root, limit, alpha, beta, true)
+	value_wtf := minimaxRecursive(root, limit, alpha, beta, true)
+	fmt.Printf("value_wtf: %v\n\n", value_wtf) //////////
 	elapsed := (time.Since(start))
 	printBestRoute(root) /////////////
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
