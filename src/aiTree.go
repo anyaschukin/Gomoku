@@ -27,14 +27,15 @@ type node struct {
 	bestMove         *node
 }
 
-func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool) *node {
+func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool) *node {
 	return &node{
-		id:         id,
-		value:      value, // change this to initialize to zero
-		goban:      *newGoban,
-		coordinate: coordinate, // change this to move
-		lastMove:   lastMove,
-		player:     newPlayer,
+		id:               id,
+		value:            value, // change this to initialize to zero
+		goban:            *newGoban,
+		coordinate:       coordinate, // change this to move
+		lastMove:         lastMove,
+		player:           newPlayer,
+		maximizingPlayer: maximizingPlayer,
 	}
 }
 
@@ -57,19 +58,8 @@ func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
 		identity++
 		newGoban := current.goban
 		placeStone(coordinate, current.player, &newGoban)
-
-		// evalPlayer := false
-		// if (current.player == false && current.maximizingPlayer == false) || (current.player == true && current.maximizingPlayer == true) {
-		// 	evalPlayer = true
-		// }
-		value := evaluateMove(coordinate, &newGoban, current.player) //evalPlayer)//
-		// if current.maximizingPlayer == true {                        ////////
-		// if (current.player == false && current.maximizingPlayer == false) || (current.player == true && current.maximizingPlayer == true) {
-		// value = -value ////////
-		// fmt.Println("oh hi!")
-		// fmt.Printf("value: %v\n", current.value)
-		// }
-		child := newNode(identity, value, &newGoban, coordinate, lastMove, current.player)
+		value := evaluateMove(coordinate, &newGoban, current.player)
+		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer)
 		addChild(current, current.id, child)
 	}
 }
@@ -78,7 +68,7 @@ func generateBoards(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
 
-	fmt.Printf("current.player: %v\n", current.player)
+	// fmt.Printf("current.player: %v\n", current.player)
 	for y = lastMove.y - 4; y <= lastMove.y+4; y++ {
 		for x = lastMove.x - 4; x <= lastMove.x+4; x++ {
 			generateChildBoards(current, lastMove, x, y)
@@ -132,11 +122,11 @@ func minimaxTree(g *game) {
 		limit = g.ai1.depth
 	}
 
-	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player)
+	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false)
 	fmt.Printf("First root.player = %v\n", root.player)
 	alpha := minInt
 	beta := maxInt
-	value_wtf := minimaxRecursive(root, limit, alpha, beta, true)
+	value_wtf := minimaxRecursive(root, limit, alpha, beta, false)
 	fmt.Printf("value_wtf: %v\n\n", value_wtf) //////////
 	elapsed := (time.Since(start))
 	printBestRoute(root) /////////////
