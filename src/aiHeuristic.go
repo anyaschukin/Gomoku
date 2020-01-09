@@ -119,7 +119,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	return evalAxis
 }
 
-// alignFive returns true if 5 stones are aligned running through given coodinate
+// alignFive returns true if 5 stones are aligned running through given coordinate
 func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool) int {
 	var x int8
 	var y int8
@@ -131,6 +131,7 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool) i
 				return eval
 			}
 			eval += lineInfluence(coordinate, goban, player, y, x)
+			eval -= lineInfluence(coordinate, goban, !player, y, x)
 		}
 	}
 	// if player == true {
