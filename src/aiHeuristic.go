@@ -88,9 +88,9 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		neighbour := findNeighbour(coordinate, y, x, a)
 		if coordinateOnGoban(neighbour) == false {
 			break
-		} else if defend(coordinate, goban, y, x, player) == true {
+		} else if defend(coordinate, goban, y, x, player) == true { // attackThree
 			return defendThree
-		} else if canCapture2(coordinate, goban, y, x, player) == true {
+		} else if canCapture2(coordinate, goban, y, x, player) == true { //
 			evalAxis *= captureTwo
 			break
 		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
@@ -130,14 +130,9 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool) i
 			if x == 0 && y == 0 {
 				return eval
 			}
-			eval += lineInfluence(coordinate, goban, player, y, x)
-			eval -= lineInfluence(coordinate, goban, !player, y, x)
+			eval += lineInfluence(coordinate, goban, !player, y, x)
+			// eval -= lineInfluence(coordinate, goban, !player, y, x)
 		}
 	}
-	// if player == true {
-	// 	eval = -eval
-	// 	fmt.Println("oh hi!")
-	// 	fmt.Printf("eval: %v\n", eval)
-	// }
 	return eval
 }
