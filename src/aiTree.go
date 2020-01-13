@@ -53,12 +53,17 @@ func addChild(node *node, parentID int, child *node) {
 
 // Generates every move for a board, assigns value, and adds to tree
 func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
+	var value int
 	coordinate := coordinate{y, x}
 	if isMoveValid2(coordinate, &current.goban, current.player) == true { // duplicate of isMoveValid w/o *game
 		identity++
 		newGoban := current.goban
-		placeStone(coordinate, current.player, &newGoban)
-		value := evaluateMove(coordinate, &newGoban, current.player)
+		placeStone(coordinate, !current.player, &newGoban)
+		if current.maximizingPlayer == true {
+			value = current.value - evaluateMove(coordinate, &newGoban, current.player)
+		} else {
+			value = current.value + evaluateMove(coordinate, &newGoban, current.player)
+		}
 		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer)
 		addChild(current, current.id, child)
 	}
@@ -91,13 +96,14 @@ func printTree(parent *node) {
 	for i := range current.children {
 		child := current.children[i]
 		fmt.Printf("child: %d", child.id) //////
+
 		// printTree(child)
 		// put in a mutex/lock to wait until this range is done, and then call printTree for the child
 	}
 	/* depth-first */
 	for i := range current.children {
 		current := current.children[i]
-		// dumpGoban(&current.goban)
+		dumpGoban(&current.goban)
 		printTree(current)
 	}
 }
@@ -123,10 +129,11 @@ func minimaxTree(g *game) {
 	}
 
 	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false)
-	fmt.Printf("First root.player = %v\n", root.player)
+	// fmt.Printf("First root.player = %v\n", root.player)
 	alpha := minInt
 	beta := maxInt
 	value_wtf := minimaxRecursive(root, limit, alpha, beta, true)
+	// minimaxRecursive(root, limit, alpha, beta, true)
 	fmt.Printf("value_wtf: %v\n\n", value_wtf) //////////
 	elapsed := (time.Since(start))
 	printBestRoute(root) /////////////

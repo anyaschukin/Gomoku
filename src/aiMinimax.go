@@ -39,9 +39,6 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 		for idx := range node.children {
 			child := node.children[idx]
 			value := minimaxRecursive(child, depth-1, alpha, beta, false)
-			// value = value + node.value /////
-			// value = value - node.value /////
-			// value = node.value - value /////
 			maxValue = max(maxValue, value)
 			alpha = max(alpha, value)
 			if node.bestMove == nil || child.value > node.bestMove.value {
@@ -57,7 +54,6 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 		for idx := range node.children {
 			child := node.children[idx]
 			value := minimaxRecursive(child, depth-1, alpha, beta, true)
-			// value = -(value) + node.value /////
 			minValue = min(minValue, value)
 			beta = min(beta, value)
 			if node.bestMove == nil || child.value < node.bestMove.value {
