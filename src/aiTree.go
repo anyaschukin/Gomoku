@@ -114,13 +114,13 @@ func printBestRoute(root *node) {
 	fmt.Printf("root.player = %v\n", root.player)
 	for current.bestMove != nil {
 		fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
-		dumpGoban(&current.goban) //////// standard out
-		// dumpGobanBlank(&current.goban)//////// file
+		// dumpGoban(&current.goban)//////// standard out
+		// dumpGobanBlank(&current.goban) //////// file
 		current = current.bestMove
 	}
 	fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
-	dumpGoban(&current.goban) //////// standard out
-	// dumpGobanBlank(&current.goban)///////// file
+	// dumpGoban(&current.goban)//////// standard out
+	// dumpGobanBlank(&current.goban) ///////// file
 }
 
 func minimaxTree(g *game) {
@@ -138,7 +138,8 @@ func minimaxTree(g *game) {
 	// minimaxRecursive(root, limit, alpha, beta, true)
 	fmt.Printf("value_wtf: %v\n\n", value_wtf) //////////
 	elapsed := (time.Since(start))
-	printBestRoute(root) /////////////
+	printBestRoute(root)                                                 /////////////
+	fmt.Printf("\n\n----------------------------------------------\n\n") //////////
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
 
