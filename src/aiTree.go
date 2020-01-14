@@ -114,11 +114,13 @@ func printBestRoute(root *node) {
 	fmt.Printf("root.player = %v\n", root.player)
 	for current.bestMove != nil {
 		fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
-		// dumpGobanBlank(&current.goban)////////
+		dumpGoban(&current.goban) //////// standard out
+		// dumpGobanBlank(&current.goban)//////// file
 		current = current.bestMove
 	}
 	fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
-	// dumpGobanBlank(&current.goban)/////////
+	dumpGoban(&current.goban) //////// standard out
+	// dumpGobanBlank(&current.goban)///////// file
 }
 
 func minimaxTree(g *game) {

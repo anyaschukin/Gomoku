@@ -106,7 +106,7 @@ func isMoveValid2(coordinate coordinate, goban *[19][19]position, player bool) b
 	if positionOccupied(coordinate, goban) == true {
 		return false
 	}
-	if doubleThree2(coordinate, goban, player) == true { // duplicate w/o *game
+	if doubleThree2(coordinate, goban, !player) == true { // duplicate w/o *game
 		return false
 	}
 	return true
