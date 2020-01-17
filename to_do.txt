@@ -16,6 +16,7 @@
 	- heuristics: offensive/defensive 
 	- heuristics: edit capture2
 	- heuristics: map of threat sequences
+	- add capture2 after placing stones to tree nodes
 
 
 #### BONUS ####
