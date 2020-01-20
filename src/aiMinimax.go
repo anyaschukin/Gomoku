@@ -19,7 +19,7 @@ func min(a, b int) int {
 	return b
 }
 
-func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPlayer bool) int {
+func minimaxRecursive(node *node, depth uint8, startDepth uint8, alpha int, beta int, maximizingPlayer bool) int {
 
 	if depth == 0 {
 		return node.value
@@ -44,34 +44,49 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 	fmt.Printf("\n") //////
 
 	if maximizingPlayer == true {
-		maxValue := alpha // set maxEval to -infinity
+		maxValue := minInt // set maxEval to -infinity
 		for idx := range node.children {
 			child := node.children[idx]
-			value := minimaxRecursive(child, depth-1, alpha, beta, false)
+			value := minimaxRecursive(child, depth-1, startDepth, alpha, beta, false)
+			// fmt.Printf("id = %d, player = %v, maximizingPlayer: %v, coordinate: %v, value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value) //////
+			// fmt.Printf("maxValue: %v, value: %v\n", maxValue, value)
 			maxValue = max(maxValue, value)
-			alpha = max(alpha, value)
-			if node.bestMove == nil || child.value > node.bestMove.value {
+			// alpha = max(alpha, value)
+			// if depth == startDepth && (cooronate not set or child.value > best move value) {
+				// best move coordinate = child.coordinate
+			//}
+			// if node.bestMove == nil || child.value > node.bestMove.value {
+			if node.bestMove == nil || value == maxValue {
 				node.bestMove = child
 			}
-			if beta <= alpha {
-				break
-			}
+			// if beta <= alpha {
+			// 	break
+			// }
 		}
-		return maxValue
+		// if depth == startDepth {
+		// 	return node.bestMove.id /// best move coordinate
+		// } else {
+			fmt.Printf("maxValue: %v\n\n", maxValue)
+			return maxValue
+		// }
 	} else {
-		minValue := beta // set maxEval to +infinity
+		minValue := maxInt // set maxEval to +infinity
 		for idx := range node.children {
 			child := node.children[idx]
-			value := minimaxRecursive(child, depth-1, alpha, beta, true)
+			value := minimaxRecursive(child, depth-1, startDepth, alpha, beta, true)
+			// fmt.Printf("id = %d, player = %v, maximizingPlayer: %v, coordinate: %v, value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value) //////
+			// fmt.Printf("minValue: %v, value: %v\n", minValue, value)
 			minValue = min(minValue, value)
-			beta = min(beta, value)
-			if node.bestMove == nil || child.value < node.bestMove.value {
+			// beta = min(beta, value)
+			// if node.bestMove == nil || child.value < node.bestMove.value {
+			if node.bestMove == nil || value == minValue {
 				node.bestMove = child
 			}
-			if beta <= alpha {
-				break
-			}
+			// if beta <= alpha {
+			// 	break
+			// }
 		}
+		fmt.Printf("minValue: %v\n\n", minValue)
 		return minValue
 	}
 }
