@@ -134,12 +134,12 @@ func minimaxTree(g *game) {
 	// fmt.Printf("First root.player = %v\n", root.player)
 	alpha := minInt
 	beta := maxInt
-	value_wtf := minimaxRecursive(root, limit, limit, alpha, beta, true)
+	minimaxRecursive(root, limit, limit, alpha, beta, true)
 	// minimaxRecursive(root, limit, alpha, beta, true)
-	fmt.Printf("value_wtf: %v\n\n", value_wtf) //////////
+	// fmt.Printf("value_wtf: %v\n\n", value_wtf) //////////
 	elapsed := (time.Since(start))
-	printBestRoute(root)                                                 /////////////
-	fmt.Printf("\n\n----------------------------------------------\n\n") //////////
+	// printBestRoute(root)                                                 /////////////
+	// fmt.Printf("\n\n----------------------------------------------\n\n") //////////
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
 
