@@ -95,7 +95,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		neighbour := findNeighbour(coordinate, y, x, a)
 		if coordinateOnGoban(neighbour) == false {
 			break
-		}
+		} 
 		d := defend(coordinate, goban, y, x, player)
 		if d == 3 { // attackThree
 			return defendThree
@@ -115,7 +115,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		neighbour := findNeighbour(coordinate, y, x, b)
 		if coordinateOnGoban(neighbour) == false {
 			break
-		}
+		} 
 		d := defend(coordinate, goban, y, x, player)
 		if d == 3 { // attackThree
 			return defendThree

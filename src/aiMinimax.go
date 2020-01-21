@@ -25,17 +25,24 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 		return node.value
 	}
 
+	// fmt.Printf("\nparent.id = %d, parent.player = %v, parent.maximizingPlayer: %v, parent.coordinate: %v, parent.value = %d\n", node.id, node.player, node.maximizingPlayer, node.coordinate, node.value)
 	generateBoards(node, node.coordinate, node.lastMove)
 
+	// for i := range node.children {
+	// 	child := node.children[i]
+	// 	// fmt.Printf("child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
+	// }
 	if maximizingPlayer == true {
 		maxValue := minInt // set maxEval to -infinity
 		for idx := range node.children {
 			child := node.children[idx]
+			maxValue = max(maxValue, child.value)
 			value := minimaxRecursive(child, depth-1, alpha, beta, false)
-			maxValue = max(maxValue, value)
+			// fmt.Printf("\nvalue = %d, maxValue = %d \n", child.value, maxValue)
 			alpha = max(alpha, value)
-			if node.bestMove == nil || value == maxValue {
+			if node.bestMove == nil || child.value == maxValue {
 				node.bestMove = child
+				// fmt.Printf("\nnode.bestMove.id = %d, node.bestMove.value = %d \n", node.bestMove.id, node.bestMove.value)
 			}
 			if beta <= alpha {
 				break
@@ -46,10 +53,10 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 		minValue := maxInt // set maxEval to +infinity
 		for idx := range node.children {
 			child := node.children[idx]
+			minValue = min(minValue, child.value)
 			value := minimaxRecursive(child, depth-1, alpha, beta, true)
-			minValue = min(minValue, value)
 			beta = min(beta, value)
-			if node.bestMove == nil || value == minValue {
+			if node.bestMove == nil || child.value == minValue {
 				node.bestMove = child
 			}
 			if beta <= alpha {
