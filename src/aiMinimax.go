@@ -8,7 +8,7 @@ package gomoku
 func max(a, b int) int {
 	if a > b {
 		return a
-	}
+	} 
 	return b
 }
 
@@ -22,6 +22,8 @@ func min(a, b int) int {
 func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPlayer bool) int {
 
 	if depth == 0 {
+		// fmt.Printf("depthh 0.... rootValue = %d \n\n ", rootValue)
+		// return rootValue
 		return node.value
 	}
 
@@ -30,39 +32,49 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 
 	// for i := range node.children {
 	// 	child := node.children[i]
-	// 	// fmt.Printf("child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
+	// 	fmt.Printf("child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
 	// }
 	if maximizingPlayer == true {
 		maxValue := minInt // set maxEval to -infinity
 		for idx := range node.children {
 			child := node.children[idx]
-			maxValue = max(maxValue, child.value)
 			value := minimaxRecursive(child, depth-1, alpha, beta, false)
-			// fmt.Printf("\nvalue = %d, maxValue = %d \n", child.value, maxValue)
+			maxValue = max(maxValue, value)
+			// rootValue = maxValue
 			alpha = max(alpha, value)
-			if node.bestMove == nil || child.value == maxValue {
+			// fmt.Printf("\nvalue = %d, maxValue = %d \n", value, maxValue)
+			
+			// if depth == 0 && value == maxValue {
+			// 	node.bestMove = child
+			// }
+			if node.bestMove == nil || value == maxValue {
 				node.bestMove = child
-				// fmt.Printf("\nnode.bestMove.id = %d, node.bestMove.value = %d \n", node.bestMove.id, node.bestMove.value)
 			}
 			if beta <= alpha {
 				break
 			}
 		}
+		// fmt.Printf("rootValue = %d \n\n ", rootValue)
 		return maxValue
 	} else {
 		minValue := maxInt // set maxEval to +infinity
 		for idx := range node.children {
 			child := node.children[idx]
-			minValue = min(minValue, child.value)
 			value := minimaxRecursive(child, depth-1, alpha, beta, true)
+			minValue = min(minValue, value)
 			beta = min(beta, value)
-			if node.bestMove == nil || child.value == minValue {
+			
+			// if depth == 0 && value == minValue {
+			// 	node.bestMove = child
+			// }
+			if node.bestMove == nil || value == minValue {
 				node.bestMove = child
 			}
 			if beta <= alpha {
 				break
 			}
 		}
+		// fmt.Printf("rootValue = %d \n\n ", rootValue)
 		return minValue
 	}
 }
