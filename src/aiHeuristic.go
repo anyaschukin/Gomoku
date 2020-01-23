@@ -6,11 +6,7 @@ import (
 	// "os"
 )
 
-// the weights of the adjacent points of influence
-// w(k+1) := 2^12, w(k+2):= 2^11, w(k+3) := 2^10, w(k+4) := 2^9
-
 // if a border or a white stone is encountered, the remaining w(k) values in that direction are all set to 1
-
 // the scores of the four directions are combined (by addition) to make up the evaluation score
 
 /* the weight of an empty point */
@@ -25,6 +21,8 @@ const defendThree = 42e11
 /* defend against or break a 4-in-a-row */
 const defendFour = 42e12
 
+// the weights of the adjacent points of influence
+// w(k+1) := 2^12, w(k+2):= 2^11, w(k+3) := 2^10, w(k+4) := 2^9
 func weight(z int8) int {
 	var influence float64
 
@@ -39,6 +37,41 @@ func weight(z int8) int {
 		influence = math.Pow(2, 9)
 	}
 	return int(influence)
+}
+
+// threat, capture, defend
+
+func measureChain(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) (bool, int8) {
+	var myChain bool
+	var i int8
+
+	// if neighbor_one is me, MyChain
+	if positionOccupiedByPlayer(coordinate, goban, player) == true {
+		myChain = true
+		for i = 1; i <= 5; i++ {
+			neighbour := findNeighbour(coordinate, y, x, i)
+			if positionOccupiedByPlayer(neighbour, goban, player) == false {
+				break
+			}
+		}
+	} else if positionOccupiedByOpponent(coordinate, goban, player) == true {
+		myChain = false
+		for i = 1; i <= 5; i++ {
+			neighbour := findNeighbour(coordinate, y, x, i)
+			if positionOccupiedByOpponent(neighbour, goban, player) == false {
+				break
+			}
+		}
+	}
+	return myChain, i
+}
+
+func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) {
+	// var length int8
+
+	if positionOccupied(coordinate, goban) == true {
+		myChain, length := measureChain(coordinate, goban, y, x, player)
+	}
 }
 
 func defend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int8 {
@@ -95,7 +128,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		neighbour := findNeighbour(coordinate, y, x, a)
 		if coordinateOnGoban(neighbour) == false {
 			break
-		} 
+		}
 		d := defend(coordinate, goban, y, x, player)
 		if d == 3 { // attackThree
 			return defendThree
@@ -115,7 +148,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		neighbour := findNeighbour(coordinate, y, x, b)
 		if coordinateOnGoban(neighbour) == false {
 			break
-		} 
+		}
 		d := defend(coordinate, goban, y, x, player)
 		if d == 3 { // attackThree
 			return defendThree
