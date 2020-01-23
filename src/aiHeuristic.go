@@ -42,13 +42,13 @@ func weight(z int8) int {
 // threat, capture, defend
 
 func measureChain(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) (bool, int8) {
-	var myChain bool
+	var myChain bool  // replace this variable name
 	var i int8
 
 	// if neighbor_one is me, MyChain
 	if positionOccupiedByPlayer(coordinate, goban, player) == true {
 		myChain = true
-		for i = 1; i <= 5; i++ {
+		for i = 1; i <= 4; i++ {
 			neighbour := findNeighbour(coordinate, y, x, i)
 			if positionOccupiedByPlayer(neighbour, goban, player) == false {
 				break
@@ -56,7 +56,7 @@ func measureChain(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 		}
 	} else if positionOccupiedByOpponent(coordinate, goban, player) == true {
 		myChain = false
-		for i = 1; i <= 5; i++ {
+		for i = 1; i <= 4; i++ {
 			neighbour := findNeighbour(coordinate, y, x, i)
 			if positionOccupiedByOpponent(neighbour, goban, player) == false {
 				break
@@ -67,11 +67,24 @@ func measureChain(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 }
 
 func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) {
-	// var length int8
-
 	if positionOccupied(coordinate, goban) == true {
 		myChain, length := measureChain(coordinate, goban, y, x, player)
 	}
+
+	// g.capture0, g.capture1
+	switch length {
+	case 2 && canWinByCapture() == true: // does this work or do I ALSO need if canCapture() in here?
+		return Win
+	case 2 && canCapture() == true:
+		return Two // how should I weight this differently?
+	case 2:
+		return Two
+	case 3:
+		return Three
+	case 4:
+		return Four
+	}
+
 }
 
 func defend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int8 {
