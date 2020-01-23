@@ -73,8 +73,10 @@ func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x in
 
 	// g.capture0, g.capture1
 	switch length {
+	// need to include a myChain condition here
 	case 2 && canWinByCapture() == true: // does this work or do I ALSO need if canCapture() in here?
 		return Win
+	// need to include a myChain condition here
 	case 2 && canCapture() == true:
 		return Two // how should I weight this differently?
 	case 2:
@@ -142,13 +144,9 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		if coordinateOnGoban(neighbour) == false {
 			break
 		}
-		d := defend(coordinate, goban, y, x, player)
-		if d == 3 { // attackThree
-			return defendThree
-		} else if d == 4 {
-			return defendFour
-		} else if canCapture2(coordinate, goban, y, x, player) == true { //
-			evalAxis *= captureTwo
+		tmp := threatCaptureDefend(neighbour, goban, y, x, player) 
+		if tmp != 0 {
+			evalAxis = tmp
 			break
 		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(a)
@@ -156,7 +154,18 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		} else {
 			evalAxis += calcLine(evalAxis, neighbour, goban, player, a)
 		}
+
+		// d := defend(coordinate, goban, y, x, player)
+		// if d == 3 { // attackThree
+		// 	return defendThree
+		// } else if d == 4 {
+		// 	return defendFour
+		// } else if canCapture2(coordinate, goban, y, x, player) == true { //
+		// 	evalAxis *= captureTwo
+		// 	break
+		// } 
 	}
+	// if evalAxis == maxInt ... RETURN!
 	for b = -1; b >= -4; b-- {
 		neighbour := findNeighbour(coordinate, y, x, b)
 		if coordinateOnGoban(neighbour) == false {
