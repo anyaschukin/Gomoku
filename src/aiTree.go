@@ -23,6 +23,8 @@ type node struct {
 	lastMove         coordinate
 	player           bool // black or white
 	maximizingPlayer bool // used by miniMax algo
+	capture0		 uint8
+	capture1		 uint8
 	children         []*node
 	bestMove         *node
 }
@@ -36,6 +38,8 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 		lastMove:         lastMove,
 		player:           newPlayer,
 		maximizingPlayer: maximizingPlayer,
+		capture0:		  capture0,
+		capture1:		  capture1,
 	}
 }
 
