@@ -15,6 +15,11 @@ const minInt = -maxInt - 1
 // const threatSpace = 3
 var identity int
 
+type captures struct {
+	capture0 uint8
+	capture1 uint8
+}
+
 type node struct {
 	id               int
 	value            int
@@ -23,13 +28,12 @@ type node struct {
 	lastMove         coordinate
 	player           bool // black or white
 	maximizingPlayer bool // used by miniMax algo
-	capture0		 uint8
-	capture1		 uint8
+	captures         captures
 	children         []*node
 	bestMove         *node
 }
 
-func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool) *node {
+func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool, capture0, capture1 uint8) *node {
 	return &node{
 		id:               id,
 		value:            value, // change this to initialize to zero
@@ -38,8 +42,10 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 		lastMove:         lastMove,
 		player:           newPlayer,
 		maximizingPlayer: maximizingPlayer,
-		capture0:		  capture0,
-		capture1:		  capture1,
+		captures: captures{
+			capture0: capture0,
+			capture1: capture1,
+		},
 	}
 }
 
@@ -64,11 +70,12 @@ func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
 		newGoban := current.goban
 		placeStone(coordinate, !current.player, &newGoban)
 		if current.maximizingPlayer == true {
-			value = current.value - evaluateMove(coordinate, &newGoban, current.player)
+			value = current.value - evaluateMove(coordinate, &newGoban, current.player, current.captures)
 		} else {
-			value = current.value + evaluateMove(coordinate, &newGoban, current.player)
+			value = current.value + evaluateMove(coordinate, &newGoban, current.player, current.captures)
+
 		}
-		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer)
+		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1)
 		addChild(current, current.id, child)
 	}
 }
@@ -134,7 +141,8 @@ func minimaxTree(g *game) {
 		limit = g.ai1.depth
 	}
 
-	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false)
+	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1)
+	// fmt.Printf("Captures... root.capture0 = %d, root.capture1 = %d\n\n", root.captures.capture1, root.captures.capture1)
 	// fmt.Printf("First root.player = %v\n", root.player)
 	identity = 0
 	alpha := minInt

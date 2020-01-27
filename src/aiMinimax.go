@@ -1,6 +1,6 @@
 package gomoku
 
-// import "fmt"
+import "fmt"
 
 // //  Alpha is the best choice which has been found so far for the maximising player.
 // //  Beta is the best choice which has been found so far for the minimising player
@@ -8,7 +8,7 @@ package gomoku
 func max(a, b int) int {
 	if a > b {
 		return a
-	} 
+	}
 	return b
 }
 
@@ -25,13 +25,13 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 		return node.value
 	}
 
-	// fmt.Printf("\nparent.id = %d, parent.player = %v, parent.maximizingPlayer: %v, parent.coordinate: %v, parent.value = %d\n", node.id, node.player, node.maximizingPlayer, node.coordinate, node.value)
+	fmt.Printf("\nparent.id = %d, parent.player = %v, parent.maximizingPlayer: %v, parent.coordinate: %v, parent.value = %d\n", node.id, node.player, node.maximizingPlayer, node.coordinate, node.value)
 	generateBoards(node, node.coordinate, node.lastMove)
 
-	// for i := range node.children {
-	// 	child := node.children[i]
-	// 	fmt.Printf("child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
-	// }
+	for i := range node.children {
+		child := node.children[i]
+		fmt.Printf("child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
+	}
 	if maximizingPlayer == true {
 		maxValue := minInt // set maxEval to -infinity
 		for idx := range node.children {
@@ -43,7 +43,7 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 				node.bestMove = child
 			}
 			// if node.bestMove == nil || value == maxValue {
-				// node.bestMove = child
+			// node.bestMove = child
 			// }
 			if beta <= alpha {
 				break
@@ -61,7 +61,7 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 				node.bestMove = child
 			}
 			// if node.bestMove == nil || value == minValue {
-				// node.bestMove = child
+			// node.bestMove = child
 			// }
 			if beta <= alpha {
 				break
