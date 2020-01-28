@@ -29,11 +29,12 @@ type node struct {
 	player           bool // black or white
 	maximizingPlayer bool // used by miniMax algo
 	captures         captures
+	parent           *node
 	children         []*node
 	bestMove         *node
 }
 
-func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool, capture0, capture1 uint8) *node {
+func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool, capture0, capture1 uint8, parent *node) *node {
 	return &node{
 		id:               id,
 		value:            value, // change this to initialize to zero
@@ -46,6 +47,7 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 			capture0: capture0,
 			capture1: capture1,
 		},
+		parent: parent,
 	}
 }
 
@@ -75,7 +77,7 @@ func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
 			value = current.value + evaluateMove(coordinate, &newGoban, current.player, current.captures)
 
 		}
-		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1)
+		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current)
 		addChild(current, current.id, child)
 	}
 }
@@ -141,7 +143,7 @@ func minimaxTree(g *game) {
 		limit = g.ai1.depth
 	}
 
-	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1)
+	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil)
 	// fmt.Printf("Captures... root.capture0 = %d, root.capture1 = %d\n\n", root.captures.capture1, root.captures.capture1)
 	// fmt.Printf("First root.player = %v\n", root.player)
 	identity = 0
@@ -150,9 +152,9 @@ func minimaxTree(g *game) {
 	minimaxRecursive(root, limit, alpha, beta, true)
 	// fmt.Printf("value_wtf: %v\n\n", value_wtf) //////////
 	elapsed := (time.Since(start))
-	// fmt.Printf("\n")
-	// printBestRoute(root) /////////////
-	// fmt.Printf("\n\n----------------------------------------------\n\n") //////////
+	fmt.Printf("\n")
+	printBestRoute(root)                                                 /////////////
+	fmt.Printf("\n\n----------------------------------------------\n\n") //////////
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
 
