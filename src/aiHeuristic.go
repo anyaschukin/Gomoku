@@ -94,8 +94,8 @@ func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x in
 
 	// check which coordinate you're starting from at every function call
 
-	myChain = positionOccupiedByPlayer(coordinate, &g.goban, player) // ALWAYS RETURNS FALSE :(
-	fmt.Printf("myChain = %v, player = %v\n", myChain, player)
+	myChain = positionOccupiedByPlayer(coordinate, goban, player) // ALWAYS RETURNS FALSE :(
+	// fmt.Printf("myChain = %v, player = %v\n", myChain, player)
 	length = measureChain(coordinate, goban, y, x, player)
 
 	switch {
@@ -270,7 +270,7 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 			if x == 0 && y == 0 {
 				return eval
 			}
-			eval += lineInfluence(coordinate, goban, !player, y, x, &captures)
+			eval += lineInfluence(coordinate, goban, player, y, x, &captures)
 		}
 	}
 	return eval
