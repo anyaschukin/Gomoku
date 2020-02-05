@@ -64,7 +64,7 @@ func addChild(node *node, parentID int, child *node) {
 }
 
 // Generates every move for a board, assigns value, and adds to tree
-func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
+func generateBoards(current *node, lastMove coordinate, x, y int8) {
 	var value int
 	coordinate := coordinate{y, x}
 	if isMoveValid2(coordinate, &current.goban, current.player) == true { // duplicate of isMoveValid w/o *game
@@ -82,21 +82,21 @@ func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
 	}
 }
 
-func generateBoards(current *node, lastMove, lastMove2 coordinate) {
+func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
 
 	// fmt.Printf("current.player: %v\n", current.player)
 	for y = lastMove.y - 4; y <= lastMove.y+4; y++ {
 		for x = lastMove.x - 4; x <= lastMove.x+4; x++ {
-			generateChildBoards(current, lastMove, x, y)
+			generateBoards(current, lastMove, x, y)
 		}
 	}
 	for y = lastMove2.y - 4; y <= lastMove2.y+4; y++ {
 		for x = lastMove2.x - 4; x <= lastMove2.x+4; x++ {
 			// optimized so the threat-space searches don't overlap
 			if !(y >= lastMove.y-4 && y <= lastMove.y+4 && x >= lastMove.x-4 && x <= lastMove.x+4) {
-				generateChildBoards(current, lastMove2, x, y)
+				generateBoards(current, lastMove2, x, y)
 			}
 		}
 	}
