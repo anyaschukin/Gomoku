@@ -41,7 +41,7 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 			value = max(value, minimaxRecursive(child, depth-1, alpha, beta, false))
 			// fmt.Printf("\nmaxValue = %d\n", value)
 			// maxValue = max(maxValue, value)
-			// alpha = max(alpha, value)
+			alpha = max(alpha, value)
 			// if node.id == 0 && value == maxValue {
 			// node.bestMove = child
 			// }
@@ -51,9 +51,9 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 				// }
 				node.bestMove = child
 			}
-			// if beta <= alpha {
-			// break
-			// }
+			if beta <= alpha {
+				break
+			}
 		}
 		// return maxValue
 		return value
@@ -64,7 +64,7 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 			value = min(value, minimaxRecursive(child, depth-1, alpha, beta, true))
 			// fmt.Printf("\nminValue = %d\n", value)
 			// minValue = min(minValue, value)
-			// beta = min(beta, value)
+			beta = min(beta, value)
 			// if node.id == 0 && value == minValue {
 			// node.bestMove = child
 			// }
@@ -74,9 +74,9 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 				// }
 				node.bestMove = child
 			}
-			// if beta <= alpha {
-			// break
-			// }
+			if beta <= alpha {
+				break
+			}
 		}
 		return value
 	}
