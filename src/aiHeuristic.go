@@ -40,142 +40,41 @@ func weight(z int8) int {
 	return int(influence)
 }
 
-//remove this function
-// func measureChain2(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, myChain bool) (bool, int8) {
-// 	var i int8
+func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, length int8, captures *captures) int {
+	// dumpGobanBlank(goban)
+	fmt.Printf("Hello\n")
 
-// 	// if neighbor_one is me, MyChain
-// 	if positionOccupiedByPlayer(coordinate, goban, player) == true {
-// 		myChain = true
-// 		for i = 1; i <= 4; i++ {
-// 			neighbour := findNeighbour(coordinate, y, x, i)
-// 			if positionOccupiedByPlayer(neighbour, goban, player) == false {
-// 				break
-// 			}
-// 		}
-// 	} else if positionOccupiedByOpponent(coordinate, goban, player) == true {
-// 		myChain = false
-// 		for i = 1; i <= 4; i++ {
-// 			neighbour := findNeighbour(coordinate, y, x, i)
-// 			if positionOccupiedByOpponent(neighbour, goban, player) == false {
-// 				break
-// 			}
-// 		}
-// 	}
-// 	return myChain, i
-// }
-
-// func measureChain2(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) (int8, bool) {
-// var myChain bool
-// var length int8
-// var multiple int8
-// for multiple = 1; multiple < 4; multiple++ {
-// 	neighbour := findNeighbour(coordinate, y, x, multiple)
-// 	if coordinateOnGoban(neighbour) == false {
-// 		break
-// 	} else if positionOccupiedByPlayer(neighbour, goban, player) == true {
-// 		myChain = true
-// 		length++
-// 	} else {
-// 		break
-// 	}
-// 	// else if positionOccupied(neighbour, goban) == false && length > 1 {
-// 	// continue
-// 	// }
-// }
-
-// case for 5 align with 1 space
-// 	return length, myChain
-// }
-
-func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, captures *captures) int {
-	var myChain bool // replace this variable name
-	var length int8
-
-	// check which coordinate you're starting from at every function call
-
-	myChain = positionOccupiedByPlayer(coordinate, goban, player) // ALWAYS RETURNS FALSE :(
-	// fmt.Printf("myChain = %v, player = %v\n", myChain, player)
-	length = measureChain(coordinate, goban, y, x, player)
-
-	switch {
-	case length == 5:
-		if myChain == true {
-			fmt.Printf("Five! Length = %d\n", length)
-			return (maxInt - 1000)
-		}
-	case length == 4:
-		if myChain == true {
-			fmt.Printf("Four\n")
-			return 42e12
-		}
-	case length == 3:
-		if myChain == true {
-			fmt.Printf("Three\n")
-			return 42e10
-		}
-	case length == 2:
-		if myChain == false && canWinByCapture(goban, player, captures.capture0, captures.capture1) == true {
-			fmt.Printf("Two Win by Capture\n")
-			return maxInt
-		} else if myChain == false && canCapture(coordinate, goban, player) == true {
-			// if capture, then need to modify captures to reflect this
-			fmt.Printf("Two Capture: length = %d, myChain = %v\n", length, myChain)
-			return 42e11 // how should I weight this differently?
-		} else {
-			fmt.Printf("Two\n")
-			return 42e7
-		}
-
-		// myChain = true
-		// switch {
-		// case length == 4:
-		// 	fmt.Printf("Four\n")
-		// 	return 42e12
-		// case length == 3:
-		// 	fmt.Printf("Three\n")
-		// 	return 42e11
-		// case length == 2, myChain == false, canWinByCapture(goban, player, captures.capture0, captures.capture1) == true:
-		// 	fmt.Printf("Two Win by Capture\n")
-		// 	return maxInt
-		// case length == 2, myChain == false, canCapture(neighbour, goban, player) == true:
-		// 	// if capture, then need to modify captures to reflect this
-		// 	fmt.Printf("Two Capture: length = %d, myChain = %v\n", length, myChain)
-		// 	return 42e9 // how should I weight this differently?
-		// case length == 2:
-		// 	fmt.Printf("Two\n")
-		// 	return 42e8
+	switch length {
+	case 5:
+		return (maxInt - 1000)
+	case 4:
+		return 42e12
+	case 3:
+		return 42e10
+	case 2:
+		return 42e7
 	}
 	return -1
 }
 
-// func defend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int8 {
-// 	one := findNeighbour(coordinate, y, x, 1)
-// 	two := findNeighbour(coordinate, y, x, 2)
-// 	three := findNeighbour(coordinate, y, x,  3)
-// 	four := findNeighbour(coordinate, y, x, 4)
-// 	if positionOccupiedByOpponent(one, goban, player) == true &&
-// 		positionOccupiedByOpponent(two, goban, player) == true &&
-// 		positionOccupiedByOpponent(three, goban, player) == true {
-// 		if positionOccupiedByOpponent(four, goban, player) == true {
-// 			return 4
-// 		}
-// 		return 3
-// 	}
-// 	return 0
-// }
-
-// func canCapture2(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
-// 	one := findNeighbour(coordinate, y, x, 1)
-// 	two := findNeighbour(coordinate, y, x, 2)
-// 	three := findNeighbour(coordinate, y, x, 3)
-// 	if positionOccupiedByOpponent(one, goban, player) == true &&
-// 		positionOccupiedByOpponent(two, goban, player) == true &&
-// 		positionOccupiedByPlayer(three, goban, player) == true {
-// 		return true
-// 	}
-// 	return false
-// }
+// myChain = true
+// switch {
+// case length == 4:
+// 	fmt.Printf("Four\n")
+// 	return 42e12
+// case length == 3:
+// 	fmt.Printf("Three\n")
+// 	return 42e11
+// case length == 2, myChain == false, canWinByCapture(goban, player, captures.capture0, captures.capture1) == true:
+// 	fmt.Printf("Two Win by Capture\n")
+// 	return maxInt
+// case length == 2, myChain == false, canCapture(neighbour, goban, player) == true:
+// 	// if capture, then need to modify captures to reflect this
+// 	fmt.Printf("Two Capture: length = %d, myChain = %v\n", length, myChain)
+// 	return 42e9 // how should I weight this differently?
+// case length == 2:
+// 	fmt.Printf("Two\n")
+// 	return 42e8
 
 func coordinateOnBorder(coordinate coordinate) bool {
 	if coordinate.y == 0 || coordinate.y == 18 || coordinate.x == 0 || coordinate.x == 18 {
@@ -197,20 +96,21 @@ func calcLine(evalAxis int, neighbour coordinate, goban *[19][19]position, playe
 func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, y int8, x int8, captures *captures) int {
 	var a int8
 	var b int8
-	var tmp int
+	// var tmp int
 
 	evalAxis := 1
 	for a = 1; a <= 4; a++ {
-		tmp = threatCaptureDefend(coordinate, goban, y, x, player, captures)
-		if tmp != -1 {
-			evalAxis = tmp
-			return evalAxis
-			// break
-		}
 		neighbour := findNeighbour(coordinate, y, x, a)
 		if coordinateOnGoban(neighbour) == false { //not sure this is necessary
 			break
-		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
+		}
+		// tmp = threatCaptureDefend(coordinate, goban, y, x, player, captures)
+		// if tmp != -1 {
+		// 	evalAxis = tmp
+		// 	return evalAxis
+		// 	// break
+		// } else
+		if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(a)
 			break
 		} else {
@@ -229,16 +129,17 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	}
 	// if evalAxis == maxInt ... RETURN!
 	for b = -1; b >= -4; b-- {
-		tmp = threatCaptureDefend(coordinate, goban, y, x, player, captures)
-		if tmp != -1 {
-			evalAxis = tmp
-			return evalAxis
-			// break
-		}
 		neighbour := findNeighbour(coordinate, y, x, b)
 		if coordinateOnGoban(neighbour) == false {
 			break
-		} else if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
+		}
+		// tmp = threatCaptureDefend(coordinate, goban, y, x, player, captures)
+		// if tmp != -1 {
+		// 	evalAxis = tmp
+		// 	return evalAxis
+		// 	// break
+		// } else
+		if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(b)
 			break
 		} else {
@@ -259,7 +160,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	return evalAxis
 }
 
-// alignFive returns true if 5 stones are aligned running through given coordinate
+// alignFive returns true if 5 stones are aligned running through given coordinate << CHANGE COMMENT
 func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, captures captures) int {
 	var x int8
 	var y int8
@@ -270,7 +171,19 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 			if x == 0 && y == 0 {
 				return eval
 			}
-			eval += lineInfluence(coordinate, goban, player, y, x, &captures)
+			if willCaptureDirection(coordinate, goban, y, x, player) == true {
+				// fmt.Printf("Can Capture\n")
+				if canWinByCapture(goban, player, captures.capture0, captures.capture1) == true {
+					return maxInt
+				}
+				eval += 42e11
+			}
+			length := checkTotalChainLength(coordinate, goban, y, x, player)
+			tmp := threatCaptureDefend(coordinate, goban, y, x, player, length, &captures)
+			if tmp != -1 {
+				eval += tmp
+			}
+			// eval += lineInfluence(coordinate, goban, player, y, x, &captures)
 		}
 	}
 	return eval

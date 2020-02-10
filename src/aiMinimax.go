@@ -27,11 +27,12 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 
 	// fmt.Printf("\nDEPTH = %d", depth)
 	// fmt.Printf("\nparent.id = %d, parent.player = %v, parent.maximizingPlayer: %v, parent.coordinate: %v, parent.value = %d\n", node.id, node.player, node.maximizingPlayer, node.coordinate, node.value)
+	// dumpGobanBlank(&node.goban)
 	generateChildBoards(node, node.coordinate, node.lastMove)
 
 	// for i := range node.children {
-	// 	child := node.children[i]
-	// 	fmt.Printf("child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
+	// child := node.children[i]
+	// fmt.Printf("child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
 	// }
 	if maximizingPlayer == true {
 		value := minInt // set maxEval to -infinity
