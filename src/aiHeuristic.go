@@ -104,63 +104,29 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 		if coordinateOnGoban(neighbour) == false { //not sure this is necessary
 			break
 		}
-		// tmp = threatCaptureDefend(coordinate, goban, y, x, player, captures)
-		// if tmp != -1 {
-		// 	evalAxis = tmp
-		// 	return evalAxis
-		// 	// break
-		// } else
 		if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(a)
 			break
 		} else {
 			evalAxis += calcLine(evalAxis, neighbour, goban, player, a)
 		}
-
-		// d := defend(coordinate, goban, y, x, player)
-		// if d == 3 { // attackThree
-		// 	return defendThree
-		// } else if d == 4 {
-		// 	return defendFour
-		// } else if canCapture2(coordinate, goban, y, x, player) == true { //
-		// 	evalAxis *= captureTwo
-		// 	break
-		// }
 	}
-	// if evalAxis == maxInt ... RETURN!
 	for b = -1; b >= -4; b-- {
 		neighbour := findNeighbour(coordinate, y, x, b)
 		if coordinateOnGoban(neighbour) == false {
 			break
 		}
-		// tmp = threatCaptureDefend(coordinate, goban, y, x, player, captures)
-		// if tmp != -1 {
-		// 	evalAxis = tmp
-		// 	return evalAxis
-		// 	// break
-		// } else
 		if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
 			evalAxis += int(b)
 			break
 		} else {
 			evalAxis += calcLine(evalAxis, neighbour, goban, player, b)
 		}
-
-		// d := defend(coordinate, goban, y, x, player)
-		// if d == 3 { // attackThree
-		// 	return defendThree
-		// } else if d == 4 {
-		// 	return defendFour
-		// } else if canCapture2(coordinate, goban, -y, -x, player) == true {
-		// 	evalAxis *= captureTwo
-		// 	break
-		// }
 	}
-	// fmt.Printf("evalAxis = %d\n", evalAxis)
 	return evalAxis
 }
 
-// alignFive returns true if 5 stones are aligned running through given coordinate << CHANGE COMMENT
+// evaluateMove checks for alignments/captures along each vertex for one move, and returns a score for that move
 func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, captures captures) int {
 	var x int8
 	var y int8
@@ -183,7 +149,7 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 			if tmp != -1 {
 				eval += tmp
 			}
-			// eval += lineInfluence(coordinate, goban, player, y, x, &captures)
+			eval += lineInfluence(coordinate, goban, player, y, x, &captures)
 		}
 	}
 	return eval
