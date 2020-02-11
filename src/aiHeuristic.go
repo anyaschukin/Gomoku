@@ -1,10 +1,8 @@
 package gomoku
 
 import (
-	"fmt"
+	// "fmt"
 	"math"
-	// "time"
-	// "os"
 )
 
 // if a border or a white stone is encountered, the remaining w(k) values in that direction are all set to 1
@@ -38,23 +36,6 @@ func weight(z int8) int {
 		influence = math.Pow(2, 9)
 	}
 	return int(influence)
-}
-
-func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, length int8, captures *captures) int {
-	// dumpGobanBlank(goban)
-	fmt.Printf("Hello\n")
-
-	switch length {
-	case 5:
-		return (maxInt - 1000)
-	case 4:
-		return 42e12
-	case 3:
-		return 42e10
-	case 2:
-		return 42e7
-	}
-	return -1
 }
 
 func coordinateOnBorder(coordinate coordinate) bool {
@@ -107,6 +88,24 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	return evalAxis
 }
 
+// threatCaptureDefend returns a score for aligning 5, 4, 3, or 2 stones
+func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, length int8, captures *captures) int {
+	// dumpGobanBlank(goban)
+	// fmt.Printf("Hello\n")
+
+	switch length {
+	case 5:
+		return (maxInt - 1000)
+	case 4:
+		return 42e12
+	case 3:
+		return 42e10
+	case 2:
+		return 42e7
+	}
+	return 0
+}
+
 // evaluateMove checks for alignments/captures along each vertex for one move, and returns a score for that move
 func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, captures captures) int {
 	var x int8
@@ -125,11 +124,8 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 				}
 				eval += 42e11
 			}
-			length := checkTotalChainLength(coordinate, goban, y, x, player)
-			tmp := threatCaptureDefend(coordinate, goban, y, x, player, length, &captures)
-			if tmp != -1 {
-				eval += tmp
-			}
+			length := chainLength(coordinate, goban, y, x, player)
+			eval += threatCaptureDefend(coordinate, goban, y, x, player, length, &captures)
 			eval += lineInfluence(coordinate, goban, player, y, x, &captures)
 		}
 	}

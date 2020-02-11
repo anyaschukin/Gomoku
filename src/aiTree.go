@@ -2,17 +2,12 @@ package gomoku
 
 import (
 	"fmt"
-
-	// "os"
 	"time"
-	// lib "Gomoku/golib"
-	// "math"
 )
 
 const maxInt = int(^uint(0) >> 1)
 const minInt = -maxInt - 1
 
-// const threatSpace = 3
 var identity int
 
 type captures struct {
@@ -86,7 +81,7 @@ func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
 
-	// fmt.Printf("current.player: %v\n", current.player)
+	// threat-space search of 4
 	for y = lastMove.y - 4; y <= lastMove.y+4; y++ {
 		for x = lastMove.x - 4; x <= lastMove.x+4; x++ {
 			generateBoards(current, lastMove, x, y)
@@ -144,17 +139,15 @@ func minimaxTree(g *game) {
 	}
 
 	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil)
-	// fmt.Printf("Captures... root.capture0 = %d, root.capture1 = %d\n\n", root.captures.capture1, root.captures.capture1)
-	// fmt.Printf("First root.player = %v\n", root.player)
 	identity = 0
 	alpha := minInt
 	beta := maxInt
 	minimaxRecursive(root, limit, alpha, beta, true)
 	// fmt.Printf("value_wtf: %v\n\n", value_wtf) //////////
 	elapsed := (time.Since(start))
-	fmt.Printf("\n")
-	printBestRoute(root)                                                 /////////////
-	fmt.Printf("\n\n----------------------------------------------\n\n") //////////
+	// fmt.Printf("\n")
+	// printBestRoute(root)                                                 /////////////
+	// fmt.Printf("\n\n----------------------------------------------\n\n") //////////
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
 
