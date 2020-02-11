@@ -1,7 +1,7 @@
 package gomoku
 
 import (
-	// "fmt"
+	"fmt"
 	"math"
 )
 
@@ -95,7 +95,8 @@ func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x in
 
 	switch length {
 	case 5:
-		return (maxInt - 1000)
+		return 42e14
+		// return (maxInt - 1000)
 	case 4:
 		return 42e12
 	case 3:
