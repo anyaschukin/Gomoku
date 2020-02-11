@@ -57,25 +57,6 @@ func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x in
 	return -1
 }
 
-// myChain = true
-// switch {
-// case length == 4:
-// 	fmt.Printf("Four\n")
-// 	return 42e12
-// case length == 3:
-// 	fmt.Printf("Three\n")
-// 	return 42e11
-// case length == 2, myChain == false, canWinByCapture(goban, player, captures.capture0, captures.capture1) == true:
-// 	fmt.Printf("Two Win by Capture\n")
-// 	return maxInt
-// case length == 2, myChain == false, canCapture(neighbour, goban, player) == true:
-// 	// if capture, then need to modify captures to reflect this
-// 	fmt.Printf("Two Capture: length = %d, myChain = %v\n", length, myChain)
-// 	return 42e9 // how should I weight this differently?
-// case length == 2:
-// 	fmt.Printf("Two\n")
-// 	return 42e8
-
 func coordinateOnBorder(coordinate coordinate) bool {
 	if coordinate.y == 0 || coordinate.y == 18 || coordinate.x == 0 || coordinate.x == 18 {
 		return true
@@ -138,7 +119,7 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 				return eval
 			}
 			if willCaptureDirection(coordinate, goban, y, x, player) == true {
-				// fmt.Printf("Can Capture\n")
+				// check that canWinByCapture works
 				if canWinByCapture(goban, player, captures.capture0, captures.capture1) == true {
 					return maxInt
 				}
