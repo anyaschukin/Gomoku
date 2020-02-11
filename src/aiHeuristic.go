@@ -1,7 +1,7 @@
 package gomoku
 
 import (
-	"fmt"
+	// "fmt"
 	"math"
 )
 
@@ -89,9 +89,14 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 }
 
 // threatCaptureDefend returns a score for aligning 5, 4, 3, or 2 stones
-func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, length int8, captures *captures) int {
+func threatCaptureDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, captures *captures) int {
 	// dumpGobanBlank(goban)
-	// fmt.Printf("Hello\n")
+
+	length := chainLength(coordinate, goban, y, x, player)
+
+	//  creating a free 4
+	//  4 needs to be blocked
+	// free 3 needs to be blocked
 
 	switch length {
 	case 5:
@@ -125,8 +130,7 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 				}
 				eval += 42e11
 			}
-			length := chainLength(coordinate, goban, y, x, player)
-			eval += threatCaptureDefend(coordinate, goban, y, x, player, length, &captures)
+			eval += threatCaptureDefend(coordinate, goban, y, x, player, &captures)
 			eval += lineInfluence(coordinate, goban, player, y, x, &captures)
 		}
 	}

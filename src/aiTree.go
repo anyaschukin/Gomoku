@@ -24,12 +24,12 @@ type node struct {
 	player           bool // black or white
 	maximizingPlayer bool // used by miniMax algo
 	captures         captures
-	parent           *node
-	children         []*node
-	bestMove         *node
+	// parent           *node
+	children []*node
+	bestMove *node
 }
 
-func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool, capture0, capture1 uint8, parent *node) *node {
+func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool, capture0, capture1 uint8 /*, parent *node*/) *node {
 	return &node{
 		id:               id,
 		value:            value, // change this to initialize to zero
@@ -42,7 +42,7 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 			capture0: capture0,
 			capture1: capture1,
 		},
-		parent: parent,
+		// parent: parent,
 	}
 }
 
@@ -72,7 +72,7 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 			value = current.value + evaluateMove(coordinate, &newGoban, !current.player, current.captures)
 
 		}
-		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current)
+		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1 /*, current*/)
 		addChild(current, current.id, child)
 	}
 }
@@ -138,7 +138,7 @@ func minimaxTree(g *game) {
 		limit = g.ai1.depth
 	}
 
-	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil)
+	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1 /*, nil*/)
 	identity = 0
 	alpha := minInt
 	beta := maxInt

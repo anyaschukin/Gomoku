@@ -21,8 +21,8 @@ func willCaptureDirection(coordinate coordinate, goban *[19][19]position, y, x i
 	return false
 }
 
-// checkTotalChainLength returns true if 5 stones are aligned running through given coodinate on given axes
-func checkTotalChainLength(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int8 {
+// chainLength returns the total length of stones aligned running through given a coordinate on a given axe
+func chainLength(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int8 {
 	// 	// if positionOccupiedByPlayer(coordinate, &g.goban, player) == false {
 	// 	// 	return false
 	a := measureChain(coordinate, goban, y, x, player)
