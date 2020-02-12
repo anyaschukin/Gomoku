@@ -89,7 +89,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 }
 
 // threatCaptureDefend returns a score for aligning 5, 4, 3, or 2 stones
-func attackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, captures *captures) int {
+func attackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int {
 	// dumpGobanBlank(goban)
 
 // if opponent will capture
@@ -103,12 +103,13 @@ func attackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 	// 	return 42e11
 	// }
 
-	capt := captureOrBeCaptured(coordinate, goban, y, x, player, captures)
+	capt := captureOrBeCaptured(coordinate, goban, y, x, player)
 	if capt != 0 {
 		fmt.Printf("capt = %d\n", capt)
 		return capt
 	}
 
+	// heuristic prioritizes blocking opponent's 4 over aligning own 5
 	defend := checkNeighbors(coordinate, goban, y, x, player)
 	switch defend {
 	case true:
@@ -135,6 +136,7 @@ func attackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 			return 42e14
 			// return (maxInt - 1000)
 		case 4:
+			// PLAYS 4 even if Flanked on both sides
 			// fmt.Printf("player 4, player = %v\n", player)
 			return 42e12
 		case 3:
@@ -154,13 +156,21 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 	var y int8
 
 	eval := 0
+
 	for y = -1; y <= 0; y++ {
 		for x = -1; x <= 1; x++ {
 			if x == 0 && y == 0 {
 				return eval
 			}
+			if canCaptureVertex(coordinate, goban, y, x, !player) == true {
+				// willCaptureVertex {}
+				if capturedEight(player, captures.capture0, captures.capture1) == true {
+					return maxInt
+				}
+				return maxInt - 1000
+			}
 			// make this either-or
-			tmp := attackDefend(coordinate, goban, y, x, player, &captures)
+			tmp := attackDefend(coordinate, goban, y, x, player)
 			if tmp == 0 {
 				tmp = lineInfluence(coordinate, goban, player, y, x, &captures)
 			}
@@ -169,3 +179,6 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 	}
 	return eval
 }
+
+// TO DO
+// - heuristic does not prioritize winning 10th capture, instead prioritzes 3-align 

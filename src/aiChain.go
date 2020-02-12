@@ -29,17 +29,15 @@ func willBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, p
 	return false
 }
 
-func captureOrBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, captures *captures) int {
+func captureOrBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int {
 	if willCapture(coordinate, goban, y, x, player) == true {
 		// fmt.Printf("Will capture - player = %v\n", player)
 		// check that canWinByCapture works
-		if canWinByCapture(goban, player, captures.capture0, captures.capture1) == true {
-			return maxInt
-		}
+
 		return 42e11
-	} /*else if willBeCaptured(coordinate, goban, y, x, player) == true {
+	} else if canBeCapturedVertex(coordinate, goban, y, x, player) == true {
 		return -42e11
-	}*/
+	}
 	return 0
 }
 
