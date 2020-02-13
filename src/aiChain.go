@@ -1,5 +1,7 @@
 package gomoku
 
+// import "fmt"
+
 // willCaptureVertex returns true if given coordinate will capture in the next move
 func willCaptureDirection(coordinate coordinate, goban *[19][19]position, y, x, i int8, player bool) bool {
 	one := findNeighbour(coordinate, y, x, i*1)
@@ -29,13 +31,28 @@ func willBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, p
 	return false
 }
 
-func captureOrBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int {
-	if willCapture(coordinate, goban, y, x, player) == true {
-		// fmt.Printf("Will capture - player = %v\n", player)
-		// check that canWinByCapture works
+// func captureOrBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int {
+// 	if willCapture(coordinate, goban, y, x, player) == true {
+// 		// fmt.Printf("Will capture - player = %v\n", player)
+// 		// check that canWinByCapture works
+// 		return 42e11
+// 	} else if canBeCapturedVertex(coordinate, goban, y, x, player) == true {
+// 		return -42e11
+// 	}
+// 	return 0
+// }
 
-		return 42e11
-	} else if canBeCapturedVertex(coordinate, goban, y, x, player) == true {
+func captureAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, captures captures) int {
+	if willCapture(coordinate, goban, y, x, player) == true {
+		if capturedEight(player, captures.capture0, captures.capture1) == true {
+			return maxInt
+		}
+		return 42e13
+	} else if willBeCaptured(coordinate, goban, y, x, player) == true {
+		if capturedEight(!player, captures.capture0, captures.capture1) == true {
+			return -42e15
+		}
+		// fmt.Printf("canBeCapturedVertex! \n")
 		return -42e11
 	}
 	return 0

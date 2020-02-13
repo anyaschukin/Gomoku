@@ -88,11 +88,11 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	return evalAxis
 }
 
-// threatCaptureDefend returns a score for aligning 5, 4, 3, or 2 stones
-func attackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int {
+// chainAttackDefend returns a score for aligning 5, 4, 3, or 2 stones
+func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int {
 	// dumpGobanBlank(goban)
 
-// if opponent will capture
+	// if opponent will capture
 
 	// if willCapture(coordinate, goban, y, x, player) == true {
 	// 	fmt.Printf("Will capture - player = %v\n", player)
@@ -103,11 +103,11 @@ func attackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 	// 	return 42e11
 	// }
 
-	capt := captureOrBeCaptured(coordinate, goban, y, x, player)
-	if capt != 0 {
-		fmt.Printf("capt = %d\n", capt)
-		return capt
-	}
+	// capt := captureOrBeCaptured(coordinate, goban, y, x, player)
+	// if capt != 0 {
+	// 	fmt.Printf("capt = %d\n", capt)
+	// 	return capt
+	// }
 
 	// heuristic prioritizes blocking opponent's 4 over aligning own 5
 	defend := checkNeighbors(coordinate, goban, y, x, player)
@@ -162,15 +162,19 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 			if x == 0 && y == 0 {
 				return eval
 			}
-			if canCaptureVertex(coordinate, goban, y, x, !player) == true {
-				// willCaptureVertex {}
-				if capturedEight(player, captures.capture0, captures.capture1) == true {
-					return maxInt
-				}
-				return maxInt - 1000
+			// captureAttackDefend
+			// chainAttackDefend
+			capt := captureAttackDefend(coordinate, goban, y, x, player, captures)
+			if capt == maxInt {
+				return capt
 			}
+			eval += capt
+			// if capt != 0 {
+			// fmt.Printf("capt = %d\n", capt)
+			// return capt
+			// }
 			// make this either-or
-			tmp := attackDefend(coordinate, goban, y, x, player)
+			tmp := chainAttackDefend(coordinate, goban, y, x, player)
 			if tmp == 0 {
 				tmp = lineInfluence(coordinate, goban, player, y, x, &captures)
 			}
@@ -181,4 +185,10 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 }
 
 // TO DO
-// - heuristic does not prioritize winning 10th capture, instead prioritzes 3-align 
+//  replace aiChain's canBeCapturedVertex (line 53) with willBeCapturedVertex
+//  if willCapture && willBeCapturedVertex == true?? How to score?
+// - heuristic does not prioritize winning 10th capture, instead prioritzes 3-align
+
+//  adding capt + tmp + eval == rollover :( ... and then stupid moves!
+// 9223372036854775807
+// 4.204200000000000000
