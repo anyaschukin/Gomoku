@@ -81,17 +81,7 @@ func checkFlanked(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 	return false
 }
 
-// checks either side for whose chain it is << REWRITE THIS COMMENT
-// func checkNeighbors(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
-// 	neighbour1 := findNeighbour(coordinate, y, x, -1)
-// 	neighbour2 := findNeighbour(coordinate, y, x, 1)
-// 	if positionOccupiedByOpponent(neighbour1, goban, player) == true || positionOccupiedByOpponent(neighbour2, goban, player) == true {
-// 		return true
-// 	}
-// 	return false
-// }
-
-// measureChain returns how many stones in a row for given coordinate, axes & player
+// measureChain2 returns how many stones in a row for given coordinate, axes & player
 func measureChain2(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int8 {
 	var length int8
 	var multiple int8

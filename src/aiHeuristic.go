@@ -98,12 +98,10 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 		length = chainLength(coordinate, goban, y, x, !player)
 		switch length {
 		case 5:
-			fmt.Printf("block 5 is shit\n")
 			return -100
 		case 4:
 			return 42e15
 		case 3:
-			fmt.Printf("block 3\n")
 			return 42e11
 			// case 2:
 			// return 42e7
