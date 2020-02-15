@@ -91,61 +91,38 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 // chainAttackDefend returns a score for aligning 5, 4, 3, or 2 stones
 func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int {
 	// dumpGobanBlank(goban)
+	var length int8
 
-	// if opponent will capture
-
-	// if willCapture(coordinate, goban, y, x, player) == true {
-	// 	fmt.Printf("Will capture - player = %v\n", player)
-	// 	// check that canWinByCapture works
-	// 	if canWinByCapture(goban, player, captures.capture0, captures.capture1) == true {
-	// 		return maxInt
-	// 	}
-	// 	return 42e11
-	// }
-
-	// capt := captureOrBeCaptured(coordinate, goban, y, x, player)
-	// if capt != 0 {
-	// 	fmt.Printf("capt = %d\n", capt)
-	// 	return capt
-	// }
-
-	// heuristic prioritizes blocking opponent's 4 over aligning own 5
-	defend := checkNeighbors(coordinate, goban, y, x, player)
-	switch defend {
-	case true:
-		length := chainLength(coordinate, goban, y, x, !player)
-		if length >= 2 {
-			// fmt.Printf("opponent's length = %d\n", length)
-		}
-		switch length {
-		case 4:
-			// fmt.Printf("opponent 4, player = %v\n", player)
-			return 42e14
-		case 3:
-			// fmt.Printf("opponent 3, player = %v\n", player)
-			return 42e10
-		}
-	case false:
-		length := chainLength(coordinate, goban, y, x, !player)
-		length++
-		if length >= 2 {
-			// fmt.Printf("player's length = %d\n", length)
-		}
+	flanked := checkFlanked(coordinate, goban, y, x, player)
+	if flanked == true {
+		length = chainLength(coordinate, goban, y, x, !player)
 		switch length {
 		case 5:
-			return 42e14
-			// return (maxInt - 1000)
+			fmt.Printf("block 5 is shit\n")
+			return -100
 		case 4:
-			// PLAYS 4 even if Flanked on both sides
-			// fmt.Printf("player 4, player = %v\n", player)
-			return 42e12
+			return 42e15
 		case 3:
-			// fmt.Printf("player 3, player = %v\n", player)
-			return 42e10
-		case 2:
-			// fmt.Printf("player 2, player = %v\n", player)
-			return 42e7
+			fmt.Printf("block 3\n")
+			return 42e11
+			// case 2:
+			// return 42e7
 		}
+	}
+	length = chainLength(coordinate, goban, y, x, player)
+	length++
+	switch length {
+	case 5:
+		return 42e14
+	case 4:
+		if flanked == true {
+			return 42e3
+		}
+		return 42e12
+	case 3:
+		return 42e10
+		// case 2:
+		// 	return 42e7
 	}
 	return 0
 }
@@ -162,19 +139,16 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 			if x == 0 && y == 0 {
 				return eval
 			}
-			// captureAttackDefend
-			// chainAttackDefend
 			capt := captureAttackDefend(coordinate, goban, y, x, player, captures)
 			if capt == maxInt {
 				return capt
 			}
 			eval += capt
-			// if capt != 0 {
-			// fmt.Printf("capt = %d\n", capt)
-			// return capt
-			// }
 			// make this either-or
 			tmp := chainAttackDefend(coordinate, goban, y, x, player)
+			if tmp == (maxInt - 1000) {
+				return tmp
+			}
 			if tmp == 0 {
 				tmp = lineInfluence(coordinate, goban, player, y, x, &captures)
 			}
@@ -185,10 +159,10 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 }
 
 // TO DO
-//  replace aiChain's canBeCapturedVertex (line 53) with willBeCapturedVertex
+// need to rewrite MeasureChain2
+// heuristic prioritizes blocking opponent's 4 over aligning own 5
 //  if willCapture && willBeCapturedVertex == true?? How to score?
 // - heuristic does not prioritize winning 10th capture, instead prioritzes 3-align
 
 //  adding capt + tmp + eval == rollover :( ... and then stupid moves!
 // 9223372036854775807
-// 4.204200000000000000
