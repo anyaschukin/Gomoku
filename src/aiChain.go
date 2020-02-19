@@ -83,5 +83,8 @@ func measureChain2(coordinate coordinate, goban *[19][19]position, y, x int8, pl
 func chainLength(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int8 {
 	a := measureChain2(coordinate, goban, y, x, player)
 	b := measureChain2(coordinate, goban, -y, -x, player)
-	return a + b
+	if a > b {
+		return a
+	}
+	return b
 }
