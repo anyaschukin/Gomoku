@@ -73,6 +73,7 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 
 		}
 		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current)
+		// fmt.Printf("current.coordinate = %v, child.coordinate = %v, child.parent.coordinate = %v\n", current.coordinate, child.coordinate, child.parent.coordinate)
 		addChild(current, current.id, child)
 	}
 }
@@ -129,14 +130,19 @@ func printBestRoute(root *node) {
 	// dumpGobanBlank(&current.goban)
 }
 
-
-func findParent(root *node, leaf *node) {
+func findParent(leaf *node) *node {
 	current := leaf
-	for leaf.parent != nil {
-		current = leaf.parent
+	// fmt.Printf("oh hi\n")
+	// fmt.Printf("parent.id = %d, parent.coordinate = %v, parent.value = %d\n", current.parent.id, current.parent.coordinate, current.parent.value)
+	for current.parent.id != 0 {
+		// fmt.Printf("oh yeh\n")
+		current = current.parent
+		fmt.Printf("current.id = %d, current.coordinate = %v, current.parent.id  %d\n", current.id, current.coordinate, current.parent.id)
 	}
-	root.bestMove = current
-	fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n", root.bestMove.id, root.bestMove.coordinate, root.bestMove.value)
+	// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n", root.bestMove.id, root.bestMove.coordinate, root.bestMove.value)
+	fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n", current.id, current.coordinate, current.value)
+	// root.bestMove = current
+	return current
 }
 
 func minimaxTree(g *game) {
@@ -154,18 +160,18 @@ func minimaxTree(g *game) {
 	fmt.Printf("value_wtf: %v, best.id = %d\n\n", value_wtf, best.id) //////////
 	elapsed := (time.Since(start))
 	fmt.Printf("\n")
-	printBestRoute(root)   
-	// findParent(root, best)
+	besty := findParent(best)
+	// printBestRoute(root)
 	// fmt.Printf("best.id = %d, best.coordinate = %v, best.value = %d\n", best.id, best.coordinate, best.value)                                              /////////////
 	fmt.Printf("\n\n----------------------------------------------\n\n") //////////
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
 
 	if g.player == false {
-		g.ai0.suggest = root.bestMove.coordinate
+		g.ai0.suggest = besty.coordinate
 		g.ai0.timer = elapsed
 	} else {
-		g.ai1.suggest = root.bestMove.coordinate
+		g.ai1.suggest = besty.coordinate
 		g.ai1.timer = elapsed
 	}
 }
