@@ -1,7 +1,7 @@
 package gomoku
 
 import (
-	"fmt"
+	// "fmt"
 	"math"
 )
 
@@ -102,7 +102,7 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 		case 4:
 			return 42e15
 		case 3:
-			return 42e11
+			return 42e10 + 500
 			// case 2:
 			// return 42e7
 		}
