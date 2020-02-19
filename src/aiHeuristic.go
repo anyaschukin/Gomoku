@@ -164,5 +164,3 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 //  if willCapture && willBeCapturedVertex == true?? How to score?
 // - heuristic does not prioritize winning 10th capture, instead prioritzes 3-align
 
-//  adding capt + tmp + eval == rollover :( ... and then stupid moves!
-// 9223372036854775807

@@ -132,14 +132,11 @@ func printBestRoute(root *node) {
 
 func findParent(leaf *node) *node {
 	current := leaf
-	// fmt.Printf("oh hi\n")
-	// fmt.Printf("parent.id = %d, parent.coordinate = %v, parent.value = %d\n", current.parent.id, current.parent.coordinate, current.parent.value)
+	fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
 	for current.parent.id != 0 {
-		// fmt.Printf("oh yeh\n")
 		current = current.parent
-		fmt.Printf("current.id = %d, current.coordinate = %v, current.parent.id  %d\n", current.id, current.coordinate, current.parent.id)
+		fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
 	}
-	// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n", root.bestMove.id, root.bestMove.coordinate, root.bestMove.value)
 	fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n", current.id, current.coordinate, current.value)
 	// root.bestMove = current
 	return current
@@ -156,8 +153,8 @@ func minimaxTree(g *game) {
 	identity = 0
 	alpha := minInt
 	beta := maxInt
-	value_wtf, best := minimaxRecursive(root, limit, alpha, beta, true)
-	fmt.Printf("value_wtf: %v, best.id = %d\n\n", value_wtf, best.id) //////////
+	best := minimaxRecursive(root, limit, alpha, beta, true)
+	// fmt.Printf("value_wtf: %v, best.id = %d\n\n", value_wtf, best.id) //////////
 	elapsed := (time.Since(start))
 	fmt.Printf("\n")
 	besty := findParent(best)
@@ -175,3 +172,11 @@ func minimaxTree(g *game) {
 		g.ai1.timer = elapsed
 	}
 }
+
+
+// player is pessimistic... fiddle with chainAttackDefend return values
+// checkLength for !player includes coordinate, which is player...
+// willCapture doesn't recognize 2 captures at once
+// checkNeighbors up to 4?
+// player doesn't play well at the end of the game
+// cleanup comments, refacto code

@@ -1,6 +1,6 @@
 package gomoku
 
-import "fmt"
+// import "fmt"
 
 // willCaptureVertex returns true if given coordinate will capture in the next move
 func willCaptureDirection(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
@@ -14,19 +14,6 @@ func willCaptureDirection(coordinate coordinate, goban *[19][19]position, y, x i
 	}
 	return false
 }
-
-// willCaptureVertex returns true if given coordinate will be captured in the next move (given opponent who always takes captures)
-// func willBeCapturedDirection(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
-// 	minusOne := findNeighbour(coordinate, y, x, -1)
-// 	two := findNeighbour(coordinate, y, x, 1)
-// 	three := findNeighbour(coordinate, y, x, 2)
-// 	if positionOccupiedByOpponent(minusOne, goban, player) == true &&
-// 		positionOccupiedByPlayer(two, goban, player) == true &&
-// 		positionUnoccupied(three, goban) == true {
-// 		return true
-// 	}
-// 	return false
-// }
 
 // willCapture returns true if given coordinate will capture (for player) in given direction in the next move
 func willCapture(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
@@ -47,17 +34,13 @@ func willBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, p
 func captureAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, captures captures) int {
 	if willCapture(coordinate, goban, y, x, player) == true {
 		if capturedEight(player, captures.capture0, captures.capture1) == true {
-			fmt.Printf("Will capture eight! Coordinate: %v, Player: %v\n", coordinate, player)
 			return maxInt
 		}
-		fmt.Printf("Will Capture! Coordinate: %v, Player: %v\n", coordinate, player)
 		return 42e13
 	} else if willBeCaptured(coordinate, goban, y, x, player) == true {
 		if capturedEight(!player, captures.capture0, captures.capture1) == true {
-			fmt.Printf("Will be captured 10! Coordinate: %v, Player: %v\n", coordinate, player)
 			return -42e15
 		}
-		fmt.Printf("Will Be Captured! Coordinate: %v, Player: %v\n", coordinate, player)
 		return -42e11
 	}
 	return 0
@@ -102,6 +85,3 @@ func chainLength(coordinate coordinate, goban *[19][19]position, y, x int8, play
 	b := measureChain2(coordinate, goban, -y, -x, player)
 	return a + b
 }
-
-// map[string]bool
-// DeepEqual?

@@ -1,6 +1,6 @@
 package gomoku
 
-import "fmt"
+// import "fmt"
 
 //  Alpha is the best choice which has been found so far for the maximising player.
 //  Beta is the best choice which has been found so far for the minimising player
@@ -27,17 +27,17 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 	}
 
 	/* DEBUG */
-	fmt.Printf("\nDEPTH = %d", depth)
-	fmt.Printf("\nparent.id = %d, parent.player = %v, parent.maximizingPlayer: %v, parent.coordinate: %v, parent.value = %d\n", node.id, node.player, node.maximizingPlayer, node.coordinate, node.value)
+	// fmt.Printf("\nDEPTH = %d", depth)
+	// fmt.Printf("\nparent.id = %d, parent.player = %v, parent.maximizingPlayer: %v, parent.coordinate: %v, parent.value = %d\n", node.id, node.player, node.maximizingPlayer, node.coordinate, node.value)
 	// dumpGobanBlank(&node.goban)
 
 	generateChildBoards(node, node.coordinate, node.lastMove)
 
 	/* DEBUG */
-	for i := range node.children {
-		child := node.children[i]
-		fmt.Printf("child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
-	}
+	// for i := range node.children {
+	// child := node.children[i]
+	// fmt.Printf("child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
+	// }
 
 	var value int
 	best := newNode(0, 0, &node.goban, node.coordinate, node.lastMove, !node.player, node.maximizingPlayer, node.captures.capture0, node.captures.capture1, node)
@@ -64,9 +64,9 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 			// if node.bestMove == nil || value > node.bestMove.value {
 			// node.bestMove = child
 			// }
-			if node.id == 0 && (node.bestMove == nil || child.value > node.bestMove.value) {
-				node.bestMove = child
-			}
+			// if node.id == 0 && (node.bestMove == nil || child.value > node.bestMove.value) {
+			// 	node.bestMove = child
+			// }
 			if beta <= alpha {
 				break
 			}
@@ -88,9 +88,9 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 			// if node.id == 0 /*&& value == minValue*/ {
 			// node.bestMove = child
 			// }
-			if node.bestMove == nil || child.value < node.bestMove.value {
-				node.bestMove = child
-			}
+			// if node.bestMove == nil || child.value < node.bestMove.value {
+			// 	node.bestMove = child
+			// }
 			if beta <= alpha {
 				break
 			}
