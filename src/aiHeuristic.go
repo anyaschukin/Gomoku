@@ -94,6 +94,7 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 	var length int8
 
 	flanked := checkFlanked(coordinate, goban, y, x, player)
+	// block opponent's chain
 	if flanked == true {
 		length = chainLength(coordinate, goban, y, x, !player)
 		switch length {
@@ -107,6 +108,7 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 			// return 42e7
 		}
 	}
+	// extend player's chain
 	length = chainLength(coordinate, goban, y, x, player)
 	length++
 	switch length {
