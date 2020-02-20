@@ -153,7 +153,7 @@ func minimaxTree(g *game) {
 	identity = 0
 	alpha := minInt
 	beta := maxInt
-	best := minimaxRecursive(root, limit, alpha, beta, true)
+	_, best := minimaxRecursive(root, limit, alpha, beta, true)
 	// fmt.Printf("value_wtf: %v, best.id = %d\n\n", value_wtf, best.id) //////////
 	elapsed := (time.Since(start))
 	fmt.Printf("\n")
@@ -172,7 +172,6 @@ func minimaxTree(g *game) {
 		g.ai1.timer = elapsed
 	}
 }
-
 
 // player is pessimistic... fiddle with chainAttackDefend return values
 // checkLength for !player includes coordinate, which is player...

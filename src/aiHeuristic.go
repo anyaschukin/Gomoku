@@ -91,38 +91,48 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 // chainAttackDefend returns a score for aligning 5, 4, 3, or 2 stones
 func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int {
 	// dumpGobanBlank(goban)
-	var length int8
+	// var length int8
 
-	flanked := checkFlanked(coordinate, goban, y, x, player)
+	// flanked := checkFlanked(coordinate, goban, y, x, player)
 	// block opponent's chain
-	if flanked == true {
-		length = chainLength(coordinate, goban, y, x, !player)
-		switch length {
-		case 5:
-			return -100
-		case 4:
-			return 42e15
-		case 3:
-			return 42e10 + 500
-			// case 2:
-			// return 42e7
-		}
+	// if flanked == true {
+	// 	length = chainLength(coordinate, goban, y, x, !player)
+	// 	switch length {
+	// 	case 5:
+	// 		return -100
+	// 	case 4:
+	// 		return 42e15
+	// 	case 3:
+	// 		return 42e10 + 500
+	// 		// case 2:
+	// 		// return 42e7
+	// 	}
+	// }
+
+	// defend := chainLength(coordinate, goban, y, x, !player)
+	defend := lengthDefend(coordinate, goban, y, x, player)
+	switch defend {
+	case 5:
+		return maxInt - 500
+	case 4:
+		return 42e15
+	case 3:
+		return 42e10 + 500
 	}
+
 	// extend player's chain
-	length = chainLength(coordinate, goban, y, x, player)
-	length++
-	switch length {
+	attack := lengthAttack(coordinate, goban, y, x, player)
+	attack++
+	switch attack {
 	case 5:
 		return 42e14
 	case 4:
-		if flanked == true {
+		if checkFlanked(coordinate, goban, y, x, player) == true {
 			return 42e3
 		}
 		return 42e12
 	case 3:
 		return 42e10
-		// case 2:
-		// 	return 42e7
 	}
 	return 0
 }
@@ -163,4 +173,3 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 // heuristic prioritizes blocking opponent's 4 over aligning own 5
 //  if willCapture && willBeCapturedVertex == true?? How to score?
 // - heuristic does not prioritize winning 10th capture, instead prioritzes 3-align
-
