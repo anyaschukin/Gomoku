@@ -22,8 +22,7 @@ func min(a, b int) int {
 func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPlayer bool) (int, *node) {
 
 	if depth == 0 {
-		// fmt.Printf("WIN node.id = %d, node.coordinate = %v, node.value = %d\n", node.id, node.coordinate, node.value)
-		return node.value, node /*node.id, node.coordinate*/
+		return node.value, node
 	}
 
 	/* DEBUG */
@@ -43,7 +42,6 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 	best := newNode(0, 0, &node.goban, node.coordinate, node.lastMove, !node.player, node.maximizingPlayer, node.captures.capture0, node.captures.capture1, node)
 	bessst := newNode(0, 0, &node.goban, node.coordinate, node.lastMove, !node.player, node.maximizingPlayer, node.captures.capture0, node.captures.capture1, node)
 	if maximizingPlayer == true {
-		// value := minInt // set value to -infinity
 		maxValue := minInt // set value to -infinity
 		for idx := range node.children {
 			child := node.children[idx]
@@ -53,20 +51,7 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 			if maxValue == best.value {
 				bessst = best
 			}
-			// fmt.Printf("value = %d\n", value)
 			alpha = max(alpha, value)
-			// if node.id == 0 && child.value == maxValue {
-			// 	id = child.id
-			// }
-			// if node.id == 0 && (node.bestMove == nil || node.value == value) {
-			// node.bestMove = child
-			// }
-			// if node.bestMove == nil || value > node.bestMove.value {
-			// node.bestMove = child
-			// }
-			// if node.id == 0 && (node.bestMove == nil || child.value > node.bestMove.value) {
-			// 	node.bestMove = child
-			// }
 			if beta <= alpha {
 				break
 			}
@@ -75,22 +60,14 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 	} else {
 		// value := maxInt // set value to +infinity
 		minValue := maxInt // set value to +infinity
-		// var id int
 		for idx := range node.children {
 			child := node.children[idx]
-			// value, id = min(value, minimaxRecursive(child, depth-1, alpha, beta, true))
 			value, best = minimaxRecursive(child, depth-1, alpha, beta, true)
 			minValue = min(value, minValue)
 			beta = min(beta, value)
 			if minValue == best.value {
 				bessst = best
 			}
-			// if node.id == 0 /*&& value == minValue*/ {
-			// node.bestMove = child
-			// }
-			// if node.bestMove == nil || child.value < node.bestMove.value {
-			// 	node.bestMove = child
-			// }
 			if beta <= alpha {
 				break
 			}
