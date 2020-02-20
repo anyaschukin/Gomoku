@@ -111,8 +111,5 @@ func lengthDefend(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 func lengthAttack(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int8 {
 	a := measureChain(coordinate, goban, y, x, player)
 	b := measureChain(coordinate, goban, -y, -x, player)
-	if a > b {
-		return a
-	}
-	return b
+	return a + b + 1
 }

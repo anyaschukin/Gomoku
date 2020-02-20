@@ -122,7 +122,7 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 
 	// extend player's chain
 	attack := lengthAttack(coordinate, goban, y, x, player)
-	attack++
+	// attack++
 	switch attack {
 	case 5:
 		return 42e14
