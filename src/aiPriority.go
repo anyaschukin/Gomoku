@@ -13,10 +13,9 @@ const capture2 = 42e11
 const align4 = 42e10 + 200
 const alignFree3 = 42e10
 
-// const align3 = 42e9
-
 // const block2 =
 
+// const align3 = 42e9
 // 1. Capture 10
 // 2. willBeCaptured (if capture 8)
 // 3. Block align 5 ( includes block 4)

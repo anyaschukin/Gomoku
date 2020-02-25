@@ -40,8 +40,8 @@ func lengthDefend(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 	a = lengthOpponentChain(coordinate, goban, y, x, player)
 	b = lengthOpponentChain(coordinate, goban, -y, -x, player)
 	// fmt.Printf("a = %d, b = %d\n", a, b)
-	if a+b == 4 {
-		return 5
+	if a+b >= 4 {
+		return 4
 	} else if a > b {
 		return a
 	}

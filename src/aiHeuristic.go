@@ -85,7 +85,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 			evalAxis += calcLine(evalAxis, neighbour, goban, player, b)
 		}
 	}
-	return evalAxis
+	return evalAxis / 100
 }
 
 // chainAttackDefend returns a score for aligning 5, 4, 3, or 2 stones
@@ -112,14 +112,16 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 	// defend := chainLength(coordinate, goban, y, x, !player)
 	defend := lengthDefend(coordinate, goban, y, x, player)
 	switch defend {
-	case 5:
-		return blockWin
-		// return maxInt - 500
+	// case 5:
+	// return blockWin
+	// return maxInt - 500
 	case 4:
-		return block4
+		// defend= blockWin
+		return blockWin
 		// return 42e15
 	case 3:
-		if checkFlanked(coordinate, goban, y, x, player) == true {
+		if checkFlanked(coordinate, goban, y, x, player) == false {
+			// defend = blockFree3
 			return blockFree3
 		}
 		// return 42e10 + 500
@@ -130,14 +132,17 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 	// attack++
 	switch attack {
 	case 5:
+		// attack = align5Win
 		return align5Win
 		// return 42e14
 	case 4:
 		if checkFlanked(coordinate, goban, y, x, player) == false {
+			// attack = alignFree4
 			return alignFree4
 			// return 42e3
 		}
-		return align4
+		// attack = align4
+		// return align4
 		// return 42e12
 	case 3:
 		if checkFlanked(coordinate, goban, y, x, player) == false {
@@ -146,6 +151,8 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 
 		// return 42e10
 	}
+	//  check both attack and defend, and return whichever has the greatest value
+	// return (defend > attack ? defend : attack)
 	return 0
 }
 
@@ -162,12 +169,13 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 				return eval
 			}
 			capt := captureAttackDefend(coordinate, goban, y, x, player, captures)
-			if capt == maxInt {
+			if capt >= blockWin || capt <= -blockWin {
 				return capt
 			}
 			eval += capt
 			tmp := chainAttackDefend(coordinate, goban, y, x, player)
-			if tmp == (maxInt - 1000) {
+			// if tmp == (maxInt - 1000) {
+			if tmp >= blockWin || tmp <= -blockWin {
 				return tmp
 			}
 			if tmp == 0 {
@@ -178,6 +186,8 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 	}
 	return eval
 }
+
+// tmp >= blockWin || tmp <= -blockWin
 
 // TO DO
 // need to rewrite MeasureChain2
