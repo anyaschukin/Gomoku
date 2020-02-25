@@ -6,7 +6,7 @@ const willBeCaptured8 = -42e15
 const blockWin = (maxInt - 500)
 const block4 = 42e15
 const willBeCaptured2 = -42e14
-const align5Win = (maxInt - 200)
+const align5Win = (maxInt - 1000)
 const alignFree4 = 42e14
 const blockFree3 = 42e11 + 500
 const capture2 = 42e11
@@ -28,3 +28,5 @@ const alignFree3 = 42e10
 // 9. Free 3
 // 10. Block 2
 // 11. Free 2
+
+//  maxINT = 9223372036854775807
