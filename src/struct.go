@@ -33,7 +33,7 @@ type align5 struct {
 type gui struct {
 	newGame             bool         // Show new game options
 	drawIntro           bool         // Finished drawing the intro
-	introTime           time.Time    // when was the game started
+	introTime           time.Time    // When was the game started
 	message             string       // Game feeback for display in gui (invalid move, win)
 	drawLastMove        bool         // Higlight the last move played
 	drawWinMove         bool         // Higlight the last move played
@@ -45,7 +45,7 @@ type gui struct {
 	tips                bool         // Display undo button
 	align5Positions     []coordinate // Positions of align5
 	canCapturePositions []coordinate // Positions can capture
-	canCaptureByPlaying []coordinate // Positions can capture
+	canCaptureByPlaying []coordinate // Positions can capture by playing
 }
 
 // game struct contains all information about current game state
