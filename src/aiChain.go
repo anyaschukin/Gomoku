@@ -31,11 +31,50 @@ func willBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, p
 	return false
 }
 
+// breakFive returns true if placing player's stone at coordinate will break opponent's five-in-a-row
+func breakFive(coordinate coordinate, goban *[19][19]position, player bool) bool {
+	var x int8
+	var y int8
+	for y = -1; y <= 0; y++ {
+		for x = -1; x <= 1; x++ {
+			if x == 0 && y == 0 {
+				return false
+			}
+			if checkVertexAlignFive(coordinate, goban, y, x, player) == true {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// breakFiveDirection returns true if placing player's stone at coordinate will break opponent's five-in-a-row
+func breakFiveDirection(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
+	one := findNeighbour(coordinate, y, x, 1)
+	two := findNeighbour(coordinate, y, x, 2)
+	if (positionOccupiedByOpponent(one, goban, player) == true && breakFive(one, goban, !player) == true) ||
+		(positionOccupiedByOpponent(two, goban, player) == true && breakFive(two, goban, !player) == true) {
+		return true
+	}
+	return false
+}
+
+//  willBreak5Align returns true if placing player's stone at coordinate will break opponent's five-in-a-row
+func willBreak5Align(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
+	if breakFiveDirection(coordinate, goban, y, x, player) == true || breakFiveDirection(coordinate, goban, -y, -x, player) == true {
+		// fmt.Printf("willBreak5Align: coordinate = %v, player = %v\n", coordinate, player)
+		return true
+	}
+	return false
+}
+
 func captureAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, captures captures) int {
 	if willCapture(coordinate, goban, y, x, player) == true {
 		if capturedEight(player, captures.capture0, captures.capture1) == true {
 			return capture10
 			// return maxInt
+		} else if willBreak5Align(coordinate, goban, y, x, player) == true {
+			return break5Align
 		}
 		return capture2
 		// return 42e13

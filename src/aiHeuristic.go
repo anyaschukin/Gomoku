@@ -166,7 +166,6 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 				return capt
 			}
 			eval += capt
-			// make this either-or
 			tmp := chainAttackDefend(coordinate, goban, y, x, player)
 			if tmp == (maxInt - 1000) {
 				return tmp

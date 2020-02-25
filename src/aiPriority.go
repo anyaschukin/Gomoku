@@ -1,6 +1,7 @@
 package gomoku
 
 const capture10 = maxInt
+const break5Align = maxInt - 50
 const willBeCaptured8 = -42e15
 const blockWin = (maxInt - 500)
 const block4 = 42e15
@@ -11,7 +12,8 @@ const blockFree3 = 42e11 + 500
 const capture2 = 42e11
 const align4 = 42e10 + 200
 const alignFree3 = 42e10
-const align3 = 42e9
+
+// const align3 = 42e9
 
 // const block2 =
 
