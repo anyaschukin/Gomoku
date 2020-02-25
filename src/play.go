@@ -41,6 +41,10 @@ func swapPlayers(coordinate coordinate, g *game) {
 		g.gui.align5Positions = nil
 	}
 	g.move++
+	if isPlayerHotseat(g) == true {
+		aiSuggestMove(g)
+	}
+	captureCheat(&g.goban, g.player)
 }
 
 // gameLoop runs one move
@@ -51,10 +55,6 @@ func gameLoop(coordinate coordinate, g *game) {
 		capture(coordinate, g)
 		checkWin(coordinate, g)
 		swapPlayers(coordinate, g)
-		if isPlayerHotseat(g) == true {
-			aiSuggestMove(g)
-		}
-		captureCheat(&g.goban, g.player)
 	}
 }
 
