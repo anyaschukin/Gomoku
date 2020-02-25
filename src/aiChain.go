@@ -1,6 +1,6 @@
 package gomoku
 
-import "fmt"
+// import "fmt"
 
 // willCaptureVertex returns true if given coordinate will capture in the next move
 func willCaptureDirection(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
@@ -34,14 +34,18 @@ func willBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, p
 func captureAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, captures captures) int {
 	if willCapture(coordinate, goban, y, x, player) == true {
 		if capturedEight(player, captures.capture0, captures.capture1) == true {
-			return maxInt
+			return capture10
+			// return maxInt
 		}
-		return 42e13
+		return capture2
+		// return 42e13
 	} else if willBeCaptured(coordinate, goban, y, x, player) == true {
 		if capturedEight(!player, captures.capture0, captures.capture1) == true {
-			return -42e15
+			return willBeCaptured8
+			// return -42e15
 		}
-		return -42e11
+		return willBeCaptured2
+		// return -42e11
 	}
 	return 0
 }
@@ -83,7 +87,7 @@ func lengthDefend(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 	var b int8
 	a = lengthOpponentChain(coordinate, goban, y, x, player)
 	b = lengthOpponentChain(coordinate, goban, -y, -x, player)
-	fmt.Printf("a = %d, b = %d\n", a, b)
+	// fmt.Printf("a = %d, b = %d\n", a, b)
 	if a+b == 4 {
 		return 5
 	} else if a > b {

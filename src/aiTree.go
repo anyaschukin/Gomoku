@@ -132,12 +132,12 @@ func printBestRoute(root *node) {
 
 func findParent(leaf *node) *node {
 	current := leaf
-	fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
+	// fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
 	for current.parent.id != 0 {
 		current = current.parent
-		fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
+		// fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
 	}
-	fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n", current.id, current.coordinate, current.value)
+	// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n", current.id, current.coordinate, current.value)
 	// root.bestMove = current
 	return current
 }
@@ -156,11 +156,11 @@ func minimaxTree(g *game) {
 	_, best := minimaxRecursive(root, limit, alpha, beta, true)
 	// fmt.Printf("value_wtf: %v, best.id = %d\n\n", value_wtf, best.id) //////////
 	elapsed := (time.Since(start))
-	fmt.Printf("\n")
+	// fmt.Printf("\n")
 	besty := findParent(best)
 	// printBestRoute(root)
 	// fmt.Printf("best.id = %d, best.coordinate = %v, best.value = %d\n", best.id, best.coordinate, best.value)                                              /////////////
-	fmt.Printf("\n\n----------------------------------------------\n\n") //////////
+	// fmt.Printf("\n\n----------------------------------------------\n\n") //////////
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
 
