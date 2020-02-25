@@ -3,7 +3,6 @@ package gomoku
 import (
 	"os"
 	// "fmt"
-	// lib "Gomoku/src/golib" // mv swapBool !!!!
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
@@ -185,11 +184,7 @@ func clickPlayer(x, y int, player bool) {
 }
 
 func swapBool(boolean *bool) {
-	if *boolean == false {
-		*boolean = true
-	} else {
-		*boolean = false
-	}
+	*boolean = !*boolean
 }
 
 func swapFullscreen() {
