@@ -19,22 +19,23 @@ var gobanY float64 = 34  // Top
 var scale = 0.7
 
 /// Text rows and columns
-var row = 100
-var columnBlack = 80
-var columnWhite = 2050
+const row = 100
+const columnBlack = 80
+const columnWhite = 2050
 
 /// New Game position
-var newGameX float64 = 3405
-var newGameY float64 = 1914
+const newGameX float64 = 3405
+const newGameY float64 = 1914
+
 var newGameScale = 0.6
 
 /// Exit position
-var exitX float64 = 3210
-var exitY float64 = 1814
+const exitX float64 = 3210
+const exitY float64 = 1814
 
 /// Undo position
-var undoX = float64(columnBlack)
-var undoY = float64(row * 15)
+const undoX = float64(columnBlack)
+const undoY = float64(row * 15)
 
 func opImage(x, y, scale float64) *ebiten.DrawImageOptions {
 	op := &ebiten.DrawImageOptions{}
@@ -147,7 +148,7 @@ func drawWhiteMessage(screen *ebiten.Image, msg string, alpha float64) {
 
 func drawWhiteWin(screen *ebiten.Image, msg string, alpha float64) {
 	if dogeMode == true {
-		drawImagePulse(screen, imgCorgBig, float64(columnWhite) - 125, 5, 1, alpha)
+		drawImagePulse(screen, imgCorgBig, float64(columnWhite)-125, 5, 1, alpha)
 		msg = "        Wins!"
 	}
 	textColor := textColorWhite(alpha)
@@ -174,12 +175,12 @@ func drawMessage(screen *ebiten.Image, g *game, alpha float64) {
 				if isPlayerHuman(g) == true || isPlayerHotseat(g) == true {
 					text.Draw(screen, `White to Move`, mplusNormalFont, columnWhite, row, color.White)
 					if dogeMode == true {
-						drawImage(screen, imgCorgBig, float64(columnWhite) - 125, 5, 1)
+						drawImage(screen, imgCorgBig, float64(columnWhite)-125, 5, 1)
 					}
 				} else {
 					text.Draw(screen, `White Thinking...`, mplusNormalFont, columnWhite, row, color.White)
 					if dogeMode == true {
-						drawImage(screen, imgCorgBig, float64(columnWhite) - 125, 5, 1)
+						drawImage(screen, imgCorgBig, float64(columnWhite)-125, 5, 1)
 					}
 				}
 				drawWhiteMessage(screen, g.gui.message, alpha)

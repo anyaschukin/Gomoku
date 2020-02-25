@@ -5,14 +5,14 @@ import (
 	"strconv"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/hajimehoshi/ebiten/inpututil"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
+	"github.com/hajimehoshi/ebiten/inpututil"
 	"github.com/hajimehoshi/ebiten/text"
 )
 
-var newGameColumnBlack = 140
-var column1 = 640
-var scaleSelect = 0.21
+const newGameColumnBlack = 140
+const column1 = 640
+const scaleSelect = 0.21
 
 func drawStone(screen *ebiten.Image, g *game, column int, stone *ebiten.Image) {
 	drawImage(screen, stone, float64(newGameColumnBlack+column)+110, 150, 1)
@@ -162,7 +162,7 @@ func drawCheats(screen *ebiten.Image, g *game) {
 	}
 }
 
-func updateBackground(screen *ebiten.Image, g * game) {
+func updateBackground(screen *ebiten.Image, g *game) {
 	if dogeMode == false {
 		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) == true {
 			x, y := ebiten.CursorPosition()
