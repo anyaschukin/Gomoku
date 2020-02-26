@@ -1,12 +1,13 @@
 package gomoku
 
-// import "fmt"
+import "fmt"
 
 func checkNeighbors(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
 	var a int8
 	for a = 1; a <= 4; a++ {
 		neighbour := findNeighbour(coordinate, y, x, a)
 		if positionOccupiedByOpponent(neighbour, goban, player) == true {
+			fmt.Printf("Flanked: coordinate = %v, neighbour = %v, player = %v\n", coordinate, neighbour, player)
 			return true
 		}
 	}

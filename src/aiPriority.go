@@ -29,3 +29,7 @@ const alignFree3 = 42e10
 // 11. Free 2
 
 //  maxINT = 9223372036854775807
+
+// ISSUES:
+// - I still don’t think check flanked is doing what it needs to to differentiate free3 from not free3
+// - captureAttackDefend: blockFree3 trumps align5Win

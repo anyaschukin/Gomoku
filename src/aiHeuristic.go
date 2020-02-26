@@ -120,7 +120,7 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 		return blockWin
 		// return 42e15
 	case 3:
-		if checkFlanked(coordinate, goban, y, x, player) == false {
+		if checkFlanked(coordinate, goban, y, x, !player) == false {
 			// defend = blockFree3
 			return blockFree3
 		}
