@@ -110,7 +110,7 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 	// }
 
 	// defend := chainLength(coordinate, goban, y, x, !player)
-	defend := lengthDefend(coordinate, goban, y, x, player)
+	defend, flanked := lengthDefend(coordinate, goban, y, x, player)
 	switch defend {
 	// case 5:
 	// return blockWin
@@ -120,7 +120,8 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 		return blockWin
 		// return 42e15
 	case 3:
-		if checkFlanked(coordinate, goban, y, x, !player) == false {
+		// if checkFlanked(coordinate, goban, y, x, !player) == false {
+		if flanked == false {
 			// defend = blockFree3
 			return blockFree3
 		}
@@ -128,7 +129,8 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 	}
 
 	// extend player's chain
-	attack := lengthAttack(coordinate, goban, y, x, player)
+	attack, flanked := lengthAttack(coordinate, goban, y, x, player)
+	// fmt.Printf("coordinate = %v, attack = %d, flanked = %v, player = %v\n", coordinate, attack, flanked, player)
 	// attack++
 	switch attack {
 	case 5:
@@ -136,7 +138,7 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 		return align5Win
 		// return 42e14
 	case 4:
-		if checkFlanked(coordinate, goban, y, x, player) == false {
+		if flanked == false {
 			// attack = alignFree4
 			return alignFree4
 			// return 42e3
@@ -145,7 +147,7 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 		// return align4
 		// return 42e12
 	case 3:
-		if checkFlanked(coordinate, goban, y, x, player) == false {
+		if flanked == false {
 			return alignFree3
 		}
 
