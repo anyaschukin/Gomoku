@@ -110,6 +110,8 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 			// defend = blockFree3
 			defend = blockFree3
 		}
+	case 2:
+		defend = block2
 		// return 42e10 + 500
 	}
 
