@@ -1,7 +1,7 @@
 package gomoku
 
 import (
-	// "fmt"
+	"fmt"
 	"math"
 )
 
@@ -91,56 +91,39 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 // chainAttackDefend returns a score for aligning 5, 4, 3, or 2 stones
 func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int {
 	// dumpGobanBlank(goban)
-	// var length int8
-
-	// flanked := checkFlanked(coordinate, goban, y, x, player)
-	// block opponent's chain
-	// if flanked == true {
-	// 	length = chainLength(coordinate, goban, y, x, !player)
-	// 	switch length {
-	// 	case 5:
-	// 		return -100
-	// 	case 4:
-	// 		return 42e15
-	// 	case 3:
-	// 		return 42e10 + 500
-	// 		// case 2:
-	// 		// return 42e7
-	// 	}
-	// }
+	var attack int
+	var defend int
 
 	// defend := chainLength(coordinate, goban, y, x, !player)
-	defend, flanked := lengthDefend(coordinate, goban, y, x, player)
-	switch defend {
+	opponentChain, flanked := lengthOpponentChain(coordinate, goban, y, x, player)
+	switch opponentChain {
 	// case 5:
 	// return blockWin
 	// return maxInt - 500
 	case 4:
 		// defend= blockWin
-		return blockWin
+		defend = blockWin
 		// return 42e15
 	case 3:
 		// if checkFlanked(coordinate, goban, y, x, !player) == false {
 		if flanked == false {
 			// defend = blockFree3
-			return blockFree3
+			defend = blockFree3
 		}
 		// return 42e10 + 500
 	}
 
-	// extend player's chain
-	attack, flanked := lengthAttack(coordinate, goban, y, x, player)
-	// fmt.Printf("coordinate = %v, attack = %d, flanked = %v, player = %v\n", coordinate, attack, flanked, player)
+	playerChain, flanked := lengthPlayerChain(coordinate, goban, y, x, player)
 	// attack++
-	switch attack {
+	switch playerChain {
 	case 5:
 		// attack = align5Win
-		return align5Win
+		attack = align5Win
 		// return 42e14
 	case 4:
 		if flanked == false {
 			// attack = alignFree4
-			return alignFree4
+			attack = alignFree4
 			// return 42e3
 		}
 		// attack = align4
@@ -148,14 +131,22 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 		// return 42e12
 	case 3:
 		if flanked == false {
-			return alignFree3
+			attack = alignFree3
 		}
 
 		// return 42e10
 	}
+	fmt.Printf("attack = %d, defend = %d\n", attack, defend)
+	if attack > defend {
+		fmt.Printf("return = attack %d\n", attack)
+		return attack
+	}
+	fmt.Printf("return = defend %d\n", defend)
+	return defend
+
 	//  check both attack and defend, and return whichever has the greatest value
 	// return (defend > attack ? defend : attack)
-	return 0
+	// return 0
 }
 
 // evaluateMove checks for alignments/captures along each vertex for one move, and returns a score for that move
