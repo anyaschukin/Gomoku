@@ -66,23 +66,20 @@ func willBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, p
 	return false
 }
 
+// captureAttackDefend returns a score for capturing 2 stones, or for protecting against being captured
 func captureAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, captures captures) int {
 	if willCapture(coordinate, goban, y, x, player) == true {
-		if capturedEight(player, captures.capture0, captures.capture1) == true {
+		if capturedEight(player, captures.capture0, captures.capture1) == true { // this is the ultimate winning move
 			return capture10
-			// return maxInt
 		} else if willBreak5Align(coordinate, goban, y, x, player) == true {
 			return break5Align
 		}
 		return capture2
-		// return 42e13
 	} else if willBeCaptured(coordinate, goban, y, x, player) == true {
 		if capturedEight(!player, captures.capture0, captures.capture1) == true {
 			return willBeCaptured8
-			// return -42e15
 		}
 		return willBeCaptured2
-		// return -42e11
 	}
 	return 0
 }

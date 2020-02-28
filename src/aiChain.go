@@ -37,16 +37,14 @@ func measureOpponent(coordinate coordinate, goban *[19][19]position, y, x int8, 
 	return length, false
 }
 
+// lengthOpponentChain returns the total length of player's stones aligned running through given a coordinate on a given axe
 func lengthOpponentChain(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) (int8, bool) {
-	// var a int8
-	// var b int8
 	var flanked bool
-	a, tmp1 := measureOpponent(coordinate, goban, y, x, player)
-	b, tmp2 := measureOpponent(coordinate, goban, -y, -x, player)
-	if tmp1 == true || tmp2 == true {
+	a, flanked1 := measureOpponent(coordinate, goban, y, x, player)
+	b, flanked2 := measureOpponent(coordinate, goban, -y, -x, player)
+	if flanked1 == true || flanked2 == true {
 		flanked = true
 	}
-	// fmt.Printf("a = %d, b = %d\n", a, b)
 	if a+b >= 4 {
 		return 4, flanked
 	} else if a > b {
@@ -71,14 +69,12 @@ func measurePlayer(coordinate coordinate, goban *[19][19]position, y, x int8, pl
 	return length, false
 }
 
-// chainLength returns the total length of stones aligned running through given a coordinate on a given axe
+// lengthPlayerChain returns the total length of player's stones aligned running through given a coordinate on a given axe
 func lengthPlayerChain(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) (int8, bool) {
-	// var a int8
-	// var b int8
 	var flanked bool
-	a, tmp1 := measurePlayer(coordinate, goban, y, x, player)
-	b, tmp2 := measurePlayer(coordinate, goban, -y, -x, player)
-	if tmp1 == true || tmp2 == true {
+	a, flanked1 := measurePlayer(coordinate, goban, y, x, player)
+	b, flanked2 := measurePlayer(coordinate, goban, -y, -x, player)
+	if flanked1 == true || flanked2 == true {
 		flanked = true
 	}
 	return a + b + 1, flanked
