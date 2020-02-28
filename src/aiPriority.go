@@ -25,7 +25,8 @@ const alignFree4 = 42e13
 const blockFree3 = 42e12
 const capture2 = 42e11
 const alignFree3 = 42e10
-const block2 = 42e7
+const alignFlanked3 = 42e9
+const block2 = 42e9 - 500
 
 // const align4 = 42e10 + 200 // rm !!! don't need if flanked, no point
 
@@ -44,6 +45,8 @@ const block2 = 42e7
 // 10. Block 2
 // 11. Free 2
 
+// lineInfluence max value =
+// 119182616898071
 //  maxINT = 9223372036854775807
 
 // ISSUES:

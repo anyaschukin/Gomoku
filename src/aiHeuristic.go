@@ -119,24 +119,17 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 	// attack++
 	switch playerChain {
 	case 5:
-		// attack = align5Win
 		attack = align5Win
-		// return 42e14
 	case 4:
 		if flanked == false {
-			// attack = alignFree4
 			attack = alignFree4
-			// return 42e3
 		}
-		// attack = align4
-		// return align4
-		// return 42e12
 	case 3:
 		if flanked == false {
 			attack = alignFree3
+		} else {
+			attack = alignFlanked3
 		}
-
-		// return 42e10
 	}
 	fmt.Printf("attack = %d, defend = %d\n", attack, defend)
 	if attack > defend {
@@ -145,10 +138,6 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 	}
 	fmt.Printf("return = defend %d\n", defend)
 	return defend
-
-	//  check both attack and defend, and return whichever has the greatest value
-	// return (defend > attack ? defend : attack)
-	// return 0
 }
 
 // evaluateMove checks for alignments/captures along each vertex for one move, and returns a score for that move
@@ -169,7 +158,6 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 			}
 			eval += capt
 			tmp := chainAttackDefend(coordinate, goban, y, x, player)
-			// if tmp == (maxInt - 1000) {
 			if tmp >= blockWin || tmp <= -blockWin {
 				return tmp
 			}
@@ -181,11 +169,3 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 	}
 	return eval
 }
-
-// tmp >= blockWin || tmp <= -blockWin
-
-// TO DO
-// need to rewrite MeasureChain2
-// heuristic prioritizes blocking opponent's 4 over aligning own 5
-//  if willCapture && willBeCapturedVertex == true?? How to score?
-// - heuristic does not prioritize winning 10th capture, instead prioritzes 3-align
