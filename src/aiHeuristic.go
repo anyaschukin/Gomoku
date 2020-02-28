@@ -76,45 +76,13 @@ func influenceDirection(coordinate coordinate, goban *[19][19]position, player b
 // calculates the influence of { ownStone, empty spaces, opponentStone, border } at each space in one direction
 func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, y int8, x int8, captures *captures) int {
 	var evalAxis int
-
 	evalAxis += influenceDirection(coordinate, goban, player, y, x, captures)
 	evalAxis += influenceDirection(coordinate, goban, player, -y, -x, captures)
 	return evalAxis / 100
-
-	// var a int8
-	// var b int8
-
-	// evalAxis := 1
-	// for a = 1; a <= 4; a++ {
-	// 	neighbour := findNeighbour(coordinate, y, x, a)
-	// 	if coordinateOnGoban(neighbour) == false { //not sure this is necessary
-	// 		break
-	// 	}
-	// 	if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
-	// 		evalAxis += int(a)
-	// 		break
-	// 	} else {
-	// 		evalAxis += calcLine(evalAxis, neighbour, goban, player, a)
-	// 	}
-	// }
-	// for b = -1; b >= -4; b-- {
-	// 	neighbour := findNeighbour(coordinate, y, x, b)
-	// 	if coordinateOnGoban(neighbour) == false {
-	// 		break
-	// 	}
-	// 	if positionOccupiedByOpponent(neighbour, goban, player) == true || coordinateOnBorder(neighbour) == true {
-	// 		evalAxis += int(b)
-	// 		break
-	// 	} else {
-	// 		evalAxis += calcLine(evalAxis, neighbour, goban, player, b)
-	// 	}
-	// }
-	// return evalAxis / 100
 }
 
 // chainAttackDefend returns a score for aligning or blocking a chain of 5, 4, 3, or 2 stones
 func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) int {
-	// dumpGobanBlank(goban)
 	var attack int
 	var defend int
 
@@ -131,7 +99,6 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 	}
 
 	playerChain, flanked := lengthPlayerChain(coordinate, goban, y, x, player)
-	// attack++
 	switch playerChain {
 	case 5:
 		attack = align5Win
