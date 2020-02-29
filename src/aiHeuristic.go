@@ -1,7 +1,7 @@
 package gomoku
 
 import (
-	// "fmt"
+	"fmt"
 	"math"
 )
 
@@ -78,7 +78,7 @@ func lineInfluence(coordinate coordinate, goban *[19][19]position, player bool, 
 	var evalAxis int
 	evalAxis += influenceDirection(coordinate, goban, player, y, x, captures)
 	evalAxis += influenceDirection(coordinate, goban, player, -y, -x, captures)
-	return evalAxis / 100
+	return evalAxis / 10000
 }
 
 // chainAttackDefend returns a score for aligning or blocking a chain of 5, 4, 3, or 2 stones
@@ -111,6 +111,10 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 			attack = alignFree3
 		} else {
 			attack = alignFlanked3
+		}
+	case 2:
+		if flanked == false {
+			attack = alignFree2
 		}
 	}
 	if attack > defend {
@@ -146,5 +150,6 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 			eval += tmp
 		}
 	}
+	fmt.Printf("coordinate = %v, player = %v, eval = %d\n", coordinate, player, eval)
 	return eval
 }

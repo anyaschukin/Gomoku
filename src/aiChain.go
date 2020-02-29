@@ -45,12 +45,13 @@ func lengthOpponentChain(coordinate coordinate, goban *[19][19]position, y, x in
 	if flanked1 == true || flanked2 == true {
 		flanked = true
 	}
-	if a+b >= 4 {
-		return 4, flanked
-	} else if a > b {
-		return a, flanked
-	}
-	return b, flanked
+	return a + b, flanked
+	// if a+b >= 4 {
+	// return 4, flanked
+	// } else if a > b {
+	// return a, flanked
+	// }
+	// return b, flanked
 }
 
 func measurePlayer(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) (int8, bool) {
