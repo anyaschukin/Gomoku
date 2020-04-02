@@ -43,9 +43,9 @@ func dumpGoban(goban *[19][19]position) {
 }
 
 func dumpGobanBlank(goban *[19][19]position) {
-	fmt.Printf("     ")
+	// fmt.Printf("     ")
 	for x := 0; x < 19; x++ {
-		fmt.Printf("{%2d         } ", x)
+		fmt.Printf("{%2d        } ", x)
 	}
 	fmt.Printf("\n")
 	for y := 0; y < 19; y++ {

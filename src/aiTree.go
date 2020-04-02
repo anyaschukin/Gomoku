@@ -2,18 +2,18 @@ package gomoku
 
 import (
 	"fmt"
-
-	// "os"
 	"time"
-	// lib "Gomoku/golib"
-	// "math"
 )
 
 const maxInt = int(^uint(0) >> 1)
 const minInt = -maxInt - 1
 
-// const threatSpace = 3
 var identity int
+
+type captures struct {
+	capture0 uint8
+	capture1 uint8
+}
 
 type node struct {
 	id               int
@@ -23,11 +23,13 @@ type node struct {
 	lastMove         coordinate
 	player           bool // black or white
 	maximizingPlayer bool // used by miniMax algo
+	captures         captures
+	parent           *node
 	children         []*node
 	bestMove         *node
 }
 
-func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool) *node {
+func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool, capture0, capture1 uint8, parent *node) *node {
 	return &node{
 		id:               id,
 		value:            value, // change this to initialize to zero
@@ -36,6 +38,11 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 		lastMove:         lastMove,
 		player:           newPlayer,
 		maximizingPlayer: maximizingPlayer,
+		captures: captures{
+			capture0: capture0,
+			capture1: capture1,
+		},
+		parent: parent,
 	}
 }
 
@@ -52,7 +59,7 @@ func addChild(node *node, parentID int, child *node) {
 }
 
 // Generates every move for a board, assigns value, and adds to tree
-func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
+func generateBoards(current *node, lastMove coordinate, x, y int8) {
 	var value int
 	coordinate := coordinate{y, x}
 	if isMoveValid2(coordinate, &current.goban, current.player) == true { // duplicate of isMoveValid w/o *game
@@ -60,30 +67,32 @@ func generateChildBoards(current *node, lastMove coordinate, x, y int8) {
 		newGoban := current.goban
 		placeStone(coordinate, !current.player, &newGoban)
 		if current.maximizingPlayer == true {
-			value = current.value - evaluateMove(coordinate, &newGoban, current.player)
+			value = current.value - evaluateMove(coordinate, &newGoban, !current.player, current.captures)
 		} else {
-			value = current.value + evaluateMove(coordinate, &newGoban, current.player)
+			value = current.value + evaluateMove(coordinate, &newGoban, !current.player, current.captures)
+
 		}
-		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer)
+		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current)
+		// fmt.Printf("current.coordinate = %v, child.coordinate = %v, child.parent.coordinate = %v\n", current.coordinate, child.coordinate, child.parent.coordinate)
 		addChild(current, current.id, child)
 	}
 }
 
-func generateBoards(current *node, lastMove, lastMove2 coordinate) {
+func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
 
-	// fmt.Printf("current.player: %v\n", current.player)
+	// threat-space search of 4
 	for y = lastMove.y - 4; y <= lastMove.y+4; y++ {
 		for x = lastMove.x - 4; x <= lastMove.x+4; x++ {
-			generateChildBoards(current, lastMove, x, y)
+			generateBoards(current, lastMove, x, y)
 		}
 	}
 	for y = lastMove2.y - 4; y <= lastMove2.y+4; y++ {
 		for x = lastMove2.x - 4; x <= lastMove2.x+4; x++ {
 			// optimized so the threat-space searches don't overlap
 			if !(y >= lastMove.y-4 && y <= lastMove.y+4 && x >= lastMove.x-4 && x <= lastMove.x+4) {
-				generateChildBoards(current, lastMove2, x, y)
+				generateBoards(current, lastMove2, x, y)
 			}
 		}
 	}
@@ -114,13 +123,23 @@ func printBestRoute(root *node) {
 	fmt.Printf("root.player = %v\n", root.player)
 	for current.bestMove != nil {
 		fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
-		// dumpGoban(&current.goban)//////// standard out
-		// dumpGobanBlank(&current.goban) //////// file
+		// dumpGobanBlank(&current.goban)
 		current = current.bestMove
 	}
 	fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
-	// dumpGoban(&current.goban)//////// standard out
-	// dumpGobanBlank(&current.goban) ///////// file
+	// dumpGobanBlank(&current.goban)
+}
+
+func findParent(leaf *node) *node {
+	current := leaf
+	// fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
+	for current.parent.id != 0 {
+		current = current.parent
+		// fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
+	}
+	// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n", current.id, current.coordinate, current.value)
+	// root.bestMove = current
+	return current
 }
 
 func minimaxTree(g *game) {
@@ -130,24 +149,33 @@ func minimaxTree(g *game) {
 		limit = g.ai1.depth
 	}
 
-	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false)
-	// fmt.Printf("First root.player = %v\n", root.player)
+	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil)
+	identity = 0
 	alpha := minInt
 	beta := maxInt
-	minimaxRecursive(root, limit, alpha, beta, true)
-	// minimaxRecursive(root, limit, alpha, beta, true)
-	// fmt.Printf("value_wtf: %v\n\n", value_wtf) //////////
+	_, best := minimaxRecursive(root, limit, alpha, beta, true)
+	// fmt.Printf("value_wtf: %v, best.id = %d\n\n", value_wtf, best.id) //////////
 	elapsed := (time.Since(start))
-	// printBestRoute(root)                                                 /////////////
+	// fmt.Printf("\n")
+	besty := findParent(best)
+	// printBestRoute(root)
+	// fmt.Printf("best.id = %d, best.coordinate = %v, best.value = %d\n", best.id, best.coordinate, best.value)                                              /////////////
 	// fmt.Printf("\n\n----------------------------------------------\n\n") //////////
 	// fmt.Printf("Coordinate: %v , eval: %v , player: %v\n", root.bestMove.coordinate, root.bestMove.value, root.player)
 	// dumpGoban(&root.bestMove.goban)
 
 	if g.player == false {
-		g.ai0.suggest = root.bestMove.coordinate
+		g.ai0.suggest = besty.coordinate
 		g.ai0.timer = elapsed
 	} else {
-		g.ai1.suggest = root.bestMove.coordinate
+		g.ai1.suggest = besty.coordinate
 		g.ai1.timer = elapsed
 	}
 }
+
+// player is pessimistic... fiddle with chainAttackDefend return values
+// checkLength for !player includes coordinate, which is player...
+// willCapture doesn't recognize 2 captures at once
+// checkNeighbors up to 4?
+// player doesn't play well at the end of the game
+// cleanup comments, refacto code
