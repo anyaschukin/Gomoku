@@ -3,7 +3,7 @@ package main
 import (
 	gomoku "Gomoku/src"
 	// "flag"
-	"github.com/pkg/profile"
+	// "github.com/pkg/profile"
 	// "runtime"
 	// "log"
 	// "os"
@@ -25,7 +25,7 @@ func main() {
 	// runtime.SetCPUProfileRate(200)
 	// profile.CPUProfileRate(1),
 	// profile.NoShutdownHook
-	defer profile.Start(profile.CPUProfile, profile.ProfilePath(".")).Stop()
+	// defer profile.Start(profile.CPUProfile, profile.ProfilePath(".")).Stop()
 	gomoku.Play()
 }
 
