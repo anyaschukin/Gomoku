@@ -1,25 +1,25 @@
 package gomoku
 
-import "fmt"
+// import "fmt"
 
-func checkNeighbors(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
-	var a int8
-	for a = 1; a <= 4; a++ {
-		neighbour := findNeighbour(coordinate, y, x, a)
-		if positionOccupiedByOpponent(neighbour, goban, player) == true {
-			fmt.Printf("Flanked: coordinate = %v, neighbour = %v, player = %v\n", coordinate, neighbour, player)
-			return true
-		}
-	}
-	return false
-}
+// func checkNeighbors(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
+// 	var a int8
+// 	for a = 1; a <= 4; a++ {
+// 		neighbour := findNeighbour(coordinate, y, x, a)
+// 		if positionOccupiedByOpponent(neighbour, goban, player) == true {
+// 			fmt.Printf("Flanked: coordinate = %v, neighbour = %v, player = %v\n", coordinate, neighbour, player)
+// 			return true
+// 		}
+// 	}
+// 	return false
+// }
 
-func checkFlanked(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
-	if checkNeighbors(coordinate, goban, y, x, player) == true || checkNeighbors(coordinate, goban, -y, -x, player) == true {
-		return true
-	}
-	return false
-}
+// func checkFlanked(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
+// 	if checkNeighbors(coordinate, goban, y, x, player) == true || checkNeighbors(coordinate, goban, -y, -x, player) == true {
+// 		return true
+// 	}
+// 	return false
+// }
 
 func measureOpponent(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) (int8, bool) {
 	var multiple int8
@@ -45,6 +45,9 @@ func lengthOpponentChain(coordinate coordinate, goban *[19][19]position, y, x in
 	// if flanked1 == true || flanked2 == true {
 	// 	flanked = true
 	// }
+	if a + b > 4 {
+		return 4, flanked1, flanked2
+	}
 	return a + b, flanked1, flanked2
 	// if a+b >= 4 {
 	// return 4, flanked
@@ -78,5 +81,8 @@ func lengthPlayerChain(coordinate coordinate, goban *[19][19]position, y, x int8
 	// if flanked1 == true || flanked2 == true {
 	// 	flanked = true
 	// }
+	if a + b + 1 > 5 {
+		return 5, flanked1, flanked2
+	}
 	return a + b + 1, flanked1, flanked2
 }
