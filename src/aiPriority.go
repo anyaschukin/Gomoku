@@ -22,7 +22,8 @@ const alignFree4 = 42e13
 const blockFree3 = 42e12
 const capture2 = 42e11
 const alignFree3 = 42e10
-const alignFlanked3 = 42e9
+const alignFlanked4 = 42e9
+const alignFlanked3 = 24e9
 const block2 = 42e8
 const alignFree2 = 42e7
 

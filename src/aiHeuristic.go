@@ -1,7 +1,7 @@
 package gomoku
 
 import (
-	"fmt"
+	// "fmt"
 	"math"
 )
 
@@ -86,41 +86,50 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 	var attack int
 	var defend int
 
-	opponentChain, flanked := lengthOpponentChain(coordinate, goban, y, x, player)
+	opponentChain, flanked1, flanked2 := lengthOpponentChain(coordinate, goban, y, x, player)
 	switch opponentChain {
 	case 4:
 		defend = blockWin
 	case 3:
-		if flanked == false {
+		if flanked1 == false && flanked2 == false {
 			defend = blockFree3
 		}
 	case 2:
-		defend = block2
+		if flanked1 == false && flanked2 == false {
+			defend = block2
+		}
 	}
 
-	playerChain, flanked := lengthPlayerChain(coordinate, goban, y, x, player)
+	playerChain, flanked1, flanked2 := lengthPlayerChain(coordinate, goban, y, x, player)
 	switch playerChain {
 	case 5:
 		attack = align5Win
 	case 4:
-		if flanked == false {
+		if flanked1 == false && flanked2 == false {
 			attack = alignFree4
+		} else if flanked1 == true && flanked2 == true {
+			attack = 0
+		} else {
+			attack = alignFlanked4
 		}
 	case 3:
-		if flanked == false {
+		if flanked1 == false && flanked2 == false {
 			attack = alignFree3
+		} else if flanked1 == true && flanked2 == true {
+			attack = 0
 		} else {
 			attack = alignFlanked3
 		}
 	case 2:
-		if flanked == false {
+		if flanked1 == false && flanked2 == false {
 			attack = alignFree2
 		}
 	}
-	if attack > defend {
-		return attack
-	}
-	return defend
+	return attack + defend
+	// if attack > defend {
+	// 	return attack
+	// }
+	// return defend
 }
 
 // evaluateMove checks for alignments/captures along each vertex for one move, and returns a score for that move
@@ -129,7 +138,6 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 	var y int8
 
 	eval := 0
-
 	for y = -1; y <= 0; y++ {
 		for x = -1; x <= 1; x++ {
 			if x == 0 && y == 0 {
@@ -144,12 +152,12 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 			if tmp >= blockWin || tmp <= -blockWin {
 				return tmp
 			}
-			if tmp == 0 {
-				tmp = lineInfluence(coordinate, goban, player, y, x, &captures)
-			}
+			// if tmp == 0 {////////////never reaches here!!!!!!!!!!
+			// 	tmp = lineInfluence(coordinate, goban, player, y, x, &captures)
+			// }
 			eval += tmp
 		}
 	}
-	fmt.Printf("coordinate = %v, player = %v, eval = %d\n", coordinate, player, eval)
+	// fmt.Printf("coordinate = %v, player = %v, eval = %d\n", coordinate, player, eval)////never reaches here!!!!!!!!!!
 	return eval
 }
