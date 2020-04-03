@@ -1,4 +1,10 @@
 #### TO DO ####
+fix flanked
+values of priority correct?
+- move further from max int
+resolve even depth issue (heuristic must be defensive)
+- round down/different heuristic/limit to odd
+
 	- take current captured stones into account ?
 	- take past Player actions into account to identify patterns and weigh board states accordingly ?
 

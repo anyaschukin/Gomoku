@@ -22,10 +22,10 @@ func checkFlanked(coordinate coordinate, goban *[19][19]position, y, x int8, pla
 }
 
 func measureOpponent(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) (int8, bool) {
-	var a int8
+	var multiple int8
 	var length int8
-	for a = 1; a <= 4; a++ {
-		neighbour := findNeighbour(coordinate, y, x, a)
+	for multiple = 1; multiple < 5; multiple++ {
+		neighbour := findNeighbour(coordinate, y, x, multiple)
 		if positionOccupiedByOpponent(neighbour, goban, player) == true {
 			length++
 		} else if positionUnoccupied(neighbour, goban) == false {
