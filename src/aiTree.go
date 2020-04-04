@@ -137,7 +137,7 @@ func findParent(leaf *node) *node {
 		current = current.parent
 		// fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
 	}
-	// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n", current.id, current.coordinate, current.value)
+	// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n\n", current.id, current.coordinate, current.value)
 	// root.bestMove = current
 	return current
 }
@@ -154,7 +154,8 @@ func minimaxTree(g *game) {
 	alpha := minInt
 	beta := maxInt
 	_, best := minimaxRecursive(root, limit, alpha, beta, true)
-	// fmt.Printf("value_wtf: %v, best.id = %d\n\n", value_wtf, best.id) //////////
+	// value_wtf, best := minimaxRecursive(root, limit, alpha, beta, true)///// for test
+	// fmt.Printf("value_wtf: %v, player = %v, best.id = %d, best.coordinate = %d,%d\n", value_wtf, best.player, best.id, best.coordinate.x, best.coordinate.y) //////////
 	elapsed := (time.Since(start))
 	// fmt.Printf("\n")
 	besty := findParent(best)
