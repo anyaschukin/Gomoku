@@ -30,7 +30,7 @@ func update(screen *ebiten.Image) error {
 	return nil
 }
 
-// runGui initializes a new game & launches ebiten.Run which calls update 60 times/second
+// LaunchGui initializes a new game & launches ebiten.Run which calls update 60 times/second
 func LaunchGui() {
 	g := newGame()
 	g.gui.newGame = true
