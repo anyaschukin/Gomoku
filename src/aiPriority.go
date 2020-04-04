@@ -12,20 +12,34 @@ package gomoku
 // const align4 = 42e10 + 200
 // const alignFree3 = 42e10
 
-const capture10 = (maxInt / 10) - 100000
-const break5Align = (maxInt / 10) - 200000
-const willBeCaptured8 = -((maxInt / 10) - 300000)
-const align5Win = (maxInt / 10) - 400000
-const blockWin = (maxInt / 10) - 500000
-const willBeCaptured2 = -42e14
-const alignFree4 = 42e13
-const blockFree3 = 42e12
-const capture2 = 42e11
-const alignFree3 = 42e10
-const alignFlanked4 = 42e9
-const alignFlanked3 = 24e9
-const block2 = 42e8
-const alignFree2 = 42e7
+// const capture10 = (maxInt / 10) - 100000
+// const break5Align = (maxInt / 10) - 200000
+// const willBeCaptured8 = -((maxInt / 10) - 300000)
+// const align5Win = (maxInt / 10) - 400000
+// const blockWin = (maxInt / 10) - 500000
+// const willBeCaptured2 = -42e14
+// const alignFree4 = 42e13
+// const blockFree3 = 42e12
+// const capture2 = 42e11
+// const alignFree3 = 42e10
+// const alignFlanked3 = 42e9
+// const block2 = 42e8
+// const alignFree2 = 42e7
+
+const capture10 = 14
+const break5Align = 13
+const willBeCaptured8 = -12
+const align5Win = 11
+const blockWin = 10
+const willBeCaptured2 = -9
+const alignFree4 = 8
+const blockFree3 = 7
+const capture2 = 6
+const alignFree3 = 5
+const alignFlanked4 = 4
+const alignFlanked3 = 3
+const block2 = 2
+const alignFree2 = 1
 
 // lineInfluence max value =
 // 119182616898071
