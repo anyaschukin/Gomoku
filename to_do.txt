@@ -1,10 +1,6 @@
 #### TO DO ####
-fix flanked
-- flanked/double
-- return attack + defend
-
 values of priority correct?
-- move further from max int
+- move further from max int?
 resolve even depth issue (heuristic must be defensive)
 - round down/different heuristic/limit to odd
 

@@ -6,6 +6,19 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
+// newGame initializes a new game
+func newGame() *game {
+	g = &game{}
+	g.ai0.aiPlayer = true
+	g.ai0.depth = 2 // 3 // !!!
+	g.ai1.depth = 2 // 3 // !!!
+	g.gui.drawLastMove = true
+	g.gui.drawWinMove = true
+	g.gui.drawCapture = true
+	aiSuggestMove(g)
+	return g
+}
+
 // update updates and draws the game state
 func update(screen *ebiten.Image) error {
 	g.updateGame()
@@ -17,8 +30,10 @@ func update(screen *ebiten.Image) error {
 	return nil
 }
 
-// runGui launches ebiten.Run which calls update 60 times/second
-func runGui() {
+// runGui initializes a new game & launches ebiten.Run which calls update 60 times/second
+func LaunchGui() {
+	g := newGame()
+	g.gui.newGame = true
 	w, _ := ebiten.ScreenSizeInFullscreen()
 	windowSize := float64(w) / float64(2560)
 	ebiten.SetFullscreen(true)

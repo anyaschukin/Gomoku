@@ -5,19 +5,6 @@ import (
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-// newGame initializes a new game
-func newGame() *game {
-	g = &game{}
-	g.ai0.aiPlayer = true
-	g.ai0.depth = 2 // 3 // !!!
-	g.ai1.depth = 2 // 3 // !!!
-	g.gui.drawLastMove = true
-	g.gui.drawWinMove = true
-	g.gui.drawCapture = true
-	aiSuggestMove(g)
-	return g
-}
-
 // guiReset prepares gui for the upcoming move
 func guiReset(g *game) {
 	g.gui.capturedPositions2 = g.gui.capturedPositions
@@ -91,11 +78,4 @@ func (g *game) updateGame() {
 			aiMove(g)
 		}
 	}
-}
-
-// Play initializes a new game and launches the GUI (Ebiten)
-func Play() {
-	g := newGame()
-	g.gui.newGame = true
-	runGui()
 }

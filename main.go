@@ -26,7 +26,7 @@ func main() {
 	// profile.CPUProfileRate(1),
 	// profile.NoShutdownHook
 	// defer profile.Start(profile.CPUProfile, profile.ProfilePath(".")).Stop()
-	gomoku.Play()
+	gomoku.LaunchGui()
 }
 
 // ## To run enter either command:

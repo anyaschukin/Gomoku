@@ -26,18 +26,33 @@ package gomoku
 // const block2 = 42e8
 // const alignFree2 = 42e7
 
-const capture10 = 14
-const break5Align = 13
-const willBeCaptured8 = -12
-const align5Win = 11
-const blockWin = 10
-const willBeCaptured2 = -9
-const alignFree4 = 8
-const blockFree3 = 7
-const capture2 = 6
-const alignFree3 = 5
-const alignFlanked4 = 4
-const alignFlanked3 = 3
+// const capture10 = 14
+// const break5Align = 13
+// const willBeCaptured8 = -12
+// const align5Win = 11
+// const blockWin = 10
+// const willBeCaptured2 = -9
+// const alignFree4 = 8
+// const blockFree3 = 7
+// const capture2 = 6
+// const alignFree3 = 5
+// const alignFlanked4 = 4
+// const alignFlanked3 = 3
+// const block2 = 2
+// const alignFree2 = 1
+
+const capture10 = 8192
+const break5Align = 4096
+const willBeCaptured8 = -2048
+const align5Win = 1024
+const blockWin = 512
+const willBeCaptured2 = -256
+const alignFree4 = 128
+const blockFree3 = 64
+const capture2 = 32
+const alignFree3 = 16
+const alignFlanked4 = 8
+const alignFlanked3 = 4
 const block2 = 2
 const alignFree2 = 1
 
