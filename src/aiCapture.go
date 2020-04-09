@@ -50,12 +50,16 @@ func willCaptureDirection(coordinate coordinate, goban *[19][19]position, y, x i
 	return false
 }
 
-// willCapture returns true if given coordinate will capture (for player) in given direction in the next move
-func willCapture(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
-	if willCaptureDirection(coordinate, goban, y, x, player) == true || willCaptureDirection(coordinate, goban, -y, -x, player) == true {
-		return true
+// willCapture returns number of captures given coordinate will capture (for player) in given vertex in the next move
+func willCapture(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) uint8 {
+	var cap uint8
+	if willCaptureDirection(coordinate, goban, y, x, player) == true {
+		cap++
 	}
-	return false
+	if willCaptureDirection(coordinate, goban, -y, -x, player) == true {
+		cap++
+	}
+	return cap
 }
 
 // willBeCaptured returns true if given coordinate will be captured (for opponent) in given direction in the next move
@@ -68,11 +72,15 @@ func willBeCaptured(coordinate coordinate, goban *[19][19]position, y, x int8, p
 
 // captureAttackDefend returns a score for capturing 2 stones, or for protecting against being captured
 func captureAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8, player bool, captures captures) int {
-	if willCapture(coordinate, goban, y, x, player) == true {
+	cap := willCapture(coordinate, goban, y, x, player)
+	if cap != 0 {
 		if capturedEight(player, captures.capture0, captures.capture1) == true { // this is the ultimate winning move
 			return capture10
 		} else if willBreak5Align(coordinate, goban, y, x, player) == true {
 			return break5Align
+		}
+		if cap == 2 {
+			return capture2 * 2
 		}
 		return capture2
 	} else if willBeCaptured(coordinate, goban, y, x, player) == true {
