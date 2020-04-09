@@ -81,64 +81,69 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
+	var threatSpace int8 = 4
 
 	// threat-space search of 4
-	for y = lastMove.y - 4; y <= lastMove.y+4; y++ {
-		for x = lastMove.x - 4; x <= lastMove.x+4; x++ {
+	for y = lastMove.y - threatSpace; y <= lastMove.y+threatSpace; y++ {
+		for x = lastMove.x - threatSpace; x <= lastMove.x+threatSpace; x++ {
 			generateBoards(current, lastMove, x, y)
 		}
 	}
-	for y = lastMove2.y - 4; y <= lastMove2.y+4; y++ {
-		for x = lastMove2.x - 4; x <= lastMove2.x+4; x++ {
+	for y = lastMove2.y - threatSpace; y <= lastMove2.y+threatSpace; y++ {
+		for x = lastMove2.x - threatSpace; x <= lastMove2.x+threatSpace; x++ {
 			// optimized so the threat-space searches don't overlap
-			if !(y >= lastMove.y-4 && y <= lastMove.y+4 && x >= lastMove.x-4 && x <= lastMove.x+4) {
+			if !(y >= lastMove.y-threatSpace && y <= lastMove.y+threatSpace && x >= lastMove.x-threatSpace && x <= lastMove.x+threatSpace) {
 				generateBoards(current, lastMove2, x, y)
 			}
 		}
 	}
 }
 
-/* prints the tree from the root */
-func printTree(parent *node) {
-	current := parent
-	fmt.Printf("\nparent: %d\n", current.id)
-	for i := range current.children {
-		child := current.children[i]
-		fmt.Printf("child: %d", child.id) //////
+// /* prints the tree from the root */
+// func printTree(parent *node) {
+// 	current := parent
+// 	fmt.Printf("\nparent: %d\n", current.id)
+// 	for i := range current.children {
+// 		child := current.children[i]
+// 		fmt.Printf("child: %d", child.id) //////
 
-		// printTree(child)
-		// put in a mutex/lock to wait until this range is done, and then call printTree for the child
-	}
-	/* depth-first */
-	for i := range current.children {
-		current := current.children[i]
-		dumpGoban(&current.goban)
-		printTree(current)
-	}
-}
+// 		// printTree(child)
+// 		// put in a mutex/lock to wait until this range is done, and then call printTree for the child
+// 	}
+// 	/* depth-first */
+// 	for i := range current.children {
+// 		current := current.children[i]
+// 		dumpGoban(&current.goban)
+// 		printTree(current)
+// 	}
+// }
 
-/* prints the best move at the selected depth */
-func printBestRoute(root *node) {
-	current := root
-	fmt.Printf("root.player = %v\n", root.player)
-	for current.bestMove != nil {
-		fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
-		// dumpGobanBlank(&current.goban)
-		current = current.bestMove
-	}
-	fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
-	// dumpGobanBlank(&current.goban)
-}
+// /* prints the best move at the selected depth */
+// func printBestRoute(root *node) {
+// 	current := root
+// 	fmt.Printf("root.player = %v\n", root.player)
+// 	for current.bestMove != nil {
+// 		fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
+// 		// dumpGobanBlank(&current.goban)
+// 		current = current.bestMove
+// 	}
+// 	fmt.Printf("id = %d, value = %d, move = %v, maximizingPlayer = %v\n\n", current.id, current.value, current.coordinate, current.maximizingPlayer)
+// 	// dumpGobanBlank(&current.goban)
+// }
 
 func findParent(leaf *node) *node {
 	current := leaf
-	// fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
+	fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
+	dumpGoban16(&current.goban)//////////!!!!!!!!
 	for current.parent.id != 0 {
 		current = current.parent
-		// fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)
+		fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
+		dumpGoban16(&current.goban)//////////!!!!!!!!
+		// fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)///////
 	}
-	// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n\n", current.id, current.coordinate, current.value)
-	// root.bestMove = current
+	fmt.Printf("\n")//////////!!!!!!!!
+	// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n\n", current.id, current.coordinate, current.value)/////
+	// root.bestMove = current/////////!!!!!
 	return current
 }
 
@@ -153,9 +158,9 @@ func minimaxTree(g *game) {
 	identity = 0
 	alpha := minInt
 	beta := maxInt
-	_, best := minimaxRecursive(root, limit, alpha, beta, true)
-	// value_wtf, best := minimaxRecursive(root, limit, alpha, beta, true)///// for test
-	// fmt.Printf("value_wtf: %v, player = %v, best.id = %d, best.coordinate = %d,%d\n", value_wtf, best.player, best.id, best.coordinate.x, best.coordinate.y) //////////
+	// _, best := minimaxRecursive(root, limit, alpha, beta, true)
+	value_wtf, best := minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
+	fmt.Printf("value_wtf: %v, player = %v, best.id = %d, best.coordinate = %d,%d\n", value_wtf, best.player, best.id, best.coordinate.y, best.coordinate.x) ///////////!!!!!!!!
 	elapsed := (time.Since(start))
 	// fmt.Printf("\n")
 	besty := findParent(best)
@@ -175,8 +180,8 @@ func minimaxTree(g *game) {
 }
 
 // player is pessimistic... fiddle with chainAttackDefend return values
-// checkLength for !player includes coordinate, which is player...
-// willCapture doesn't recognize 2 captures at once
-// checkNeighbors up to 4?
+// checkLength for !player includes coordinate, which is player...	-- ALL GOOD (accounted for)!!
+// willCapture doesn't recognize 2 captures at once			-- SORTED!!
+// checkNeighbors up to 4? 									-- SORTED!!
 // player doesn't play well at the end of the game
 // cleanup comments, refacto code
