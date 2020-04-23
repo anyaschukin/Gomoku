@@ -78,6 +78,29 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 	}
 }
 
+func hasNeigbours(y_orig int8, x_orig int8, goban *[19][19]position) bool {
+	possibleMove := coordinate{y_orig, x_orig}
+	if coordinateOnGoban(possibleMove) == false {
+		return false
+	}
+
+	var x int8
+	var y int8
+	for y = -1; y <= 1; y++ {
+		for x = -1; x <= 1; x++ {
+			if !(x == 0 && y == 0) {
+				neighbour := findNeighbour(possibleMove, y, x, 1)
+				if coordinateOnGoban(neighbour) == true {
+					if positionOccupied(neighbour, goban) == true {
+						return true
+					}
+				}
+			}
+		}
+	}
+	return false
+}
+
 func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
@@ -86,14 +109,18 @@ func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 	// threat-space search of 4
 	for y = lastMove.y - threatSpace; y <= lastMove.y+threatSpace; y++ {
 		for x = lastMove.x - threatSpace; x <= lastMove.x+threatSpace; x++ {
-			generateBoards(current, lastMove, x, y)
+			if hasNeigbours(y, x, &current.goban) == true {
+				generateBoards(current, lastMove, x, y)
+			}
 		}
 	}
 	for y = lastMove2.y - threatSpace; y <= lastMove2.y+threatSpace; y++ {
 		for x = lastMove2.x - threatSpace; x <= lastMove2.x+threatSpace; x++ {
 			// optimized so the threat-space searches don't overlap
 			if !(y >= lastMove.y-threatSpace && y <= lastMove.y+threatSpace && x >= lastMove.x-threatSpace && x <= lastMove.x+threatSpace) {
-				generateBoards(current, lastMove2, x, y)
+				if hasNeigbours(y, x, &current.goban) == true {
+					generateBoards(current, lastMove2, x, y)
+				}
 			}
 		}
 	}
@@ -102,20 +129,23 @@ func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 // /* prints the tree from the root */
 // func printTree(parent *node) {
 // 	current := parent
-// 	fmt.Printf("\nparent: %d\n", current.id)
+// 	// fmt.Printf("\n---------TREE-----------\n")
+// 	fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)
+// 	dumpGoban16(&current.goban)//////////!!!!!!!!
+// 	// fmt.Printf("\nparent: %d\n", current.id)
 // 	for i := range current.children {
 // 		child := current.children[i]
-// 		fmt.Printf("child: %d", child.id) //////
+// 		// fmt.Printf("child: %d", child.id) //////
 
-// 		// printTree(child)
+// 		printTree(child)
 // 		// put in a mutex/lock to wait until this range is done, and then call printTree for the child
 // 	}
 // 	/* depth-first */
-// 	for i := range current.children {
-// 		current := current.children[i]
-// 		dumpGoban(&current.goban)
-// 		printTree(current)
-// 	}
+// 	// for i := range current.children {
+// 	// 	current := current.children[i]
+// 	// 	dumpGoban(&current.goban)
+// 	// 	printTree(current)
+// 	// }
 // }
 
 // /* prints the best move at the selected depth */
@@ -133,17 +163,18 @@ func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 
 func findParent(leaf *node) *node {
 	current := leaf
-	fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
-	dumpGoban16(&current.goban)//////////!!!!!!!!
+	// fmt.Printf("\n\n----------findParent----------\n")
+	// fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
+	// dumpGoban16(&current.goban)//////////!!!!!!!!
 	for current.parent.id != 0 {
 		current = current.parent
-		fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
-		dumpGoban16(&current.goban)//////////!!!!!!!!
-		// fmt.Printf("current.id = %d, current.coordinate = %v, current.value = %d, current.parent.id  %d\n", current.id, current.coordinate, current.value, current.parent.id)///////
+		// fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
+		// dumpGoban16(&current.goban)//////////!!!!!!!!
 	}
-	fmt.Printf("\n")//////////!!!!!!!!
-	// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n\n", current.id, current.coordinate, current.value)/////
-	// root.bestMove = current/////////!!!!!
+	// fmt.Printf("\n")//////////!!!!!!!!
+
+	//// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n\n", current.id, current.coordinate, current.value)/////
+	//// root.bestMove = current/////////!!!!!
 	return current
 }
 
@@ -161,6 +192,9 @@ func minimaxTree(g *game) {
 	// _, best := minimaxRecursive(root, limit, alpha, beta, true)
 	value_wtf, best := minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
 	fmt.Printf("value_wtf: %v, player = %v, best.id = %d, best.coordinate = %d,%d\n", value_wtf, best.player, best.id, best.coordinate.y, best.coordinate.x) ///////////!!!!!!!!
+	
+	// printTree(root)//////////!!!!!!!
+	
 	elapsed := (time.Since(start))
 	// fmt.Printf("\n")
 	besty := findParent(best)
