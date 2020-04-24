@@ -33,3 +33,29 @@ func capture(coordinate coordinate, g *game) {
 		}
 	}
 }
+
+// captureVertexTheory is used to remove stones in AI generated boards
+func captureVertexTheory(coordinate coordinate, goban *[19][19]position, player bool, y int8, x int8) {
+	one := findNeighbour(coordinate, y, x, 1)
+	two := findNeighbour(coordinate, y, x, 2)
+	three := findNeighbour(coordinate, y, x, 3)
+	if positionOccupiedByOpponent(one, goban, player) == true &&
+		positionOccupiedByOpponent(two, goban, player) == true &&
+		positionOccupiedByPlayer(three, goban, player) == true {
+		removeStone(one, goban)
+		removeStone(two, goban)
+	}
+}
+
+// captureTheory is used to remove stones in AI generated boards
+func captureTheory(coordinate coordinate, goban *[19][19]position, player bool) {
+	var x int8
+	var y int8
+	for y = -1; y <= 1; y++ {
+		for x = -1; x <= 1; x++ {
+			if !(x == 0 && y == 0) {
+				captureVertexTheory(coordinate, goban, player, y, x)
+			}
+		}
+	}
+}

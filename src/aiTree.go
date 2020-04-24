@@ -66,6 +66,8 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 		identity++
 		newGoban := current.goban
 		placeStone(coordinate, !current.player, &newGoban)
+		captureTheory(coordinate, &newGoban, opponent(current.player))
+		// check WIN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		if current.maximizingPlayer == true {
 			value = current.value - evaluateMove(coordinate, &newGoban, !current.player, current.captures)
 		} else {
@@ -163,15 +165,15 @@ func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 
 func findParent(leaf *node) *node {
 	current := leaf
-	// fmt.Printf("\n\n----------findParent----------\n")
-	// fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
-	// dumpGoban16(&current.goban)//////////!!!!!!!!
+	fmt.Printf("\n\n----------findParent----------\n")
+	fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
+	dumpGoban16(&current.goban)//////////!!!!!!!!
 	for current.parent.id != 0 {
 		current = current.parent
-		// fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
-		// dumpGoban16(&current.goban)//////////!!!!!!!!
+		fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
+		dumpGoban16(&current.goban)//////////!!!!!!!!
 	}
-	// fmt.Printf("\n")//////////!!!!!!!!
+	fmt.Printf("\n")//////////!!!!!!!!
 
 	//// fmt.Printf("bestMove.id = %d, bestMove.coordinate = %v, bestMove.value = %d\n\n", current.id, current.coordinate, current.value)/////
 	//// root.bestMove = current/////////!!!!!

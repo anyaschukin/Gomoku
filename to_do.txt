@@ -1,4 +1,5 @@
 #### TO DO ####
+
 fix depth3 weirdness
 values of priority correct?
 resolve even depth issue (heuristic must be defensive)
