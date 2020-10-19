@@ -1,5 +1,9 @@
 #### TO DO ####
 
+depth 1 += evaluatemove
+depth 2 -= evaluatemove / 2
+depth 3 += evaluatemove / 3
+
 fix depth3 weirdness
 values of priority correct?
 resolve even depth issue (heuristic must be defensive)
@@ -32,7 +36,7 @@ resolve even depth issue (heuristic must be defensive)
 4. Undo button
 5. GO intro
 6. Artificial Idiot - AI depth 0
-7. key press f enter/exit Doge Mode
+7. key press d enter/exit Doge Mode
 8. key press f enter/exit Fullscreen
 9. Select background color
 
