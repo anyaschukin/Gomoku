@@ -69,10 +69,9 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 		captureTheory(coordinate, &newGoban, opponent(current.player))
 		// check WIN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		if current.maximizingPlayer == true {
-			value = current.value - evaluateMove(coordinate, &newGoban, !current.player, current.captures)
+			value = current.value - int(evaluateMove(coordinate, &newGoban, !current.player, current.captures) / 2)
 		} else {
 			value = current.value + evaluateMove(coordinate, &newGoban, !current.player, current.captures)
-
 		}
 		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current)
 		// fmt.Printf("current.coordinate = %v, child.coordinate = %v, child.parent.coordinate = %v\n", current.coordinate, child.coordinate, child.parent.coordinate)
@@ -167,11 +166,11 @@ func findParent(leaf *node) *node {
 	current := leaf
 	fmt.Printf("\n\n----------findParent----------\n")
 	fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
-	dumpGoban16(&current.goban)//////////!!!!!!!!
+	// dumpGoban16(&current.goban)//////////!!!!!!!!
 	for current.parent.id != 0 {
 		current = current.parent
 		fmt.Printf("id = %d, coordinate = %v, lastMove = %d, value = %d, player = %v, maximizingPlayer = %v, parent.id = %d\n", current.id, current.coordinate, current.lastMove, current.value, current.player, current.maximizingPlayer, current.parent.id)//////////////!!!!!!!!
-		dumpGoban16(&current.goban)//////////!!!!!!!!
+		// dumpGoban16(&current.goban)//////////!!!!!!!!
 	}
 	fmt.Printf("\n")//////////!!!!!!!!
 
@@ -192,14 +191,16 @@ func minimaxTree(g *game) {
 	alpha := minInt
 	beta := maxInt
 	// _, best := minimaxRecursive(root, limit, alpha, beta, true)
-	value_wtf, best := minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
-	fmt.Printf("value_wtf: %v, player = %v, best.id = %d, best.coordinate = %d,%d\n", value_wtf, best.player, best.id, best.coordinate.y, best.coordinate.x) ///////////!!!!!!!!
+	// minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
+	value_wtf := minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
+	fmt.Printf("value_wtf: %v, player = %v, root.bestMove.value = %d\n", value_wtf, root.player, root.bestMove.value) ///////////!!!!!!!!
 	
 	// printTree(root)//////////!!!!!!!
 	
 	elapsed := (time.Since(start))
 	// fmt.Printf("\n")
-	besty := findParent(best)
+	besty := root.bestMove
+	// besty := findParent(best)
 	// printBestRoute(root)
 	// fmt.Printf("best.id = %d, best.coordinate = %v, best.value = %d\n", best.id, best.coordinate, best.value)                                              /////////////
 	// fmt.Printf("\n\n----------------------------------------------\n\n") //////////
