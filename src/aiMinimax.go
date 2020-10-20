@@ -28,7 +28,7 @@ func min(a, b int) int {
 
 func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPlayer bool) int {
 
-	if depth == 0 {
+	if depth == 0 || node.value >= align5Win {	
 		return node.value
 	}
 
