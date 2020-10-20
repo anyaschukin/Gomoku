@@ -2,8 +2,15 @@ package gomoku
 
 import "fmt"
 
-//  Alpha is the best choice which has been found so far for the maximising player.
-//  Beta is the best choice which has been found so far for the minimising player
+//  Alpha is the tmp choice which has been found so far for the maximising player.
+//  Beta is the tmp choice which has been found so far for the minimising player
+
+// func max(value int, best *node, tmp_value int, tmp *node) (int, *node) {
+// 	if value > tmp_value {
+// 		return value, best
+// 	}
+// 	return tmp_value, tmp
+// }
 
 func max(a, b int) int {
 	if a > b {
@@ -19,10 +26,10 @@ func min(a, b int) int {
 	return b
 }
 
-func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPlayer bool) (int, *node) {
+func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPlayer bool) int {
 
 	if depth == 0 {
-		return node.value, node
+		return node.value
 	}
 
 	/* DEBUG */
@@ -39,49 +46,50 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 	}
 
 	var value int
-	best := newNode(0, 0, &node.goban, node.coordinate, node.lastMove, !node.player, node.maximizingPlayer, node.captures.capture0, node.captures.capture1, node)
-	bessst := newNode(0, 0, &node.goban, node.coordinate, node.lastMove, !node.player, node.maximizingPlayer, node.captures.capture0, node.captures.capture1, node)
+	// tmp := newNode(0, 0, &node.goban, node.coordinate, node.lastMove, !node.player, node.maximizingPlayer, node.captures.capture0, node.captures.capture1, node)
+	// best := newNode(0, 0, &node.goban, node.coordinate, node.lastMove, !node.player, node.maximizingPlayer, node.captures.capture0, node.captures.capture1, node)
 	if maximizingPlayer == true {
 		maxValue := minInt // set value to -infinity
 		for idx := range node.children {
 			child := node.children[idx]
-			value, best = minimaxRecursive(child, depth-1, alpha, beta, false)
+			value = minimaxRecursive(child, depth-1, alpha, beta, false)
 			fmt.Printf("value = %d, maxValue = %d\n", value, maxValue)
 			// maxValue = max(value, maxValue)
 			if value > maxValue {
-				bessst = best
+				node.bestMove = child
+				// best = tmp
 				maxValue = value
 			}
 			fmt.Printf("new maxValue = %d\n", maxValue)
-			// if maxValue == best.value {
-				// bessst = best
+			// if maxValue == tmp.value {
+				// best = tmp
 			// }
 			alpha = max(alpha, maxValue)
 			if alpha >= beta {
 				break
 			}
 		}
-		return maxValue, bessst
+		return maxValue
 	} else {
 		minValue := maxInt // set value to +infinity
 		for idx := range node.children {
 			child := node.children[idx]
-			value, best = minimaxRecursive(child, depth-1, alpha, beta, true)
+			value = minimaxRecursive(child, depth-1, alpha, beta, true)
 			fmt.Printf("value = %d, minValue = %d\n", value, minValue)
 			// minValue = min(value, minValue)
 			if value < minValue {
-				bessst = best
+				node.bestMove = child
 				minValue = value
 			}
 			fmt.Printf("new minValue = %d\n", minValue)
-			// if minValue == best.value {
-				// bessst = best
+			// if minValue == tmp.value {
+				// best = tmp
 			// }
 			beta = min(beta, minValue)
 			if beta <= alpha {
 				break
 			}
 		}
-		return minValue, bessst
+		return minValue
 	}
 }
