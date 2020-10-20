@@ -86,17 +86,17 @@ package gomoku
 // const block2 			= 1
 // const alignFree2 		= 1
 
-const capture10 		= 100000000
-const break5Align 		= 10000000
-const willBeCaptured8 	= -1000000
-const align5Win 		= 1000000
-const blockWin 			= 100000
+const capture10 		= 10000000
+const break5Align 		= 1000000
+const willBeCaptured8 	= -100000
+const align5Win 		= 100000
+const blockWin 			= 1200
 const willBeCaptured2 	= -10000
 const alignFree4 		= 10000
 const blockFree3 		= 1100
 const capture2 			= 1000
 const alignFree3 		= 1000
-const alignFlanked4 	= 500
+const alignFlanked4 	= 500	// align4Flanked
 const alignFlanked3 	= 10
 const block2 			= 1
 const alignFree2 		= 1
