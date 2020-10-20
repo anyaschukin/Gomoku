@@ -50,13 +50,13 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 			// maxValue = max(value, maxValue)
 			if value > maxValue {
 				bessst = best
-				// maxValue = value
+				maxValue = value
 			}
 			fmt.Printf("new maxValue = %d\n", maxValue)
 			// if maxValue == best.value {
 				// bessst = best
 			// }
-			alpha = max(alpha, value)
+			alpha = max(alpha, maxValue)
 			if alpha >= beta {
 				break
 			}
@@ -71,12 +71,13 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 			// minValue = min(value, minValue)
 			if value < minValue {
 				bessst = best
+				minValue = value
 			}
 			fmt.Printf("new minValue = %d\n", minValue)
 			// if minValue == best.value {
 				// bessst = best
 			// }
-			beta = min(beta, value)
+			beta = min(beta, minValue)
 			if beta <= alpha {
 				break
 			}
