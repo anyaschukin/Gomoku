@@ -92,14 +92,14 @@ const willBeCaptured8 	= -100000
 const align5Win 		= 100000
 const blockWin 			= 1200
 const willBeCaptured2 	= -10000
-const alignFree4 		= 10000
-const blockFree3 		= 1100
+const align4Free 		= 10000
+const block3Free 		= 1100
 const capture2 			= 1000
-const alignFree3 		= 1000
-const alignFlanked4 	= 500	// align4Flanked
-const alignFlanked3 	= 10
+const align3Free 		= 1000
+const align4FLanked 	= 500	// align4Flanked
+const align3Flanked 	= 10
 const block2 			= 1
-const alignFree2 		= 1
+const align2Free 		= 1
 
 // lineInfluence max value =
 // 119182616898071
