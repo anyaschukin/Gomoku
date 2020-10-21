@@ -67,7 +67,7 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 		newGoban := current.goban
 		placeStone(coordinate, !current.player, &newGoban)
 		if current.maximizingPlayer == true {
-			value = current.value - int(evaluateMove(coordinate, &newGoban, !current.player, current.captures) / 2)
+			value = current.value - int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) * 0.8)
 		} else {
 			value = current.value + evaluateMove(coordinate, &newGoban, !current.player, current.captures)
 		}
