@@ -1,6 +1,6 @@
 package gomoku
 
-import "fmt"
+// import "fmt"
 
 //  Alpha is the tmp choice which has been found so far for the maximising player.
 //  Beta is the tmp choice which has been found so far for the minimising player
@@ -40,10 +40,10 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 	generateChildBoards(node, node.coordinate, node.lastMove)
 
 	/* DEBUG */
-	for i := range node.children {
-	child := node.children[i]
-	fmt.Printf("depth = %d, child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", depth, child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
-	}
+	// for i := range node.children {
+	// child := node.children[i]
+	// fmt.Printf("depth = %d, child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", depth, child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
+	// }
 
 	// var value int
 	// tmp := newNode(0, 0, &node.goban, node.coordinate, node.lastMove, !node.player, node.maximizingPlayer, node.captures.capture0, node.captures.capture1, node)
@@ -53,14 +53,14 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 		for idx := range node.children {
 			child := node.children[idx]
 			value := minimaxRecursive(child, depth-1, alpha, beta, false)
-			fmt.Printf("value = %d, maxValue = %d\n", value, maxValue)
+			// fmt.Printf("value = %d, maxValue = %d\n", value, maxValue) //
 			// maxValue = max(value, maxValue)
 			if value > maxValue {
 				node.bestMove = child
 				// best = tmp
 				maxValue = value
 			}
-			fmt.Printf("new maxValue = %d\n", maxValue)
+			// fmt.Printf("new maxValue = %d\n", maxValue) //
 			// if maxValue == tmp.value {
 				// best = tmp
 			// }
@@ -75,13 +75,13 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 		for idx := range node.children {
 			child := node.children[idx]
 			value := minimaxRecursive(child, depth-1, alpha, beta, true)
-			fmt.Printf("value = %d, minValue = %d\n", value, minValue)
+			// fmt.Printf("value = %d, minValue = %d\n", value, minValue) //
 			// minValue = min(value, minValue)
 			if value < minValue {
 				node.bestMove = child
 				minValue = value
 			}
-			fmt.Printf("new minValue = %d\n", minValue)
+			// fmt.Printf("new minValue = %d\n", minValue) //
 			// if minValue == tmp.value {
 				// best = tmp
 			// }
