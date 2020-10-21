@@ -92,7 +92,7 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 		defend = blockWin
 	case 3:
 		if flanked1 == false && flanked2 == false {
-			defend = blockFree3
+			defend = block3Free
 		}
 	case 2:
 		if flanked1 == false && flanked2 == false {
@@ -106,23 +106,23 @@ func chainAttackDefend(coordinate coordinate, goban *[19][19]position, y, x int8
 		attack = align5Win
 	case 4:
 		if flanked1 == false && flanked2 == false {
-			attack = alignFree4
+			attack = align4Free
 		} else if flanked1 == true && flanked2 == true {
 			attack = 0
 		} else {
-			attack = alignFlanked4
+			attack = align4FLanked
 		}
 	case 3:
 		if flanked1 == false && flanked2 == false {
-			attack = alignFree3
+			attack = align3Free
 		} else if flanked1 == true && flanked2 == true {
 			attack = 0
 		} else {
-			attack = alignFlanked3
+			attack = align3Flanked
 		}
 	case 2:
 		if flanked1 == false && flanked2 == false {
-			attack = alignFree2
+			attack = align2Free
 		}
 	}
 	return attack + defend
