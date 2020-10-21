@@ -1,5 +1,6 @@
 #### TO DO ####
 
+captureAttackDefend not getting called
 Undo Captured
 
 depth 1 += evaluatemove
