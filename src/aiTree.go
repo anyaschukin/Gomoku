@@ -67,7 +67,7 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 		newGoban := current.goban
 		placeStone(coordinate, !current.player, &newGoban)
 		if current.maximizingPlayer == true {
-			value = current.value - int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) * 0.8)
+			value = current.value - int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) * 0.9)
 		} else {
 			value = current.value + evaluateMove(coordinate, &newGoban, !current.player, current.captures)
 		}
@@ -78,6 +78,7 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 	}
 }
 
+// Returns true if given position has immediate neighbor which is occupied
 func hasNeigbours(y_orig int8, x_orig int8, goban *[19][19]position) bool {
 	possibleMove := coordinate{y_orig, x_orig}
 	if coordinateOnGoban(possibleMove) == false {
@@ -104,11 +105,12 @@ func hasNeigbours(y_orig int8, x_orig int8, goban *[19][19]position) bool {
 func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
-	var threatSpace int8 = 4
+	var threatSpace int8 = 4	// Depth 10 works with threatSpace = 1
 
 	// threat-space search of 4
 	for y = lastMove.y - threatSpace; y <= lastMove.y+threatSpace; y++ {
 		for x = lastMove.x - threatSpace; x <= lastMove.x+threatSpace; x++ {
+			// Optimized so that only populated parts of the board are explored. Standalone/isolated positions are ignored.
 			if hasNeigbours(y, x, &current.goban) == true {
 				generateBoards(current, lastMove, x, y)
 			}
