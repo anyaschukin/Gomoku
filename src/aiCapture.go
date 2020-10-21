@@ -1,5 +1,4 @@
 package gomoku
-import "fmt"
 
 // breakFive returns true if placing player's stone at coordinate will break opponent's five-in-a-row
 func breakFive(coordinate coordinate, goban *[19][19]position, player bool) bool {
@@ -76,7 +75,6 @@ func captureAttackDefend(coordinate coordinate, goban *[19][19]position, y, x in
 	cap := willCapture(coordinate, goban, y, x, player)
 	if cap != 0 {
 		if capturedEight(player, captures.capture0, captures.capture1) == true { // this is the ultimate winning move
-			fmt.Printf("capture10\n")
 			return capture10
 		} else if willBreak5Align(coordinate, goban, y, x, player) == true {
 			return break5Align
@@ -87,7 +85,6 @@ func captureAttackDefend(coordinate coordinate, goban *[19][19]position, y, x in
 		return capture2
 	} else if willBeCaptured(coordinate, goban, y, x, player) == true {
 		if capturedEight(!player, captures.capture0, captures.capture1) == true {
-			fmt.Printf("willBeCaptured8\n")
 			return willBeCaptured8
 		}
 		return willBeCaptured2
