@@ -136,7 +136,6 @@ func minimaxTree(g *game) {
 	}
 
 	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil)
-	identity = 0
 	alpha := minInt
 	beta := maxInt
 	// minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
