@@ -66,13 +66,12 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 		identity++
 		newGoban := current.goban
 		placeStone(coordinate, !current.player, &newGoban)
-		captureTheory(coordinate, &newGoban, opponent(current.player))
-		// check WIN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		if current.maximizingPlayer == true {
 			value = current.value - int(evaluateMove(coordinate, &newGoban, !current.player, current.captures) / 2)
 		} else {
 			value = current.value + evaluateMove(coordinate, &newGoban, !current.player, current.captures)
 		}
+		captureTheory(coordinate, &newGoban, opponent(current.player))
 		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current)
 		// fmt.Printf("current.coordinate = %v, child.coordinate = %v, child.parent.coordinate = %v\n", current.coordinate, child.coordinate, child.parent.coordinate)
 		addChild(current, current.id, child)
