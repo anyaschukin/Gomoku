@@ -1,13 +1,5 @@
 package gomoku
 
-import (
-	"fmt"
-	"time"
-)
-
-const maxInt = int(^uint(0) >> 1)
-const minInt = -maxInt - 1
-
 var identity int
 
 type captures struct {
@@ -102,7 +94,8 @@ func hasNeigbours(y_orig int8, x_orig int8, goban *[19][19]position) bool {
 	return false
 }
 
-func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
+// Generates a tree of moves for a given player
+func generateTree(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
 	var threatSpace int8 = 4	// Depth 10 works with threatSpace = 1
@@ -127,30 +120,3 @@ func generateChildBoards(current *node, lastMove, lastMove2 coordinate) {
 		}
 	}
 }
-
-func minimaxTree(g *game) {
-	start := time.Now()
-	limit := g.ai0.depth
-	if g.player == true {
-		limit = g.ai1.depth
-	}
-
-	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil)
-	alpha := minInt
-	beta := maxInt
-	// minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
-	value_wtf := minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
-	fmt.Printf("value_wtf: %v, player = %v, root.bestMove.value = %d\n", value_wtf, root.player, root.bestMove.value) ///////////!!!!!!!!
-	
-	elapsed := (time.Since(start))
-	besty := root.bestMove
-
-	if g.player == false {
-		g.ai0.suggest = besty.coordinate
-		g.ai0.timer = elapsed
-	} else {
-		g.ai1.suggest = besty.coordinate
-		g.ai1.timer = elapsed
-	}
-}
-

@@ -1,7 +1,12 @@
 package gomoku
 
-//  Alpha is the tmp choice which has been found so far for the maximising player.
-//  Beta is the tmp choice which has been found so far for the minimising player
+import (
+	"fmt"
+	"time"
+)
+
+const maxInt = int(^uint(0) >> 1)
+const minInt = -maxInt - 1
 
 func max(a, b int) int {
 	if a > b {
@@ -17,24 +22,16 @@ func min(a, b int) int {
 	return b
 }
 
+//  Alpha is the tmp choice which has been found so far for the maximising player.
+//  Beta is the tmp choice which has been found so far for the minimising player
+
 func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPlayer bool) int {
 
 	if depth == 0 || node.value >= align5Win {	
 		return node.value
 	}
 
-	/* DEBUG */
-	// fmt.Printf("\nDEPTH = %d", depth)
-	// fmt.Printf("\nparent.id = %d, parent.player = %v, parent.maximizingPlayer: %v, parent.coordinate: %v, parent.value = %d\n", node.id, node.player, node.maximizingPlayer, node.coordinate, node.value)
-	// dumpGobanBlank(&node.goban)
-
-	generateChildBoards(node, node.coordinate, node.lastMove)
-
-	/* DEBUG */
-	// for i := range node.children {
-	// child := node.children[i]
-	// fmt.Printf("depth = %d, child.id = %d, child.player = %v, child.maximizingPlayer: %v, child.coordinate: %v, child.value = %d\n", depth, child.id, child.player, child.maximizingPlayer, child.coordinate, child.value)
-	// }
+	generateTree(node, node.coordinate, node.lastMove)
 
 	if maximizingPlayer == true {
 		maxValue := minInt // set value to -infinity
@@ -66,3 +63,31 @@ func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPl
 		return minValue
 	}
 }
+
+func minimaxTree(g *game) {
+	start := time.Now()
+	limit := g.ai0.depth
+	if g.player == true {
+		limit = g.ai1.depth
+	}
+
+	alpha := minInt
+	beta := maxInt
+
+	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil)
+	// minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
+	value_wtf := minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
+	fmt.Printf("value_wtf: %v, player = %v, root.bestMove.value = %d\n", value_wtf, root.player, root.bestMove.value) ///////////!!!!!!!!
+	
+	elapsed := (time.Since(start))
+	besty := root.bestMove
+
+	if g.player == false {
+		g.ai0.suggest = besty.coordinate
+		g.ai0.timer = elapsed
+	} else {
+		g.ai1.suggest = besty.coordinate
+		g.ai1.timer = elapsed
+	}
+}
+
