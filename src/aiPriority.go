@@ -102,11 +102,11 @@ package gomoku
 // const align2Free 		= 1
 
 const capture10         = 1000000
-const break5Align       = 100000
-const willBeCaptured8   = -10000
-const align5Win         = 10000
-const blockWin          = 4200
-const willBeCaptured2   = -2000
+const break5Align       = 120000
+const willBeCaptured8   = -100000
+const align5Win         = 100000
+const blockWin          = 1600
+const willBeCaptured2   = -1500
 const align4Free        = 1400
 const block3Free        = 1300
 const capture2          = 1000

@@ -77,7 +77,7 @@ func minimaxTree(g *game) {
 	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil)
 	// minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
 	value_wtf := minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
-	fmt.Printf("value_wtf: %v, player = %v, root.bestMove.value = %d\n", value_wtf, root.player, root.bestMove.value) ///////////!!!!!!!!
+	fmt.Printf("value_wtf: %v, player = %v, root.bestMove.value = %d, root.bestMove.coordinate = %v\n", value_wtf, root.player, root.bestMove.value, root.bestMove.coordinate) ///////////!!!!!!!!
 	
 	elapsed := (time.Since(start))
 	besty := root.bestMove
