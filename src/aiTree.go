@@ -8,20 +8,21 @@ type captures struct {
 }
 
 type node struct {
-	id               int
-	value            int
-	goban            [19][19]position
-	coordinate       coordinate
-	lastMove         coordinate
-	player           bool // black or white
-	maximizingPlayer bool // used by miniMax algo
-	captures         captures
-	parent           *node
-	children         []*node
-	bestMove         *node
+	id					int
+	value				int
+	goban				[19][19]position
+	coordinate			coordinate
+	lastMove			coordinate
+	player				bool // black or white
+	maximizingPlayer	bool // used by miniMax algo
+	captures			captures
+	parent				*node
+	children			[]*node
+	bestMove			*node
+	depth				uint8
 }
 
-func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool, capture0, capture1 uint8, parent *node) *node {
+func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool, capture0, capture1 uint8, parent *node, depth uint8) *node {
 	return &node{
 		id:               id,
 		value:            value,
@@ -35,6 +36,7 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 			capture1: capture1,
 		},
 		parent: parent,
+		depth: depth,
 	}
 }
 
@@ -59,12 +61,13 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 		newGoban := current.goban
 		placeStone(coordinate, !current.player, &newGoban)
 		if current.maximizingPlayer == true {
-			value = current.value - int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) * 0.9)
+			value = current.value - int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) * (1 / float64(current.depth)))
 		} else {
-			value = current.value + evaluateMove(coordinate, &newGoban, !current.player, current.captures)
+			value = current.value + int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) * (1 / float64(current.depth)))
+			// value = current.value + evaluateMove(coordinate, &newGoban, !current.player, current.captures)
 		}
 		captureTheory(coordinate, &newGoban, opponent(current.player))
-		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current)
+		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current, current.depth + 1)
 		// fmt.Printf("current.coordinate = %v, child.coordinate = %v, child.parent.coordinate = %v\n", current.coordinate, child.coordinate, child.parent.coordinate)
 		addChild(current, current.id, child)
 	}

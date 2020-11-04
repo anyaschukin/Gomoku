@@ -27,7 +27,7 @@ func min(a, b int) int {
 
 func minimaxRecursive(node *node, depth uint8, alpha int, beta int, maximizingPlayer bool) int {
 
-	if depth == 0 || node.value >= align5Win {	
+	if depth == 0 || node.value >= align5Win || node.value <= -align5Win {	
 		return node.value
 	}
 
@@ -74,7 +74,7 @@ func minimaxTree(g *game) {
 	alpha := minInt
 	beta := maxInt
 
-	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil)
+	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil, 1)
 	// minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
 	value_wtf := minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
 	fmt.Printf("value_wtf: %v, player = %v, root.bestMove.value = %d, root.bestMove.coordinate = %v\n", value_wtf, root.player, root.bestMove.value, root.bestMove.coordinate) ///////////!!!!!!!!
