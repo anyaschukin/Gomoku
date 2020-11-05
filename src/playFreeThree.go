@@ -49,14 +49,14 @@ func checkVertexForThree(coordinate coordinate, goban *[19][19]position, y int8,
 }
 
 // doubleThree returns true if suggested move breaks the double three rule
-func doubleThree(coordinate coordinate, g *game) bool {
+func doubleThree(coordinate coordinate, goban *[19][19]position, player bool) bool {
 	var freeThree bool
-	var x int8
 	var y int8
+	var x int8
 	for y = -1; y <= 1; y++ {
 		for x = -1; x <= 1; x++ {
 			if !(x == 0 && y == 0) {
-				foundThree := checkVertexForThree(coordinate, &g.goban, y, x, g.player)
+				foundThree := checkVertexForThree(coordinate, goban, y, x, player)
 				if foundThree == true {
 					if freeThree == true {
 						return true

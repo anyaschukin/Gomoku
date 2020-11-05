@@ -1,7 +1,6 @@
 package gomoku
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -75,19 +74,15 @@ func minimaxTree(g *game) {
 	beta := maxInt
 
 	root := newNode(0, 0, &g.goban, g.lastMove, g.lastMove2, !g.player, false, g.capture0, g.capture1, nil, 1)
-	// minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
-	value_wtf := minimaxRecursive(root, limit, alpha, beta, true)//////////////!!!!!!!! for test
-	fmt.Printf("value_wtf: %v, player = %v, root.bestMove.value = %d, root.bestMove.coordinate = %v\n", value_wtf, root.player, root.bestMove.value, root.bestMove.coordinate) ///////////!!!!!!!!
+	minimaxRecursive(root, limit, alpha, beta, true)
 	
 	elapsed := (time.Since(start))
-	besty := root.bestMove
 
 	if g.player == false {
-		g.ai0.suggest = besty.coordinate
+		g.ai0.suggest = root.bestMove.coordinate
 		g.ai0.timer = elapsed
 	} else {
-		g.ai1.suggest = besty.coordinate
+		g.ai1.suggest = root.bestMove.coordinate
 		g.ai1.timer = elapsed
 	}
 }
-

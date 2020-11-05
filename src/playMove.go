@@ -10,7 +10,7 @@ func isMoveValid(coordinate coordinate, g *game) bool {
 		g.gui.message = "Position Occupied!"
 		return false
 	}
-	if doubleThree(coordinate, g) == true {
+	if doubleThree(coordinate, &g.goban, g.player) == true {
 		g.gui.message = "Double-Three!"
 		return false
 	}

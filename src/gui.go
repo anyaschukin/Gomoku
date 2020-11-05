@@ -10,8 +10,8 @@ import (
 func newGame() *game {
 	g = &game{}
 	g.ai0.aiPlayer = true
-	g.ai0.depth = 2 // 3 // !!!
-	g.ai1.depth = 2 // 3 // !!!
+	g.ai0.depth = 4
+	g.ai1.depth = 4
 	g.gui.drawLastMove = true
 	g.gui.drawWinMove = true
 	g.gui.drawCapture = true

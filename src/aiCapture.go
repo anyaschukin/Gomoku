@@ -31,7 +31,6 @@ func breakFiveDirection(coordinate coordinate, goban *[19][19]position, y, x int
 //  willBreak5Align returns true if placing player's stone at coordinate will break opponent's five-in-a-row
 func willBreak5Align(coordinate coordinate, goban *[19][19]position, y, x int8, player bool) bool {
 	if breakFiveDirection(coordinate, goban, y, x, player) == true || breakFiveDirection(coordinate, goban, -y, -x, player) == true {
-		// fmt.Printf("willBreak5Align: coordinate = %v, player = %v\n", coordinate, player)
 		return true
 	}
 	return false

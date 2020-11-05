@@ -56,7 +56,7 @@ func addChild(node *node, parentID int, child *node) {
 func generateBoards(current *node, lastMove coordinate, x, y int8) {
 	var value int
 	coordinate := coordinate{y, x}
-	if isMoveValid2(coordinate, &current.goban, current.player) == true { // duplicate of isMoveValid w/o *game
+	if isMoveValid2(coordinate, &current.goban, current.player) == true {
 		identity++
 		newGoban := current.goban
 		placeStone(coordinate, !current.player, &newGoban)
@@ -64,49 +64,23 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 			value = current.value - int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) * (1 / float64(current.depth)))
 		} else {
 			value = current.value + int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) * (1 / float64(current.depth)))
-			// value = current.value + evaluateMove(coordinate, &newGoban, !current.player, current.captures)
 		}
 		captureTheory(coordinate, &newGoban, opponent(current.player))
 		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current, current.depth + 1)
-		// fmt.Printf("current.coordinate = %v, child.coordinate = %v, child.parent.coordinate = %v\n", current.coordinate, child.coordinate, child.parent.coordinate)
 		addChild(current, current.id, child)
 	}
 }
 
-// Returns true if given position has immediate neighbor which is occupied
-func hasNeigbours(y_orig int8, x_orig int8, goban *[19][19]position) bool {
-	possibleMove := coordinate{y_orig, x_orig}
-	if coordinateOnGoban(possibleMove) == false {
-		return false
-	}
-
-	var x int8
-	var y int8
-	for y = -1; y <= 1; y++ {
-		for x = -1; x <= 1; x++ {
-			if !(x == 0 && y == 0) {
-				neighbour := findNeighbour(possibleMove, y, x, 1)
-				if coordinateOnGoban(neighbour) == true {
-					if positionOccupied(neighbour, goban) == true {
-						return true
-					}
-				}
-			}
-		}
-	}
-	return false
-}
-
 // Generates a tree of moves for a given player
+// Only explores moves within a threatSpace around 2 last moves
 func generateTree(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
 	var threatSpace int8 = 4	// Depth 10 works with threatSpace = 1
-
-	// threat-space search of 4
+	
 	for y = lastMove.y - threatSpace; y <= lastMove.y+threatSpace; y++ {
 		for x = lastMove.x - threatSpace; x <= lastMove.x+threatSpace; x++ {
-			// Optimized so that only populated parts of the board are explored. Standalone/isolated positions are ignored.
+			
 			if hasNeigbours(y, x, &current.goban) == true {
 				generateBoards(current, lastMove, x, y)
 			}
@@ -114,8 +88,8 @@ func generateTree(current *node, lastMove, lastMove2 coordinate) {
 	}
 	for y = lastMove2.y - threatSpace; y <= lastMove2.y+threatSpace; y++ {
 		for x = lastMove2.x - threatSpace; x <= lastMove2.x+threatSpace; x++ {
-			// optimized so the threat-space searches don't overlap
 			if !(y >= lastMove.y-threatSpace && y <= lastMove.y+threatSpace && x >= lastMove.x-threatSpace && x <= lastMove.x+threatSpace) {
+				// optimized so the threat-space searches don't overlap
 				if hasNeigbours(y, x, &current.goban) == true {
 					generateBoards(current, lastMove2, x, y)
 				}
