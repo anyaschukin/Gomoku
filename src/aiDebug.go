@@ -5,7 +5,7 @@ import (
 )
 
 // dumpGoban prints the Goban with color
-// original dumpGoban that works on 42 Mac desktop computers
+// original dumpGoban that works on 42 Macs
 func dumpGoban(goban *[19][19]position) {
 	fmt.Printf("     ")
 	for x := 0; x < 19; x++ {
@@ -42,7 +42,7 @@ func dumpGoban(goban *[19][19]position) {
 }
 
 // dumpGoban prints the Goban with color
-// specifically for Anya and Drew's Mac 16in laptops
+// specifically for Anya and Drew's 16in laptops
 func dumpGoban16(goban *[19][19]position) {
 	fmt.Printf("     ")
 	for x := 0; x < 19; x++ {
@@ -78,7 +78,8 @@ func dumpGoban16(goban *[19][19]position) {
 	fmt.Printf("\n")
 }
 
-// dumpGoban prints the Goban in black-and-white (useful to print to file)
+// dumpGobanBlank prints the Goban without color 
+// cleaner output when printing to file
 func dumpGobanBlank(goban *[19][19]position) {
 	for x := 0; x < 19; x++ {
 		fmt.Printf("{%2d        } ", x)
@@ -106,7 +107,7 @@ func dumpGobanBlank(goban *[19][19]position) {
 
 // Prints the tree from the root
 func printTree(parent *node) {
-	// fmt.Printf("\n---------TREE-----------\n")
+	fmt.Printf("\n---------TREE-----------\n")
 	current := parent
 	fmt.Printf("\nparent: %d\n", current.id)
 	for i := range current.children {

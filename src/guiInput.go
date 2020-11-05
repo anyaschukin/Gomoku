@@ -2,7 +2,6 @@ package gomoku
 
 import (
 	"os"
-	// "fmt"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
