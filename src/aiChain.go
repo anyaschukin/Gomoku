@@ -49,5 +49,10 @@ func lengthPlayerChain(coordinate coordinate, goban *[19][19]position, y, x int8
 	if a + b + 1 > 5 {
 		return 5, flanked1, flanked2
 	}
+	if a + b + 1 == 3 && flanked1 != flanked2 {
+		if !(a == 2 && flanked1 || b == 2 && flanked2) {
+			return 0, flanked1, flanked2
+		}
+	}
 	return a + b + 1, flanked1, flanked2
 }

@@ -40,18 +40,6 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 	}
 }
 
-// Recursively finds node by ID, and then appends child to node.chilren
-func addChild(node *node, parentID int, child *node) {
-	if node.id == parentID {
-		node.children = append(node.children, child)
-	} else {
-		for idx, _ := range node.children {
-			current := node.children[idx]
-			addChild(current, parentID, child)
-		}
-	}
-}
-
 // Generates every move for a board, assigns value, and adds to tree
 func generateBoards(current *node, lastMove coordinate, x, y int8) {
 	var value int
@@ -67,7 +55,7 @@ func generateBoards(current *node, lastMove coordinate, x, y int8) {
 		}
 		captureTheory(coordinate, &newGoban, opponent(current.player))
 		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current, current.depth + 1)
-		addChild(current, current.id, child)
+		current.children = append(current.children, child)
 	}
 }
 
