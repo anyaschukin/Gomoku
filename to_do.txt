@@ -1,27 +1,9 @@
 #### TO DO ####
 
-captureAttackDefend not getting called
-Undo Captured
-
-depth 1 += evaluatemove
-depth 2 -= evaluatemove / 2
-depth 3 += evaluatemove / 3
-
-fix depth3 weirdness
-values of priority correct?
-resolve even depth issue (heuristic must be defensive)
-- round down/different heuristic/limit to odd
+redo Undo and linked list of game states (inc board, captured, etc)
 
 	- take current captured stones into account ?
 	- take past Player actions into account to identify patterns and weigh board states accordingly ?
-
-	- prioritize align 5 over capture
-	- prioritize block 4 over block 3
-	- if opponent aligns 5, prioritize capture over everything else (also prioritize break5 over other captures)
-
-	- w-www-	->	w-wwwb	should be	wbwww-
-	- var to const? e.g. row
-	- avoid capture in heurstic? accounted for by level3?
 
 	- algo: alpha-beta pruning WHILE creating the tree
 	- algo: concurrency/channels, sync pool/workers
@@ -43,7 +25,6 @@ resolve even depth issue (heuristic must be defensive)
 8. key press f enter/exit Fullscreen
 9. Select background color
 
-- display value for position?
 
 #### CORRECTION ####
  - "Improved" Minimax implementation (Alpha-beta pruning, negascout, mtdf, ...) -> 5 points!

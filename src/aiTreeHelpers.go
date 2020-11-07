@@ -20,7 +20,6 @@ func hasNeigbours(y_orig int8, x_orig int8, goban *[19][19]position) bool {
 	if coordinateOnGoban(possibleMove) == false {
 		return false
 	}
-
 	var x int8
 	var y int8
 	for y = -1; y <= 1; y++ {
