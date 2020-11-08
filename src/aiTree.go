@@ -49,9 +49,9 @@ func generateBoards(current *node, lastMove coordinate, y, x int8) {
 		newGoban := current.goban
 		placeStone(coordinate, !current.player, &newGoban)
 		if current.maximizingPlayer == true {
-			value = current.value - int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) / float64(current.depth))
+			value = current.value - evaluateMove(coordinate, &newGoban, !current.player, current.captures) / int(current.depth)
 		} else {
-			value = current.value + int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) / float64(current.depth))
+			value = current.value + evaluateMove(coordinate, &newGoban, !current.player, current.captures) / int(current.depth)
 		}
 		captureTheory(coordinate, &newGoban, opponent(current.player))
 		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current, current.depth + 1)
