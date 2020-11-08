@@ -41,17 +41,17 @@ func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinat
 }
 
 // Generates every move for a board, assigns value, and adds to tree
-func generateBoards(current *node, lastMove coordinate, x, y int8) {
+func generateBoards(current *node, lastMove coordinate, y, x int8) {
 	var value int
 	coordinate := coordinate{y, x}
-	if isMoveValid2(coordinate, &current.goban, current.player) == true {
+	if hasNeigbours(y, x, &current.goban) == true && isMoveValid2(coordinate, &current.goban, current.player) == true {
 		identity++
 		newGoban := current.goban
 		placeStone(coordinate, !current.player, &newGoban)
 		if current.maximizingPlayer == true {
-			value = current.value - int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) * (1 / float64(current.depth)))
+			value = current.value - int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) / float64(current.depth))
 		} else {
-			value = current.value + int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) * (1 / float64(current.depth)))
+			value = current.value + int(float64(evaluateMove(coordinate, &newGoban, !current.player, current.captures)) / float64(current.depth))
 		}
 		captureTheory(coordinate, &newGoban, opponent(current.player))
 		child := newNode(identity, value, &newGoban, coordinate, lastMove, !current.player, !current.maximizingPlayer, current.captures.capture1, current.captures.capture1, current, current.depth + 1)
@@ -65,22 +65,17 @@ func generateTree(current *node, lastMove, lastMove2 coordinate) {
 	var y int8
 	var x int8
 	var threatSpace int8 = 4	// Depth 10 works with threatSpace = 1
-	
+
 	for y = lastMove.y - threatSpace; y <= lastMove.y+threatSpace; y++ {
 		for x = lastMove.x - threatSpace; x <= lastMove.x+threatSpace; x++ {
-			
-			if hasNeigbours(y, x, &current.goban) == true {
-				generateBoards(current, lastMove, x, y)
-			}
+			generateBoards(current, lastMove, y, x)
 		}
 	}
 	for y = lastMove2.y - threatSpace; y <= lastMove2.y+threatSpace; y++ {
 		for x = lastMove2.x - threatSpace; x <= lastMove2.x+threatSpace; x++ {
 			if !(y >= lastMove.y-threatSpace && y <= lastMove.y+threatSpace && x >= lastMove.x-threatSpace && x <= lastMove.x+threatSpace) {
 				// optimized so the threat-space searches don't overlap
-				if hasNeigbours(y, x, &current.goban) == true {
-					generateBoards(current, lastMove2, x, y)
-				}
+				generateBoards(current, lastMove2, y, x)
 			}
 		}
 	}
