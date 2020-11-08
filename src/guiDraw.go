@@ -303,7 +303,7 @@ func drawCapture(screen *ebiten.Image, g *game, alpha float64) {
 }
 
 func drawUndo(screen *ebiten.Image, g *game) {
-	if g.gui.undo == true && (isPlayerHuman(g) || isOpponentHuman(g)) {
+	if g.gui.undo == true && (isPlayerHuman(g) || isOpponentHuman(g)) && g.won == false {
 		drawImage(screen, imgUndo, undoX, undoY, scale)
 	}
 }

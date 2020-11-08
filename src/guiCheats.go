@@ -7,7 +7,7 @@ import (
 // undo undoes the last 2 moves
 func undo(g *game) {
 	if g.gui.undo == true && (isPlayerHuman(g) || isOpponentHuman(g)) &&
-		g.move > 1 && g.move >= g.gui.undoMove {
+		g.move > 1 && g.move >= g.gui.undoMove && g.won == false {
 		g.gui.undoMove = g.move
 		for _, position := range g.gui.capturedPositions {
 			placeStone(position, g.player, &g.goban)
@@ -20,7 +20,6 @@ func undo(g *game) {
 		g.gui.capturedPositions = nil
 		g.gui.capturedPositions2 = nil
 		g.move -= 2
-		g.won = false
 		g.gui.message = ""
 	}
 }
