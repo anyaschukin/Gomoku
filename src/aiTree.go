@@ -24,19 +24,19 @@ type node struct {
 
 func newNode(id int, value int, newGoban *[19][19]position, coordinate coordinate, lastMove coordinate, newPlayer bool, maximizingPlayer bool, capture0, capture1 uint8, parent *node, depth uint8) *node {
 	return &node{
-		id:               id,
-		value:            value,
-		goban:            *newGoban,
-		coordinate:       coordinate,
-		lastMove:         lastMove,
-		player:           newPlayer,
-		maximizingPlayer: maximizingPlayer,
+		id:					id,
+		value:				value,
+		goban:				*newGoban,
+		coordinate:			coordinate,
+		lastMove:			lastMove,
+		player:				newPlayer,
+		maximizingPlayer:	maximizingPlayer,
 		captures: captures{
-			capture0: capture0,
-			capture1: capture1,
+			capture0:		capture0,
+			capture1:		capture1,
 		},
-		parent: parent,
-		depth: depth,
+		parent:				parent,
+		depth:				depth,
 	}
 }
 

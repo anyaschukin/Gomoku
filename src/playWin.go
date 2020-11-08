@@ -80,6 +80,7 @@ func recordWin(g *game, winner bool) {
 // checkWin checks win conditions and updates Game struct
 func checkWin(coordinate coordinate, g *game) {
 	if capturedTen(g) == true {
+		// Player wins by capturing 10!
 		recordWin(g, g.player)
 		g.winMove = coordinate
 	} else if g.align5.capture8 == true {
