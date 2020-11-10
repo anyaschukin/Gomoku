@@ -58,16 +58,8 @@ func evaluateMove(coordinate coordinate, goban *[19][19]position, player bool, c
 			if x == 0 && y == 0 {
 				return eval
 			}
-			capt := captureAttackDefend(coordinate, goban, y, x, player, captures)
-			if capt >= blockWin || capt <= -blockWin {
-				return capt
-			}
-			eval += capt
-			tmp := chainAttackDefend(coordinate, goban, y, x, player)
-			if tmp >= blockWin || tmp <= -blockWin {
-				return tmp
-			}
-			eval += tmp
+			eval += captureAttackDefend(coordinate, goban, y, x, player, captures)
+			eval += chainAttackDefend(coordinate, goban, y, x, player)
 		}
 	}
 	return eval
