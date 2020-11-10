@@ -48,8 +48,27 @@ func checkVertexForThree(coordinate coordinate, goban *[19][19]position, y int8,
 	return false
 }
 
+// willCaptureBool returns true if suggested move will capture
+func willCaptureBool(coordinate coordinate, goban *[19][19]position, player bool) bool {
+	var y int8
+	var x int8
+	for y = -1; y <= 1; y++ {
+		for x = -1; x <= 1; x++ {
+			if !(x == 0 && y == 0) {
+				if willCaptureDirection(coordinate, goban, y, x, player) == true {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
 // doubleThree returns true if suggested move breaks the double three rule
 func doubleThree(coordinate coordinate, goban *[19][19]position, player bool) bool {
+	if willCaptureBool(coordinate, goban, player) == true {
+		return false
+	}
 	var freeThree bool
 	var y int8
 	var x int8
