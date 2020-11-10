@@ -25,7 +25,7 @@ type ai struct {
 	suggest		coordinate				// AI suggested move
 }
 
-// If a Player aligns 5, their opponent must break it, capture 10, or lose
+// if a Player aligns 5, their opponent must break it, capture 10, or lose
 type align5 struct {
 	break5		bool					// Can the opponent break the aligned 5?
 	capture8	bool					// Can the opponent win by capturing 10?
@@ -67,5 +67,5 @@ type game struct {
 	gui			gui 					// Info to display in GUI
 }
 
-// Game var contains all information about current game state
+// game var contains all information about current game state
 var g *game
