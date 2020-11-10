@@ -2,48 +2,16 @@
 
 redo Undo and linked list of game states (inc board, captured, etc)
 
-	- take current captured stones into account ?
-	- take past Player actions into account to identify patterns and weigh board states accordingly ?
-
-	- algo: alpha-beta pruning WHILE creating the tree
-	- algo: concurrency/channels, sync pool/workers
-	- algo: sync.pool to allocate memory for tree
-	- heuristics: offensive/defensive 
-	- heuristics: edit capture2
-	- heuristics: map of threat sequences
-	- add capture2 after placing stones to tree nodes
-
 
 #### BONUS ####
-1. Human vs human, hotseat vs hotseat, ai vs ai
-2. Highlight Last Move, Win Move, & Captured
-3. Tips - show possible captures, & align 5
-4. Undo button
-5. GO intro
-6. Artificial Idiot - AI depth 0
-7. key press d enter/exit Doge Mode
-8. key press f enter/exit Fullscreen
-9. Select background color
-
-
-#### CORRECTION ####
- - "Improved" Minimax implementation (Alpha-beta pruning, negascout, mtdf, ...) -> 5 points!
- - Move search Depth - 10 or more levels -> 5 points!
- - search space of the algo - Multiple rectangular windows emcompassing placed stones but minimizing wasted space -> 5
-
- - Heuristic
-	- take current alignments into account ?
-	- check whether an alignment has enough space to develop into a 5-in-a-row ?
-	- weigh an alignment according to its freedom (Free, half-free, flanked) ?
-
-	- check for advanteageous combinations ?
-	- take both Players into account ?
-
-
-	- take potential captures into account ?
-	- take current captured stones into account ?
-	- take past Player actions into account to identify patterns and weigh board states accordingly ?
-
+1. Highlight Last Move, Win Move, & Captured
+2. Tips - show possible captures, & align 5
+3. Artificial Idiot - AI depth 0
+4. key press d enter/exit Doge Mode
+5. Select background color
+6. Undo button
+7. key press f enter/exit Fullscreen
+8. GO intro
 
 
 PROFILER STEPS
