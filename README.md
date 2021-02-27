@@ -8,11 +8,11 @@ Create a Gomoku game GUI, with an AI player.
 
 [Gomoku](http://en.wikipedia.org/wiki/Gomoku) is a strategy board game traditionally played on a Go board with black and white stones.
 Two players take turns placing their stones on an intersection of the 19x19 board.
-The game ends when one player manages to align 5 or more stones.
+A player wins by aligning 5 or more stones.
 
 #### Challenge Requirements:
 
-* AI is Minimiax algorithm-powered
+* AI uses Minimiax algorithm
 * Timer: AI must move within 0.5 seconds
 * Human vs AI
 * Human vs Human
@@ -66,9 +66,13 @@ In the following scenario, by playing in a, Red would introduce a double-three, 
 
 ## Approach
 
-Golang for speed and elegance.
+Written in Golang for speed and elegance.
 
 ### Heuristic
+
+```aiPriority.go``` contains values for each alignment, capture and win.
+
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/aiPriority.png" width="40%">
 
 ### Depth
 
@@ -80,8 +84,22 @@ A depth of 10 is possible by reducing the threat space to 1, not that this makes
 
 #### Alpha beta pruning
 
-#### threat space
+#### Threat space
 
-#### has neigbours
+A threat space of of 5 spaces around the last two moves reduces the search space. In the following example, anything within the two red squares is within the threat space, and so considered for the next move.
 
-Search space
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/threatSpace.png">
+
+#### hasNeigbours()
+
+Branching can be further reduced by excluding all moves which do not have have immediate neighbours, i.e. unconnected to anything.
+
+### Dependencies
+
+Thankfully, running ```go get -d ./...``` should take care of all dependencies for you.
+
+#### Ebiten
+
+## References
+
+Ebiten
