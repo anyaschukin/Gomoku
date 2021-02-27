@@ -57,7 +57,7 @@ A free-three is an alignement of three stones that, if not immediately blocked, 
 
 <img src="https://github.com/anyashuka/Gomoku/blob/master/img/freeThree.png" width="20%">
 
-<img src="https://github.com/anyashuka/Gomoku/blob/master/img/freeThree2.png" width="26%">
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/freeThree2.png" width="25%">
 
 A double-three is a move that introduces two simultaneous free-three alignments. This is an indefendable scenario.
 
@@ -98,7 +98,7 @@ The high branching factor of this problem makes it difficult to reach a deep eno
 
 A threat space of of 4 spaces around the last two moves reduces the search space. In the following example, everything within the two red squares is within the threat space, and so is considered for the next move.
 
-<img src="https://github.com/anyashuka/Gomoku/blob/master/img/threatSpace.png">
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/threatSpace.png" width="640">
 
 On my system, with the default threatspace of 4, an AI depth of 4 is possible in under 0.5 seconds. A depth of 10 is possible by reducing the threat space to 1, not that this makes a better AI player.
 
@@ -106,7 +106,7 @@ On my system, with the default threatspace of 4, an AI depth of 4 is possible in
 
 Branching can be further reduced by excluding all moves which do not have have immediate neighbours, i.e. unconnected to anything. In the following example, everything within the two red squares has an immediate neighbour, and so is considered for the next move.
 
-<img src="https://github.com/anyashuka/Gomoku/blob/master/img/hasNeighbours.png">
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/hasNeighbours.png" width="640">
 
 ## More Examples
 
