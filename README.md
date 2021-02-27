@@ -41,7 +41,7 @@ Alternatively build and run the binary:
 
 You can remove a pair of your opponent’s stones by flanking them. In the following scenario, by playing in a, Blue captures the red pair and removes the stones from the game. One can only capture PAIRS, not 1 or >2 stones in a row.
 
-![capture](https://github.com/anyashuka/Gomoku/blob/master/img/capture.png?raw=true){ width=250px }
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/capture.png" width="30%">
 
 #### Capture 10
 
@@ -55,14 +55,14 @@ A player that aligns 5 stones only wins if the opponent can not break this align
 
 A free-three is an alignement of three stones that, if not immediately blocked, allows for an indefendable alignment of four stones (an alignment of four stones with two unobstructed extremities). Both of these scenarios are free-threes:
 
-![freeThree](https://github.com/anyashuka/Gomoku/blob/master/img/freeThree.png?raw=true)
-![freeThree2](https://github.com/anyashuka/Gomoku/blob/master/img/freeThree2.png?raw=true)
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/freeThree.png" width="30%">
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/freeThree2.png" width="38%">
 
 A double-three is a move that introduces two simultaneous free-three alignments. This is an indefendable scenario.
 
 In the following scenario, by playing in a, Red would introduce a double-three, therefore this is a forbidden move. However, if there were a blue stone in b, one of the three-aligned would be obstructed, therefore the move in a would be legal. Furthermore, it is not forbidden to introduce a double-three by capturing a pair.
 
-![doubleFreeThree](https://github.com/anyashuka/Gomoku/blob/master/img/doubleFreeThree.png?raw=true)
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/doubleFreeThree.png" width="50%">
 
 ## Approach
 
