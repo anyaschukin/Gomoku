@@ -63,7 +63,7 @@ A double-three is a move that introduces two simultaneous free-three alignments.
 
 In the following scenario, by playing in a, Red would introduce a double-three, therefore this is a forbidden move. However, if there were a blue stone in b, one of the three-aligned would be obstructed, therefore the move in a would be legal. Furthermore, it is not forbidden to introduce a double-three by capturing a pair.
 
-<img src="https://github.com/anyashuka/Gomoku/blob/master/img/doubleFreeThree.png" width="42%">
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/doubleFreeThree.png" width="37%">
 
 ## Approach
 
@@ -71,25 +71,28 @@ Written in Golang for speed and elegance.
 
 ### Heuristic
 
-```aiPriority.go``` contains values for each alignment, capture and win. Alignments are checked for freedom to expand, vs flanked.
-
-<img src="https://github.com/anyashuka/Gomoku/blob/master/img/aiPriority.png" width="40%">
+For each move considered by the AI ```evaluateMove()``` checks each vertex for alignments, blocks, and captures.
+```aiPriority.go``` contains values for each type of alignment, block and capture. Alignments are checked for freedom to expand on both sides, vs flanked on one side, double flanked are ignored.
 
 For any considered move the sum of values is calculated.
+
+<img src="https://github.com/anyashuka/Gomoku/blob/master/img/aiPriority.png" width="37%">
 
 Dealing with multiple depths:
 + If considering the players move, add the value of that move.
 - If considering the opponents move, minus the value of that move.
 
-Divide the value added/subtracted by the depth. This solves the problem of needing to be defensive (valuing blocking an opponents free-three more than placing ones own free-three, failure to do so will lose the game), while simultanously overcoming this pessimistic viewpoint (whats the point of me attacking if they are probably then going to defend, and defending is worth more).
+Divide the value added/subtracted by the depth. This solves the problem of needing to be defensive (valuing blocking an opponents free-three more than placing ones own free-three, failure to do so will lose the game), while simultanously overcoming this pessimistic viewpoint (whats the point of me aligning if they are probably then going to block, and blocking is worth more than aligning).
 
 ### Optimization
 
 The goban is represented efficiently by a (19 x 19) 2D array of positions, each position made of 2 bools (2 bits) occupied and player.
 
-The high branching factor of this problem makes it difficult to reach a deep enough depth for an intelligent AI while returning suggested moves within a short enough time. There are several ways in which we can reduce branching:
+The high branching factor of this problem makes it difficult to reach a deep enough depth for an intelligent AI, while also returning suggested moves within a short enough time. There are several ways in which we can reduce branching:
 
 #### Alpha beta pruning
+
+
 
 #### Threat space
 
