@@ -41,7 +41,7 @@ Alternatively build and run the binary:
 
 You can remove a pair of your opponent’s stones by flanking them. In the following scenario, by playing in a, Blue captures the red pair and removes the stones from the game. One can only capture PAIRS, not 1 or >2 stones in a row.
 
-![capture](https://github.com/anyashuka/Gomoku/blob/master/img/capture.png?raw=true)
+![capture](https://github.com/anyashuka/Gomoku/blob/master/img/capture.png?raw=true){ width=250px }
 
 #### Capture 10
 
