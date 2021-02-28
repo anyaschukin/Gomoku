@@ -31,8 +31,6 @@ Finally, to run, go run main.go directly:
 Alternatively build and run the binary:
 ```go build; ./Gomoku```
 
-## Example
-
 ![Example](https://github.com/anyashuka/Gomoku/blob/master/img/example.gif)
 
 ## Additional Rules
@@ -108,7 +106,7 @@ Branching can be further reduced by excluding all moves which do not have have i
 
 <img src="https://github.com/anyashuka/Gomoku/blob/master/img/hasNeighbours.png" width="640">
 
-## More Examples
+## Options
 
 ### Hotseat
 
