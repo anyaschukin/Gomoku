@@ -80,7 +80,7 @@ For any considered move the sum of values is calculated.
 + If considering the players move, add the value of that move.
 - If considering the opponents move, minus the value of that move.
 
-Divide the value added/subtracted by the depth. This solves the problem of needing to be defensive (valuing blocking an opponents free-three more than placing ones own free-three, failure to do so will lose the game), while simultanously overcoming this pessimistic viewpoint (whats the point of me aligning if they are probably then going to block, and blocking is worth more than aligning).
+Divide the value added/subtracted by the depth. This solves the problem of needing to be defensive (valuing blocking an opponents free-three more than placing ones own free-three, failure to do so will lose the game), while simultanously overcoming this pessimistic viewpoint (what's the point of me aligning if they are probably then going to block, and blocking is worth more than aligning).
 
 ### Optimization
 
