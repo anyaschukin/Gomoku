@@ -76,7 +76,7 @@ For any considered move the sum of values is calculated.
 
 <img src="https://github.com/anyashuka/Gomoku/blob/master/img/aiPriority.png" width="37%">
 
-Dealing with multiple depths:
+#### Depth > 1:
 + If considering the players move, add the value of that move.
 - If considering the opponents move, minus the value of that move.
 
@@ -88,9 +88,19 @@ The goban is represented efficiently by a (19 x 19) 2D array of positions, each 
 
 The high branching factor of this problem makes it difficult to reach a deep enough depth for an intelligent AI, while also returning suggested moves within a short enough time. There are several ways in which we can reduce branching:
 
-#### Alpha beta pruning
+#### Alpha-beta pruning
 
+While searching the minimax tree for the best move, we can cut off branches which need not be searched because there already exists a better move available.
 
+We keep track of two values: Alpha and Beta.
+* Alpha = the minimum score that the player is assured of.
+* Beta = the maximum score that the opponent is assured of.
+
+Initially, alpha is negative infinity and beta is positive infinity, i.e. both players start with their worst possible score.
+Whenever the maximum score that the opponent is assured of becomes less than the minimum score that the player is assured of (i.e. beta < alpha), the player need not consider further descendants of this node.
+Search can be limited to 'more promising' subtrees, so a deeper search can be performed in the same time.
+
+For example: Move "A" will improve the player's position. The player continues to look for a better move. Move "B" is also a good move, but the player realizes that it will allow the opponent to win in 2 moves. Thus, other outcomes from playing move "B" no longer need to be considered since the opponent can force a win. The maximum score that the opponent could force after move "B" is negative infinity: a loss for the player. This is less than the minimum position that was previously found; move "A" does not result in a loss in 2 moves.
 
 #### Threat space
 
@@ -123,7 +133,5 @@ Press key d, or the hidden doge mode button in the new game screen.
 ## Dependencies
 
 Thankfully, running ```go get -d ./...``` should take care of all dependencies for you.
-
-#### Ebiten
 
 The GUI uses [Ebiten](https://github.com/hajimehoshi/ebiten), a dead simple open source 2D game library for Go.
