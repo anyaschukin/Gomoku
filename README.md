@@ -10,7 +10,7 @@ Create a Gomoku game GUI, with an AI player.
 Two players take turns placing their stones on an intersection of the 19x19 board.
 A player wins by aligning 5 or more stones.
 
-#### Challenge Requirements:
+#### Requirements:
 
 * AI uses Minimiax algorithm
 * Timer: AI must move within 0.5 seconds
