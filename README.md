@@ -130,11 +130,15 @@ The AI suggests a move with a pulsing stone, but a human player must choose (cli
 
 ![Hotseat](https://github.com/anyashuka/Gomoku/blob/master/img/hotseat.gif)
 
-### Doge mode
+### Doge-mode
 
-Press key d, or the hidden doge mode button in the new game screen.
+Press key ```d```, or click the hidden doge-mode button in the new game screen, to toggle doge-mode.
 
 ![Doge](https://github.com/anyashuka/Gomoku/blob/master/img/doge.gif)
+
+### Fullscreen
+
+Press key ```f``` to toggle fullscreen.
 
 ## Dependencies
 
