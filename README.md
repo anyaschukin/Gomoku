@@ -21,14 +21,20 @@ A player wins by aligning 5 or more stones.
 ## Getting Started
 
 First you need to have your golang workspace set up on your machine.
-Then clone this repo into your go-workspace/src/ folder with ```git clone https://github.com/anyashuka/Gomoku.git```
+Then clone this repo into your go-workspace/src/ folder.
 
-Move into Gomoku folder then download dependencies with ```go get -d ./...```
+```git clone https://github.com/anyashuka/Gomoku.git; cd Gomoku```
 
-Finally, to run, go run main.go directly:
+Download dependencies.
+
+```go get -d ./...```
+
+Finally, to run.
+
 ```go run main.go```
 
-Alternatively build and run the binary:
+Alternatively build and run the binary.
+
 ```go build; ./Gomoku```
 
 ![Example](https://github.com/anyashuka/Gomoku/blob/master/img/example.gif)
