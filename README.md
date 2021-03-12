@@ -1,22 +1,21 @@
 # Gomoku
 
-#### Final Score 125/100
-
-## Challenge
-
 Create a Gomoku game GUI, with an AI player.
 
 [Gomoku](http://en.wikipedia.org/wiki/Gomoku) is a strategy board game traditionally played on a Go board with black and white stones.
 Two players take turns placing their stones on an intersection of the 19x19 board.
 A player wins by aligning 5 or more stones.
 
-#### Requirements:
+### Requirements:
 
 * AI uses Minimiax algorithm
 * Timer: AI must move within 0.5 seconds
 * Human vs AI
 * Human vs Human
 * Human vs Hotseat (AI suggests move, human chooses)
+
+#### Final Score 125/100
+
 
 ## Getting Started
 
