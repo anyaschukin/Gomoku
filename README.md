@@ -1,6 +1,6 @@
 # Gomoku
 
-Create a Gomoku game GUI, with an AI player.
+A Gomoku game GUI, with an AI player.
 
 [Gomoku](http://en.wikipedia.org/wiki/Gomoku) is a strategy board game traditionally played on a Go board with black and white stones.
 Two players take turns placing their stones on an intersection of the 19x19 board.
