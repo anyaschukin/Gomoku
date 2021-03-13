@@ -1,9 +1,0 @@
-#### BONUS ####
-1. Highlight Last Move, Win Move, & Captured
-2. Tips - show possible captures, & align 5
-3. Artificial Idiot - AI depth 0
-4. key press d enter/exit Doge Mode
-5. Select background color
-6. Undo button
-7. key press f enter/exit Fullscreen
-8. GO intro
