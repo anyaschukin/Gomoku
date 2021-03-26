@@ -145,4 +145,4 @@ Thankfully, running ```go get -d ./...``` should take care of all dependencies f
 
 The GUI uses [Ebiten](https://github.com/hajimehoshi/ebiten), a dead simple open source 2D game library for Go.
 
-I wrote this project in a team with the awesome [@dfinnis](https://github.com/dfinnis)
+I wrote this project in a team with the awesome [@dfinnis](https://github.com/dfinnis).
