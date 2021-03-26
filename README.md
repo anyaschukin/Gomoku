@@ -144,6 +144,6 @@ Press key ```f``` to toggle fullscreen.
 Thankfully, running ```go get -d ./...``` should take care of all dependencies for you.
 
 The GUI uses [Ebiten](https://github.com/hajimehoshi/ebiten), a dead simple open source 2D game library for Go.
-<br />
+<br /><br />
 
 I wrote this project in a team with the awesome [@dfinnis](https://github.com/dfinnis).
